@@ -1,0 +1,10 @@
+export { default as General } from './General';
+export { default as Advanced } from './Advanced';
+export { default as Connectedproducts } from './Connectedproducts';
+export { default as Properties } from './Properties';
+export { default as Shipments } from './Shipments';
+export { default as Warehouse } from './Warehouse';
+export { default as Downloadable } from './Downloadable';
+export { default as Specifications } from './Specifications';
+export { default as Overview } from './Overview';
+export { default as QuestionAndAnswer } from './QuestionAndAnswer';

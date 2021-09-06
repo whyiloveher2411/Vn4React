@@ -1,0 +1,339 @@
+#home{
+	.main-header {
+		.sub-menu{
+			top: 54px;
+		}
+		.ul1{
+			border-top: $border;
+			display: block !important;
+		}
+	}
+	#main-content{
+		.block1{
+		    padding: 15px 0;
+			.container{
+				display: flex;
+				.space{
+					width: 250px;
+				}
+				.col2{
+					width: 584px;
+				}
+				
+			}
+		}
+	}
+}
+
+.group-product{
+    margin-bottom: 20px;
+    background-color: rgb(255, 255, 255);
+	border-radius: $radius;
+	.header{
+		display: flex;
+	    -webkit-box-align: center;
+	    align-items: center;
+	    padding: 16px;
+	    border-bottom: 1px solid rgb(244, 244, 244);
+	    > div{
+	    	margin-left: 10px;
+	    }
+		.title{
+			color: rgb(255, 61, 0);
+			font-size: 17px;
+    		margin: 0px;
+		}
+		.description{
+			color: rgb(51, 51, 51);
+		    font-size: 13px;
+		    margin: 6px 0px 0px;
+		}
+	}
+	.body{
+		
+	}
+	.footer{
+		.btn{
+			margin: 20px 0px;
+			text-decoration: none;
+			line-height: 30px;
+			font-size: 13px;
+			min-width: 200px;
+		}
+	}
+}
+
+.group-product2{
+    margin-bottom: 20px;
+    background-color: rgb(255, 255, 255);
+	border-radius: $radius;
+	.header{
+		display: flex;
+	    -webkit-box-align: center;
+	    align-items: center;
+	    padding: 16px;
+	    border-bottom: 1px solid rgb(244, 244, 244);
+	    > div{
+	    	margin-left: 10px;
+	    }
+		.title{
+			font-size: 24px;
+		    display: inline;
+		    font-weight: 300;
+		    span{
+		    	display: inline;
+			    font-size: 22px;
+			    font-weight: 300;
+			    color: #898989;
+		    }
+		}
+		.description{
+			color: rgb(51, 51, 51);
+		    font-size: 13px;
+		    margin: 6px 0px 0px;
+		}
+	}
+	.body{
+		.list-wraper{
+			display: flex;
+			flex-wrap: wrap;
+			> * {
+				width: 20%;
+			}
+		}
+	}
+	.footer{
+		.btn{
+			margin: 20px 0px;
+			text-decoration: none;
+			line-height: 30px;
+			font-size: 13px;
+			min-width: 200px;
+		}
+	}
+}
+
+
+.item_product{
+	text-decoration: none;
+	padding: 16px;
+	position: relative;
+	.cover{
+		width: 200px;
+	    height: 200px;
+	    text-align: center;
+	    margin: 0 auto 12px auto;
+	}
+	.title{
+		height: 40px;
+		@include text-overflow(2);
+
+		position: relative;
+	    max-height: 40px;
+	    width: 100%;
+	    color: rgb(36, 36, 36);
+	    font-size: 13px;
+	    font-weight: 300;
+	    font-style: normal;
+	    font-stretch: normal;
+	    line-height: 1.54;
+	    letter-spacing: 0.1px;
+	    text-align: left;
+	    margin: 0px;
+	}
+	.price{
+		align-self: stretch;
+	    color: rgb(36, 36, 36);
+	    font-size: 16px;
+	    font-weight: 500;
+	    line-height: 1.6;
+	    margin: 0px;
+	    padding: 8px 0px 0px;
+	    .percent{
+	    	position: absolute;
+		    top: 15px;
+		    left: 25px;
+		    display: flex;
+		    -webkit-box-pack: center;
+		    justify-content: center;
+		    -webkit-box-align: center;
+		    align-items: center;
+		    padding-bottom: 4px;
+		    color: rgb(255, 255, 255);
+		    width: 40px;
+		    height: 36px;
+		    background-image: url('../img/deal-tag.png');
+		    background-size: 40px 36px;
+		    margin: 1px 0px 0px;
+		    background-position: 0px 0px;
+
+		    margin-left: 8px;
+		    font-size: 13px;
+		    line-height: 1.6;
+		    font-weight: 500;
+	    }
+	    .original{
+		    margin-left: 0px;
+		    color: rgb(120, 120, 120);
+		    font-size: 13px;
+		    font-weight: 300;
+		    text-decoration: line-through;
+	    }
+	    
+	}
+	.progress{
+    	display: flex;
+	    align-self: stretch;
+	    margin-top: 12px;
+	    .bar{
+	    	position: relative;
+		    height: 18px;
+		    background-color: rgb(253, 218, 200);
+		    flex: 1 1 0%;
+		    border-radius: 9px;
+		    overflow: hidden;
+		    .percent{
+		    	position: absolute;
+			    top: 0px;
+			    left: 0px;
+			    width: 0px;
+			    height: 100%;
+			    background-color: rgb(253, 110, 35);
+			    z-index: 1;
+
+
+		    }
+		    .content{
+		    	position: absolute;
+			    top: 0px;
+			    left: 0px;
+			    display: flex;
+			    -webkit-box-align: center;
+			    align-items: center;
+			    width: 100%;
+			    height: 100%;
+			    z-index: 2;
+			    padding: 0px 4px;
+			    .text{
+			    	position: absolute;
+				    top: 0px;
+				    left: 0px;
+				    display: flex;
+				    -webkit-box-pack: center;
+				    justify-content: center;
+				    -webkit-box-align: center;
+				    align-items: center;
+				    width: 100%;
+				    height: 100%;
+				    color: rgb(255, 255, 255);
+				    font-size: 12px;
+				    text-align: center;
+				    margin: 0px;
+			    }
+		    }
+	    }
+	    .countdown{
+	    	color: rgb(36, 36, 36);
+		    font-size: 12px;
+		    font-weight: 300;
+		    line-height: 18px;
+		    margin: 0px;
+	    }
+    }
+	&:hover{
+		box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 20px;
+    	z-index: 1;
+	}
+
+}
+
+.home-slick1{
+	// width: 100%;
+	.slick-arrow{
+	    position: absolute;
+	    top: 50%;
+	    color: transparent;
+	    border: none;
+	    width: 32px;
+		height: 32px;
+		outline: none;
+		background: rgba(255, 255, 255, 0.5);
+		border-radius: 100px;
+		cursor: pointer;
+		z-index: 100;
+		opacity: .5;
+		&.slick-next{
+			right: 10px;
+			&:after{
+					content: '';
+					display: block;
+			    background-image: url(../img/sprite-min.png?v=100000000);
+			    background-position: -392px -189px;
+			    width: 8px;
+			    height: 14px;
+			    position: absolute;
+		        left: 11px;
+				top: 9px;
+				opacity: .5;
+				}
+				@include css3(transform,rotate(180deg));
+
+		}
+			&.slick-prev{
+				left: 10px;
+				&:after{
+					content: '';
+					display: block;
+			    background-image: url(../img/sprite-min.png?v=100000000);
+		        background-position: -392px -189px;
+			    width: 8px;
+			    height: 14px;
+			    position: absolute;
+		        left: 11px;
+				top: 9px;
+				opacity: .5;
+				}
+			}
+	}
+	.slick-slide{
+		outline: none;
+	}
+	.slick-dots{
+		position: absolute;
+		bottom: 10px;
+		display: flex;
+		justify-content: center;
+		left: 0;
+		right: 0;
+		li{
+			button{
+				color: transparent;
+				border: none;
+				background: rgba(99, 99, 99,.4);
+				border-radius: 100px;
+				margin: 0 7px;
+				width: 13px;
+				height: 13px;
+				display: block;
+				outline: none;
+			}
+			&.slick-active{
+				button{
+					background: rgba(255, 255, 255, 0.5);
+				}
+			}
+		}
+	}
+	&:hover{
+		.slick-arrow{
+			opacity: 1;
+		}
+	}
+	&.variableWidth{
+		.slick-slide{
+			padding-right: 10px;
+		}
+	}
+}
+
+

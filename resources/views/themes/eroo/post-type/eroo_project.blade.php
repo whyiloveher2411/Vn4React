@@ -1,0 +1,1 @@
+@dd($post->related('eroo_project_detail','project'))

@@ -1,0 +1,30 @@
+body.editor-content{
+    padding: 5px 10px;
+}
+.widget{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    background: #dff7ff;
+    outline: 2px solid #c0dffa;
+    padding: 2px 4px;
+    vertical-align: bottom;
+    min-height: 20px;
+    cursor: pointer !important;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 14px;
+    color: #000;
+    box-sizing: initial;
+    word-break: break-all;
+    white-space: nowrap;
+}
+.mce-content-body  .widget[data-mce-selected]{
+    outline: 3px solid #57a5fd;
+}
+.widget-image{
+    vertical-align: middle;
+    max-height: 20px;
+    margin-right: 5px;
+}

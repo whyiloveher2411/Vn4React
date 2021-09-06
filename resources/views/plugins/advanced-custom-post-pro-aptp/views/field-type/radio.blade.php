@@ -1,0 +1,58 @@
+<tr class="field_option field_option_radio">
+    <td class="td-label">
+      <label for="post_type">Choices</label>
+      <p class="description">
+       Enter each choice on a new line. <br>
+       For more control, you may specify both a value and label like this: <br>
+       red : Red <br> blue : Blue
+      </p>
+    </td>
+    <td>
+      <?php 
+
+        if( $choices !== '' ){
+
+          $list_option = explode("\n", $choices);
+
+          $choices = '';
+
+          foreach($list_option as $option){
+            $option = explode(':', $option);
+            if( isset($option[1]) ) $choices .= trim($option[0]).' : '.trim($option[1])."\n"; 
+            else $choices .= trim($option[0]).' : '. trim($option[0])."\n";
+          }
+
+          $choices = substr($choices, 0, -1);
+
+        }
+
+       ?>
+      <textarea name="fields[{!!$id_field!!}][radio][choices]" class="change_name form-control" value="{{$choices}}" rows="6">{!!$choices!!}</textarea>
+      <br>
+      <label><input type="checkbox" @if($other_choice === '1') checked="checked" @endif  name="fields[{!!$id_field!!}][radio][other_choice]" class="change_name form-control" value="1"> Add 'other' choice to allow for custom values</label>
+      <br>
+      <label><input type="checkbox" @if($save_other_choice === '1') checked="checked" @endif  name="fields[{!!$id_field!!}][radio][save_other_choice]" class="change_name form-control" value="1"> Save 'other' values to the field's choices</label>
+    </td>
+</tr>
+<tr class="field_option field_option_radio">
+    <td class="td-label">
+      <label for="post_type">Default Value</label>
+      <p class="description">
+       Enter each default value on a new line
+      </p>
+    </td>
+    <td>
+      <input type="text" name="fields[{!!$id_field!!}][radio][default_value]" class="change_name form-control" value="{!!$default_value!!}" >
+    </td>
+</tr>
+
+
+<tr class="field_option field_option_radio">
+    <td class="td-label">
+      <label for="post_type">Layout</label>
+    </td>
+    <td>
+      <label><input type="radio" @if($layout === 'vertical') checked="checked" data-checked="1" @endif  name="fields[{!!$id_field!!}][radio][layout]" value="vertical" class="change_name form-control">Vertical</label>&nbsp;&nbsp;
+      <label><input @if($layout === 'horizontal') checked="checked" data-checked="1" @endif type="radio" name="fields[{!!$id_field!!}][radio][layout]" value="horizontal" class="change_name form-control">Horizontal</label>
+    </td>
+</tr>

@@ -1,0 +1,92 @@
+$main-color: #0B1966;
+$text-black: black;
+$a-color: #0B1966;
+$yellow: yellow;
+$second-color: #CF9B4C;
+
+// $green: var(--green,#00bb00);
+// $blue: var(--blue,#00c4ff);
+// $red: var(--red,#fc1717);
+
+
+
+
+$block-list: ("block-post1");
+$blog: ("blog1","blog2", "blog3");
+$category: ("category1");
+$blog-list: ("blog-list1");
+$list: ("list1", "list2");
+$marquee: ("marquee1");
+$arrow: ("arrow");
+
+$yellow:#f9c100;
+$green:#4caf50; 
+$gray: #dedede;
+$red: #f44336;
+$black: #222;
+$black-bright: #aaa;
+$blue: rgb(0, 22, 190) !default;
+$blue-bright: #4db2ec;
+$orange: rgb(255, 111, 49);
+$purple: rgb(65, 12, 188);
+$pink: rgb(196, 15, 121);
+
+
+$border: 1px solid #ccc;
+$radius: 5px;
+
+$transition: all .3s ease;
+
+$a-color: $blue;
+
+$classColor: (
+    "orange":$orange,
+    "yellow":$yellow, 
+    "green":$green, 
+    "gray": $gray, 
+    "red": $red, 
+    "black": $black, 
+    "blue": #{$blue},
+    "pink": $pink,
+    "purple" : $purple
+);
+$classGradient: (
+    ("red-blue",$red,$blue),
+    ("red-green", $red, $green),
+    ("red-yellow", $red, $green),
+    ("yellow-blue", $yellow, $blue),
+    ("yellow-green", $yellow, $green),
+    ("green-blue", $yellow, $green),
+    ("purple-orange", $purple, $orange),
+    ("pink-blue", $pink, $blue),
+);
+
+// MIXINS
+// $col-response: ("xs":500px ,"md": 768px, "lg": 1200px);
+// $md: 767.9px;
+// ----------------------- GRID ------------------------------
+
+$columns: 12 !default;
+$container-width: 1120px !default;
+$container-padding: 15px !default;
+$container-width-mid: 1440px !default;
+$padding-col : 10px !default;
+
+
+
+$sm: 576px !default;
+$md: 768px !default;
+$lg: 960px !default;
+$xl: 1140px !default;
+$grid: ("sm":$sm ,"md": $md, "lg": $lg, "xl": $xl);
+
+
+// --------------------- FORM -----------------------
+$btn-height: 40px !default;
+$btn-font-size: 14px !default;
+
+$btn-radius: 4px !default;
+$input-radius: 4px !default;
+$input-height: 1.5 !default;
+$input-height-small: 32px !default;
+$label-size: 14px !default;

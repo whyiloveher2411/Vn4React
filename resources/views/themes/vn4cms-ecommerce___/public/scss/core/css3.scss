@@ -1,0 +1,392 @@
+@mixin css3($name,$value...){
+	#{$name}:$value;
+	-webkit-#{$name}:$value; /* Safari 6.0 - 9.0 */
+	-moz-#{$name}:$value;
+	-o-#{$name}:$value;
+	-ms-#{$name}:$value;
+}
+
+@mixin background-gradient($arg...){
+	// background-color: nth($arg, 1);
+	background: linear-gradient($arg);
+	background:-moz-linear-gradient($arg);/* Safari 6.0 - 9.0 */
+	background:-o-linear-gradient($arg);
+	background:-webkit-linear-gradient($arg);
+}
+
+@mixin text-overflow($line:1){
+    overflow: hidden;
+    -webkit-line-clamp: $line;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+
+@mixin list2($classColor){
+	@each $arr1,$arr2 in $classColor{
+		&.#{$arr1}{
+			@content($arr2);
+		}
+	}
+}
+
+@mixin generateClassColor($classColor){
+	@each $class,$color in $classColor{
+		&.#{$class}{
+			@content($color);
+		}
+	}
+}
+
+@mixin generateClassList3($list){
+	@each $arr1, $arr2, $arr3 in $list{
+		&.#{$arr1}{
+			@content($arr2,$arr3);
+		}
+	}
+}
+
+@mixin beforeBg(){
+	&:before{
+		content: '';
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 0;
+		@content;
+	}
+}
+
+@mixin afterBg(){
+	&:after{
+		content: '';
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 0;
+		@content;
+	}
+}
+
+
+@mixin center-x{
+	position: absolute;
+	left: 50%;
+	@include css3(transform, translateX(-50%));
+}
+
+@mixin center-y{
+	position: absolute;
+	top: 50%;
+	@include css3(transform, translateY(-50%));
+}
+@mixin center-xy{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	@include css3(transform, translate(-50%,-50%));
+}
+@mixin responsive($class){
+	@each $name, $width in $grid {
+		@media(min-width: $width){
+			.#{$class}-#{$name}{
+				@content;
+			}
+		}
+	    
+	}
+}
+
+@mixin scrollbar($width: 7px, $background: #ccc, $radius: 7px, $border-color: #ddd){
+	&::scrollbar:vertical {
+	    width: $width;
+	}
+
+	&::scrollbar:horizontal {
+	    height: $width;
+	}
+	&::scrollbar-track{
+		border-radius: $radius;
+		background-color: $background;
+	}
+	&::scrollbar{
+		background-color: $background;
+		opacity: 0.5;
+		appearance: none;
+	}
+
+	&::scrollbar-thumb{
+		border-radius: $radius;
+		background-color: var(--border-color);
+	}
+
+	//
+
+	&::-moz-scrollbar:vertical {
+	    width: $width;
+	}
+
+	&::-moz-scrollbar:horizontal {
+	    height: $width;
+	}
+	&::-moz-scrollbar-track{
+		border-radius: $radius;
+		background-color: $background;
+	}
+	&::-moz-scrollbar{
+		background-color: $background;
+		opacity: 0.5;
+		-moz-appearance: none;
+	}
+
+	&::-moz-scrollbar-thumb{
+		border-radius: $radius;
+		background-color: $border-color;
+	}
+
+	// 
+
+	//
+
+	&::-ms-scrollbar:vertical {
+	    width: $width;
+	}
+
+	&::-ms-scrollbar:horizontal {
+	    height: $width;
+	}
+	&::-ms-scrollbar-track{
+		border-radius: $radius;
+		background-color: $background;
+	}
+	&::-ms-scrollbar{
+		background-color: $background;
+		opacity: 0.5;
+		-ms-appearance: none;
+	}
+
+	&::-moz-scrollbar-thumb{
+		border-radius: $radius;
+		background-color: var(--border-color);
+	}
+
+	// 
+
+
+	&::-webkit-scrollbar:vertical {
+	    width: $width;
+	}
+
+	&::-webkit-scrollbar:horizontal {
+	    height: $width;
+	}
+	&::-webkit-scrollbar-track{
+		border-radius: $radius;
+		background-color: $background;
+	}
+	&::-webkit-scrollbar{
+		background-color: $background;
+		opacity: 0.5;
+		-webkit-appearance: none;
+	}
+
+	&::-webkit-scrollbar-thumb{
+		border-radius: $radius;
+		background-color: var(--border-color);
+	}
+}
+
+@mixin fontface($name,$file){
+	@font-face{
+		font-family: '#{$name}';
+		
+		src: url('#{$file}BlackItalic.woff2') format('woff2'),
+        url('#{$file}BlackItalic.woff') format('woff'),
+        url('#{$file}BlackItalic.ttf') format('truetype');
+	    font-weight: 900;
+	    font-style: italic;
+	}
+
+	@font-face{
+		font-family: '#{$name}';
+		
+		src: url('#{$file}Black.woff2') format('woff2'),
+        url('#{$file}Black.woff') format('woff'),
+        url('#{$file}Black.ttf') format('truetype');
+	    font-weight: 900;
+    	font-style: normal;
+	}
+
+	@font-face {
+	    font-family: '#{$name}';
+	    src: url('#{$file}LightItalic.woff2') format('woff2'),
+	        url('#{$file}LightItalic.woff') format('woff'),
+	        url('#{$file}LightItalic.ttf') format('truetype');
+	    font-weight: 300;
+	    font-style: italic;
+	}
+
+
+	@font-face {
+	    font-family: '#{$name}';
+	    src: url('#{$file}.woff2') format('woff2'),
+	        url('#{$file}.woff') format('woff'),
+	        url('#{$file}.ttf') format('truetype');
+	    font-weight: normal;
+	    font-style: normal;
+	}
+
+	@font-face {
+	    font-family: '#{$name}';
+	    src: url('#{$file}Semibold.woff2') format('woff2'),
+	        url('#{$file}Semibold.woff') format('woff'),
+	        url('#{$file}Semibold.ttf') format('truetype');
+	    font-weight: 600;
+	    font-style: normal;
+	}
+
+	@font-face {
+	    font-family: '#{$name}';
+	    src: url('#{$file}Light.woff2') format('woff2'),
+	        url('#{$file}Light.woff') format('woff'),
+	        url('#{$file}Light.ttf') format('truetype');
+	    font-weight: 300;
+	    font-style: normal;
+	}
+
+	@font-face {
+	    font-family: '#{$name}';
+	    src: url('#{$file}BoldItalic.woff2') format('woff2'),
+	        url('#{$file}BoldItalic.woff') format('woff'),
+	        url('#{$file}BoldItalic.ttf') format('truetype');
+	    font-weight: bold;
+	    font-style: italic;
+	}
+
+	@font-face {
+	    font-family: '#{$name}';
+	    src: url('#{$file}Italic.woff2') format('woff2'),
+	        url('#{$file}Italic.woff') format('woff'),
+	        url('#{$file}Italic.ttf') format('truetype');
+	    font-weight: normal;
+	    font-style: italic;
+	}
+
+	@font-face {
+	    font-family: '#{$name}';
+	    src: url('#{$file}Bold.woff2') format('woff2'),
+	        url('#{$file}Bold.woff') format('woff'),
+	        url('#{$file}Bold.ttf') format('truetype');
+	    font-weight: bold;
+	    font-style: normal;
+	}
+
+
+	@font-face {
+	    font-family: '#{$name}';
+	    src: url('#{$file}SemiboldItalic.woff2') format('woff2'),
+	        url('#{$file}SemiboldItalic.woff') format('woff'),
+	        url('#{$file}SemiboldItalic.ttf') format('truetype');
+	    font-weight: 600;
+	    font-style: italic;
+	}
+
+}
+
+@mixin mobile{
+	@media (max-width: 320px){
+		@content
+	}
+}
+
+@mixin xs{
+	@media (max-width: 575.98px){
+		@content
+	}
+}
+
+@mixin sm{
+	@media (min-width: 576px){
+		@content
+	}
+}
+
+@mixin md{
+	@media (min-width: 768px){
+		@content
+	}
+}
+
+@mixin md-max{
+	@media (max-width: 768px){
+		@content
+	}
+}
+
+
+@mixin lg{
+	@media (min-width: 992px){
+		@content
+	}
+}
+
+@mixin xl{
+	@media (min-width: 1200px){
+		@content
+	}
+}
+
+
+@mixin rs($width){
+	@media (min-width: $width){
+		@content
+	}
+}
+
+
+@mixin tablet{
+	@media (max-width: 767.9px){
+		@content
+	}
+}
+
+
+@mixin keyframes($name){
+	@keyframes #{$name}{
+		@content
+	}
+	@-webkit-keyframes #{$name}{
+		@content
+	}
+	@-moz-keyframes #{$name}{
+		@content
+	}
+
+}
+
+@mixin font($fontFamily : false,$color,$size){
+	@if $fontFamily{
+		font-family: $fontFamily;
+	}
+	color: $color;
+	font-size: $size;
+}
+
+@mixin text($size, $lineHeight: false, $family:false ){
+	@if $size{
+		font-size: $size;
+	}
+
+	@if $lineHeight{
+		line-height: $lineHeight;
+	}
+
+	@if $family{
+		font-family: $family;
+	}
+}

@@ -1,0 +1,1 @@
+<textarea disabled="" class="form-control col-md-7 col-xs-12" style="min-height:100px;">{{$value}}</textarea>

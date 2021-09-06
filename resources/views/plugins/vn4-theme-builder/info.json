@@ -1,0 +1,9 @@
+{
+    "name":"Vn4 Theme Builder",
+    "description":"Theme Builder allows you to create and manage website templates directly from the admin site",
+    "author": "Erik Lehnsherr",
+    "author_url": "https://vn4cms.com",
+    "version": "1.0.0",
+    "featured": "img/colour.svg",
+    "priority":2
+}

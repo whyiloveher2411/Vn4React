@@ -1,0 +1,404 @@
+body.editor-content{
+  padding: 5px 10px;
+}
+.widget{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px;
+  background: #dff7ff;
+  outline: 2px solid #c0dffa;
+  padding: 2px 4px;
+  vertical-align: bottom;
+  min-height: 20px;
+  cursor: pointer !important;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 14px;
+  color: #000;
+  box-sizing: initial;
+  word-break: break-all;
+  white-space: nowrap;
+}
+.mce-content-body  .widget[data-mce-selected]{
+  outline: 3px solid #57a5fd;
+}
+.widget-image{
+  vertical-align: middle;
+  max-height: 20px;
+  margin-right: 5px;
+}
+
+.editor-content {
+  margin-bottom: 100px;
+}
+
+.editor-content img {
+  margin: 0 auto 0 auto;
+  max-width: 100%;
+  height: auto;
+}
+.editor-content figure.image img {
+  height: auto;
+  max-width: 100%;
+  margin: 0;
+}
+.editor-content figure.image {
+  border: none;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.editor-content figure.image figcaption {
+  text-align: center;
+}
+.editor-content * {
+  font-family: "Roboto", Helvetica, Arial, sans-serif;
+}
+.editor-content p {
+  white-space: normal;
+  text-align: left;
+  margin-bottom: 15px;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 26px;
+}
+.editor-content .p-description {
+  font-weight: bold;
+  font-style: italic;
+  text-align: left;
+}
+.editor-content table {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/*
+Theme Name: Twenty Sixteen
+Description: Used to style the TinyMCE editor.
+*/
+
+
+/**
+ * Table of Contents:
+ *
+ * 1.0 - Body
+ * 2.0 - Typography
+ * 3.0 - Elements
+ * 4.0 - Alignment
+ * 5.0 - Caption
+ * 6.0 - Galleries
+ * 7.0 - Audio / Video
+ * 8.0 - RTL
+ */
+
+
+/**
+ * 1.0 - Body
+ */
+
+
+/**
+ * 2.0 - Typography
+ */
+
+.editor-content h1,
+.editor-content h2,
+.editor-content h3,
+.editor-content h4,
+.editor-content h5,
+.editor-content h6 {
+  margin-top: 0;
+}
+
+.editor-content p {
+  margin: 16px 0;
+}
+
+.editor-content b,
+.editor-content strong {
+  font-weight: 700;
+}
+
+.editor-content dfn,
+.editor-content cite,
+.editor-content em,
+.editor-content i {
+  font-style: italic;
+}
+
+.editor-content blockquote {
+  border-left: 4px solid #1a1a1a;
+  color: #686868;
+  font-size: 19px;
+  font-style: italic;
+  line-height: 1.4736842105;
+  margin-bottom: 28px;
+  overflow: hidden;
+  padding: 0 0 0 24px;
+}
+
+.editor-content blockquote:not(.alignleft):not(.alignright) {
+  margin-left: -28px;
+}
+
+.editor-content blockquote blockquote:not(.alignleft):not(.alignright) {
+  margin-left: 0;
+}
+
+.editor-content blockquote:before,
+.editor-content blockquote:after {
+  content: "";
+  display: table;
+}
+
+.editor-content blockquote:after {
+  clear: both;
+}
+
+.editor-content blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+.editor-content blockquote cite,
+.editor-content blockquote small {
+  color: #1a1a1a;
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+.editor-content blockquote em,
+.editor-content blockquote i,
+.editor-content blockquote cite {
+  font-style: normal;
+}
+
+.editor-content blockquote strong,
+.editor-content blockquote b {
+  font-weight: 400;
+}
+
+.editor-content blockquote.alignleft,
+.editor-content blockquote.alignright {
+  border: 0 solid #1a1a1a;
+  border-top-width: 4px;
+  padding: 18px 0 0;
+  width: -webkit-calc(50% - 14px);
+  width: calc(50% - 14px);
+}
+
+.editor-content address {
+  font-style: italic;
+  margin: 0 0 28px;
+}
+
+.editor-content code,
+.editor-content kbd,
+.editor-content tt,
+.editor-content var,
+.editor-content samp,
+.editor-content pre {
+  font-family: "Roboto", Helvetica, Arial, sans-serif;
+}
+
+.editor-content pre {
+  border: 1px solid #d1d1d1;
+  font-size: 16px;
+  line-height: 1.3125;
+  margin: 0 0 28px;
+  max-width: 100%;
+  overflow: auto;
+  padding: 14px;
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.editor-content code {
+  background-color: #d1d1d1;
+  padding: 2px 4px;
+}
+
+.editor-content abbr[title] {
+  border-bottom: 1px dotted #d1d1d1;
+  cursor: help;
+}
+
+.editor-content mark,
+.editor-content ins {
+  background: #007acc;
+  color: #fff;
+  padding: 2px 4px;
+  text-decoration: none;
+}
+
+.editor-content sup,
+.editor-content sub {
+  font-size: 75%;
+  height: 0;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+.editor-content sub {
+  top: -6px;
+}
+
+.editor-content sup {
+  bottom: -3px;
+}
+
+.editor-content small {
+  font-size: 80%;
+}
+
+.editor-content big {
+  font-size: 125%;
+}
+
+
+/**
+ * 3.0 - Elements
+ */
+
+.editor-content hr {
+  background-color: #d1d1d1;
+  border: 0;
+  height: 1px;
+  margin-bottom: 28px;
+}
+
+.editor-content ul,
+.editor-content ol {
+  margin: 0 0 28px 0;
+  padding: 0;
+}
+
+.editor-content ul {
+  list-style: disc;
+}
+
+.editor-content ol {
+  list-style: decimal;
+}
+
+.editor-content li > ul,
+.editor-content li > ol {
+  margin-bottom: 0;
+}
+
+.editor-content li > ul,
+.editor-content blockquote > ul {
+  margin-left: 20px;
+}
+
+.editor-content li > ol,
+.editor-content blockquote > ol {
+  margin-left: 24px;
+}
+
+.editor-content dl {
+  margin: 0 0 28px;
+}
+
+.editor-content dt {
+  font-weight: bold;
+}
+
+.editor-content dd {
+  margin: 0 0 28px;
+}
+
+.editor-content table,
+.editor-content th,
+.editor-content td,
+.editor-content .mce-item-table,
+.editor-content .mce-item-table th,
+.editor-content .mce-item-table td {
+  border: 1px solid #d1d1d1;
+}
+
+.editor-content table a {
+  color: #007acc;
+}
+
+.editor-content table,
+.editor-content .mce-item-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border-width: 1px 0 0 1px;
+  margin: 0 0 28px;
+  width: 100%;
+}
+
+.editor-content table th,
+.editor-content .mce-item-table th,
+.editor-content table caption {
+  border-width: 0 1px 1px 0;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 7px;
+  text-align: left;
+  vertical-align: baseline;
+}
+
+.editor-content table td,
+.editor-content .mce-item-table td {
+  border-width: 0 1px 1px 0;
+  font-size: 16px;
+  padding: 7px;
+  vertical-align: baseline;
+}
+
+.editor-content img {
+  border: 0;
+  height: auto;
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+.editor-content a img {
+  display: block;
+}
+
+.editor-content figure {
+  margin: 0;
+}
+
+.editor-content del {
+  opacity: 0.8;
+}
+
+.editor-content a {
+  box-shadow: 0 1px 0 0 currentColor;
+  color: #007acc;
+  text-decoration: none;
+}
+
+.editor-content fieldset {
+  border: 1px solid #d1d1d1;
+  margin: 0 0 28px;
+  padding: 14px;
+}
+
+
+/**
+ * 4.0 - Alignment
+ */
+
+.editor-content .alignleft {
+  float: left;
+  margin: 6px 28px 28px 0;
+}
+
+.editor-content .alignright {
+  float: right;
+  margin: 6px 0 28px 28px;
+}
+
+.editor-content .aligncenter {
+  clear: both;
+  display: block;
+  margin: 0 auto 28px;
+}
+

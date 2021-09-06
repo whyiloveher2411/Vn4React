@@ -1,0 +1,91 @@
+*{
+  box-sizing: border-box;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  text-decoration: none;
+}
+html {
+  scroll-behavior: smooth;
+}
+html, body, #root{
+  height: 100%;
+}
+.App {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+}
+body{
+  background: #f4f6f8;
+}
+
+
+
+body.is-iframe::-webkit-scrollbar, .custom_scroll::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  -webkit-appearance: none;
+}
+
+/* Track */
+body.is-iframe::-webkit-scrollbar-track,.custom_scroll::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+  border-radius: 15px;
+}
+ 
+/* Handle */
+body.is-iframe::-webkit-scrollbar-thumb,.custom_scroll::-webkit-scrollbar-thumb {
+  background: #888; 
+  border-radius: 15px;
+}
+
+body.is-iframe::-webkit-scrollbar-track,.custom.custom_scroll::-webkit-scrollbar-track {
+  background: transparent; 
+}
+body.is-iframe::-webkit-scrollbar-thumb,.custom.custom_scroll::-webkit-scrollbar-thumb {
+  background: transparent; 
+}
+body.is-iframe::-webkit-scrollbar-thumb,.custom.custom_scroll:hover::-webkit-scrollbar-thumb {
+  background: rgb(210, 210, 210); 
+}
+
+/* Handle on hover */
+body.is-iframe::-webkit-scrollbar-thumb:hover,.custom_scroll::-webkit-scrollbar-thumb:hover, .custom.custom_scroll::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

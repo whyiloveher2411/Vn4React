@@ -1,0 +1,357 @@
+﻿,
+Error,Error
+"Unable to verify copyright, please check again (Error code 400)","Unable to verify copyright, please check again (Error code 400)"
+Success,Success
+"License update successful","License update successful"
+"Sorry, you are not allowed to access this page","Sorry, you are not allowed to access this page"
+Fail,Fail
+"(Not Found)","(Not Found)"
+Page,Page
+Title,Title
+Slug,Slug
+Description,Description
+"Normal descriptions are not used in the interface, however some interfaces display this description.","Normal descriptions are not used in the interface, however some interfaces display this description."
+Content,Content
+"Content Of Page","Content Of Page"
+--Select--,--Select--
+User,User
+Email,Email
+"First Name","First Name"
+"Last Name","Last Name"
+Password,Password
+Edit,Edit
+"Login as","Login as"
+Profile,Profile
+Dashboard,Dashboard
+Theme,Theme
+Widget,Widget
+Menu,Menu
+"Mail Templates","Mail Templates"
+"Theme Options","Theme Options"
+Log,Log
+Media,Media
+"All User","All User"
+"Create User","Create User"
+"User Role Editor","User Role Editor"
+Appearance,Appearance
+Tool,Tool
+Plugin,Plugin
+System,System
+Setting,Setting
+Environment,Environment
+"Cache Management","Cache Management"
+Customize,Customize
+Download,Download
+Remove,Remove
+Loading,Loading
+Shortcuts,Shortcuts
+Document,Document
+Contact,Contact
+"no data available","no data available"
+"Select All","Select All"
+"Add to Menu","Add to Menu"
+Menus,Menus
+"Navigation Label","Navigation Label"
+"Title Attribute","Title Attribute"
+"Open link in a new tab","Open link in a new tab"
+"CSS Classes (optional)","CSS Classes (optional)"
+"Link Relationship (XFN)","Link Relationship (XFN)"
+Delete,Delete
+Close,Close
+"Create menu success","Create menu success"
+"Edit menu success","Edit menu success"
+"Delete menu success","Delete menu success"
+"Edit location menu success","Edit location menu success"
+"Custom Links","Custom Links"
+"Menu Items","Menu Items"
+"Page Theme","Page Theme"
+"Route Static","Route Static"
+"Select menu to edit","Select menu to edit"
+Select,Select
+"Or create a new menu:","Or create a new menu:"
+"Post Type","Post Type"
+Home,Home
+"Error 404","Error 404"
+URL,URL
+"Link Text","Link Text"
+Add,Add
+"Save Menu","Save Menu"
+"Menu Structure","Menu Structure"
+"Drag each item into the order you want. Click the arrow to the right of the item to display more configuration options","Drag each item into the order you want. Click the arrow to the right of the item to display more configuration options"
+Clear,Clear
+"Save Changes","Save Changes"
+Themes,Themes
+"Create a new theme","Create a new theme"
+"Add new theme","Add new theme"
+Version,Version
+By,By
+Tags,Tags
+Active,Active
+"Import Data Sample","Import Data Sample"
+"Are you sure you want to delete this theme?nnClick 'Cancel' to go back, 'OK' to confirm the delete","Are you sure you want to delete this theme?nnClick 'Cancel' to go back, 'OK' to confirm the delete"
+"Are you sure you want import data sample?nnClick 'Cancel' to go back, 'OK' to confirm the import","Are you sure you want import data sample?nnClick 'Cancel' to go back, 'OK' to confirm the import"
+"No information","No information"
+"login to server failed!","login to server failed!"
+"Connection to server failed!","Connection to server failed!"
+"Synchronization Success!","Synchronization Success!"
+"Sorry, can not delete the theme being used","Sorry, can not delete the theme being used"
+"Sorry, can not delete theme","Sorry, can not delete theme"
+Widgets,Widgets
+"Available Widgets","Available Widgets"
+"To activate a widget drag it to a sidebar or click on it. To deactivate a widget and delete its settings, drag it back.","To activate a widget drag it to a sidebar or click on it. To deactivate a widget and delete its settings, drag it back."
+"Inactive Widgets","Inactive Widgets"
+"Drag widgets here to remove them from the sidebar but keep their settings","Drag widgets here to remove them from the sidebar but keep their settings"
+"Sidebar not found","Sidebar not found"
+"Seems like no sidebar have been created yet.","Seems like no sidebar have been created yet."
+"Cache list","Cache list"
+Type,Type
+Creator,Creator
+Status,Status
+Action,Action
+"Flush Cache","Flush Cache"
+"Clear cache success","Clear cache success"
+"Sorry, No cache found","Sorry, No cache found"
+App,App
+Pusher,Pusher
+"Update environment file success","Update environment file success"
+Help,Help
+"Update shortcuts success","Update shortcuts success"
+"Log Viewer","Log Viewer"
+"Log not found.","Log not found."
+"Seems like no log have been created yet.","Seems like no log have been created yet."
+Parameters,Parameters
+Update,Update
+"Email template not found.","Email template not found."
+"Seems like no email template have been created yet.","Seems like no email template have been created yet."
+"Media Library","Media Library"
+"Do not delete, rename, move files will affect the post currently using the file","Do not delete, rename, move files will affect the post currently using the file"
+Plugins,Plugins
+Activated,Activated
+Activate,Activate
+"Read Docs","Read Docs"
+Settings,Settings
+All,All
+Inactive,Inactive
+"Update Available","Update Available"
+"Create a new plugin","Create a new plugin"
+"Add new plugin","Add new plugin"
+"There is no data.","There is no data."
+"In some cases, the data will not be suitable for graphing","In some cases, the data will not be suitable for graphing"
+"Seems like no data have been created yet.","Seems like no data have been created yet."
+"Change password successfully","Change password successfully"
+Warning,Warning
+"Password length must be greater than or equal to 8 characters","Password length must be greater than or equal to 8 characters"
+"Old password is not correct","Old password is not correct"
+"Update profile successful","Update profile successful"
+"Update Profile","Update Profile"
+"Personal Info","Personal Info"
+"Personal Setting","Personal Setting"
+"Show the toolbar on the front end","Show the toolbar on the front end"
+"Admin Template Mode","Admin Template Mode"
+"Can't change","Can't change"
+"Phone number","Phone number"
+"Social Network","Social Network"
+"About Yourself","About Yourself"
+"Biographical Info","Biographical Info"
+"Account Management","Account Management"
+Username,Username
+"Current Password","Current Password"
+"New Password","New Password"
+"Generate Password","Generate Password"
+"Google Authenticator Secret","Google Authenticator Secret"
+Permission,Permission
+"Select Role and change its capabilities","Select Role and change its capabilities"
+"-- Select --","-- Select --"
+"List Backup Table","List Backup Table"
+Total,Total
+"List Backup DB","List Backup DB"
+Name,Name
+Size,Size
+"Created at","Created at"
+Detail,Detail
+Restore,Restore
+"Nothing To Display.","Nothing To Display."
+"You do not have permission to view the setting","You do not have permission to view the setting"
+"Update setting successful.","Update setting successful."
+Fields,Fields
+"Custom Fields","Custom Fields"
+"Save changes","Save changes"
+General,General
+"Site Title","Site Title"
+"In a few words, explain what this site is about","In a few words, explain what this site is about"
+"Email Address","Email Address"
+"This address is used for admin purposes, like new user notification","This address is used for admin purposes, like new user notification"
+Timezone,Timezone
+"Date Format","Date Format"
+"Time Format","Time Format"
+"Reading Settings","Reading Settings"
+"Admin Template","Admin Template"
+"Logo (login)","Logo (login)"
+Slogan,Slogan
+"Headline Right","Headline Right"
+Security,Security
+"Prefix Link Admin","Prefix Link Admin"
+"Do not use the following words: {admin}, {backend}, {user} .... keep it secret only you and the site administrator know","Do not use the following words: {admin}, {backend}, {user} .... keep it secret only you and the site administrator know"
+"Link Sign In","Link Sign In"
+"Do not use the following words: {login}, {signin},.... keep it secret only you and the site administrator know","Do not use the following words: {login}, {signin},.... keep it secret only you and the site administrator know"
+"Limit Sign In Count","Limit Sign In Count"
+"Limit number of wrong logins","Limit number of wrong logins"
+"Limit Sign In Time","Limit Sign In Time"
+Seconds,Seconds
+"Lock time when user log in too many times allowed","Lock time when user log in too many times allowed"
+"Disable Iframe","Disable Iframe"
+"Sign In on device","Sign In on device"
+"Enable captcha checking in the login form into the admin area","Enable captcha checking in the login form into the admin area"
+"Each user will have a unique secret code, for users who have previously been created without a private code can use this shared secret code.","Each user will have a unique secret code, for users who have previously been created without a private code can use this shared secret code."
+"Accounts using google email will be mapped to google accounts to help you sign in faster and more securely (registration not included).","Accounts using google email will be mapped to google accounts to help you sign in faster and more securely (registration not included)."
+"Static Info","Static Info"
+Files,Files
+"Update theme options success","Update theme options success"
+"Theme option not found","Theme option not found"
+"Seems like no theme options have been created yet.","Seems like no theme options have been created yet."
+Ready,Ready
+"The database is ready to be used.","The database is ready to be used."
+Failed,Failed
+"Check Database valid only on mysql database management system","Check Database valid only on mysql database management system"
+"Domain Management","Domain Management"
+"Clear Cache Success.","Clear Cache Success."
+"The resource has been copied to the directory and ready to use.","The resource has been copied to the directory and ready to use."
+"Minify HTML View success","Minify HTML View success"
+"Refresh views success","Refresh views success"
+"Refresh views fail","Refresh views fail"
+Success!,Success!
+"Render Model Success!","Render Model Success!"
+Tools,Tools
+"Render Model","Render Model"
+"Creat Entity Realtionships","Creat Entity Realtionships"
+Render,Render
+"Check Database","Check Database"
+"When you create a new post type but you do not have time to optimize the DB as well as check if the database is already on the floor","When you create a new post type but you do not have time to optimize the DB as well as check if the database is already on the floor"
+Check,Check
+"Backup Database","Backup Database"
+Backup,Backup
+"Deploy Asset","Deploy Asset"
+"This tool will save you the time of copying all of the assets from the plugin, theme to the public source code","This tool will save you the time of copying all of the assets from the plugin, theme to the public source code"
+"Copy Asset","Copy Asset"
+"Minify HTML View","Minify HTML View"
+Minify,Minify
+"Refresh views","Refresh views"
+Refresh,Refresh
+"Clear Cache","Clear Cache"
+"Clear all cache of framework","Clear all cache of framework"
+"Validate HTML","Validate HTML"
+Create,Create
+"Validate HTML - Tool","Validate HTML - Tool"
+"Add New User","Add New User"
+"Create a brand new user and add them to this site","Create a brand new user and add them to this site"
+"Can not change","Can not change"
+Role,Role
+"Add New","Add New"
+Group,Group
+Granted/Total,Granted/Total
+"Quick filter","Quick filter"
+"Granted Only","Granted Only"
+Columns,Columns
+"create role","create role"
+"Role name","Role name"
+"Delete Role","Delete Role"
+"Create New Role","Create New Role"
+"Create Role","Create Role"
+"Update website success","Update website success"
+Text,Text
+Visual,Visual
+"WYSIWYG Editor","WYSIWYG Editor"
+"Add photo","Add photo"
+"Select an image","Select an image"
+Ratio,Ratio
+Width,Width
+"Max Width","Max Width"
+"Min Width","Min Width"
+Height,Height
+"Max Height","Max Height"
+"Min Height","Min Height"
+"Custom Link","Custom Link"
+"(Not Value)","(Not Value)"
+"Input Link","Input Link"
+"No data available, You can add ","No data available, You can add "
+here,here
+"press enter or "","" to add","press enter or "","" to add"
+"Sign in to Backend","Sign in to Backend"
+"The account has 2-layer security enabled, please enter the code on your google authenticator app previously saved.","The account has 2-layer security enabled, please enter the code on your google authenticator app previously saved."
+"Code by Vn4CMS","Code by Vn4CMS"
+"Checking login information","Checking login information"
+"Please confirm you are not a robot before submit","Please confirm you are not a robot before submit"
+"Showing ##from## to ##to## of ##count## Entries","Showing ##from## to ##to## of ##count## Entries"
+«,«
+»,»
+"Move to Trash","Move to Trash"
+"Delete forever","Delete forever"
+Apply,Apply
+"Go to page ##page## OR","Go to page ##page## OR"
+"Quick Edit","Quick Edit"
+Copy,Copy
+Trash,Trash
+Channels,Channels
+Add-on,Add-on
+"Collapse menu","Collapse menu"
+Filters,Filters
+From,From
+To,To
+"Groups By","Groups By"
+Nothing,Nothing
+View,View
+"Show Data","Show Data"
+"Create And Show Data","Create And Show Data"
+"Create Data","Create Data"
+Export,Export
+Report,Report
+"Show ##length## entries","Show ##length## entries"
+Search,Search
+"Enter something","Enter something"
+"Edit history","Edit history"
+data_table.message_alert_delete_one,data_table.message_alert_delete_one
+"Are you sure you want to delete the selected post","Are you sure you want to delete the selected post"
+"View Post","View Post"
+"Back to List","Back to List"
+"Edit Post","Edit Post"
+"Layout Create And Show Data","Layout Create And Show Data"
+Visibility,Visibility
+"Public Key","Public Key"
+"Password protected","Password protected"
+Private,Private
+"Published on","Published on"
+immediately,immediately
+"Save Draft","Save Draft"
+Public,Public
+Draft,Draft
+Pending,Pending
+Ok,Ok
+Cancel,Cancel
+Publish,Publish
+"The page has expired due to inactivity. <br> Please refresh and try again.","The page has expired due to inactivity. <br> Please refresh and try again."
+"Not Exits Method Post","Not Exits Method Post"
+"Missing method","Missing method"
+"Missing controller","Missing controller"
+"Does not exist post type ","Does not exist post type "
+"You are not allowed to remove","You are not allowed to remove"
+"You are not allowed view","You are not allowed view"
+"You are not allowed edit","You are not allowed edit"
+"You are not allowed create","You are not allowed create"
+"You are not allowed watch list","You are not allowed watch list"
+"Warning duplicate submission","Warning duplicate submission"
+"Edit Meta Success!","Edit Meta Success!"
+"Edit Meta failed","Edit Meta failed"
+"A simple website using Vn4CMS","A simple website using Vn4CMS"
+"Can not save object","Can not save object"
+Sucess,Sucess
+"Update post success","Update post success"
+"Create post success","Create post success"
+"Post Type Not Found","Post Type Not Found"
+"This records is already exists.","This records is already exists."
+"This custom post does not exist in the view file ","This custom post does not exist in the view file "
+"Page Static","Page Static"
+Published,Published
+Future,Future
+Drafts,Drafts
+Starred,Starred
+"Text or HTML","Text or HTML"

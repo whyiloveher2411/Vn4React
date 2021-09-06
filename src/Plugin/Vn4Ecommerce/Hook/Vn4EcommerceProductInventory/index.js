@@ -1,0 +1,1 @@
+export { default } from './Vn4EcommerceProductInventory';

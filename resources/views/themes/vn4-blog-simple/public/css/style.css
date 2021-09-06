@@ -1,0 +1,30 @@
+*{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+body{
+    min-height: 100vh;
+    font-family: 'Roboto', Arial, Helvetica, sans-serif;
+}
+.height-full{
+    height: 100%;
+}
+.display-between{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.container{
+    width: 1190px;
+    margin: 0 auto;
+}
+
+header{
+    height: 65px;
+    position: fixed;
+    width: 100%;
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.05);
+}

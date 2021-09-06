@@ -1,0 +1,301 @@
+﻿,
+Page,Page
+Title,Title
+Slug,Slug
+Description,Description
+"Normal descriptions are not used in the interface, however some interfaces display this description.","Normal descriptions are not used in the interface, however some interfaces display this description."
+Content,Content
+User,User
+Email,Email
+"First Name","First Name"
+"Last Name","Last Name"
+Password,Password
+Edit,Edit
+"Login as","Login as"
+Profile,Profile
+General,General
+Status,Status
+"Site Title","Site Title"
+"In a few words, explain what this site is about","In a few words, explain what this site is about"
+"Email Address","Email Address"
+"This address is used for admin purposes, like new user notification","This address is used for admin purposes, like new user notification"
+Timezone,Timezone
+"Choose a city in the same timezone as you, refer <a href=""https://www.php.net/manual/en/timezones.php"" target=""_blank"">here</a>","Choose a city in the same timezone as you, refer <a href=""https://www.php.net/manual/en/timezones.php"" target=""_blank"">here</a>"
+"Date Format","Date Format"
+"Time Format","Time Format"
+"Reading Settings","Reading Settings"
+"Admin Template","Admin Template"
+"Logo (login)","Logo (login)"
+Icon,Icon
+Security,Security
+"Prefix Link Admin","Prefix Link Admin"
+"Do not use the following words: {admin}, {backend}, {user} .... keep it secret only you and the site administrator know","Do not use the following words: {admin}, {backend}, {user} .... keep it secret only you and the site administrator know"
+"Link Login","Link Login"
+"Do not use the following words: {login}, {signin},.... keep it secret only you and the site administrator know","Do not use the following words: {login}, {signin},.... keep it secret only you and the site administrator know"
+"Limit Login Count","Limit Login Count"
+"Limit Login Time","Limit Login Time"
+Seconds,Seconds
+"Disable Iframe","Disable Iframe"
+"login on a single machine","login on a single machine"
+Home,Home
+"All Pages","All Pages"
+"Add New","Add New"
+Log,Log
+Media,Media
+"All User","All User"
+"Create User","Create User"
+"User Role Editor","User Role Editor"
+Appearance,Appearance
+Theme,Theme
+Customize,Customize
+Widget,Widget
+Menu,Menu
+Tool,Tool
+Plugin,Plugin
+System,System
+Setting,Setting
+Environment,Environment
+"Cache Management","Cache Management"
+"Theme Options","Theme Options"
+Dashboard,Dashboard
+Download,Download
+Remove,Remove
+Loading,Loading
+"no data available","no data available"
+"Select All","Select All"
+"Add to Menu","Add to Menu"
+Menus,Menus
+"Navigation Label","Navigation Label"
+"Title Attribute","Title Attribute"
+"Open link in a new tab","Open link in a new tab"
+"CSS Classes (optional)","CSS Classes (optional)"
+"Link Relationship (XFN)","Link Relationship (XFN)"
+Delete,Delete
+Close,Close
+Success,Success
+"Create menu success","Create menu success"
+"Edit menu success","Edit menu success"
+"Delete menu success","Delete menu success"
+"Edit location menu success","Edit location menu success"
+"Custom Links","Custom Links"
+"Menu Items","Menu Items"
+"Page Theme","Page Theme"
+"Route Static","Route Static"
+"Select menu to edit","Select menu to edit"
+Select,Select
+"Post Type","Post Type"
+"Error 404","Error 404"
+URL,URL
+"Link Text","Link Text"
+Add,Add
+"Save Menu","Save Menu"
+"Menu Structure","Menu Structure"
+"Drag each item into the order you want. Click the arrow to the right of the item to display more configuration options","Drag each item into the order you want. Click the arrow to the right of the item to display more configuration options"
+Clear,Clear
+"Save Changes","Save Changes"
+Themes,Themes
+Version,Version
+By,By
+Tags,Tags
+Active,Active
+"Are you sure you want to delete this theme?\n\nClick \'Cancel\' to go back, \'OK\' to confirm the delete","Are you sure you want to delete this theme?\n\nClick \'Cancel\' to go back, \'OK\' to confirm the delete"
+Fail,Fail
+"No information","No information"
+"login to server failed!","login to server failed!"
+"Connection to server failed!","Connection to server failed!"
+"Synchronization Success!","Synchronization Success!"
+"Sorry, can not delete the theme being used","Sorry, can not delete the theme being used"
+"Sorry, can not delete theme","Sorry, can not delete theme"
+Widgets,Widgets
+"Available Widgets","Available Widgets"
+"To activate a widget drag it to a sidebar or click on it. To deactivate a widget and delete its settings, drag it back.","To activate a widget drag it to a sidebar or click on it. To deactivate a widget and delete its settings, drag it back."
+"Inactive Widgets","Inactive Widgets"
+"Drag widgets here to remove them from the sidebar but keep their settings","Drag widgets here to remove them from the sidebar but keep their settings"
+"Cache list","Cache list"
+Type,Type
+Creator,Creator
+Action,Action
+"Flush Cache","Flush Cache"
+"Clear cache success","Clear cache success"
+Error,Error
+"Sorry, No cache found","Sorry, No cache found"
+App,App
+Mail,Mail
+Pusher,Pusher
+"Save changes","Save changes"
+"Update environment file success","Update environment file success"
+"Sorry, you are not allowed to access this page","Sorry, you are not allowed to access this page"
+"Log Viewer","Log Viewer"
+"Media Library","Media Library"
+"Do not delete, rename, move files will affect the post currently using the file","Do not delete, rename, move files will affect the post currently using the file"
+Plugins,Plugins
+Author,Author
+"Settings page","Settings page"
+All,All
+Inactive,Inactive
+"Update Available","Update Available"
+"List of available plugins","List of available plugins"
+"Choose and active","Choose and active"
+"Change password successfully","Change password successfully"
+Warning,Warning
+"Password length must be greater than or equal to 8 characters","Password length must be greater than or equal to 8 characters"
+"Old password is not correct","Old password is not correct"
+"Update profile successful","Update profile successful"
+"Update Profile","Update Profile"
+"Personal Info","Personal Info"
+"Personal Setting","Personal Setting"
+"Active menu admin on menu fixed frontend","Active menu admin on menu fixed frontend"
+"Admin Template Mode","Admin Template Mode"
+"Google authenticator setting","Google authenticator setting"
+Contact,Contact
+"Can\'t change","Can\'t change"
+"Phone number","Phone number"
+"Social Network","Social Network"
+"About Yourself","About Yourself"
+"Biographical Info","Biographical Info"
+"Account Management","Account Management"
+Username,Username
+"Current Password","Current Password"
+"Password New","Password New"
+"Generate Password","Generate Password"
+Permission,Permission
+"Select Role and change its capabilities","Select Role and change its capabilities"
+"-- Select --","-- Select --"
+"List Backup Table","List Backup Table"
+Total,Total
+"List Backup DB","List Backup DB"
+Name,Name
+Size,Size
+"Created at","Created at"
+Detail,Detail
+Restore,Restore
+"You do not have permission to view the setting","You do not have permission to view the setting"
+"Update setting successful.","Update setting successful."
+"Update theme options success","Update theme options success"
+Ready,Ready
+"The database is ready to be used.","The database is ready to be used."
+Failed,Failed
+"Check Database valid only on mysql database management system","Check Database valid only on mysql database management system"
+"Clear Cache Success.","Clear Cache Success."
+"The resource has been copied to the directory and ready to use.","The resource has been copied to the directory and ready to use."
+"Minify HTML View success","Minify HTML View success"
+"Refresh views success","Refresh views success"
+"Refresh views fail","Refresh views fail"
+Success!,Success!
+"Render Model Success!","Render Model Success!"
+Tools,Tools
+"Render Model","Render Model"
+"Creat Entity Realtionships","Creat Entity Realtionships"
+Render,Render
+"Check Database","Check Database"
+"When you create a new post type but you do not have time to optimize the DB as well as check if the database is already on the floor","When you create a new post type but you do not have time to optimize the DB as well as check if the database is already on the floor"
+Check,Check
+"Backup Database","Backup Database"
+Backup,Backup
+"Deploy Asset","Deploy Asset"
+"This tool will save you the time of copying all of the assets from the plugin, theme to the public source code","This tool will save you the time of copying all of the assets from the plugin, theme to the public source code"
+"Copy Asset","Copy Asset"
+"Minify HTML View","Minify HTML View"
+Minify,Minify
+"Refresh views","Refresh views"
+Refresh,Refresh
+"Clear Cache","Clear Cache"
+"Clear all cache of framework","Clear all cache of framework"
+"Validate HTML","Validate HTML"
+Create,Create
+"Validate HTML - Tool","Validate HTML - Tool"
+"Add New User","Add New User"
+"Create a brand new user and add them to this site","Create a brand new user and add them to this site"
+"Can not change","Can not change"
+Group,Group
+Granted/Total,Granted/Total
+"Quick filter","Quick filter"
+"Granted Only","Granted Only"
+Columns,Columns
+"create role","create role"
+"Role name","Role name"
+"Delete Role","Delete Role"
+"Create New Role","Create New Role"
+"Create Role","Create Role"
+Text,Text
+Visual,Visual
+"WYSIWYG Editor","WYSIWYG Editor"
+"Add photo","Add photo"
+"Select an image","Select an image"
+Ratio,Ratio
+Width,Width
+"Max Width","Max Width"
+"Min Width","Min Width"
+Height,Height
+"Max Height","Max Height"
+"Min Height","Min Height"
+"Custom Link","Custom Link"
+"(Not Value)","(Not Value)"
+Link,Link
+"No data available, You can add ","No data available, You can add "
+here,here
+"press enter or "","" to add","press enter or "","" to add"
+"Tài khoản đã bật bảo mật 2 lớp, vui lòng nhập mã trên ứng dụng google authenticator của bạn đã lưu trước đây.","Tài khoản đã bật bảo mật 2 lớp, vui lòng nhập mã trên ứng dụng google authenticator của bạn đã lưu trước đây."
+"Checking login information","Checking login information"
+"Please confirm you are not a robot before submit","Please confirm you are not a robot before submit"
+"Showing ##from## to ##to## of ##count## entries","Showing ##from## to ##to## of ##count## entries"
+"Move to Trash","Move to Trash"
+"Delete forever","Delete forever"
+Apply,Apply
+"Go to page ##page## OR","Go to page ##page## OR"
+«,«
+»,»
+Manager,Manager
+"Collapse menu","Collapse menu"
+Settings,Settings
+FullScreen,FullScreen
+Logout,Logout
+"List Data","List Data"
+"Show Data","Show Data"
+"Create And Show Data","Create And Show Data"
+"Create Data","Create Data"
+"Show ##length## entries","Show ##length## entries"
+Search,Search
+"Enter something","Enter something"
+data_table.message_alert_delete_one,data_table.message_alert_delete_one
+"Are you sure you want to delete the selected post","Are you sure you want to delete the selected post"
+"View Post","View Post"
+"Edit Post","Edit Post"
+"Layout Create And Show Data","Layout Create And Show Data"
+Visibility,Visibility
+"Public Key","Public Key"
+"Password protected","Password protected"
+Private,Private
+"Published on","Published on"
+immediately,immediately
+"Save Draft","Save Draft"
+Public,Public
+Draft,Draft
+Pending,Pending
+Trash,Trash
+Ok,Ok
+Cancel,Cancel
+Update,Update
+Publish,Publish
+"The page has expired due to inactivity. <br> Please refresh and try again.","The page has expired due to inactivity. <br> Please refresh and try again."
+"Does not exist post type ","Does not exist post type "
+"You are not allowed to remove","You are not allowed to remove"
+"You are not allowed view","You are not allowed view"
+"You are not allowed edit","You are not allowed edit"
+"You are not allowed create","You are not allowed create"
+"You are not allowed watch list","You are not allowed watch list"
+"Warning duplicate submission","Warning duplicate submission"
+"A simple website using Vn4CMS","A simple website using Vn4CMS"
+"Can not save object","Can not save object"
+Sucess,Sucess
+"Update post success","Update post success"
+"Create post success","Create post success"
+"This custom post does not exist in the view file ","This custom post does not exist in the view file "
+"Page Static","Page Static"
+Published,Published
+Future,Future
+Drafts,Drafts
+View,View
+"No data available in table","No data available in table"
+Copy,Copy
+"Text or HTML","Text or HTML"

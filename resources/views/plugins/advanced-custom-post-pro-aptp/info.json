@@ -1,0 +1,8 @@
+{
+    "name":"Advanced Custom Post",
+    "description":"Customise Post Type with powerful, professional and intuitive fields.",
+    "author": "Erik Lehnsherr",
+    "author_url": "https://vn4cms.com",
+    "version": "1.0.0",
+    "priority":1
+}

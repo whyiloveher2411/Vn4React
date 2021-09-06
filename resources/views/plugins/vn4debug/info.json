@@ -1,0 +1,8 @@
+{
+    "name":"Vn4Debug",
+    "description":"Create tools help developers debug easily control and fault activity seen how sites make the error page helps users know",
+    "author": "Erik Lehnsherr",
+    "author_url": "https://vn4cms.com",
+    "version": "1.0.0",
+    "router_manager":"index"
+}

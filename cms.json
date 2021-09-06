@@ -1,0 +1,17 @@
+{
+	"title":"Vn4CMS.COM",
+	"website":"https://vn4cms.com",
+	"version":"1.0.0",
+	"description":"We are not looking for perfection, we start from there",
+	"link_reference":[
+		{"title":"About Us","link":"https://www.google.com/search?q=vn4cms+about+us"},
+		{"title":"Features","link":"https://www.google.com/search?q=vn4cms+features"},
+		{"title":"Product","link":"https://www.google.com/search?q=vn4cms+product"},
+		{"title":"Blogs","link":"https://www.google.com/search?q=vn4cms+blogs"},
+		{"title":"Support","link":"https://www.google.com/search?q=vn4cms+support"},
+		{"title":"Online","link":"https://www.google.com/search?q=vn4cms+online"},
+		{"title":"Contact","link":"https://www.google.com/search?q=vn4cms+contact"},
+		{"title":"Facebook","link":"https://www.google.com/search?q=vn4cms+fanpage"}
+	],
+	"url_license":"https://vn4cms.com/en/vn4cms-auth-license"
+}
