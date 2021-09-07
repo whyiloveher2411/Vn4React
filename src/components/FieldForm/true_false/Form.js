@@ -7,8 +7,7 @@ export default React.memo(function TrueFalseForm(props) {
     const [value, setValue] = React.useState(0);
 
     let checked = config.defaultValue ? config.defaultValue : false;
-
-    if (post[name]) {
+    if (typeof post[name] !== 'undefined') {
         if (post[name] * 1) {
             checked = true;
         } else {
