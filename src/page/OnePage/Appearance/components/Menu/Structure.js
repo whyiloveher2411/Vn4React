@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor: theme.palette.buttonSave.main,
             '&:hover': {
                 backgroundColor: theme.palette.buttonSave.dark,
-            }
+            },
         },
         '& .color-remove:hover': {
             color: theme.palette.secondary.dark,

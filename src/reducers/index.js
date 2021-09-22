@@ -5,6 +5,7 @@ import sidebarReducer from './sidebar'
 import pluginsAdminReducer from './plugins'
 import settingsReducer from './settings'
 import requiredLoginReducer from './requireLogin'
+import viewMode from './viewMode'
 
 
 const rootReducer = combineReducers({
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
     plugins: pluginsAdminReducer,
     settings: settingsReducer,
     requireLogin: requiredLoginReducer,
+    theme: viewMode,
 })
 
 export default rootReducer

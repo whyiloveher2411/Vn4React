@@ -1,12 +1,12 @@
 import { Button, ClickAwayListener, List, makeStyles, Tooltip, Typography } from '@material-ui/core';
+import { Hook, MaterialIcon } from 'components';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { matchPath } from 'react-router-dom';
-import { MaterialIcon, Hook } from 'components';
 import useRouter from '../utils/useRouter';
 import NavigationListItem from './NavigationListItem';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
     root: {
         position: 'relative',
     },
@@ -16,9 +16,9 @@ const useStyles = makeStyles(() => ({
         padding: '12px',
         fontSize: 15,
         minWidth: 'auto',
-        color: 'black',
         textAlign: 'left',
-        borderBottom: '1px solid rgba(0,0,0,0.12)',
+        borderBottom: '1px solid ' + theme.palette.dividerDark,
+        borderRadius: 0,
     },
     nav: {
         display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
@@ -27,22 +27,20 @@ const useStyles = makeStyles(() => ({
         flex: '0 0 auto',
         zIndex: 3,
         overflowY: 'auto',
-        backgroundColor: 'white',
-        boxShadow: '0 0 0 1px rgba(63,63,68,0.05), 0 1px 3px 0 rgba(63,63,68,0.15)',
+        backgroundColor: theme.palette.menu.background,
+        borderRight: '1px solid ' + theme.palette.dividerDark,
     },
-
     subMenu: {
-        // display: 'none',
         height: '100vh',
         minWidth: '248px',
         position: 'absolute',
         top: '0',
-        background: 'white',
+        background: theme.palette.menu.background,
         right: '-1px',
         transform: 'translateX(100%)',
         zIndex: '98',
         marginLeft: '1px',
-        boxShadow: '0 0 0 1px rgba(63,63,68,0.05), 0 1px 3px 0 rgba(63,63,68,0.15)',
+        borderRight: '1px solid ' + theme.palette.dividerDark,
         height: 'calc( 100vh - 66px )',
         maxHeight: 'calc( 100vh - 64px )',
         overflowY: 'auto',

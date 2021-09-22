@@ -1,4 +1,5 @@
-import { Button, Collapse, colors, ListItem, SvgIcon } from '@material-ui/core';
+import { Button, Collapse, ListItem, SvgIcon } from '@material-ui/core';
+import { fade } from '@material-ui/core/styles/colorManipulator';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { makeStyles } from '@material-ui/styles';
@@ -161,24 +162,23 @@ const useStyles = makeStyles(theme => ({
         paddingBottom: 0
     },
     button: {
-        color: colors.blueGrey[800],
-        padding: '10px 8px',
-        justifyContent: 'flex-start',
-        textTransform: 'none',
-        letterSpacing: 0,
-        width: '100%'
-    },
-    buttonLeaf: {
-        color: colors.blueGrey[800],
         padding: '10px 8px',
         justifyContent: 'flex-start',
         textTransform: 'none',
         letterSpacing: 0,
         width: '100%',
+    },
+    buttonLeaf: {
+        padding: '10px 8px',
+        justifyContent: 'flex-start',
+        textTransform: 'none',
+        letterSpacing: 0,
+        borderRadius: 0,
+        width: '100%',
         fontWeight: theme.typography.fontWeightRegular,
         '&.depth-0': {
             fontWeight: theme.typography.fontWeightMedium
-        }
+        },
     },
     icon: {
         color: theme.palette.icon,
@@ -197,11 +197,7 @@ const useStyles = makeStyles(theme => ({
         marginLeft: 'auto'
     },
     active: {
-        color: theme.palette.primary.main,
         fontWeight: theme.typography.fontWeightMedium,
-        '& $icon': {
-            color: theme.palette.primary.main,
-            fontWeight: 500,
-        }
+        backgroundColor: fade(theme.palette.text.primary, 0.1),
     }
 }));

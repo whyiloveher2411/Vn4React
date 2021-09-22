@@ -1,12 +1,19 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         '& #chart_location svg>g>g>g:nth-child(3) rect': {
             display: 'none'
+        },
+        '& #chart_location svg>g>g>g:nth-child(1) rect': {
+            fill: theme.palette.divider + ' !important',
         }
     },
+    title: {
+        color: theme.palette.text.secondary,
+    }
 }));
 
 
@@ -14,6 +21,8 @@ const useStyles = makeStyles((theme) => ({
 function Country({ google, dataGA }) {
 
     const classes = useStyles();
+
+    const theme = useSelector(state => state.theme);
 
     React.useEffect(() => {
 
@@ -32,6 +41,7 @@ function Country({ google, dataGA }) {
 
                     let data = google.visualization.arrayToDataTable(dataInitial);
                     let options = {
+                        backgroundColor: 'transparent',
                         colorAxis: { minValue: 0, colors: ['rgb(207, 225, 241)', 'rgb(47, 94, 196)'] },
                         legend: 'none',
                         height: '100%',
@@ -68,6 +78,7 @@ function Country({ google, dataGA }) {
                     formatter.format(data2, 1);
 
                     let options2 = {
+                        backgroundColor: 'transparent',
                         title: "",
                         width: '100%',
                         height: '100%',
@@ -75,14 +86,15 @@ function Country({ google, dataGA }) {
                         chartArea: { right: 15, top: 0, bottom: 15 },
                         colors: ['rgb(66, 133, 244)'],
                         bar: { groupWidth: '65%' },
-                        hAxis: { minValue: 0, format: "#'%'", gridlines: { count: 4, color: '#ebebeb' } },
-                        vAxis: { gridlines: { color: '#ebebeb' }, textStyle: { fontSize: 13, color: '#9e9e9e' } },
+                        hAxis: { minValue: 0, format: "#'%'", textStyle: { fontSize: 12, color: theme.palette.text.secondary }, gridlines: { count: 4, color: theme.palette.text.divider } },
+                        vAxis: {
+                            textStyle: { fontSize: 13, color: theme.palette.text.secondary }
+                        },
+                        orientation: 'vertical',
                         legend: { position: 'none' },
                     };
                     let chart2 = new google.visualization.BarChart(document.getElementById('chart_location'));
                     chart2.draw(data2, options2);
-
-
                 }
             });
         }
@@ -91,7 +103,7 @@ function Country({ google, dataGA }) {
 
     return (
         <div className={classes.root}>
-            <div style={{ color: 'rgba(0,0,0,0.54)' }}>Sessions by country</div>
+            <div className={classes.title}>Sessions by country</div>
             <div id="chart_country" style={{ height: 206 }}>
 
             </div>

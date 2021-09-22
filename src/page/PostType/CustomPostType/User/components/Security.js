@@ -1,34 +1,12 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import { makeStyles } from '@material-ui/styles'
 import {
-    Card,
-    CardHeader,
-    CardContent,
-    CardActions,
-    Grid,
-    Button,
-    Divider,
-    TextField,
-    colors,
+    Card, CardActions, CardContent, CardHeader, Divider, Grid
 } from '@material-ui/core'
-import { FieldForm } from 'components'
-
-const useStyles = makeStyles((theme) => ({
-    root: {},
-    saveButton: {
-        color: theme.palette.white,
-        backgroundColor: colors.green[600],
-        '&:hover': {
-            backgroundColor: colors.green[900],
-        },
-    },
-}))
+import { FieldForm, Button } from 'components'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 const Security = (props) => {
-    const { className, user, handleSubmit, onReview, ...rest } = props
-
-    const classes = useStyles()
+    const { user, handleSubmit, onReview, ...rest } = props
 
     const handleSubmitPassword = () => {
         if (valid) {
@@ -39,7 +17,7 @@ const Security = (props) => {
     const valid = user._password && user._password === user._confirm_password;
 
     return (
-        <Card {...rest} className={classes.root}>
+        <Card {...rest}>
             <CardHeader title="Password" />
             <Divider />
             <CardContent>
@@ -84,9 +62,9 @@ const Security = (props) => {
             <Divider />
             <CardActions>
                 <Button
-                    className={classes.saveButton}
                     disabled={!valid}
                     onClick={handleSubmitPassword}
+                    color="success"
                     variant="contained">
                     Save changes
                 </Button>

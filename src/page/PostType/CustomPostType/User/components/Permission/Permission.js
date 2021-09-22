@@ -1,19 +1,18 @@
-import { Button, Card, CardActions, Divider, Grid, colors, CardContent, FormControlLabel, Checkbox, Typography, Select, MenuItem, InputLabel, FormControl } from '@material-ui/core'
-import React from 'react';
-import { makeStyles } from '@material-ui/styles'
-import { useAjax } from 'utils/useAjax';
+import { Card, CardContent, Checkbox, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
+import { makeStyles } from '@material-ui/styles';
+import React from 'react';
+import { useAjax } from 'utils/useAjax';
 import GroupPermission from './GroupPermission';
 import PermissionList from './PermissionList';
+import { Button } from 'components';
 
 const useStyles = makeStyles((theme) => ({
     root: {},
-    saveButton: {
-        color: theme.palette.white,
-        backgroundColor: theme.palette.buttonSave.main,
-        '&:hover': {
-            backgroundColor: theme.palette.buttonSave.dark,
-        },
+    header: {
+        padding: '0 24px 24px',
+        margin: '0px -24px 16px -24px',
+        borderBottom: '1px solid ' + theme.palette.divider,
     },
     content: {
         width: 'calc(100% + 48px)',
@@ -41,7 +40,14 @@ const useStyles = makeStyles((theme) => ({
 
         },
 
-    }
+    },
+    disable: {
+        pointerEvents: 'none',
+        opacity: '.5'
+    },
+    borderStyle: {
+        borderColor: theme.palette.divider + ' !important',
+    },
 }))
 
 export default function Permission({ user, handleSubmit, shareData }) {
@@ -336,7 +342,7 @@ export default function Permission({ user, handleSubmit, shareData }) {
         <Card>
 
             <CardContent>
-                <Typography variant='h5' style={{ padding: '0 24px 24px', margin: '0px -24px 16px -24px', borderBottom: '1px solid #dedede' }} >
+                <Typography variant='h5' className={classes.header} >
                     <FormControl size="small" variant="outlined">
                         <InputLabel id="role">Role</InputLabel>
                         <Select
@@ -356,9 +362,9 @@ export default function Permission({ user, handleSubmit, shareData }) {
                     </FormControl>
                     &nbsp;
                     <Button
-                        className={classes.saveButton}
                         type="submit"
                         onClick={handleSubmit}
+                        color="success"
                         variant="contained">
                         Save Changes
                     </Button>
@@ -366,11 +372,11 @@ export default function Permission({ user, handleSubmit, shareData }) {
 
                 {
                     permissions && listGroupPermission ?
-                        <Grid container spacing={4} className={classes.content} style={!setting.role || setting.role === '' || setting.role === 'custom' ? {} : { pointerEvents: 'none', background: '#dedede', opacity: '.65' }}>
-                            <Grid style={{ borderRight: '1px solid #dedede', borderBottom: '1px solid #dedede' }} item md={4} xs={12}>
+                        <Grid container spacing={4} className={classes.content + ' ' + (!setting.role || setting.role === 'custom' || setting.role === '' ? '' : classes.disable)}>
+                            <Grid className={classes.borderStyle} style={{ borderRight: '1px solid #dedede', borderBottom: '1px solid #dedede' }} item md={4} xs={12}>
                                 <p>Group (Granted/Total)</p>
                             </Grid>
-                            <Grid style={{ borderBottom: '1px solid #dedede', display: 'flex' }} item md={8} xs={12}>
+                            <Grid className={classes.borderStyle} style={{ borderBottom: '1px solid #dedede', display: 'flex' }} item md={8} xs={12}>
                                 <FormControlLabel
                                     control={<Checkbox checked={setting.grantedOnly} onClick={e => {
                                         setSetting({ ...setting, grantedOnly: e.target.checked })
@@ -389,13 +395,13 @@ export default function Permission({ user, handleSubmit, shareData }) {
                         </Grid>
                         :
                         <Grid container className={classes.content} spacing={4}>
-                            <Grid style={{ borderRight: '1px solid #dedede', borderBottom: '1px solid #dedede' }} item md={4} xs={12}>
+                            <Grid className={classes.borderStyle} style={{ borderRight: '1px solid #dedede', borderBottom: '1px solid #dedede' }} item md={4} xs={12}>
                                 <Skeleton animation="wave" height={24} style={{ marginBottom: 10, marginTop: 16 }} />
                             </Grid>
-                            <Grid style={{ borderBottom: '1px solid #dedede', display: 'flex' }} item md={8} xs={12}>
+                            <Grid className={classes.borderStyle} style={{ borderBottom: '1px solid #dedede', display: 'flex' }} item md={8} xs={12}>
                                 <Skeleton animation="wave" height={24} style={{ marginBottom: 10, marginTop: 16, width: '100%' }} />
                             </Grid>
-                            <Grid style={{ borderRight: '1px solid #dedede' }} item md={4} xs={12}>
+                            <Grid className={classes.borderStyle} style={{ borderRight: '1px solid #dedede' }} item md={4} xs={12}>
                                 {
                                     (() => {
                                         const options = [];

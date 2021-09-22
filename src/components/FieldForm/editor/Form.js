@@ -174,7 +174,7 @@ export default React.memo(function TextareaForm(props) {
                             }
 
                             if (top <= 156 && dk) {
-                                Object.assign($menubar.style, { position: 'fixed', top: 156 + 'px' });
+                                Object.assign($menubar.style, { position: 'fixed', top: 152 + 'px' });
                             } else {
                                 Object.assign($menubar.style, { position: 'absolute', top: 'initial' });
                             }
@@ -235,12 +235,12 @@ export default React.memo(function TextareaForm(props) {
                         // editor.getDoc().getElementsByTagName('head')[0].appendChild(scriptElm);
                     });
 
-                    editor.ui.registry.addIcon('widgetIcon', ReactDOMServer.renderToString(<MaterialIcon style={{ width: 18, height: 18 }} icon={{ custom: '<image style="width:100%;" href="/admin/images/box.svg"></image>' }} />));
+                    editor.ui.registry.addIcon('widgetIcon', ReactDOMServer.renderToString(<MaterialIcon style={{ width: 24, height: 24 }} icon={{ custom: '<image style="width:100%;" href="/admin/images/page_builder_icon.svg"></image>' }} />));
 
                     editor.ui.registry.addButton('widget', {
                         icon: 'widgetIcon',
-                        tooltip: 'Add Widget',
-                        text: 'Add Widget',
+                        tooltip: 'Widget',
+                        text: 'Widget',
                         onAction: () => {
                             handleOpenEditWidget(editor);
                         }

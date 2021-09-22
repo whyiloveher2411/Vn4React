@@ -25,7 +25,8 @@ import RefreshRoundedIcon from '@material-ui/icons/RefreshRounded';
 import ReplyOutlinedIcon from '@material-ui/icons/ReplyOutlined';
 import SearchIcon from "@material-ui/icons/Search";
 import { Skeleton } from "@material-ui/lab";
-import { AvatarCustom } from 'components';
+import { toogleViewMode } from "actions/viewMode";
+import { AvatarCustom, Divider, MaterialIcon } from 'components';
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
@@ -55,6 +56,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     boxShadow: "none",
     zIndex: 99,
+  },
+  header: {
+    background: theme.palette.header.background,
   },
   search: {
     backgroundColor: "rgba(255,255,255, 0.1)",
@@ -95,7 +99,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   notification: {
-    borderBottom: '1px solid #dedede',
+    borderBottom: '1px solid ' + theme.palette.dividerDark,
   },
   notificationIcon: {
     backgroundColor: theme.palette.primary.main,
@@ -106,13 +110,17 @@ const useStyles = makeStyles((theme) => ({
   },
   notificationContent: {
     marginTop: 4, overflow: 'hidden', width: '100%', display: '-webkit-box', WebkitLineClamp: '3', WebkitBoxOrient: 'vertical',
-    opacity: .8,
+  },
+  menuAccount: {
+    minWidth: 280,
+    maxWidth: '100%',
   }
 }));
 
 export default function Header(props) {
   let user = useSelector((state) => state.user);
   let settings = useSelector((state) => state.settings);
+  const theme = useSelector(state => state.theme);
 
   const history = useHistory();
 
@@ -216,7 +224,7 @@ export default function Header(props) {
               placement === "bottom" ? "center top" : "center bottom",
           }}
         >
-          <Paper>
+          <Paper className={classes.menuAccount}>
             <ClickAwayListener onClickAway={handleClose}>
               <MenuList
                 autoFocusItem={open}
@@ -228,9 +236,62 @@ export default function Header(props) {
                   to="/users/profile/general"
                   onClick={handleClose}
                 >
-                  Profile
+                  <Box display="flex" width={1} gridGap={16}>
+                    <AvatarCustom
+                      image={user.profile_picture}
+                      name={user.first_name + ' ' + user.last_name}
+                    />
+                    <div>
+                      <Typography variant="body1">{(user.first_name ?? '') + ' ' + (user.last_name ?? '')}</Typography>
+                      <Typography variant="body2">Manage your Account</Typography>
+                    </div>
+                  </Box>
                 </MenuItem>
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                <Divider style={{ margin: '8px 0' }} color="dark" />
+
+
+                <MenuItem onClick={handleUpdateViewMode}>
+                  <ListItemIcon>
+                    <MaterialIcon icon={theme.type === 'light' ? { custom: '<path d="M12 9c1.65 0 3 1.35 3 3s-1.35 3-3 3-3-1.35-3-3 1.35-3 3-3m0-2c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"></path>' } : 'Brightness2Outlined'} />
+                  </ListItemIcon>
+                  <Typography variant="inherit" noWrap>Appearance: {theme.type === 'dark' ? 'Dark' : 'Light'}</Typography>
+                </MenuItem>
+
+                <MenuItem onClick={() => alert('Coming soon!')}>
+                  <ListItemIcon>
+                    <MaterialIcon icon={'LanguageRounded'} />
+                  </ListItemIcon>
+                  <Typography variant="inherit" noWrap>Language: English</Typography>
+                </MenuItem>
+
+                <Divider style={{ margin: '8px 0' }} color="dark" />
+
+                <MenuItem onClick={() => alert('Coming soon!')}>
+                  <ListItemIcon>
+                    <MaterialIcon icon={'HelpOutlineOutlined'} />
+                  </ListItemIcon>
+                  <Typography variant="inherit" noWrap>Help & Support</Typography>
+                </MenuItem>
+
+                <MenuItem onClick={() => alert('Coming soon!')}>
+                  <ListItemIcon>
+                    <MaterialIcon icon={'SmsFailedOutlined'} />
+                  </ListItemIcon>
+                  <ListItemText>
+                    <Typography variant="inherit" noWrap>Send feedback</Typography>
+                    <Typography variant="body2">Help us improve the new CMS</Typography>
+                  </ListItemText>
+                </MenuItem>
+
+
+                <Divider style={{ margin: '8px 0' }} color="dark" />
+
+                <MenuItem onClick={handleLogout}>
+                  <ListItemIcon>
+                    <MaterialIcon icon={{ custom: '<g><rect fill="none" height="24" width="24" /></g><g><path d="M11,7L9.6,8.4l2.6,2.6H2v2h10.2l-2.6,2.6L11,17l5-5L11,7z M20,19h-8v2h8c1.1,0,2-0.9,2-2V5c0-1.1-0.9-2-2-2h-8v2h8V19z" /></g>' }} />
+                  </ListItemIcon>
+                  <Typography variant="inherit" noWrap>Sign out</Typography>
+                </MenuItem>
               </MenuList>
             </ClickAwayListener>
           </Paper>
@@ -323,9 +384,13 @@ export default function Header(props) {
     };
   }, []);
 
+  const handleUpdateViewMode = () => {
+    dispatch(toogleViewMode());
+  }
+
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar className={classes.header} position="static">
         <Toolbar>
           <Link to="/">
             <Typography className={classes.title} variant="h2" noWrap>
@@ -434,6 +499,8 @@ export default function Header(props) {
                         :
                         Boolean(notificationContent.posts && notificationContent.posts.data && notificationContent.posts.data.length > 0) ?
                           <>
+                            <Typography style={{ padding: '8px 16px 16px' }} variant="h5">Notifications</Typography>
+                            <Divider color="dark" />
                             {
                               notificationContent.posts.data.map(item => (
                                 <Link key={item.id} to={'/post-type/admin_notification/edit?post_id=' + item.id}>
@@ -442,37 +509,23 @@ export default function Header(props) {
                                     className={classes.notification}
                                     key={item.id}
                                   >
-                                    <div style={{ width: '100%' }}>
-                                      <Box width={1} display="flex" gridGap={8} >
-                                        <Box display="flex" alignItems="center" gridGap={3}>
-                                          <ChatIcon fontSize='small' />
-                                          {notificationContent.severitys[item.severity] ?
-                                            <Typography variant="body1" style={{ color: notificationContent.severitys[item.severity].textColor }}>{notificationContent.severitys[item.severity].title}</Typography>
-                                            : ''}
-                                        </Box>
-                                        {
-                                          Boolean(item.host) &&
-                                          <>
-                                            ● <Typography variant="body1">{item.host}</Typography>
-                                          </>
-                                        }
-
-                                        ● <Typography variant="body1">{item.created_diffForHumans}</Typography>
-                                      </Box>
-                                      <Box width={1} display="flex" alignItems="flex-start" gridGap={16} style={{ marginTop: 14 }}>
-                                        <div style={{ height: '100%' }}>
-                                          <AvatarCustom
-                                            name={'B'}
-                                            className={classes.notificationIcon}
-                                          />
-                                        </div>
-                                        <div style={{ width: '100%' }}>
-                                          <Typography className={classes.notificationTitle} variant="h5">{item.title}</Typography>
-                                          <Typography className={classes.notificationContent} variant="body1" >{item.message}</Typography>
-                                        </div>
-                                        <ReplyOutlinedIcon />
-                                      </Box>
-                                    </div>
+                                    <Box width={1} display="flex" alignItems="flex-start" gridGap={16} style={{ marginTop: 14 }}>
+                                      <div style={{ height: '100%' }}>
+                                        <AvatarCustom
+                                          name={notificationContent.severitys[item.severity]?.title}
+                                          className={classes.notificationIcon}
+                                          style={{
+                                            backgroundColor: notificationContent.severitys[item.severity]?.textColor ?? theme.palette.primary.main
+                                          }}
+                                        />
+                                      </div>
+                                      <div style={{ width: '100%' }}>
+                                        <Typography className={classes.notificationTitle} variant="h5">{item.title}</Typography>
+                                        <Typography className={classes.notificationContent} variant="body1" >{item.message}</Typography>
+                                        <Typography variant="body2">{item.created_diffForHumans}</Typography>
+                                      </div>
+                                      <ReplyOutlinedIcon />
+                                    </Box>
                                   </ListItem>
                                 </Link>
                               ))
@@ -500,9 +553,6 @@ export default function Header(props) {
                             </ListItem>
                           </Link>
                     }
-
-
-
                   </List>
                 </Paper>
               </ClickAwayListener>
@@ -516,7 +566,6 @@ export default function Header(props) {
                 <AppsIcon />
               </IconButton>
             </Tooltip>
-
             <Tooltip title="Account">
               <IconButton
                 edge="end"
@@ -528,7 +577,7 @@ export default function Header(props) {
               >
                 <AvatarCustom
                   image={user.profile_picture}
-                  name={user.first_name + ' ' + user.lastname}
+                  name={user.first_name + ' ' + user.last_name}
                   className={classes.small}
                 />
               </IconButton>

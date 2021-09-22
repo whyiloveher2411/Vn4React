@@ -1,7 +1,19 @@
+import { makeStyles } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import React from 'react'
+import theme from 'theme';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        '& svg>g>g>g:nth-child(1) rect': {
+            fill: theme.palette.divider + ' !important',
+        },
+    },
+}));
+
 
 function PageViews({ classStyle, data, google }) {
+    const classes = useStyles();
 
     React.useEffect(() => {
 
@@ -22,10 +34,11 @@ function PageViews({ classStyle, data, google }) {
                         height: '230',
                         tooltip: { isHtml: true, showColorCode: false },
                         bar: { groupWidth: '100%' },
-                        vAxis: { textStyle: { fontSize: '11', color: '#979797' }, minValue: 0, baselineColor: 'none', gridlines: { count: 5, color: '#e7e7e7' } },
-                        backgroundColor: 'white',
+                        vAxis: { textStyle: { maxAlternation: 4, fontSize: '11', color: theme.palette.text.secondary }, baseline: 0, minValue: 0, gridlines: { count: 5 } },
+                        backgroundColor: 'transparent',
                         chartArea: { left: 30, right: 0, height: 220 },
                         legend: { position: 'none' },
+                        isStacked: false,
                         animation: {
                             duration: 2500,
                             startup: true
@@ -61,7 +74,7 @@ function PageViews({ classStyle, data, google }) {
     }
 
     return (
-        <div>
+        <div className={classes.root}>
             <h3 className={classStyle.titleTop} >Pageviews</h3>
             <div id="chart_30" style={{ marginBottom: 5 }}></div>
         </div>

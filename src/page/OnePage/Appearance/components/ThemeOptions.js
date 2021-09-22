@@ -1,6 +1,6 @@
-import { Button, Card, CardActions, CardContent, colors, Divider } from '@material-ui/core';
+import { Card, CardActions, CardContent, colors, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { CircularCustom } from 'components';
+import { CircularCustom, Button } from 'components';
 import RedirectWithMessage from 'components/RedirectWithMessage';
 import React from 'react';
 import { getUrlParams } from 'utils/herlperUrl';
@@ -17,13 +17,6 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.background.paper,
         display: 'flex',
         minHeight: 224,
-    },
-    saveButton: {
-        color: theme.palette.white,
-        backgroundColor: colors.green[600],
-        '&:hover': {
-            backgroundColor: colors.green[900],
-        },
     },
     tabs: {
         display: 'flex',
@@ -135,12 +128,12 @@ export default function ThemeOptions({ history }) {
             <Divider />
             <CardActions style={{ justifyContent: 'flex-end' }}>
                 <Button
-                    className={classes.saveButton}
                     type="submit"
                     onClick={handleSubmitForm}
+                    color="success"
                     variant="contained">
                     Save Changes
-                    </Button>
+                </Button>
             </CardActions>
             {Loading}
         </Card>

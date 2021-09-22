@@ -1,8 +1,7 @@
-import React from 'react'
-import DrawerCustom from './DrawerCustom';
+import { Box } from '@material-ui/core';
+import React from 'react';
 import { useAjax } from 'utils/useAjax';
 import DrawerEditPost from './FieldForm/relationship_onetomany_show/DrawerEditPost';
-import { Box } from '@material-ui/core';
 
 function EditPostType({ open, onClose, id, postType, onEdit }) {
 

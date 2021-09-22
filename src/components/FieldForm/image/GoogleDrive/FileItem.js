@@ -145,7 +145,7 @@ function FileItem({ file, className, handleReloadDir, eventDragDropFile, ...rest
                                 <Avatar
                                     className={classes.avatar + ' avatar'}
                                     variant="square"
-                                    src={file.thumbnail}
+                                    src={file.extension !== 'ico' ? file.thumbnail : file.public_path}
                                 />
                         }
                     </div>

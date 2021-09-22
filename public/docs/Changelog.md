@@ -8,6 +8,7 @@
 #### Feature
 
 - Dashboard
+- Dark mode / Light mode
 - Content
 	- Show list
 	- Filter

@@ -13,13 +13,6 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         minHeight: 224,
     },
-    saveButton: {
-        color: theme.palette.white,
-        backgroundColor: colors.green[600],
-        '&:hover': {
-            backgroundColor: colors.green[900],
-        },
-    },
     chipUser: {
         marginRight: 4
     },
@@ -42,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
             fontSize: 15,
             textTransform: 'unset',
             fontWeight: 'normal',
-            color: theme.palette.grey[900],
             '&.active': {
                 opacity: 1,
                 color: theme.palette.primary.main,

@@ -1,6 +1,7 @@
-import React from 'react'
-import { Typography } from '@material-ui/core'
+import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -14,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
         '& .acquisition_item': {
             display: 'inline',
             fontSize: 12,
-            color: 'rgba(0,0,0,0.54)',
+            color: theme.palette.text.secondary,
             margin: '20px 15px 0 0'
         },
         '& .acquisition_item span': {
@@ -72,9 +73,10 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function General({ google, dataGA2 }) {
+function Traffic({ google, dataGA2 }) {
 
     const classes = useStyles();
+    const theme = useSelector(state => state.theme);
 
     const [tabCurrent, setTabCurrent] = React.useState(0);
 
@@ -102,6 +104,7 @@ function General({ google, dataGA2 }) {
 
                 let options = {
                     title: "",
+                    backgroundColor: 'transparent',
                     colors: ['#3367d6', '#4285f4', '#72a4f7', '#a0c2f9', '#d0e0fc'],
                     width: '100%',
                     height: '310',
@@ -110,8 +113,13 @@ function General({ google, dataGA2 }) {
                     tooltip: { isHtml: true, showColorCode: false },
                     bar: { groupWidth: '93%' },
                     chartArea: { left: 1, right: -1, height: 250 },
-                    hAxis: { gridlines: { color: 'transparent' } },
-                    vAxis: { textPosition: 'none', minValue: 0, baselineColor: 'none', gridlines: { count: 0, color: 'transparent' } },
+                    hAxis: { textStyle: { color: theme.palette.text.third }, gridlines: { color: 'transparent' } },
+                    vAxis: {
+                        textPosition: 'none',
+                        minValue: 0,
+                        baselineColor: 'none',
+                        gridlines: { count: 0, color: 'transparent' }
+                    },
                     legend: { position: 'none' },
                 };
 
@@ -267,4 +275,4 @@ function General({ google, dataGA2 }) {
     )
 }
 
-export default General
+export default Traffic

@@ -116,15 +116,15 @@ export default React.memo(function ImageForm(props) {
             let type_link = 'local';
 
             if (validURL(link)) {
-                if (!(link.search(process.env.APP_URL) > -1)) {
-                    type_link = 'external';
-                } else {
+                if (link.search(process.env.REACT_APP_BASE_URL) > -1) {
                     src = link;
-                    link = link.replace(process.env.APP_URL, '/');
+                    link = link.replace(process.env.REACT_APP_BASE_URL, '/');
+                } else {
+                    type_link = 'external';
                 }
             }
 
-            img.onload = e => {
+            img.onload = () => {
 
                 let data = {
                     link: link,
@@ -278,7 +278,7 @@ export default React.memo(function ImageForm(props) {
                         <OutlinedInput
                             fullWidth
                             type='text'
-                            value={unescape(valueInput ? valueInput.replaceAll(process.env.APP_URL, '') : '')}
+                            value={unescape(valueInput ? valueInput.replaceAll(process.env.REACT_APP_BASE_URL, '') : '')}
                             onChange={e => setValueInput(e.target.value)}
                             endAdornment={
                                 <InputAdornment position="end">
@@ -332,7 +332,7 @@ export default React.memo(function ImageForm(props) {
                             onClick={handleClickOpenSourceDialog}
                             style={{ maxWidth: '100%', maxHeight: 160, minWidth: 160, width: 'auto', cursor: 'pointer' }}
                             component="img"
-                            image={post[name].type_link === 'local' ? post[name].link : post[name].link}
+                            image={validURL(post[name].link) ? post[name].link : process.env.REACT_APP_BASE_URL + post[name].link}
                         />
                     </div>
                 </div>
@@ -344,10 +344,10 @@ export default React.memo(function ImageForm(props) {
                     {
                         config.size &&
                         <>
-                            <Typography variant="body1"><strong>Condition:</strong></Typography>
+                            <p><strong>Condition:</strong></p>
                             {
                                 Object.keys(config.size).map(key => (
-                                    <Typography variant="body2" key={key}><strong>&nbsp;&nbsp;&nbsp;&nbsp;{unCamelCase(key)}:</strong> {config.size[key]}{key !== "ratio" ? "px" : ""}</Typography>
+                                    <p variant="body2" key={key}><strong>&nbsp;&nbsp;&nbsp;&nbsp;{unCamelCase(key)}:</strong> {config.size[key]}{key !== "ratio" ? "px" : ""}</p>
                                 ))
                             }
                         </>
@@ -355,15 +355,15 @@ export default React.memo(function ImageForm(props) {
                     {
                         config.thumbnail &&
                         <>
-                            <Typography variant="body1" style={{ marginTop: 8 }}><strong>Thumbnail:</strong></Typography>
+                            <p style={{ marginTop: 8 }}><strong>Thumbnail:</strong></p>
                             {
                                 Object.keys(config.thumbnail).map(key => (
-                                    <Typography variant="body2" key={key}>
+                                    <p key={key}>
                                         &nbsp;&nbsp;&nbsp;&nbsp;<strong>{unCamelCase(key)}:&nbsp;</strong>
                                         {
                                             Object.keys(config.thumbnail[key]).map(key2 => unCamelCase(key2) + ': ' + config.thumbnail[key][key2] + 'px; ')
                                         }
-                                    </Typography>
+                                    </p>
                                 ))
                             }
                         </>

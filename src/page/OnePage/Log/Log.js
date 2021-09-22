@@ -70,13 +70,6 @@ const useStyles = makeStyles((theme) => ({
         height: 48,
         maxWidth: 280,
     },
-    saveButton: {
-        color: theme.palette.white,
-        backgroundColor: colors.green[600],
-        '&:hover': {
-            backgroundColor: colors.green[900],
-        },
-    },
 }));
 
 const useRowStyles = makeStyles({

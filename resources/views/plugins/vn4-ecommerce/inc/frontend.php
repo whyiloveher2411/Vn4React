@@ -1,25 +1,5 @@
 <?php
 
-function ecommerce_show_specifications($post) {
-
-	
-	$admin_object = get_admin_object('ecommerce_product_attribute');
-	if( isset($meta['ecommerce_product_attribute']) ){
-	?>
-	<div class="product_attribute">
-		<?php 
-			foreach(  $meta['ecommerce_product_attribute'] as $attribute ){
-				if( isset($attribute['template']) ){
-					echo vn4_view( $admin_object['template'].'.'.$attribute['template'], ['data'=>$attribute] );
-				}else{
-					echo vn4_view( $admin_object['template'].'._default', ['data'=>$attribute]);
-				}
-			}
-		 ?>
-    </div>
-	<?php
-	}
-}
 
 //Get product detail from product
 function get_product_detail( &$post ){
@@ -27,6 +7,63 @@ function get_product_detail( &$post ){
 		$post->__product_detail = $post->relationship('ecom_prod_detail');
 	}
 	return $post->__product_detail;
+}
+
+
+function ecommerce_show_specifications($post) {
+
+	$product_detail = get_product_detail($post);
+
+	$properties_attributes = json_decode($product_detail->properties_attributes, true);
+	$properties_attributes_values = json_decode($product_detail->properties_attributes_values, true);
+
+	if( $properties_attributes ){
+
+		$admin_object = get_admin_object('ecom_prod_attr');
+
+		$argListId = [];
+	
+		foreach( $properties_attributes as $index => $value ){
+			$argListId[$value['id']] = $index;
+		}
+		
+		// $sortValues = array();
+		// foreach ($product_detail->properties_attributes_values as $key => $row)
+		// {
+		// 	$sortValues[$key] = $row['id'];
+		// }
+
+		// array_multisort($sortValues, SORT_ASC, $product_detail->properties_attributes_values);
+		foreach( $properties_attributes_values as $value ){
+
+			if( !isset($argListId[$value['ecom_prod_attr']]) ) continue;
+
+			if( !isset( $properties_attributes[ $argListId[$value['ecom_prod_attr']] ]['values'] ) ){
+				$properties_attributes[ $argListId[$value['ecom_prod_attr']] ]['values'] = [];
+			}
+			$properties_attributes[ $argListId[$value['ecom_prod_attr']] ]['values'][] = $value;
+		}
+		
+		$product_detail->properties_attributes = $properties_attributes;
+		$product_detail->properties_attributes_values = $properties_attributes_values;
+
+
+	?>
+	<div class="product_attribute">
+		<?php 
+			foreach(  $product_detail->properties_attributes as $attribute ){
+				// if( view()->exits() ){
+
+				// }else{
+
+				// }
+
+				echo vn4_view( $admin_object['template'].'._default', ['data'=>$attribute]);
+			}
+		 ?>
+    </div>
+	<?php
+	}
 }
 
 //get review from product
@@ -82,6 +119,12 @@ function ecommerce_categories_breadcrumbs($product, $selects = null){
 	}
 
 	return (array) $result;
+}
+
+//get variations
+function ecommerce_get_variations($product){
+	$productDetail = get_product_detail($product);
+	return $productDetail->variations;
 }
 
 //get categories struct
@@ -200,23 +243,10 @@ function __ecommerce_get_meta_product(&$post){
 
 }
 function ecommerce_the_price($post){
-	
-	$meta = __ecommerce_get_meta_product($post);
-
-	if( isset($meta['price_min']) && isset($meta['sale_price_min']) ){
-
-		if( $meta['price_min'] === $meta['price_max'] ) $price = ecommerce_price($meta['price_min']);
-		else $price = ecommerce_price($meta['price_min']).' - '.ecommerce_price($meta['price_max']);
-
-		if( $meta['sale_price_min'] === $meta['sale_price_max'] ) $sale_price = ecommerce_price($meta['sale_price_min']);
-		else $sale_price = ecommerce_price($meta['sale_price_min']).' - '.ecommerce_price($meta['sale_price_max']);
-
-		return [
-			'price'=>$price,
-			'sale_price'=>$sale_price,
-		];
-
-	}
+	return [
+		'price'=>ecommerce_price($post->price),
+		'compare_price'=>ecommerce_price($post->compare_price),
+	];
 }
 
 function ecommerce_get_product($category){

@@ -3,7 +3,8 @@ import RedirectWithMessage from 'components/RedirectWithMessage';
 import React from 'react';
 import { addScript } from 'utils/helper';
 import { checkPermission } from 'utils/user';
-import { CircularCustom, Page } from 'components';
+import { CircularCustom } from 'components';
+import { PageHeaderSticky } from 'components/Page';
 import ActiveUserRightNow from './compoments/Reports/ActiveUserRightNow';
 import Country from './compoments/Reports/Country';
 import Device from './compoments/Reports/Device';
@@ -12,24 +13,13 @@ import PageVisit from './compoments/Reports/PageVisit';
 import TimeActive from './compoments/Reports/TimeActive';
 import Traffic from './compoments/Reports/Traffic';
 import UserTime from './compoments/Reports/UserTime';
-import UserType from './compoments/Reports/UserType';
+import UserReturn from './compoments/Reports/UserReturn';
 
 const useStyles = makeStyles((theme) => ({
-    headTop: {
-        position: 'sticky',
-        top: 0,
-        background: '#f4f6f8',
-        zIndex: 2,
-        boxShadow: '2px 0px 0 #f4f6f8, -2px 0px 0 #f4f6f8'
-    },
     title: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between'
-    },
-    divider: {
-        backgroundColor: colors.grey[300],
-        margin: '24px 0',
     },
     titleSession: {
         height: 18,
@@ -194,7 +184,7 @@ function Settings({ meta, ajaxPluginHandle }) {
         },
         {
             title: '',
-            compoment: UserType,
+            compoment: UserReturn,
             data: 'data1',
             grid: {
                 md: 3,
@@ -219,25 +209,27 @@ function Settings({ meta, ajaxPluginHandle }) {
 
 
     return (
-        <Page width="xl" className={classes.main} title="Vn4 Google Analytics">
-            <div style={{ maxWidth: 1345, margin: '0 auto' }}>
-                <div className={classes.headTop}>
-                    <Grid
-                        container
-                        className={classes.grid}
-                        justify="space-between"
-                        alignItems="center"
-                        spacing={3}>
-                        <Grid item xs={12}>
-                            <Typography component="h2" gutterBottom variant="overline">Vn4 Google Analytics</Typography>
-                            <Typography component="h1" variant="h3" className={classes.title}>
-                                Reports
+        <PageHeaderSticky
+            width={1345}
+            className={classes.main}
+            title="Vn4 Google Analytics"
+            header={
+                <Grid
+                    container
+                    className={classes.grid}
+                    justify="space-between"
+                    alignItems="center"
+                    spacing={3}>
+                    <Grid item xs={12}>
+                        <Typography component="h2" gutterBottom variant="overline">Vn4 Google Analytics</Typography>
+                        <Typography component="h1" variant="h3" className={classes.title}>
+                            Reports
                         </Typography>
-                        </Grid>
                     </Grid>
-                    <Divider className={classes.divider} />
-                </div>
-
+                </Grid>
+            }
+        >
+            <div style={{ maxWidth: 1345, margin: '0 auto' }}>
                 <Grid
                     container
                     className={classes.grid}
@@ -297,7 +289,7 @@ function Settings({ meta, ajaxPluginHandle }) {
                     }
                 </Grid>
             </div>
-        </Page>
+        </PageHeaderSticky>
     );
 }
 

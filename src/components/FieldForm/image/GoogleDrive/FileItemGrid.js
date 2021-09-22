@@ -10,14 +10,15 @@ import ListMenuMouseRightFile from './ListMenuMouseRightFile';
 const useStyles = makeStyles((theme) => ({
     root: {
         position: 'relative',
-        border: '1px solid #dadce0',
+        border: '1px solid',
+        borderColor: theme.palette.dividerDark,
         width: 'calc( (100% - 75px) / 6 )',
         borderRadius: 3,
         '&.menuMouseRight-selected': {
             backgroundColor: '#e8f0fe'
         }
     },
-    padding:{
+    padding: {
         padding: '12px 16px',
         overflow: 'hidden',
         position: 'relative',
@@ -51,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     fileName: {
         marginTop: theme.spacing(1),
         '&>p': {
-            color: 'rgba(0,0,0,.72)',
+            color: theme.palette.text.secondary,
             fontWeight: 500,
             fontSize: '13px',
         }
@@ -142,7 +143,7 @@ function FileItemGrid({ file, className, handleReloadDir, eventDragDropFile, ...
 
                         elem.style.width = '100px';
                         elem.style.height = '80px';
-                        elem.style.left='-100%';
+                        elem.style.left = '-100%';
                         elem.style.top = '0';
                         elem.style.position = 'fixed';
                         elem.style.pointerEvents = 'none';
@@ -159,7 +160,7 @@ function FileItemGrid({ file, className, handleReloadDir, eventDragDropFile, ...
 
                         elem.style.top = '0';
                         elem.style.position = 'fixed';
-                        elem.style.left='-100%';
+                        elem.style.left = '-100%';
                         elem.style.pointerEvents = 'none';
                         elem.style.zIndex = '-1';
                         elem.style.width = '122px';
@@ -196,7 +197,7 @@ function FileItemGrid({ file, className, handleReloadDir, eventDragDropFile, ...
                                 style={{ width: 200, height: 120 }}
                                 className={classes.avatar + ' ' + (file.is_image ? classes.isImage : '')}
                                 variant="square"
-                                src={file.thumbnail}
+                                src={file.extension !== 'ico' ? file.thumbnail : file.public_path}
                             />
                     }
                 </div>

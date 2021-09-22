@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { useAjax } from 'utils/useAjax';
 import DrawerEditPost from './DrawerEditPost';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     tr: {
         cursor: 'pointer',
         '&:hover': {
@@ -133,9 +133,9 @@ function DataTable(props) {
 
     return (
         <>
-            <TableContainer style={{ background: '#fafafa' }} component={Paper}>
+            <TableContainer component={Paper}>
                 <Table>
-                    <TableHead style={{ background: '#f4f4f4' }}>
+                    <TableHead>
                         <TableRow>
                             {
                                 Boolean(config && config.showFields) ?

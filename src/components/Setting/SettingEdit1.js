@@ -17,12 +17,12 @@ const useStyles = makeStyles((theme) => ({
     headTop: {
         position: 'sticky',
         top: 0,
-        background: '#f4f6f8',
+        background: theme.palette.body.background,
         zIndex: 2,
-        boxShadow: '2px 0px 0 #f4f6f8, -2px 0px 0 #f4f6f8'
+        boxShadow: '2px 0px 0 ' + theme.palette.body.background + ', -2px 0px 0 ' + theme.palette.body.background
     },
     divider: {
-        backgroundColor: colors.grey[300],
+        backgroundColor: theme.palette.dividerDark,
         margin: '16px 0',
     },
 }));

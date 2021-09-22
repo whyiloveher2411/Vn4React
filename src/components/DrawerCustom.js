@@ -4,8 +4,20 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import React from 'react';
+import { makeStyles } from '@material-ui/core';
+
+
+const useStyles = makeStyles(theme => ({
+    header: {
+        padding: 'var(--padding, 16px 24px)',
+        backgroundColor: theme.palette.header.background
+    },
+}));
+
 
 function DrawerCustom({ title, content, action, open, onClose, children, restDialogContent, titlePadding, ...rest }) {
+
+    const classes = useStyles();
 
     return (
         <Drawer
@@ -15,7 +27,7 @@ function DrawerCustom({ title, content, action, open, onClose, children, restDia
             variant="temporary"
             {...rest}
         >
-            <DialogTitle disableTypography={true} style={{ fontSize: 22, background: '#455a64', color: 'white', padding: titlePadding ?? '16px 24px' }}>{title}</DialogTitle>
+            <DialogTitle className={classes.header} disableTypography={true} style={{ '--padding': titlePadding ?? '16px 24px' }}>{title}</DialogTitle>
             <DialogContent className="custom_scroll" {...restDialogContent}>
                 <DialogContentText
                     component="div"
@@ -34,7 +46,7 @@ function DrawerCustom({ title, content, action, open, onClose, children, restDia
                 </DialogActions>
             }
 
-        </Drawer>
+        </Drawer >
     )
 }
 

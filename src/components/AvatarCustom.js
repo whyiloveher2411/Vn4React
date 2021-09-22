@@ -51,8 +51,8 @@ function AvatarCustom({ image, name, ...rest }) {
             src={imageState}
             {...rest}
             style={{
+                backgroundColor: color[0],
                 ...rest.style,
-                backgroundColor: color[0]
             }}
         >
             {nameState}

@@ -6,10 +6,10 @@ import TabsCustom from 'components/TabsCustom';
 import React from 'react';
 import { General, Schema, Social } from '../compoments/SEOPostType';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
     cardHeader: {
         borderBottom: '1px solid',
-        borderBottomColor: colors.grey[300],
+        borderBottomColor: theme.palette.dividerDark,
     }
 }));
 

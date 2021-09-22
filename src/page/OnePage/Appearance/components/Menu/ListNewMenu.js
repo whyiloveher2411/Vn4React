@@ -71,7 +71,7 @@ function ListNewMenu() {
         if (data.menus) {
             data.menus.forEach(item => {
                 if (locationData['key_' + item.id]) {
-                    item.locationText = locationData['key_' + item.id].map(local => <><Chip label={local} />&nbsp;</>);
+                    item.locationText = locationData['key_' + item.id].map((local, index) => <><Chip key={index} label={local} />&nbsp;</>);
                 }
             });
         } else {

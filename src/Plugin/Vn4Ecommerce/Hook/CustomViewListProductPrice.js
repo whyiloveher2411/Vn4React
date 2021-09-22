@@ -2,23 +2,17 @@ import React from 'react'
 
 function CustomViewListProductPrice(props) {
 
-    if (props.post.sale_price) {
-        return (
-            <div>
-                <span style={{ color: 'green', fontWeight: 'bold' }}>${props.post.sale_price}</span> - <del style={{ textDecoration: 'line-through', color: 'red' }}>${props.post.price}</del>
-            </div>
-        )
-    }
-
-    if( props.post.price ){
-        return (
-            <div>
-                <span style={{ color: 'green', fontWeight: 'bold' }}>${props.post.price}</span>
-            </div>
-        )
-    }
-
-    return null;
+    return (
+        <div>
+            {
+                Boolean(props.post.compare_price) &&
+                <>
+                    <del style={{ textDecoration: 'line-through', color: 'red' }}>${new Intl.NumberFormat().format(props.post.compare_price)}</del> - 
+                </>
+            }
+            <span style={{ color: 'green', fontWeight: 'bold' }}> ${new Intl.NumberFormat().format(props.post.price)}</span>
+        </div>
+    )
 }
 
 export default CustomViewListProductPrice

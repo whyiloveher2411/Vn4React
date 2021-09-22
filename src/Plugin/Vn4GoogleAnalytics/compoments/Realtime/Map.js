@@ -1,8 +1,10 @@
 import { Skeleton } from '@material-ui/lab';
 import React from 'react'
+import { useSelector } from 'react-redux';
 
 function Map({ data, google, filter }) {
 
+    const theme = useSelector(state => state.theme);
     React.useLayoutEffect(() => {
 
         if (data && google.charts) {
@@ -24,7 +26,7 @@ function Map({ data, google, filter }) {
                         let opts = {
                             region: data.region,
                             displayMode: 'markers',
-                            backgroundColor: 'rgb(234, 247, 254)',
+                            backgroundColor: 'transparent',
                             defaultColor: 'rgb(227, 123, 51)',
                             legend: 'none',
                             animation: {
@@ -51,11 +53,11 @@ function Map({ data, google, filter }) {
                         dataChart.addRows(data.rt_country);
                         let options = {
                             legend: 'none',
-                            backgroundColor: 'rgb(234, 247, 254)',
+                            backgroundColor: theme.type === 'dark' ? 'transparent' : 'rgb(234, 247, 254)',
                         };
                         function myClickHandler() {
                             let selection = window.charts.rt_country.getSelection();
-                            console.log(selection);
+
                             let str = '';
 
                             for (let i = 0; i < selection.length; i++) {

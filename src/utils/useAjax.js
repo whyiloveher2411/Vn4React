@@ -6,7 +6,6 @@ import { Loading } from 'components';
 
 const urlPrefix = process.env.REACT_APP_BASE_URL + 'api/admin/';
 
-console.log(process.env);
 export function useAjax(props) {
 
     const dispatch = useDispatch();

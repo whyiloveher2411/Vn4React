@@ -4,7 +4,7 @@ import React from 'react';
 import { useHistory } from 'react-router';
 import { addScript } from 'utils/helper';
 import { useAjax } from 'utils/useAjax';
-
+import theme from 'theme';
 
 
 const useStyles = makeStyles(theme => ({
@@ -147,7 +147,7 @@ function EntityRelationship() {
                         curve: go.Link.JumpOver
                     },
                     $(go.Shape,  // the link shape
-                        { stroke: "#303B45", strokeWidth: 2.5 }),
+                        { stroke: theme.palette.primary.main, strokeWidth: 2.5 }),
                     $(go.TextBlock,  // the "from" label
                         {
                             textAlign: "center",
@@ -245,8 +245,8 @@ function EntityRelationship() {
             </div>
             <br />
             <div id="sample" style={{ position: 'relative' }}>
-                <span style={{ display: 'inline-block', position: 'absolute', width: 200, height: 100, background: 'white', zIndex: 3, top: 0, left: 0, pointerEvents: 'none' }}></span>
-                <div id="myDiagramDiv" className={classes.myschema} style={{ backgroundColor: 'white', width: '100%', height: 800 }}>
+                <span style={{ display: 'inline-block', position: 'absolute', width: 200, height: 100, background: theme.palette.background.default, zIndex: 3, top: 0, left: 0, pointerEvents: 'none' }}></span>
+                <div id="myDiagramDiv" className={classes.myschema + ' custom_scroll'} style={{ backgroundColor: theme.palette.background.default, width: '100%', height: 800 }}>
 
                 </div>
                 {

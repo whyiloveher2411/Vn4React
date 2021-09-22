@@ -25,7 +25,6 @@ function Properties({ post, postDetail, onReview, updatePost }) {
                 },
                 success: (result) => {
                     if (result.attributes) {
-                        console.log(result.attributes);
                         setListValuesAttributes({ ...result.attributes });
                     } else {
                         setListValuesAttributes({});
@@ -51,32 +50,52 @@ function Properties({ post, postDetail, onReview, updatePost }) {
             }
         }
 
+        let temp = {};
+
+        result.forEach(item => {
+            temp[item.id] = item;
+        });
+
+        result = Object.keys(temp).map(key => temp[key]);
+
         return result;
     };
+
+
+    const loadAttributeValue = () => {
+        post.attributesValues = [];
+
+        post.properties_attributes_values.forEach(item => {
+
+            if (item.ecom_prod_attr) {
+
+                if (!post.attributesValues['attributes_' + item.ecom_prod_attr]) post.attributesValues['attributes_' + item.ecom_prod_attr] = [];
+
+                post.attributesValues['attributes_' + item.ecom_prod_attr].push(item);
+
+                post.attributesValues['attributes_' + item.ecom_prod_attr].sort((a, b) => a.id - b.id);
+            }
+
+        });
+
+        setValuesAttributes({ ...post.attributesValues });
+    }
 
     React.useEffect(() => {
         if (post) {
             getValuesAttribute(post.properties_attributes?.map(item => item.id));
 
-            let attributesValues = {};
-
-            if (typeof post.attributesValues === 'object') {
-
-                attributesValues = post.attributesValues;
-
-            } else if (typeof post.attributesValues === 'string') {
+            if (typeof post.properties_attributes_values === 'string') {
 
                 try {
-                    attributesValues = JSON.parse(post.attributesValues);
+                    post.properties_attributes_values = JSON.parse(post.properties_attributes_values);
                 } catch (error) {
-                    attributesValues = {};
+                    post.properties_attributes_values = [];
                 }
-                
+
             }
 
-            post.attributesValues = attributesValues;
-            onReview(attributesValues, 'attributesValues');
-            setValuesAttributes({ ...attributesValues });
+            loadAttributeValue();
         }
     }, []);
 
@@ -152,7 +171,6 @@ function Properties({ post, postDetail, onReview, updatePost }) {
                                 </Grid>
 
                                 {
-
                                     (() => {
 
                                         if (typeof post.properties_attributes === 'string') {
@@ -173,16 +191,16 @@ function Properties({ post, postDetail, onReview, updatePost }) {
                                                 return (
                                                     <Grid key={attribute.id} item md={12} xs={12}>
                                                         <FormControl >
-                                                            <FormLabel component="legend">{attribute.title}</FormLabel>
+                                                            <Typography>{attribute.title}</Typography>
                                                             <FormGroup row>
 
                                                                 {
                                                                     listValuesAttributes['id_' + attribute.id].values?.map(value => (<FormControlLabel
                                                                         key={value.id}
                                                                         control={<Checkbox
-                                                                            checked={Boolean(post.attributesValues
-                                                                                && post.attributesValues['attributes_' + attribute.id]
-                                                                                && post.attributesValues['attributes_' + attribute.id].filter(item => item.id === value.id).length > 0)}
+                                                                            checked={Boolean(valuesAttributes
+                                                                                && valuesAttributes['attributes_' + attribute.id]
+                                                                                && valuesAttributes['attributes_' + attribute.id].filter(item => item.id === value.id).length > 0)}
                                                                             value={value.id}
                                                                             onChange={(e) => { onChangeAttributesValues(value, attribute, e.target.checked) }}
                                                                             color="primary"

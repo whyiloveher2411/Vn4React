@@ -3,11 +3,9 @@ import React from 'react';
 
 export default React.memo(function NumberForm(props) {
     const { config, post, onReview, name, ...rest } = props;
-    let valueInital = post && post[name] ? post[name] : '';
+    let valueInital = post && post[name] ? Number((parseFloat(post[name])).toFixed(6)) : '';
 
     const [value, setValue] = React.useState(0);
-
-    console.log('render NUMBER');
 
     return (
         <FormControl size={config.size ?? 'medium'} fullWidth variant="outlined">

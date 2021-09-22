@@ -1,20 +1,7 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import { makeStyles } from '@material-ui/styles'
-import { Button, Card, CardActions, CardContent, CardHeader, Grid, Divider, colors } from '@material-ui/core'
-import FieldForm from 'components/FieldForm';
-
-
-const useStyles = makeStyles((theme) => ({
-    root: {},
-    saveButton: {
-        color: theme.palette.white,
-        backgroundColor: colors.green[600],
-        '&:hover': {
-            backgroundColor: colors.green[900],
-        },
-    },
-}))
+import { Card, CardActions, CardContent, CardHeader, Divider, Grid } from '@material-ui/core';
+import { Button, FieldForm } from 'components';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 
 const GeneralSettings = (props) => {
     const { profile, className, onReview, handleSubmit, ...rest } = props
@@ -33,7 +20,6 @@ const GeneralSettings = (props) => {
 
     if (!meta) meta = {};
 
-    const classes = useStyles()
     const [values, setValues] = useState({
         first_name: profile.first_name,
         last_name: profile.last_name,
@@ -42,7 +28,7 @@ const GeneralSettings = (props) => {
     })
 
     return (
-        <Card {...rest} className={classes.root}>
+        <Card {...rest}>
             <CardHeader title="Profile" />
             <Divider />
             <CardContent>
@@ -97,12 +83,12 @@ const GeneralSettings = (props) => {
             <Divider />
             <CardActions>
                 <Button
-                    className={classes.saveButton}
                     type="submit"
                     onClick={handleSubmit}
+                    color="success"
                     variant="contained">
                     Save Changes
-                    </Button>
+                </Button>
             </CardActions>
         </Card>
     )

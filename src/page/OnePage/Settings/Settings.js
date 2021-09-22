@@ -1,11 +1,11 @@
-import { Button, Card, CardActions, CardContent, colors, Divider, makeStyles, Tab, Tabs, Typography } from '@material-ui/core';
-import { CircularCustom, Page } from 'components';
+import { Card, CardActions, CardContent, makeStyles, Tab, Tabs, Typography } from '@material-ui/core';
+import { Button, CircularCustom, Page, Divider } from 'components';
 import RedirectWithMessage from 'components/RedirectWithMessage';
 import React from 'react';
 import { Redirect, useHistory, useRouteMatch } from 'react-router-dom';
 import { useAjax } from 'utils/useAjax';
 import { checkPermission } from 'utils/user';
-import { AdminTemplate, General, License, Reading, Security } from './tabs';
+import { AdminTemplate, General, Reading, Security } from './tabs';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -14,28 +14,15 @@ const useStyles = makeStyles((theme) => ({
         position: 'relative',
         minHeight: 250
     },
-    divider: {
-        backgroundColor: colors.grey[300],
-    },
     tabs: {
         position: 'sticky',
         top: 0,
-        backgroundColor: '#f4f6f8',
+        backgroundColor: theme.palette.body.background,
         zIndex: 2
-    },
-    tabsItem: {
-        whiteSpace: 'nowrap',
-    },
-    saveButton: {
-        color: theme.palette.white,
-        backgroundColor: colors.green[600],
-        '&:hover': {
-            backgroundColor: colors.green[900],
-        },
     },
 }));
 
-function Settings(props) {
+function Settings() {
 
     const match = useRouteMatch();
     const history = useHistory();
@@ -114,23 +101,23 @@ function Settings(props) {
                 </Typography>
                 <Typography component="h1" variant="h3">
                     Change settings for a specific site
-            </Typography>
+                </Typography>
             </div>
             <div className={classes.root}>
-
-                <Tabs
-                    className={classes.tabs}
-                    onChange={handleTabsChange}
-                    scrollButtons="auto"
-                    value={tab}
-                    indicatorColor="primary"
-                    textColor="primary"
-                    variant="scrollable">
-                    {tabs.map((tab) => (
-                        <Tab key={tab.value} label={tab.label} value={tab.value} />
-                    ))}
-                </Tabs>
-                <Divider className={classes.divider} />
+                <div className={classes.tabs}>
+                    <Tabs
+                        onChange={handleTabsChange}
+                        scrollButtons="auto"
+                        value={tab}
+                        indicatorColor="primary"
+                        textColor="primary"
+                        variant="scrollable">
+                        {tabs.map((tab) => (
+                            <Tab key={tab.value} label={tab.label} value={tab.value} />
+                        ))}
+                    </Tabs>
+                    <Divider color="dark" />
+                </div>
                 {
                     data.row ?
                         <Card >
@@ -144,12 +131,12 @@ function Settings(props) {
                             <Divider />
                             <CardActions>
                                 <Button
-                                    className={classes.saveButton}
                                     type="submit"
                                     onClick={handleSubmit}
+                                    color="success"
                                     variant="contained">
                                     Save Changes
-                            </Button>
+                                </Button>
                             </CardActions>
                         </Card>
                         : <CircularCustom />

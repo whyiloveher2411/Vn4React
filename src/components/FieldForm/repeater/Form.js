@@ -38,7 +38,8 @@ const useStyles = makeStyles((theme) => ({
     },
     details: {
         alignItems: 'center',
-        border: '1px solid #d5dadf',
+        border: '1px solid',
+        borderColor: theme.palette.dividerDark,
         borderTop: 'none',
     },
     column: {
@@ -82,8 +83,9 @@ const useStyles = makeStyles((theme) => ({
             color: '#939393'
         },
         '&>.MuiAccordionSummary-root': {
-            border: '1px solid #d5dadf',
-            background: 'white',
+            border: '1px solid',
+            borderColor: theme.palette.dividerDark,
+            background: theme.palette.background.paper,
             paddingRight: 0,
         },
         '&>.MuiAccordionSummary-root>.MuiAccordionSummary-content': {

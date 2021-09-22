@@ -42,14 +42,6 @@ const useStyles = makeStyles((theme) => ({
     media: {
         height: 160,
     },
-
-    saveButton: {
-        color: theme.palette.white,
-        backgroundColor: colors.green[600],
-        '&:hover': {
-            backgroundColor: colors.green[900],
-        },
-    },
 }));
 
 const fieldForm = [

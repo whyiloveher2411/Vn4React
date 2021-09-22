@@ -7,29 +7,14 @@ import {
     CardContent,
     CardActions,
     Grid,
-    Button,
     Divider,
     TextField,
     colors,
 } from '@material-ui/core'
-import FieldForm from 'components/FieldForm';
-
-
-const useStyles = makeStyles((theme) => ({
-    root: {},
-    saveButton: {
-        color: theme.palette.white,
-        backgroundColor: colors.green[600],
-        '&:hover': {
-            backgroundColor: colors.green[900],
-        },
-    },
-}))
+import { FieldForm, Button } from 'components';
 
 const Security = (props) => {
     const { className, user, setShareData, shareData, handleSubmit, onReview, ...rest } = props
-
-    const classes = useStyles()
 
     const [values, setValues] = useState({
         old_password: setShareData.security?.old_password,
@@ -70,7 +55,7 @@ const Security = (props) => {
 
     }
     return (
-        <Card {...rest} className={classes.root}>
+        <Card {...rest}>
             <CardHeader title="Change password" />
             <Divider />
             <CardContent>
@@ -121,9 +106,9 @@ const Security = (props) => {
             <Divider />
             <CardActions>
                 <Button
-                    className={classes.saveButton}
                     disabled={!((values.old_password) && (values.password && values.password === values.confirm && values.confirm))}
                     onClick={handleSubmitPassword}
+                    color="success"
                     variant="contained">
                     Save changes
                 </Button>

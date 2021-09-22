@@ -1,17 +1,15 @@
-import React from 'react'
-import { Redirect } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import { colors, Divider, Tab, Tabs } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
-import { Tabs, Tab, Divider, colors } from '@material-ui/core'
-
-import { Page } from '../../components'
-
-import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../../actions/user';
-import { useAjax } from '../../utils/useAjax';
-import { General, Header, History, Permission, Security } from './components'
-import { checkPermission } from 'utils/user'
+import { PageHeaderSticky } from 'components/Page'
 import RedirectWithMessage from 'components/RedirectWithMessage'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Redirect } from 'react-router-dom'
+import { checkPermission } from 'utils/user'
+import { login } from '../../actions/user'
+import { useAjax } from '../../utils/useAjax'
+import { General, Header, Permission, Security } from './components'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -31,7 +29,7 @@ const Profile = (props) => {
     const { match, history } = props
     const classes = useStyles()
     const { tab } = match.params
-    const {ajax} = useAjax();
+    const { ajax } = useAjax();
 
     let user = useSelector(state => state.user);
 
@@ -82,8 +80,11 @@ const Profile = (props) => {
     }
 
     return (
-        <Page title="Profile">
-            <Header profile={user} />
+        <PageHeaderSticky title="Profile"
+            header={
+                <Header profile={user} />
+            }
+        >
             <Tabs
                 className={classes.tabs}
                 onChange={handleTabsChange}
@@ -96,13 +97,13 @@ const Profile = (props) => {
                     <Tab key={tab.value} label={tab.label} value={tab.value} />
                 ))}
             </Tabs>
-            <Divider className={classes.divider} />
+            <Divider color="dark" />
             <div className={classes.content}>
                 {tab === 'general' && <General shareData={shareData} setShareData={setShareData} user={user} handleSubmit={handleSubmit} onReview={onReview} />}
                 {tab === 'permission' && <Permission shareData={shareData} setShareData={setShareData} user={user} handleSubmit={handleSubmit} onReview={onReview} />}
                 {tab === 'security' && <Security shareData={shareData} setShareData={setShareData} user={user} handleSubmit={handleSubmit} onReview={onReview} />}
             </div>
-        </Page>
+        </PageHeaderSticky>
     )
 }
 

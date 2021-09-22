@@ -1,5 +1,6 @@
-import React from 'react'
-import { makeStyles } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -7,17 +8,42 @@ const useStyles = makeStyles((theme) => ({
             borderRadius: '5px',
             padding: '10px'
         },
+        '& svg>g>g>g:nth-child(1) rect': {
+            fill: theme.palette.divider + ' !important',
+        },
         '& .item-h:hover': {
             cursor: 'pointer',
             background: '#f1f3f4',
         }
     },
+    maticTitle: {
+        color: theme.palette.text.secondary,
+        fontSize: '12px',
+        letterSpacing: 0,
+        alignItems: 'center',
+        marginBottom: '12px',
+        whiteSpace: 'nowrap',
+    },
+    maticPointColor: {
+        display: 'inline-block',
+        width: 6,
+        height: 6,
+        background: 'var(--background)',
+        borderRadius: '50%',
+        whiteSpace: 'white-space'
+    },
+    maticValue: {
+        color: theme.palette.text.primary,
+        fontSize: 16,
+        letterSpacing: 0
+    }
 }));
 
 
 function UserTime({ google, dataGA2 }) {
 
     const classes = useStyles();
+    const theme = useSelector(state => state.theme);
 
     React.useEffect(() => {
 
@@ -43,8 +69,9 @@ function UserTime({ google, dataGA2 }) {
 
                     let options = {
                         title: '',
+                        backgroundColor: 'transparent',
                         colors: ['#93d5ed', '#45a5f5', '#4285f4'],
-                        chartArea: { left: 30, right: 15 },
+                        chartArea: { left: 15, right: 15 },
                         tooltip: { showColorCode: true },
                         pointSize: 6,
                         lineWidth: 2,
@@ -69,25 +96,25 @@ function UserTime({ google, dataGA2 }) {
     }, [dataGA2]);
     return (
         <div className={classes.root}>
-            <dir style={{ color: 'rgba(0,0,0,0.54)' }}>Active Users</dir>
+            <div style={{ color: theme.palette.text.secondary }}>Active Users</div>
             <div style={{ display: 'flex', alignItems: 'center' }}>
                 <div id="chart_active_user" style={{ display: 'inline-block', height: '280px', width: '100%' }}>
 
                 </div>
                 <div style={{ width: '88px', textAlign: 'center' }}>
                     <div class="item-h">
-                        <div style={{ color: 'rgba(0,0,0,0.54)', fontSize: '12px', letterSpacing: 0, alignItems: 'center', marginBottom: '12px' }}><span style={{ display: 'inline-block', width: 6, height: 6, background: '#4285f4', borderRadius: '50%', whiteSpace: 'white-space' }}></span>  &nbsp;30 Days</div>
-                        <div style={{ color: 'rgba(0,0,0,0.87)', fontSize: 16, letterSpacing: 0 }} id="number30day">--</div>
+                        <div className={classes.maticTitle}><span className={classes.maticPointColor} style={{ '--background': '#4285f4' }}></span>  &nbsp;30 Days</div>
+                        <div className={classes.maticValue} id="number30day">--</div>
                     </div>
 
                     <div class="item-h" style={{ margin: '10px 0' }}>
-                        <div style={{ color: 'rgba(0,0,0,0.54)', fontSize: '12px', letterSpacing: 0, alignItems: 'center', marginBottom: '12px' }}><span style={{ display: 'inline-block', width: 6, height: 6, background: '#45a5f5', borderRadius: '50%', whiteSpace: 'white-space' }}></span>  &nbsp;7 Days</div>
-                        <div style={{ color: 'rgba(0,0,0,0.87)', fontSize: 16, letterSpacing: 0 }} id="number7day">--</div>
+                        <div className={classes.maticTitle}><span className={classes.maticPointColor} style={{ '--background': '#45a5f5' }}></span>  &nbsp;7 Days</div>
+                        <div className={classes.maticValue} id="number7day">--</div>
                     </div>
 
                     <div class="item-h">
-                        <div style={{ color: 'rgba(0,0,0,0.54)', fontSize: '12px', letterSpacing: 0, alignItems: 'center', marginBottom: '12px' }}><span style={{ display: 'inline-block', width: 6, height: 6, background: '#93d5ed', borderRadius: '50%', whiteSpace: 'white-space' }}></span>  &nbsp;1 Day</div>
-                        <div style={{ color: 'rgba(0,0,0,0.87)', fontSize: 16, letterSpacing: 0 }} id="number1day">--</div>
+                        <div className={classes.maticTitle}><span className={classes.maticPointColor} style={{ '--background': '#93d5ed' }}></span>  &nbsp;1 Day</div>
+                        <div className={classes.maticValue} id="number1day">--</div>
                     </div>
                 </div>
             </div>

@@ -28,7 +28,15 @@
         padding: 0;
         margin-left: 10px;
         overflow: hidden;
+        position: relative;
+        -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Safari */
+            -khtml-user-select: none; /* Konqueror HTML */
+            -moz-user-select: none; /* Old versions of Firefox */
+                -ms-user-select: none; /* Internet Explorer/Edge */
+                    user-select: none;
      }
+    
      .product_attribute .list-attribute-value:not(:first-child){
         margin-top: 15px;
      }
@@ -38,7 +46,6 @@
     .product-variation--disabled a{
         cursor: not-allowed;
     }
-
      .attribute-template-color .product-variation--disabled{
         opacity: .2;
      }
@@ -49,15 +56,27 @@
      .tm-variations>.uk-active>a{
         border-color: #b3b3b3;
      }
-     .attribute-value.product-attribute--selected:after{
-        content: "";
-        width: 18px;
-        height: 18px;
-        background: url(@theme_asset()images/icon-selected.png) no-repeat right bottom;
-        background-size: 18px;
+     .attribute-value .icon-tick-bold{
+        display: none;
         position: absolute;
         right: 0;
         bottom: 0;
+        color: #fff;
+        width: 8px;
+        z-index: 1;
+        fill: #fff;
+     }
+     .attribute-value.product-attribute--selected .icon-tick-bold{
+         display:block;
+     }
+     .attribute-value.product-attribute--selected:after{
+        content: "";
+        border: 15px solid transparent;
+        border-bottom: 15px solid var(--brand-primary-color,#ee4d2d);
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        transform: translateX(calc(100% - 15px));
      }
      .attribute-value.product-attribute--selected a{
         position: relative;
@@ -213,11 +232,11 @@
                                                     <div class="uk-grid-small uk-child-width-1-1" uk-grid>
 
                                                         <div>
-                                                            @if( $price && isset($price['price']) && isset($price['sale_price']) && $price['price'] !== $price['sale_price'] )
-                                                                <del class="uk-text-meta product-attribute__price">{!!$price['price']!!}</del>
+                                                            @if( $price && isset($price['price']) && isset($price['compare_price']) && $price['price'] !== $price['compare_price'] )
+                                                                <del class="uk-text-meta product-attribute__price--compare">{!!$price['compare_price']!!}</del>
                                                             @endif
-                                                            @if( isset($price['sale_price']) )
-                                                            <div class="tm-product-price product-attribute__sale-price">{!!$price['sale_price']!!}</div>
+                                                            @if( isset($price['compare_price']) )
+                                                            <div class="tm-product-price product-attribute__price">{!!$price['price']!!}</div>
                                                             @endif
                                                         </div>
                                                         <div>
@@ -531,22 +550,23 @@
     
     window.addEventListener('load',function(){
 
-        window.__ecommerce_post_detail = {!!''!!};
+        window.__ecommerce_post_detail = {!!$productDetail!!};
 
         window.__ecommerce_config = {
             class_attribute_selected: 'product-attribute--selected',
             class_attribute_disabled: 'product-variation--disabled',
             selector_message_stock: '.product-attribute__stock',
-            message_in_stock: '<span style="color:green;"> {stock} sản phẩm có sẵn</span>',
+            message_in_stock: '<span style="color:green;"> {quantity} sản phẩm có sẵn</span>',
             message_out_stock: '<span style="color:red;">Đã hết hàng</span>',
+            message_not_variation: '<span style="color:red;">Phiên bản này không tồn tại</span>',
             selector_input_quantity: '.input-quantity',
             selector_button_up_quantity: '.vn4cms-input-quantity .btn-up',
             selector_button_down_quantity: '.vn4cms-input-quantity .btn-down',
             elementHtml_price: document.body.querySelector('.product-attribute__price'),
-            elementHtml_sale_price: document.body.querySelector('.product-attribute__sale-price'),
+            elementHtml_compare_price: document.body.querySelector('.product-attribute__price--compare'),
             currency_symbol:'$',
             position_of_currency_symbol: true, //true: before; false: after 
-            message_not_update_price: '(not update)', //true: before; false: after 
+            message_not_update_price: '(not update)',
         };
 
         window.__ecommerce_post_detail.flag = {};
@@ -554,23 +574,35 @@
             count_attribute: 0,
         };
 
+        __ecommerce_post_detail.variations = JSON.parse( __ecommerce_post_detail.variations );
+        
 
-        var variable_attribute = [];
+        let KeyDelete = Object.keys( __ecommerce_post_detail.variations ).filter( key => __ecommerce_post_detail.variations[key].delete );
 
-        for (let i in __ecommerce_post_detail.variable) {
+        __ecommerce_post_detail.variationsDevoid = KeyDelete.map( key => __ecommerce_post_detail.variations[key] );
+        
+        __ecommerce_post_detail.variations = Object.keys( __ecommerce_post_detail.variations )
+                                            .filter( key => !__ecommerce_post_detail.variations[key].delete )
+                                            .map( key => __ecommerce_post_detail.variations[key] );
+        let variable_attribute = [];
 
-            for( let idAttribute in __ecommerce_post_detail.variable[i].attribute ){
+        for (let i in __ecommerce_post_detail.variations) {
 
-                let name_attribute = __ecommerce_post_detail.variable[i].attribute[idAttribute].attribute_value_id;
+            for( let index in __ecommerce_post_detail.variations[i].attributes ){
 
+                let name_attribute = __ecommerce_post_detail.variations[i].attributes[index].id;
+                let idAttribute = __ecommerce_post_detail.variations[i].attributes[index].ecom_prod_attr;
+                
                 if( !variable_attribute[idAttribute] ) variable_attribute[idAttribute] = [];
                 if( !variable_attribute[idAttribute][ name_attribute ] ) variable_attribute[idAttribute][ name_attribute ] = [];
 
-                for( let idAttribute2 in __ecommerce_post_detail.variable[i].attribute ){
+                for( let index2 in __ecommerce_post_detail.variations[i].attributes ){
 
+                    let idAttribute2 = __ecommerce_post_detail.variations[i].attributes[index2].ecom_prod_attr;
+                    
                     if( idAttribute != idAttribute2 ){
 
-                        let attribute_value_id = __ecommerce_post_detail.variable[i].attribute[idAttribute2].attribute_value_id;
+                        let attribute_value_id = __ecommerce_post_detail.variations[i].attributes[index2].id;
 
                         if( !variable_attribute[ idAttribute ][ name_attribute ][ idAttribute2 ] ) variable_attribute[ idAttribute ][ name_attribute ][ idAttribute2 ] = [];
 
@@ -592,32 +624,31 @@
           return replaceString;
         };
 
-        for( let id in variable_attribute){
-            window.__ecommerce_post_detail.flag.count_attribute++;
-        }
+        window.__ecommerce_post_detail.flag.count_attribute = Object.keys(variable_attribute).length;
 
         function ecommerce_get_price(price){
             if( __ecommerce_config.position_of_currency_symbol ){
-                return __ecommerce_config.currency_symbol+price;
+                return __ecommerce_config.currency_symbol+(new Intl.NumberFormat().format(price));
             }else{
-                return price+__ecommerce_config.currency_symbol;
+                return (new Intl.NumberFormat().format(price)) +__ecommerce_config.currency_symbol;
             }
         } 
 
         function change_attribute(){
 
             if( this.classList.contains( __ecommerce_config.class_attribute_disabled ) ) return;
-
+            
             this.classList.add('__clicked');
 
             let value = this.attributes.value.value*1,
                 parent = this.closest('.list-attribute-value'),
+                attibute_id = parent.dataset.id,
                 attribute_chose = parent.attributes['data-id'].value*1,
                 product_attribute = parent.closest('.product_attribute'),
                 product_attribute_value = product_attribute.querySelectorAll('.list-attribute-value'),
                 list_attribute_active = [],
+                list_attribute_not_active = [],
                 list_detail_after_choose = [],
-                list_detail_after_choose2 = [],
                 list_attribute_can_choose = [],
                 list_attribute_not_disable = [];
 
@@ -631,23 +662,24 @@
             let active = this.classList.contains( __ecommerce_config.class_attribute_selected );
 
             product_attribute_value.forEach( (el, index) => {
-
                 let product_attribute_value_active = el.querySelector('.attribute-value.'+__ecommerce_config.class_attribute_selected);
-
+                
                 if( product_attribute_value_active ){
-                    list_attribute_active.push({'id': el.attributes['data-id'].value, 'value': product_attribute_value_active.attributes.value.value });
+                    list_attribute_active.push({'id': el.attributes['data-id'].value,
+                        title:  product_attribute_value_active.attributes.title.value, 
+                        value: product_attribute_value_active.attributes.value.value });
                 }
-
             });
+           
+            for( let i in __ecommerce_post_detail.variations ){
 
-            for( let i in __ecommerce_post_detail.variable ){
-
-                let variable = __ecommerce_post_detail.variable[i];
+                let variable = __ecommerce_post_detail.variations[i];
 
                 let dk = true;
 
                 for ( let attribute of list_attribute_active ){
-                    if( !variable['attribute'][ attribute.id ] || variable['attribute'][ attribute.id ].attribute_value_id != attribute.value ){
+
+                    if(  variable.attributes.filter( item => item.ecom_prod_attr*1 === attribute.id*1 && item.id*1 === attribute.value*1).length < 1 ){
                         dk = false;
                         break;
                     }
@@ -662,38 +694,56 @@
                 el.classList.remove(__ecommerce_config.class_attribute_disabled);
             });
 
-            for( let attribute_active of list_attribute_active ){
+            product_attribute_value.forEach( attribute => {
 
-                for( let idAttribute in variable_attribute[ attribute_active.id ][ attribute_active.value ] ){
-                    let list_value_attribute = variable_attribute[ attribute_active.id ][ attribute_active.value ][ idAttribute ];
+                attribute.querySelectorAll( '.attribute-value ').forEach( valueElement => {
 
-                    product_attribute.querySelectorAll('.list-attribute-value[data-id="'+idAttribute+'"] .attribute-value').forEach( (el,index)=>{
+                    let searchRegex = [];
 
-                        if( list_value_attribute.indexOf( el.attributes.value.value*1 ) === -1 ){
-                            el.classList.add(__ecommerce_config.class_attribute_disabled);
+                    product_attribute_value.forEach( attribute2 => {
+
+                        if( attribute.dataset.id !== attribute2.dataset.id ){
+                            let actived = attribute2.querySelector('.attribute-value.'+__ecommerce_config.class_attribute_selected);
+                            
+                            if( actived ){
+                                searchRegex.push( actived.attributes.value.value );
+                            }else{
+                                searchRegex.push( '((\\d)*)' );
+                            }
+                        }else{
+                            searchRegex.push(  valueElement.attributes.value.value );
                         }
 
                     });
 
+                    
+                    let regex = new RegExp ( searchRegex.join('_'), 'i');
 
-                }
+                    let variations = __ecommerce_post_detail.variations.filter( item =>   item.key.match( regex ) );
 
-            }
+                    if( variations.length < 1 ){
+                        valueElement.classList.add(__ecommerce_config.class_attribute_disabled);
+                    }
+                    
+                });
+            });
+
+            document.body.querySelector( window.__ecommerce_config.selector_message_stock ).innerHTML = '';
 
             if( list_attribute_active.length == window.__ecommerce_post_detail.flag.count_attribute){
-
+                
                 if( list_detail_after_choose.length == 1){
 
                     window.__ecommerce_post_detail.variable_current = list_detail_after_choose[0];
 
-                    if( list_detail_after_choose[0].stock ){
+                    if( list_detail_after_choose[0].quantity ){
 
-                        document.body.querySelector( window.__ecommerce_config.selector_message_stock ).innerHTML = __ecommerce_config.message_in_stock.replaceArray(['{stock}'],[list_detail_after_choose[0].stock]);
+                        document.body.querySelector( window.__ecommerce_config.selector_message_stock ).innerHTML = __ecommerce_config.message_in_stock.replaceArray(['{quantity}'],[list_detail_after_choose[0].quantity]);
 
                         let input_quantity = document.body.querySelector( window.__ecommerce_config.selector_input_quantity );
 
-                        if( input_quantity.value > list_detail_after_choose[0].stock*1 ){
-                            input_quantity.value = list_detail_after_choose[0].stock;
+                        if( input_quantity.value > list_detail_after_choose[0].quantity*1 ){
+                            input_quantity.value = list_detail_after_choose[0].quantity;
                         }
 
 
@@ -701,38 +751,32 @@
                         document.body.querySelector( window.__ecommerce_config.selector_message_stock ).innerHTML = __ecommerce_config.message_out_stock;
                     }
 
-                    if( __ecommerce_config.elementHtml_price && __ecommerce_config.elementHtml_sale_price ){
+                    if( __ecommerce_config.elementHtml_price && __ecommerce_config.elementHtml_compare_price ){
 
-                        if( __ecommerce_post_detail.variable_current.sale_price ){
+                        if( __ecommerce_post_detail.variable_current.compare_price ){
                             __ecommerce_config.elementHtml_price.innerText =  ecommerce_get_price(__ecommerce_post_detail.variable_current.price);
-                            __ecommerce_config.elementHtml_sale_price.innerText = ecommerce_get_price(__ecommerce_post_detail.variable_current.sale_price);
+                            __ecommerce_config.elementHtml_compare_price.innerText = ecommerce_get_price(__ecommerce_post_detail.variable_current.compare_price);
                         }else{
 
                             if( __ecommerce_post_detail.variable_current.price ){
-                                __ecommerce_config.elementHtml_price.innerText = '';
-                                __ecommerce_config.elementHtml_sale_price.innerText = ecommerce_get_price(__ecommerce_post_detail.variable_current.price);
+                                __ecommerce_config.elementHtml_price.innerText = ecommerce_get_price(__ecommerce_post_detail.variable_current.price);
+                                __ecommerce_config.elementHtml_compare_price.innerText = '';
                             }else{
-                                __ecommerce_config.elementHtml_price.innerText = '';
-                                __ecommerce_config.elementHtml_sale_price.innerText = __ecommerce_config.message_not_update_price;
+                                __ecommerce_config.elementHtml_price.innerText = __ecommerce_config.message_not_update_price;
+                                __ecommerce_config.elementHtml_compare_price.innerText = '';
                             }
-                            
                         }
-
                     }
-                    
                 }else{
                      window.__ecommerce_post_detail.variable_current = false;
+                     document.body.querySelector( window.__ecommerce_config.selector_message_stock ).innerHTML = __ecommerce_config.message_not_variation;
                 }
             }
-
         }
 
-        let element = document.querySelectorAll('.attribute-value');
-
-        for( e of element ){
-            e.addEventListener('click', change_attribute);
-        }
-
+        document.querySelectorAll('.attribute-value').forEach( element => {
+            element.addEventListener('click', change_attribute);
+        });
 
         document.body.querySelector( __ecommerce_config.selector_button_down_quantity ).addEventListener('click',function(){
             let input = document.body.querySelector( window.__ecommerce_config.selector_input_quantity );

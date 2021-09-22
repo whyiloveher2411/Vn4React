@@ -672,31 +672,30 @@ if( $result = Cache::get('google-analytics-dashboard-'.$webpropertie_id) ){
     $traffic_sourcemedium = ['key'=>$arg,'data'=>$traffic_sourcemedium];
     $result['traffic_sourcemedium'] = $traffic_sourcemedium;
 
-
     $deviceView = [];
-
+    
     if( isset($dataGoogle['sessions_by_device']['rows'][0]) ){
+        
         foreach ($dataGoogle['sessions_by_device']['rows'] as $k => $v){
             if( !isset($deviceView[ $v[0] ]) )  $deviceView[ $v[0] ] = [];
             $deviceView[ $v[0] ][0] = $v[1];
         }
-    }   
 
-    if( isset($dataGoogle['sessions_by_device2']['rows'][0]) ){
         foreach ($dataGoogle['sessions_by_device2']['rows'] as $k => $v){
             if( !isset($deviceView[ $v[0] ]) )  $deviceView[ $v[0] ] = [];
             $deviceView[ $v[0] ][1] = $v[1];
         }
-    }
 
-    foreach( $deviceView as $device => $value ){
-        $result['sessions_by_device'][ $device ] = [
-            $device,
-            intval( $value[0] ?? 0 ), 
-            round(intval( $value[0] ?? 0 ) * 100 / ($dataGoogle['sessions_by_device']['totalsForAllResults']['ga:sessions'] ?? 1),1), 
-            round( intval( $value[0] ?? 0 ) * 100 / (  $value[1] ?? 1 ) - 100, 1 ) 
-        ];
-    }
+        foreach( $deviceView as $device => $value ){
+            $result['sessions_by_device'][ $device ] = [
+                $device,
+                intval( $value[0] ?? 0 ), 
+                round(intval( $value[0] ?? 0 ) * 100 / ($dataGoogle['sessions_by_device']['totalsForAllResults']['ga:sessions'] ?? 1),1), 
+                round( intval( $value[0] ?? 0 ) * 100 / (  $value[1] ?? 1 ) - 100, 1 ),
+            ];
+        }
+    }   
+
 
     // foreach ($dataGoogle['sessions_by_device']['rows'] as $k => $v) {
     //     $result['sessions_by_device'][$v[0]] = [

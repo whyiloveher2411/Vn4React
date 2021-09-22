@@ -87,9 +87,8 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     tab: {
-        borderRadius: 0, height: 64, padding: '0 16px', color: 'rgba(0,0,0,0.54)',
+        borderRadius: 0, height: 64, padding: '0 16px', color: theme.palette.text.third,
         '&.active': {
-            fontWeight: 500,
             color: 'inherit',
         }
     },
@@ -188,16 +187,16 @@ function Detail({ ajaxPluginHandle, website, date, labelDateFilter }) {
                                 </TableCell>
                                 <TableCell className={classes.tdPoint}>
                                     Clicks
-                                        </TableCell>
+                                </TableCell>
                                 <TableCell className={classes.tdPoint}>
                                     Impressions
-                                        </TableCell>
+                                </TableCell>
                                 <TableCell className={classes.tdPoint}>
                                     CTR
-                                        </TableCell>
+                                </TableCell>
                                 <TableCell className={classes.tdPoint}>
                                     Position
-                                        </TableCell>
+                                </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -226,7 +225,7 @@ function Detail({ ajaxPluginHandle, website, date, labelDateFilter }) {
                                                             </TableCell>
                                                             <TableCell className={classes.tdPoint}>
                                                                 {((row.ctr * 100).toFixed(1) * 1).toString()}%
-                                                                </TableCell>
+                                                            </TableCell>
                                                             <TableCell className={classes.tdPoint}>
                                                                 {((row.position).toFixed(1) * 1).toString()}
                                                             </TableCell>
@@ -248,7 +247,7 @@ function Detail({ ajaxPluginHandle, website, date, labelDateFilter }) {
                                                             </TableCell>
                                                             <TableCell className={classes.tdPoint}>
                                                                 {((row.ctr * 100).toFixed(1) * 1).toString()}%
-                                                                </TableCell>
+                                                            </TableCell>
                                                             <TableCell className={classes.tdPoint}>
                                                                 {((row.position).toFixed(1) * 1).toString()}
                                                             </TableCell>
@@ -260,7 +259,7 @@ function Detail({ ajaxPluginHandle, website, date, labelDateFilter }) {
                                         <TableRow>
                                             <TableCell colSpan={5} style={{ fontSize: 16, padding: '176px 0', textAlign: 'center' }}>
                                                 No data available
-                                                </TableCell>
+                                            </TableCell>
                                         </TableRow>
 
                             }

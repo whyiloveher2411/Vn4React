@@ -3,7 +3,7 @@ import RedirectWithMessage from 'components/RedirectWithMessage';
 import React from 'react';
 import { addScript } from 'utils/helper';
 import { checkPermission } from 'utils/user';
-import { Page } from '../../components';
+import { PageHeaderSticky } from 'components/Page';
 import Browser from './compoments/Realtime/Browser';
 import General from './compoments/Realtime/General';
 import Location from './compoments/Realtime/Location';
@@ -14,21 +14,10 @@ import TopPages from './compoments/Realtime/TopPages';
 import TrafficMedium from './compoments/Realtime/TrafficMedium';
 
 const useStyles = makeStyles((theme) => ({
-    headTop: {
-        position: 'sticky',
-        top: 0,
-        background: '#f4f6f8',
-        zIndex: 2,
-        boxShadow: '2px 0px 0 #f4f6f8, -2px 0px 0 #f4f6f8'
-    },
     title: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between'
-    },
-    divider: {
-        backgroundColor: colors.grey[300],
-        margin: '24px 0',
     },
     titleSession: {
         height: 18,
@@ -37,21 +26,26 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 100
     },
     titleTop: {
-        color: '#25405D',
+        color: theme.palette.text.primary,
         fontSize: '14px',
         marginBottom: 13,
         borderBottom: '2px solid #666',
         textAlign: 'left',
     },
     root: {
+        '& .google-visualization-table-table, & .google-visualization-table-tr-even, & .google-visualization-table-tr-odd': {
+            background: 'transparent !important',
+        },
         '& .google-visualization-table-table td': {
             padding: '0.6em',
-            fontSize: 12
+            fontSize: 12,
+            borderColor: theme.palette.divider,
         },
         '& thead tr, & .google-visualization-table-table th': {
             background: 'none',
             borderRight: 'none',
             borderLeft: 'none',
+            borderColor: theme.palette.divider,
         },
         '& a': {
             color: 'inherit'
@@ -177,8 +171,11 @@ function Realtime({ ajaxPluginHandle, meta }) {
     }
 
     return (
-        <Page width="xl" className={classes.main} title="Vn4 Google Analytics">
-            <div className={classes.headTop}>
+        <PageHeaderSticky
+            width="xl"
+            className={classes.main}
+            title="Vn4 Google Analytics"
+            header={
                 <Grid
                     container
                     className={classes.grid}
@@ -191,8 +188,8 @@ function Realtime({ ajaxPluginHandle, meta }) {
                         </Typography>
                     </Grid>
                 </Grid>
-                <Divider className={classes.divider} />
-            </div>
+            }
+        >
             <div className={classes.root}>
                 <Grid
                     container
@@ -226,7 +223,7 @@ function Realtime({ ajaxPluginHandle, meta }) {
                     }
                 </Grid>
             </div>
-        </Page>
+        </PageHeaderSticky>
     )
 }
 

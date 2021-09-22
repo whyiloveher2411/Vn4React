@@ -47,7 +47,8 @@ const useStyles = makeStyles((theme) => ({
     },
     details: {
         alignItems: 'center',
-        border: '1px solid #d5dadf',
+        border: '1px solid',
+        borderColor: theme.palette.dividerDark,
         borderTop: 'none',
     },
     column: {
@@ -94,8 +95,9 @@ const useStyles = makeStyles((theme) => ({
             color: '#939393'
         },
         '&>.MuiAccordionSummary-root': {
-            border: '1px solid #d5dadf',
-            background: 'white',
+            border: '1px solid',
+            borderColor: theme.palette.dividerDark,
+            background: theme.palette.background.paper,
             paddingRight: 0,
         },
         '&>.MuiAccordionSummary-root>.MuiAccordionSummary-content': {
@@ -472,7 +474,7 @@ export default React.memo(function FlexibleForm(props) {
                                                                                                                         <FieldForm
                                                                                                                             compoment={config.templates[item.type].items[key].view ? config.templates[item.type].items[key].view : 'text'}
                                                                                                                             config={config.templates[item.type].items[key]}
-                                                                                                                            post={item ?? { }}
+                                                                                                                            post={item ?? {}}
                                                                                                                             name={key}
                                                                                                                             onReview={(value, key2 = key) => onChangeInputRepeater(value, index, key2)}
                                                                                                                         />
@@ -503,7 +505,7 @@ export default React.memo(function FlexibleForm(props) {
                                                                                                             <FieldForm
                                                                                                                 compoment={config.templates[item.type].items[key].view ? config.templates[item.type].items[key].view : 'text'}
                                                                                                                 config={config.templates[item.type].items[key]}
-                                                                                                                post={item ?? { }}
+                                                                                                                post={item ?? {}}
                                                                                                                 name={key}
                                                                                                                 onReview={(value, key2 = key) => onChangeInputRepeater(value, index, key2)}
                                                                                                             />

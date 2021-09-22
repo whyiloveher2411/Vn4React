@@ -73,7 +73,7 @@ const TableEditBar = (props) => {
                         </Hidden>
                         <Grid item md={6} xs={12}>
                             <div className={classes.actions}>
-                                <Button style={{ color: '#a00' }} onClick={() => acctionPost({ trash: selected }, () => setSelectedCustomers([]))}>
+                                <Button onClick={() => acctionPost({ trash: selected }, () => setSelectedCustomers([]))}>
                                     <DeleteIcon className={classes.buttonIcon} />
                                     Move to Trash
                                 </Button>
@@ -81,7 +81,7 @@ const TableEditBar = (props) => {
                                     <RestoreIcon className={classes.buttonIcon} />
                                     Restore
                                 </Button>
-                                <Button style={{ color: 'red' }} onClick={() => setConfirmDelete(true)}>
+                                <Button color="secondary" onClick={() => setConfirmDelete(true)}>
                                     <CloseIcon className={classes.buttonIcon} />
                                     Delete forever
                                 </Button>

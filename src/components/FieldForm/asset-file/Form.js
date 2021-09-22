@@ -152,10 +152,10 @@ export default React.memo(function ImageForm(props) {
 
             if (validURL(link)) {
 
-                if (!(value.search(process.env.APP_URL) > -1)) {
+                if (!(value.search(process.env.REACT_APP_BASE_URL) > -1)) {
                     type_link = 'external';
                 } else {
-                    link = link.replace(process.env.APP_URL, '');
+                    link = link.replace(process.env.REACT_APP_BASE_URL, '');
                 }
             }
 
@@ -244,7 +244,7 @@ export default React.memo(function ImageForm(props) {
                         <OutlinedInput
                             fullWidth
                             type='text'
-                            value={unescape(valueInput ? valueInput.replace(process.env.APP_URL, '') : '')}
+                            value={unescape(valueInput ? valueInput.replace(process.env.REACT_APP_BASE_URL, '') : '')}
                             onChange={e => setValueInput(e.target.value)}
                             endAdornment={
                                 <InputAdornment position="end">

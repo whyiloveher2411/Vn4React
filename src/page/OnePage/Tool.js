@@ -1,5 +1,6 @@
-import { colors, Divider, Grid, makeStyles, Typography } from '@material-ui/core';
-import { Hook, Page } from 'components';
+import { colors, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Hook, Divider } from 'components';
+import { PageHeaderSticky } from 'components/Page';
 import RedirectWithMessage from 'components/RedirectWithMessage';
 import React from 'react';
 import { checkPermission } from 'utils/user';
@@ -20,33 +21,13 @@ const useStyles = makeStyles((theme) => ({
             marginTop: theme.spacing(1),
         },
         '& .divider2': {
-            backgroundColor: colors.grey[300],
-            margin: '24px 0',
+            margin: theme.spacing(3, 0),
         }
-    },
-    headTop: {
-        position: 'sticky',
-        top: 0,
-        background: '#f4f6f8',
-        zIndex: 2,
-        boxShadow: '2px 0px 0 #f4f6f8, -2px 0px 0 #f4f6f8'
     },
     title: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between'
-    },
-    divider: {
-        backgroundColor: colors.grey[300],
-        margin: '16px 0',
-    },
-
-    saveButton: {
-        color: theme.palette.white,
-        backgroundColor: colors.green[600],
-        '&:hover': {
-            backgroundColor: colors.green[900],
-        },
     },
     tabs: {
         position: 'sticky',
@@ -100,8 +81,9 @@ function Tool() {
     }
 
     return (
-        <Page title="Vn4 SEO">
-            <div className={classes.headTop}>
+        <PageHeaderSticky
+            title="Vn4 SEO"
+            header={
                 <Grid
                     alignItems="flex-end"
                     container
@@ -116,28 +98,28 @@ function Tool() {
                         </Typography>
                     </Grid>
                 </Grid>
-                <Divider className={classes.divider} />
-            </div>
+            }
+        >
             <div className={classes.root}>
 
                 <Cache />
 
-                <Divider className='divider2' />
+                <Divider color="dark" className='divider2' />
 
                 <Database />
 
-                <Divider className='divider2' />
+                <Divider color="dark" className='divider2' />
 
                 <Development />
 
-                <Divider className='divider2' />
+                <Divider color="dark" className='divider2' />
 
                 <Optimize />
 
                 <Hook hook="Tool" />
 
             </div>
-        </Page>
+        </PageHeaderSticky>
     );
 }
 

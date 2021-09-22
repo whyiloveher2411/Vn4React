@@ -25,7 +25,7 @@ const CreateData = (props) => {
     const { callAddOn } = AddOn();
 
     const onReview = (value) => {
-        setData((prev) => ({ ...data, post: { ...value } }));
+        setData((prev) => ({ ...prev, post: { ...value } }));
     }
 
     const handleSubmit = () => {

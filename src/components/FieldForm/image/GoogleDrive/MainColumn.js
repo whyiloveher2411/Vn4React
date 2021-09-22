@@ -22,9 +22,12 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor: 'rgba(0, 0, 0, 0.04)',
         },
         '&.__fileManager-selected': {
-            backgroundColor: '#dedede'
+            backgroundColor: theme.palette.fileSelected,
+            '& p': {
+                color: theme.palette.text.primary,
+            }
         },
-        '&.actived:before': {
+        '&.actived:not(.noTick):before': {
             content: '""',
             position: 'absolute',
             top: 0,
@@ -211,7 +214,7 @@ export default React.memo(function MainColumn({ resource, eventDragDropFile, han
                                     className={classes.file + ' '
                                         + ((item.data && item.data.is_remove) ? ' file-deleted ' : '')
                                         + ((fileSelected[0].file && fileSelected[0].file[item.dirpath + '/' + item.basename]) ? ' __fileManager-selected ' : '')
-                                        + (filesActive[0]['/' + item.dirpath + '/' + item.basename] ? ' actived ' : '')
+                                        + (filesActive[0]['/' + item.dirpath + '/' + item.basename] ? ' actived noTick' : '')
                                     }
                                     onClick={(e) => {
 

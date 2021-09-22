@@ -72,7 +72,7 @@ if ( !function_exists('vn4_get_post_count_status') ){
 
         $arg_where_count = [
 
-            'all'=>['key'=>'all', 'where'=>[['status','!=','']],'title'=>__('All') ,'default'=>true,'icon'=>'PublicRounded','color'=>'#0739cf', 'showOnHeader'=>1],
+            'all'=>['key'=>'all', 'where'=>[['status','!=','']],'title'=>__('All') ,'default'=>true,'icon'=>'PublicRounded','color'=>'#fff', 'showOnHeader'=>1],
             'publish'=>['key'=>'publish','where'=>[['status','=','publish']],'title'=>__('Published'),'default'=>true, 'icon'=>'Publish','color'=>'#188038', 'showOnHeader'=>1],
             'starred'=>['key'=>'starred','where'=>[['starred','=',1]],'title'=>__('Starred'),'default'=>true,'icon'=>'StarOutlined','color'=>'#f4b400', 'showOnHeader'=>1],
 
@@ -87,7 +87,7 @@ if ( !function_exists('vn4_get_post_count_status') ){
 
             'password'=>['key'=>'password','where'=>[['visibility','=','password']],'title'=>__('Password protected'),'default'=>true, 'icon'=>'VpnKeyRounded','color'=>'#00851d'],
 
-            'trash'=>['key'=>'trash','where'=>[['status','=','trash']],'title'=>'<span style="color:#be0000">'.__('Trash').'</span>','default'=>true, 'icon'=>'DeleteRounded','color'=>'#e53935', 'showOnHeader'=>1],
+            'trash'=>['key'=>'trash','where'=>[['status','=','trash']],'title'=>__('Trash'),'default'=>true, 'icon'=>'DeleteRounded','color'=>'#e53935', 'showOnHeader'=>1],
 
 
          ];

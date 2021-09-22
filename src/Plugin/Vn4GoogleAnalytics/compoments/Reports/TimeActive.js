@@ -4,7 +4,7 @@ import { Tooltip } from '@material-ui/core';
 import {
     withStyles
 } from "@material-ui/core/styles";
-
+import { useSelector } from 'react-redux';
 
 const BlueOnGreenTooltip = withStyles({
     tooltip: {
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
             margin: 1,
             display: 'inline-block',
             width: '30.14px',
-            color: 'rgba(0,0,0,0.54)'
+            color: theme.palette.text.secondary
         },
         '& #table_chart_users_by_time tr': {
             display: 'flex'
@@ -48,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
 function TimeActive({ dataGA, dataGA2 }) {
     const classes = useStyles();
+    const theme = useSelector(state => state.theme);
 
     const kFormatter = (num) => {
         return Math.abs(num) > 999 ? Math.sign(num) * ((Math.abs(num) / 1000).toFixed(1)) + 'k' : Math.sign(num) * Math.abs(num)
@@ -63,7 +64,7 @@ function TimeActive({ dataGA, dataGA2 }) {
             document.getElementById('range_colors').innerHTML = '<div><span style="display:inline-block;width: 55px;height:10px;background:#93d5ed;"></span> '
                 + '<span style="display:inline-block;width: 55px;height:10px;background:#45a5f5;"></span> '
                 + '<span style="display:inline-block;width: 55px;height:10px;background:#4285f4;"></span> '
-                + '<span style="display:inline-block;width: 55px;height:10px;background:#2f5ec4;"></span> </div><div style="font-size: 11px;color: rgba(0,0,0,0.54);">'
+                + '<span style="display:inline-block;width: 55px;height:10px;background:#2f5ec4;"></span> </div><div style="font-size: 11px;color: ' + theme.palette.text.secondary + ';">'
                 + kFormatter(dataGA2.users_by_time.min) + space + kFormatter(dataGA2.users_by_time.min + range) + space + kFormatter(dataGA2.users_by_time.min + range * 2) + space + kFormatter(dataGA2.users_by_time.min + range * 3) + space + kFormatter(dataGA2.users_by_time.max) + '</div>';
         }
     }, [dataGA2]);
@@ -78,11 +79,11 @@ function TimeActive({ dataGA, dataGA2 }) {
 
     return (
         <div className={classes.root}>
-            <div style={{ color: 'rgba(0,0,0,0.54)' }}>Users by time of day</div>
+            <div style={{ color: theme.palette.text.secondary }}>Users by time of day</div>
             <div id="chart_users_by_time" style={{ height: 400 }}>
                 <table id="table_chart_users_by_time" style={{ width: '100%', fontSize: '12px', marginTop: 15 }}>
                     {
-                        Boolean( dataGA2 && dataGA2.users_by_time.data ) &&
+                        Boolean(dataGA2 && dataGA2.users_by_time.data) &&
                         dataGA2.users_by_time.data.map((item, i) => (
                             <tr key={i}>
                                 {

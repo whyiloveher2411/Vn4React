@@ -41,15 +41,43 @@ register_post_type(function($list_post_type) use ($plugin) {
 		        'price'=>[
 		        	'title'=>'Price',
 		        	'view'=>'number',
+					'type'=>'decimal',
+					'decimal'=>[20, 6],
 					'hidden'=>true,
 					'customViewList'=>'CustomViewListProductPrice'
 		        ],
-		        'sale_price'=>[
-		        	'title'=>'Sale Price',
+				'compare_price'=>[
+					'title'=>'Compare at Price',
 		        	'view'=>'number',
+					'type'=>'decimal',
+					'decimal'=>[20, 6],
 					'hidden'=>true,
 		        	'show_data'=>false,
-		        ],
+				],
+				'cost'=>[
+					'title'=>'cost',
+		            'view'=>'number',
+					'type'=>'decimal',
+					'decimal'=>[20, 6],
+					'hidden'=>true,
+		        	'show_data'=>false,
+				],
+				'profit'=>[
+					'title'=>'Profit',
+		            'view'=>'number',
+					'type'=>'decimal',
+					'decimal'=>[20, 6],
+					'hidden'=>true,
+		        	'show_data'=>false,
+				],
+				'profit_margin'=>[
+					'title'=>'Profit Margin',
+		            'view'=>'number',
+					'type'=>'float',
+					'float'=>[10, 2],
+					'hidden'=>true,
+		        	'show_data'=>false,
+				],
 	         	'ecom_prod_cate' => [
 		            'title'=>__('Category'),
 		            'view' =>'relationship_onetomany',
@@ -97,7 +125,7 @@ register_post_type(function($list_post_type) use ($plugin) {
 				]
 		    ],
 		    'tabs'=>[
-		        'general'=>[ 'title'=>'General', 'fields'=>['title','slug','description','product_type'] ],
+		        'general'=>[ 'title'=>'General', 'fields'=>['title','slug','description'] ],
 		        'image'=>[ 'title'=>'Image', 'fields'=>['thumbnail','gallery'] ],
 		        'categories'=>[ 'title'=>'Categories', 'fields'=>['ecom_prod_cate', 'ecom_prod_tag', 'ecom_prod_spec_sets'] ],
 		        'filters'=>['title'=>'Filters','fields'=>['detailed_filters']],
@@ -113,10 +141,6 @@ register_post_type(function($list_post_type) use ($plugin) {
 			// 	// 'ga-reports'=>['title'=>'Google Analytics reports','content'=>'Vn4EcommerceProductInventory'],
 			// 	// 'ga-realtime'=>['title'=>'Google Analytics Realtime','content'=>'Vn4EcommerceProductInventory'],
 			// ],
-		    'row_actions'=>function($post, $actions){
-				$actions['report'] = '<a class="" href="#">Report</a>';
-				return $actions;
-			},
 		]
 	];
 
@@ -139,10 +163,20 @@ register_post_type(function($list_post_type) use ($plugin) {
 				'general_price'=>[
 					'title'=>'Price',
 		            'view'=>'number',
+					'type'=>'decimal',
+					'decimal'=>[20, 6],
 				],
-				'general_sale_price'=>[
-					'title'=>'Price',
+				'general_compare_price'=>[
+					'title'=>'Compare at Price',
+					'view'=>'number',
+					'type'=>'decimal',
+					'decimal'=>[20, 6],
+				],
+				'general_cost'=>[
+					'title'=>'cost',
 		            'view'=>'number',
+					'type'=>'decimal',
+					'decimal'=>[20, 6],
 				],
 				'general_special_price_from'=>[
 					'title'=>'Special Price From Date',
@@ -212,18 +246,17 @@ register_post_type(function($list_post_type) use ($plugin) {
 					'title'=>'Shipments dimensions height',
 		            'view'=>'number',
 				],
-
 				'connected_products_up_selling'=>[
 					'title'=>'Up-selling',
 		            'view'=>'relationship_manytomany',
 					'object'=>'ecom_prod',
-					'fields_related'=>['thumbnail','price','sale_price'],
+					'fields_related'=>['thumbnail','price','compare_price'],
 				],
 				'connected_products_cross_selling'=>[
 					'title'=>'cross-selling',
 		            'view'=>'relationship_manytomany',
 					'object'=>'ecom_prod',
-					'fields_related'=>['thumbnail','price','sale_price'],
+					'fields_related'=>['thumbnail','price','compare_price'],
 				],
 
 				'properties_attributes'=>[
@@ -236,6 +269,7 @@ register_post_type(function($list_post_type) use ($plugin) {
 					'title'=>'Attributes values',
 		            'view'=>'relationship_manytomany',
 					'object'=>'ecom_prod_attr_value',
+					'fields_related'=>['ecom_prod_attr'],
 				],
 				'attributesValues'=>[
 					'title'=>'Attributes values (Group Key)',
@@ -257,18 +291,9 @@ register_post_type(function($list_post_type) use ($plugin) {
 					'sub_fields'=>[
 						'title'=>['title'=>'Title'],
 						'price'=>['title'=>'Price'],
-						'sale_price'=>['title'=>'Sale price'],
+						'compare_price'=>['title'=>'Compare at Price'],
 					]
 				],
-
-
-				// 'specifications_sets'=>[
-				// 	'title'=>'Specifications Sets',
-		        //     'view' =>'relationship_onetomany',
-		        //     'show_data'=>false,
-		        //     'object'=>'ecom_prod_spec_sets',
-				// ],
-
 				'specifications_values'=>[
 					'title'=>'Specifications Values',
 		            'view' =>'json',
@@ -282,16 +307,6 @@ register_post_type(function($list_post_type) use ($plugin) {
 		        	],
 		        	'show_data'=>false,
 		        ],
-
-				// 'question_and_answer'=>[
-		        // 	'title'=>'Question and Answer',
-		        // 	'view'=>'repeater',
-		        // 	'sub_fields'=>[
-		        // 		'question'=>['title'=>'Question'],
-		        // 		'answer'=>['title'=>'Answer','view'=>'textarea'],
-		        // 	],
-		        // 	'show_data'=>false,
-		        // ],
 			],
 		]
 	];
@@ -331,138 +346,6 @@ register_post_type(function($list_post_type) use ($plugin) {
 		            'show_data'=>false,
 		        ],
 			],
-		]
-	];
-
-	$add_object[] = [
-			'ecom_prod_variable',
-	    	1,
-			[
-		    'table'=>'ecom_prod_variable',
-		    'title'=> __p('Product Variable',$plugin->key_word),
-		    'fields'=>[
-		        'title'=>[
-		            'title'=>'Title (SKU)',
-		            'view'=>'text',
-		        ],
-		        'description' => [
-		            'title'=>__('Description'),
-		            'view' =>'textarea',
-		            'show_data'=>false,
-		        ],
-		        'price' => [
-		            'title'=>'Price',
-		            'view' =>'text',
-		        ],
-		        'sale_price'=>[
-		        	'title'=>'Sale Price',
-					'view'=>'text',
-		        ],
-		        'thumbnail'=>[
-		        	'title'=>'Thumbnail',
-		        	'view'=>'image',
-		            'show_data'=>false,
-		        ],
-		        'images'=>[
-		        	'title'=>'Images',
-		        	'view'=>'image',
-		        	'multiple'=>true,
-		            'show_data'=>false,
-		        ],
-		       	'weight'=>[
-		       		'title'=>'Weight',
-		       		'view'=>'text',
-		       	],
-		       	'length'=>[
-		       		'title'=>'Length',
-		       		'view'=>'text',
-		       	],
-		       	'width'=>[
-		       		'title'=>'Width',
-		       		'view'=>'text',
-		       	],
-		       	'height'=>[
-		       		'title'=>'Height',
-		       		'view'=>'text',
-		       	],
-		       	'check_list' => [
-					'title'=>'Check List',
-					'view'=>'checkbox',
-					'layout'=>'horizontal',
-					'list_option'=>[
-						'enabled'=>'Enabled',
-						'downloadable'=>'Downloadable',
-						'virtual'=>'Virtual',
-						'manage_stock'=>'Manage Stock',
-					]
-				],
-				'stock_status' => [
-					'title'=>'Stock Status',
-					'view'=>'select',
-					'list_option'=>[
-						'instock'=>'In Stock',
-						'outofstock'=>'Outof Stock',
-						'onbackorder'=>'On Back Order',
-					]
-				],
-				'stock'=>[
-					'title'=>'Số lượng trong kho',
-					'view'=>'number'
-				],
-				'shipping' => [
-					'title'=>'shipping',
-					'view'=>'select',
-					'list_option'=>[
-						'-1'=>'Tương tự bản gốc',
-					]
-				],
-				'download_file' => [
-					'title'=>'Các tập tin có thể tải xuống',
-					'view'=>'repeater',
-					'sub_fields'=>[
-						'name'=>['title'=>'Name'],
-						'file'=>['title'=>'File','view'=>'asset-file'],
-					]
-				],
-				'download_limit' => [
-					'title'=>'Giới hạn số lần tải xuống',
-					'view'=>'text',
-				],
-				'download_expiry' => [
-					'title'=>'Giới hạn ngày tải xuống',
-					'view'=>'text',
-				],
-		        'ecom_prod' => [
-		            'title'=>'Product',
-		            'view' =>'relationship_onetomany',
-		            'show_data'=>false,
-		            'object'=>'ecom_prod',
-		        ],
-		        'attribute_value' => [
-		            'title'=>'Product Attribute Value',
-		            'view' =>'relationship_manytomany',
-		            'show_data'=>false,
-		            'object'=>'ecom_prod_attr_value',
-		        ],
-		    ],
-		    'layout_custom'=> [
-				[ [ 'col-md-6',[ 
-					['col-md-12','check_list'],
-					['col-md-12','title'],
-					['col-md-6','price'],
-					['col-md-6','sale_price'], 
-					['col-md-12','stock_status'],
-					['col-md-12','stock'],
-					['col-md-12','weight'],
-					['col-md-4','length'],
-					['col-md-4','width'],
-					['col-md-4','height'],
-					['col-md-12','shipping'],
-				]],[ 'col-md-6', [  ['col-md-12','thumbnail'] , ['col-md-12','images'] ] ] ],
-				[ ['col-md-12','description'] ],
-				[ ['col-md-12','download_file'] ],
-				[ ['col-md-6','download_limit'], ['col-md-6','download_expiry'] ]
-			]
 		]
 	];
 
@@ -995,7 +878,9 @@ register_post_type(function($list_post_type) use ($plugin) {
 		        ],
 				'total_money'=>[
 					'title'=>'Total Money',
-					'view'=>'number'
+					'view'=>'number',
+					'type'=>'decimal',
+					'decimal'=>[20, 6],
 				],
 				'ecom_order_detail' => [
 		            'title'=>'Order Detail',

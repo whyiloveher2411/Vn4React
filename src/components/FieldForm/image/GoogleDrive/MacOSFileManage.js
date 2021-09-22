@@ -26,15 +26,18 @@ const useStyles = makeStyles((theme) => ({
             userSelect: 'none'
         }
     },
+    header: {
+        borderBottom: '1px solid ' + theme.palette.dividerDark,
+    },
     col1: {
         maxWidth: 200,
         width: 200,
-        borderRight: '1px solid ' + theme.palette.divider,
+        borderRight: '1px solid ' + theme.palette.dividerDark,
         flexShrink: 0,
     },
     col2: {
         flexGrow: 1,
-        borderRight: '1px solid ' + theme.palette.divider,
+        borderRight: '1px solid ' + theme.palette.dividerDark,
     },
     col2Header: {
         height: 48,
@@ -117,7 +120,7 @@ function MacOSFileManage({ values, handleSubmit, handleChooseFile, filesActive, 
         ...rest.config,
         loaded: false,
     });
-    
+
     React.useEffect(() => {
         handleOnLoadDir(null, true, 0, true);
     }, []);
@@ -454,7 +457,7 @@ function MacOSFileManage({ values, handleSubmit, handleChooseFile, filesActive, 
                         <div
                             className={classes.col2 + ' ' + (resource.showInTrash ? '' : classes.notShowTrashFile)}
                         >
-                            <Box display="flex" justifyContent="space-between" alignItems="center" style={{ borderBottom: '1px solid #dadce0' }}>
+                            <Box display="flex" justifyContent="space-between" alignItems="center" className={classes.header}>
                                 <Breadcrumbs itemsAfterCollapse={3} itemsBeforeCollapse={2} separator={<NavigateNextIcon fontSize="small" />} className={classes.col2Header + ' custom_scroll'} maxItems={5} aria-label="breadcrumb">
                                     <Button onClick={e => { handleOnLoadDir('uploads', null, resource.version + 1) }}>My File</Button>
                                     {
@@ -492,7 +495,7 @@ function MacOSFileManage({ values, handleSubmit, handleChooseFile, filesActive, 
                                         <MaterialIcon icon={resource?.showInTrash ? 'DeleteSweepOutlined' : 'RestoreFromTrashOutlined'} />
                                     </IconButton>
 
-                                    <Divider style={{ background: 'rgb(218, 220, 224)' }} orientation="vertical" flexItem />
+                                    <Divider orientation="vertical" orientation="vertical" flexItem />
 
                                     {
                                         Boolean(showFilterFileType && config.extensionFilter) &&

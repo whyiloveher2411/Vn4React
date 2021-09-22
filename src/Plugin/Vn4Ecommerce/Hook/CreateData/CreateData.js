@@ -6,7 +6,7 @@ import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 import HomeWorkOutlinedIcon from '@material-ui/icons/HomeWorkOutlined';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import LocalShippingOutlinedIcon from '@material-ui/icons/LocalShippingOutlined';
-import PublicOutlinedIcon from '@material-ui/icons/PublicOutlined';
+import AttachMoneyRoundedIcon from '@material-ui/icons/AttachMoneyRounded';
 import SettingsOutlinedIcon from '@material-ui/icons/SettingsOutlined';
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 import { AddOn, FieldForm, TabsCustom } from 'components';
@@ -15,10 +15,10 @@ import { useAjax } from 'utils/useAjax';
 import { Advanced, Connectedproducts, Downloadable, General, Overview, Properties, QuestionAndAnswer, Shipments, Specifications, Warehouse } from './components';
 
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
     cardHeader: {
         borderBottom: '1px solid',
-        borderBottomColor: colors.grey[300],
+        borderBottomColor: theme.palette.dividerDark,
     },
     cardTitle: {
         alignItems: 'center', display: 'flex',
@@ -103,10 +103,15 @@ function CreateData(props) {
                 ecom_prod_detail: { ...props.data.post.ecom_prod_detail, general_price: value }
             });
 
-        } else if (key === 'general_sale_price') {
+        } else if (key === 'general_compare_price') {
             props.onReview(null, {
-                sale_price: value,
-                ecom_prod_detail: { ...props.data.post.ecom_prod_detail, general_sale_price: value }
+                compare_price: value,
+                ecom_prod_detail: { ...props.data.post.ecom_prod_detail, general_compare_price: value }
+            });
+        } else if (key === 'general_cost') {
+            props.onReview(null, {
+                cost: value,
+                ecom_prod_detail: { ...props.data.post.ecom_prod_detail, general_cost: value }
             });
 
         } else {
@@ -178,56 +183,57 @@ function CreateData(props) {
                                         'Tabs',
                                         {
                                             general: {
-                                                title: <Tooltip title="General"><PublicOutlinedIcon /></Tooltip>,
+                                                title: <Tooltip title="Price"><AttachMoneyRoundedIcon /></Tooltip>,
                                                 content: () => <General onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
                                                 priority: 1,
+                                                // hidden: post.product_type === ecomName.variable,
                                             },
                                             overview: {
                                                 title: <Tooltip title="Overview"><InfoOutlinedIcon /></Tooltip>,
                                                 content: () => <Overview onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
-                                                priority: 1,
+                                                priority: 2,
+                                            },
+                                            properties: {
+                                                title: <Tooltip title={"Properties" + (post.product_type === 'variable' ? ' & Variations' : '')}><AppsRoundedIcon /></Tooltip>,
+                                                content: () => <Properties updatePost={props.data.updatePost} onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
+                                                priority: 3,
                                             },
                                             downloadable: {
                                                 title: <Tooltip title="Downloadable"><CloudDownloadOutlinedIcon /></Tooltip>,
                                                 content: () => <Downloadable onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
                                                 hidden: post.product_type !== ecomName.downloadable,
-                                                priority: 2,
+                                                priority: 4,
                                             },
                                             warehouse: {
                                                 title: <Tooltip title="Warehouse"><HomeWorkOutlinedIcon /></Tooltip>,
                                                 content: () => <Warehouse onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
-                                                priority: 3,
+                                                priority: 5,
                                             },
                                             shipments: {
                                                 title: <Tooltip title="Shipments"><LocalShippingOutlinedIcon /></Tooltip>,
                                                 content: () => <Shipments onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
                                                 hidden: ['', ecomName.simple, ecomName.variable].indexOf(post.product_type ?? '') === -1,
-                                                priority: 4,
+                                                priority: 6,
                                             },
                                             connectedproducts: {
                                                 title: <Tooltip title="Connected products"><ShoppingCartOutlinedIcon /></Tooltip>,
                                                 content: () => <Connectedproducts onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
-                                                priority: 5,
-                                            },
-                                            properties: {
-                                                title: <Tooltip title={"Properties" + (post.product_type === 'variable' ? ' & Variations' : '')}><AppsRoundedIcon /></Tooltip>,
-                                                content: () => <Properties updatePost={props.data.updatePost} onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
-                                                priority: 6,
+                                                priority: 7,
                                             },
                                             specifications: {
                                                 title: <Tooltip title="Specifications"><BuildOutlinedIcon /></Tooltip>,
                                                 content: () => <Specifications onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
-                                                priority: 7,
+                                                priority: 8,
                                             },
                                             question_and_answer: {
                                                 title: <Tooltip title="Question and Answer"><HelpOutlineOutlinedIcon /></Tooltip>,
                                                 content: () => <QuestionAndAnswer onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
-                                                priority: 8,
+                                                priority: 9,
                                             },
                                             advanced: {
                                                 title: <Tooltip title="Advanced"><SettingsOutlinedIcon /></Tooltip>,
                                                 content: () => <Advanced onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
-                                                priority: 8,
+                                                priority: 10,
                                             },
 
                                         },

@@ -34,4 +34,6 @@ export { default as DataTable } from './DataTable'
 export { default as EditPostType } from './EditPostType'
 export { default as FileDragDrop } from './FileDragDrop'
 export { default as MenuMouseRight } from './MenuMouseRight2'
+export { default as Button } from './ButtonCustom'
+export { default as Divider } from './DividerCustom'
 

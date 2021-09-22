@@ -3,11 +3,11 @@ import Button from '@material-ui/core/Button';
 import LaptopIcon from '@material-ui/icons/Laptop';
 import SmartphoneIcon from '@material-ui/icons/Smartphone';
 import { Alert, AlertTitle } from '@material-ui/lab';
+import { PageHeaderSticky } from 'components/Page';
 import RedirectWithMessage from 'components/RedirectWithMessage';
 import React from 'react';
 import { Redirect, useHistory, useRouteMatch } from 'react-router-dom';
 import { checkPermission } from 'utils/user';
-import { Page } from '../../components';
 import { getUrlParams } from '../../utils/herlperUrl';
 import Accessibility from './compoments/Measure/Accessibility';
 import BestPractices from './compoments/Measure/BestPractices';
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
             '--color': '#bdbdbd',
         },
         '& .audit-description': {
-            color: '#757575',
+            color: theme.palette.text.third,
             fontWeight: 'normal',
             lineHeight: '24px',
         },
@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
         '& .metrics-container .thumbnail img': {
             maxHeight: 100,
             maxWidth: 60,
-            border: '1px solid #ebebeb',
+            border: '1px solid ' + theme.palette.dividerDark,
         },
         '& .audit-group-header': {
             marginBottom: 8,
@@ -73,7 +73,6 @@ const useStyles = makeStyles((theme) => ({
         },
         '& .field-metric': {
             fontWeight: '500',
-            color: '#212121',
             paddingTop: 12,
             paddingBottom: 12,
             justifyContent: 'space-between',
@@ -104,8 +103,8 @@ const useStyles = makeStyles((theme) => ({
             },
         },
         '& .metric-wrapper': {
-            borderTop: '1px solid #ebebeb',
-            borderBottom: '1px solid #ebebeb',
+            borderTop: '1px solid ' + theme.palette.dividerDark,
+            borderBottom: '1px solid ' + theme.palette.dividerDark,
             marginTop: '-1px',
         },
         '& .fast .field-metric:before, & .notapplicable .field-metric:before': {
@@ -164,7 +163,7 @@ const useStyles = makeStyles((theme) => ({
                 margin: '8px 0',
             },
             '& th': {
-                color: '#757575',
+                color: theme.palette.text.third,
                 padding: '8px 2px',
             },
             '& td': {
@@ -196,7 +195,6 @@ const useStyles = makeStyles((theme) => ({
             '& .dt--bytes,& .dt--timespanMs,& .dt--ms,& .dt--numeric': {
                 textAlign: 'right',
                 fontWeight: '500',
-                color: '#212121',
             },
         },
         '& .reportSummary': {
@@ -234,25 +232,30 @@ const useStyles = makeStyles((theme) => ({
             margin: '0 8px',
         },
         '& .divider': {
-            backgroundColor: colors.grey[300],
+            backgroundColor: theme.palette.dividerDark,
             margin: '16px 0',
         },
     },
-    headTop: {
-        position: 'sticky',
+    cardContent: {
+        position: 'relative',
+        minHeight: 450,
+    },
+    cardLoading: {
+        position: 'absolute',
+        left: 0,
         top: 0,
-        background: '#f4f6f8',
-        zIndex: 3,
-        boxShadow: '2px 0px 0 #f4f6f8, -2px 0px 0 #f4f6f8'
+        height: '100%',
+        width: '100%',
+        display: 'flex',
+        alignItems: 'flex-start',
+        paddingTop: 300,
+        justifyContent: 'center',
+        background: 'rgba(0,0,0,0.12)',
     },
     title: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between'
-    },
-    divider: {
-        backgroundColor: colors.grey[300],
-        margin: '16px 0',
     },
     alert: {
         marginBottom: 16,
@@ -266,7 +269,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function Measure({ meta, ajaxPluginHandle }) {
+function Measure({ meta, ajaxPluginHandle, loading }) {
 
     const classes = useStyles();
 
@@ -346,8 +349,9 @@ function Measure({ meta, ajaxPluginHandle }) {
         return <Redirect to="/plugin/vn4seo/measure/performance" />;
     }
     return (
-        <Page title="Measure">
-            <div className={classes.headTop}>
+        <PageHeaderSticky
+            title="Measure"
+            header={
                 <Grid
                     container
                     className={classes.grid}
@@ -361,15 +365,14 @@ function Measure({ meta, ajaxPluginHandle }) {
                         </Typography>
                     </Grid>
                 </Grid>
-                <Divider className={classes.divider} />
-            </div>
+            }
+        >
             <div style={{ display: 'flex', marginBottom: 16 }}>
                 <TextField defaultValue={website} onChange={(e) => { if (e.target.value) data.website = e.target.value; }} fullWidth style={{ paddingRight: 5 }} size="small" id="outlined-basic" label="URL" placeholder="Enter a webpage URL" variant="outlined" />
                 <Button variant="contained" onClick={() => { if (data.website) setWebsite(data.website) }} color="primary">
                     Analyze
                 </Button>
             </div>
-
             <Tabs
                 className={classes.tabs}
                 onChange={handleTabsChange}
@@ -383,7 +386,11 @@ function Measure({ meta, ajaxPluginHandle }) {
                 ))}
             </Tabs>
             <Divider className={classes.divider} style={{ margin: 0 }} />
-            <Card >
+            <Card className={classes.cardContent} >
+                {
+                    loading.open &&
+                    <div className={classes.cardLoading}>{loading.compoment}</div>
+                }
                 <Tabs
                     className={classes.tabs}
                     onChange={(event, value) => setStrategy(value)}
@@ -395,7 +402,6 @@ function Measure({ meta, ajaxPluginHandle }) {
                     <Tab value={'mobile'} aria-label="phone" label={<span style={{ display: 'flex' }}><SmartphoneIcon />&nbsp;Mobile</span>} />
                     <Tab value={'desktop'} aria-label="laptop" label={<span style={{ display: 'flex' }}><LaptopIcon />&nbsp;Desktop</span>} />
                 </Tabs>
-
                 {
                     data[subtab + '_' + strategy]?.lighthouseResult?.runWarnings[0] &&
                     <Alert className={classes.alert} severity="warning">
@@ -407,7 +413,6 @@ function Measure({ meta, ajaxPluginHandle }) {
                         }
                     </Alert>
                 }
-
                 <CardContent className={classes.root}>
                     {subtab === 'performance' && <Performance dataOrigin={data['performance_' + strategy]} />}
                     {subtab === 'seo' && <SEO dataOrigin={data['seo_' + strategy]} />}
@@ -415,8 +420,7 @@ function Measure({ meta, ajaxPluginHandle }) {
                     {subtab === 'accessibility' && <Accessibility dataOrigin={data['accessibility_' + strategy]} />}
                 </CardContent>
             </Card>
-
-        </Page >
+        </PageHeaderSticky >
     )
 }
 

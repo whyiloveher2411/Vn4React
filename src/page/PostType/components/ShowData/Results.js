@@ -56,8 +56,7 @@ const useStyles = makeStyles((theme) => ({
     iconStar: {
         width: 40,
         height: 40,
-        opacity: 0.5,
-        color: '#202124',
+        opacity: 0.7,
         '&:hover': {
             opacity: 1
         }

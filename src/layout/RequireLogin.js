@@ -295,7 +295,7 @@ function RequireLogin() {
             fullWidth
             className={classes.disableOutline}
         >
-            <DialogTitle disableTypography={true} style={{ fontSize: 22, background: '#455a64', color: 'white', display: 'flex', justifyContent: 'space-between' }}>Log in <Button variant="contained" onClick={handleLogout}>Logout</Button></DialogTitle>
+            <DialogTitle disableTypography={true} style={{ fontSize: 22, background: '#455a64', color: 'white', display: 'flex', justifyContent: 'space-between' }}>Sign in <Button variant="contained" onClick={handleLogout}>Logout</Button></DialogTitle>
             <DialogContent dividers={true}>
                 <DialogContentText
                     component="div"

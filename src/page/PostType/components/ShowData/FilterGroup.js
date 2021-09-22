@@ -13,9 +13,13 @@ import { FilterSetting } from './SearchBar/components';
 const useStyles = makeStyles((theme) => (
     {
         active: {
-            backgroundColor: theme.palette.primary.light,
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.primary.contrastText,
             '&:hover': {
-                backgroundColor: theme.palette.primary.light,
+                backgroundColor: theme.palette.primary.dark,
+            },
+            '& .MuiListItemIcon-root, & .MuiTypography-body1':{
+                color: theme.palette.primary.contrastText,
             }
         },
         btnWarpper: {
@@ -117,10 +121,9 @@ function FilterGroup({ options, setQueryUrl, queryUrl, data, acctionPost, onFilt
 
     return (
         <>
-            <Typography variant="h5" style={{ display: 'flex', alignItems: 'center', color: '#546e7a' }}>
+            <Typography variant="h5" style={{ display: 'flex', alignItems: 'center' }}>
                 <Tooltip title="More filters">
                     <IconButton
-                        style={{ color: '#546e7a' }}
                         onClick={handleMenuOpen}
                         ref={moreRef}
                         size="small">

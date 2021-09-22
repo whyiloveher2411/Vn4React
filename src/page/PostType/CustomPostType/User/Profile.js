@@ -1,21 +1,18 @@
-import React from 'react'
-import { Redirect } from 'react-router-dom'
+import { Tab, Tabs } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
-import { Tabs, Tab, Divider, colors } from '@material-ui/core'
+import { Divider } from 'components'
+import { PageHeaderSticky } from 'components/Page'
+import React from 'react'
+import { useSelector } from 'react-redux'
+import { Redirect } from 'react-router-dom'
+import { useAjax } from 'utils/useAjax'
+import { General, Header, Security } from './components'
 
-import { Page } from '../../../../components'
-
-import { useSelector } from 'react-redux';
-import { useAjax } from '../../../../utils/useAjax';
-import { General, Header, Permission, Security } from './components'
-
+import { Permission } from './../../../Profile/components'
 
 const useStyles = makeStyles((theme) => ({
     tabs: {
         marginTop: theme.spacing(3),
-    },
-    divider: {
-        backgroundColor: colors.grey[300],
     },
     content: {
         marginTop: theme.spacing(3),
@@ -94,8 +91,11 @@ const Profile = (props) => {
     }
 
     return (
-        <Page title="Profile">
-            <Header profile={user} />
+        <PageHeaderSticky title="Profile"
+            header={
+                <Header profile={user} />
+            }
+        >
             <Tabs
                 className={classes.tabs}
                 onChange={handleTabsChange}
@@ -108,13 +108,13 @@ const Profile = (props) => {
                     <Tab key={tab.value} label={tab.label} value={tab.value} />
                 ))}
             </Tabs>
-            <Divider className={classes.divider} />
+            <Divider color="dark" />
             <div className={classes.content}>
                 {tab === 'general' && <General action={props.data.action} shareData={shareData} setShareData={setShareData} user={user} handleSubmit={handleSubmit} onReview={onReview} />}
                 {tab === 'permission' && <Permission action={props.data.action} shareData={shareData} setShareData={setShareData} user={user} handleSubmit={handleSubmit} onReview={onReview} />}
                 {tab === 'security' && <Security action={props.data.action} shareData={shareData} setShareData={setShareData} user={user} handleSubmit={handleSubmit} onReview={onReview} />}
             </div>
-        </Page>
+        </PageHeaderSticky>
     )
 }
 

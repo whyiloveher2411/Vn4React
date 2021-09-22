@@ -23,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
         cursor: 'pointer',
         '&:hover': {
             opacity: 1,
-            background: 'white',
             transform: 'scale(1.02)',
             boxShadow: '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
             '& $byVersion': {
@@ -31,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
             }
         },
         '& a, & .link': {
-            color: '#337ab7',
+            color: theme.palette.text.link,
             fontSize: 13,
             cursor: 'pointer',
             textAlign: 'center',
@@ -67,16 +66,8 @@ const useStyles = makeStyles((theme) => ({
         overflow: 'hidden',
         '-webkit-line-clamp': 3,
         '-webkit-box-orient': 'vertical',
-        color: 'rgb(96, 103, 112)',
         height: 48,
         maxWidth: 280,
-    },
-    saveButton: {
-        color: theme.palette.white,
-        backgroundColor: colors.green[600],
-        '&:hover': {
-            backgroundColor: colors.green[900],
-        },
     },
 }));
 
@@ -89,7 +80,7 @@ function Plugins() {
 
     const permission = checkPermission('plugin_management');
 
-    const {ajax, Loading} = useAjax();
+    const { ajax, Loading } = useAjax();
 
     const dispatch = useDispatch();
 
@@ -117,7 +108,7 @@ function Plugins() {
                 setData(result.rows);
                 dispatch(updatePlugins(result.plugins));
 
-                if( result.sidebar ){
+                if (result.sidebar) {
                     dispatch(updateSidebar(result.sidebar));
                 }
             }

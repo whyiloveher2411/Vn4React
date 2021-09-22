@@ -14,16 +14,14 @@ import './App.css';
 import Header from './layout/Header';
 import Login from './page/login/Login';
 import Install from 'page/Install/Install';
-import theme from './theme';
 import RequireLogin from 'layout/RequireLogin';
 import AppMenu from './layout/AppMenu';
-
 
 const useStyles = makeStyles({
   root: {
     flex: '1 1 auto',
     display: 'flex',
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   warperMain: {
     width: '100%',
@@ -40,6 +38,8 @@ function App() {
 
   const classes = useStyles();
   const user = useSelector(state => state.user);
+  const theme = useSelector(state => state.theme);
+
   return (
     <ThemeProvider theme={theme}>
       <SnackbarProvider
@@ -48,9 +48,9 @@ function App() {
           <CustomSnackbar id={key} message={message} />
         )}
       >
-        {
-          user ?
-            <div className="App">
+        <div className="App" style={{ background: theme.palette.body.background }}>
+          {
+            user ?
               <Router>
                 <Header />
                 <div className={classes.root}>
@@ -69,19 +69,19 @@ function App() {
                     </Suspense>
                   </div>
                 </div>
+                <RequireLogin />
               </Router>
-              <RequireLogin />
-            </div>
-            :
-            <Router>
-              <Suspense fallback={<LinearProgress />}>
-                <Switch>
-                  <Route path='/install' component={lazy(() => import('./page/Install/Install'))} />
-                  <Route component={lazy(() => import('./page/login/Login'))} />
-                </Switch>
-              </Suspense>
-            </Router>
-        }
+              :
+              <Router>
+                <Suspense fallback={<LinearProgress />}>
+                  <Switch>
+                    <Route path='/install' component={lazy(() => import('./page/Install/Install'))} />
+                    <Route component={lazy(() => import('./page/login/Login'))} />
+                  </Switch>
+                </Suspense>
+              </Router>
+          }
+        </div>
       </SnackbarProvider>
     </ThemeProvider>
   );

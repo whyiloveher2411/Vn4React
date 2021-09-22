@@ -2,7 +2,7 @@ import React from 'react'
 import SmartphoneIcon from '@material-ui/icons/Smartphone';
 import DesktopMacIcon from '@material-ui/icons/DesktopMac';
 import TabletIcon from '@material-ui/icons/Tablet';
-import { Button } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
@@ -44,8 +44,10 @@ function Device({ google, dataGA2, showLinkReport }) {
 
                     let options = {
                         title: '',
+                        backgroundColor: 'transparent',
                         colors: ['#4285f4', '#45a5f5', '#93d5ed'],
                         pieHole: 0.7,
+                        pieSliceBorderColor: 'transparent',
                         pieSliceText: "none",
                         chartArea: { width: 300, height: 200 },
                         legend: 'none',
@@ -60,13 +62,13 @@ function Device({ google, dataGA2, showLinkReport }) {
 
     return (
         <div style={{ position: 'relative', height: '100%', paddingBottom: showLinkReport ? 48 : 0 }}>
-            <div style={{ color: 'rgba(0,0,0,0.54)' }}>Sessions by device</div>
+            <Typography variant="body2" style={{ fontSize: 16 }}>Sessions by device</Typography>
             <div id="chart_sessions_by_device" style={{ display: 'inline-block', height: '250px', width: '100%' }}></div>
             <div style={{ marginTop: '20px', display: 'flex' }}>
                 <div style={{ display: 'inline-block', width: '33%', textAlign: 'center' }}>
                     <SmartphoneIcon style={{ color: '#4285f4' }} />
-                    <div style={{ color: 'rgba(0,0,0,0.54)', fontSize: '12px' }}>Mobile</div>
-                    <div style={{ color: 'rgba(0,0,0,0.87)', fontSize: 17, margin: '4px 0' }} id="mobile">--</div>
+                    <Typography variant="body2">Mobile</Typography>
+                    <Typography variant="subtitle1" id="mobile">--</Typography>
                     <div id="mobile_precent">
 
                     </div>
@@ -75,8 +77,8 @@ function Device({ google, dataGA2, showLinkReport }) {
 
                 <div style={{ display: 'inline-block', width: '33%', textAlign: 'center' }}>
                     <DesktopMacIcon style={{ color: '#45a5f5' }} />
-                    <div style={{ color: 'rgba(0,0,0,0.54)', fontSize: '12px' }}>Desktop</div>
-                    <div style={{ color: 'rgba(0,0,0,0.87)', fontSize: 17, margin: '4px 0' }} id="desktop">--</div>
+                    <Typography variant="body2">Desktop</Typography>
+                    <Typography variant="subtitle1" id="desktop">--</Typography>
                     <div id="desktop_precent">
 
                     </div>
@@ -85,9 +87,8 @@ function Device({ google, dataGA2, showLinkReport }) {
 
                 <div style={{ display: 'inline-block', width: '33%', textAlign: 'center' }}>
                     <TabletIcon style={{ color: '#93d5ed' }} />
-                    <div style={{ color: 'rgba(0,0,0,0.54)', fontSize: '12px' }}>Tablet</div>
-                    <div style={{ color: 'rgba(0,0,0,0.87)', fontSize: 17, margin: '4px 0' }} id="tablet">--</div>
-
+                    <Typography variant="body2">Tablet</Typography>
+                    <Typography variant="subtitle1" id="tablet">--</Typography>
                     <div id="tablet_precent">
 
                     </div>

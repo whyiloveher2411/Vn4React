@@ -1,9 +1,33 @@
 import React from 'react'
 import FieldForm from 'components/FieldForm';
-import { Grid, InputAdornment, Typography } from '@material-ui/core';
+import { Divider, Grid, InputAdornment, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 
 function General(props) {
+
+    const [profit, setProfit] = React.useState(false);
+
+    const calculateProfit = (price, cost) => {
+
+        console.log(price, cost);
+        if (price && cost) {
+            setProfit({
+                money: price - cost,
+                margin: Number(((parseFloat(price) - parseFloat(cost)) / parseFloat(price) * 100).toFixed(1))
+            });
+        } else {
+            setProfit(false);
+        }
+    }
+
+    React.useEffect(() => {
+        if (profit === false && props.postDetail) {
+            setProfit({
+                money: props.postDetail.profit,
+                margin: props.postDetail.profit_margin
+            });
+        }
+    }, [props.postDetail]);
 
     if (props.post) {
 
@@ -23,22 +47,28 @@ function General(props) {
                         startAdornment={<InputAdornment position="start">$</InputAdornment>}
                         post={props.post}
                         name='general_price'
-                        onReview={(value) => props.onReview(value, 'general_price')}
+                        onReview={(value) => {
+                            props.onReview(value, 'general_price');
+                            calculateProfit(value, props.post.general_cost);
+                        }}
                     />
                 </Grid>
                 <Grid item md={6} xs={12}>
                     <FieldForm
                         compoment='number'
                         config={{
-                            title: 'Special Price',
+                            title: 'Compare at Price',
                             note: ' ',
                             maxLength: 70
                         }}
                         startAdornment={<InputAdornment position="start">$</InputAdornment>}
                         post={props.post}
-                        name='general_sale_price'
-                        onReview={(value) => props.onReview(value, 'general_sale_price')}
+                        name='general_compare_price'
+                        onReview={(value) => props.onReview(value, 'general_compare_price')}
                     />
+                </Grid>
+                <Grid item md={12} xs={12}>
+                    <Divider />
                 </Grid>
                 <Grid item md={6} xs={12}>
                     <FieldForm
@@ -50,8 +80,11 @@ function General(props) {
                         }}
                         startAdornment={<InputAdornment position="start">$</InputAdornment>}
                         post={props.post}
-                        name='general_price'
-                        onReview={(value) => props.onReview(value, 'general_price')}
+                        name='general_cost'
+                        onReview={(value) => {
+                            props.onReview(value, 'general_cost');
+                            calculateProfit(props.post.general_price, value);
+                        }}
                     />
                 </Grid>
                 <Grid item md={6} xs={12}>
@@ -60,15 +93,27 @@ function General(props) {
                         spacing={2}>
                         <Grid item md={6} xs={12}>
                             <Typography variant="body2">Margin</Typography>
-                            <Typography variant="body1">4.8%</Typography>
+                            <Typography variant="body1">
+                                {profit !== false ?
+                                    new Intl.NumberFormat().format(profit.margin) + '%'
+                                    :
+                                    '-'
+                                }
+                            </Typography>
                         </Grid>
                         <Grid item md={6} xs={12}>
                             <Typography variant="body2">Profit</Typography>
-                            <Typography variant="body1">$100,000</Typography>
+                            <Typography variant="body1">
+                                {profit !== false ?
+                                    '$' + new Intl.NumberFormat().format(profit.money)
+                                    :
+                                    '-'
+                                }
+                            </Typography>
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid item md={12} xs={12}>
+                {/* <Grid item md={12} xs={12}>
                     <FieldForm
                         compoment={'dateTime'}
                         config={{
@@ -80,8 +125,8 @@ function General(props) {
                             props.onReview(value, 'general_date_of_sale');
                         }}
                     />
-                </Grid>
-                <Grid item md={12} xs={12}>
+                </Grid> */}
+                {/* <Grid item md={12} xs={12}>
                     <FieldForm
                         compoment={'date_range'}
                         config={{
@@ -92,7 +137,7 @@ function General(props) {
                         name={'general_special_price'}
                         onReview={props.onReview}
                     />
-                </Grid>
+                </Grid> */}
 
                 <Grid item md={12} xs={12}>
                     <FieldForm

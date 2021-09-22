@@ -7,6 +7,7 @@ import {
 import { CircularCustom, CustomTooltip } from 'components';
 import { useAjax } from 'utils/useAjax';
 import DashboardAudit from '../compoments/DashboardAudit';
+import { numberToThousoun } from '../helper';
 
 const useStyles = makeStyles(() => ({
     overview: {
@@ -58,30 +59,9 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-
-const numberToThousoun = (labelValue) => {
-
-    // Nine Zeroes for Billions
-    return Math.abs(Number(labelValue)) >= 1.0e+9
-
-        ? ((Math.abs(Number(labelValue)) / 1.0e+9).toFixed(2) * 1) + "B"
-        // Six Zeroes for Millions 
-        : Math.abs(Number(labelValue)) >= 1.0e+6
-
-            ? ((Math.abs(Number(labelValue)) / 1.0e+6).toFixed(2) * 1) + "M"
-            // Three Zeroes for Thousands
-            : Math.abs(Number(labelValue)) >= 1.0e+3
-
-                ? ((Math.abs(Number(labelValue)) / 1.0e+3).toFixed(1) * 1) + "K"
-
-                : Math.abs(Number(labelValue));
-
-}
-
 function Dashboard({ plugin }) {
 
     const classes = useStyles();
-
 
     const { ajax } = useAjax();
 
@@ -96,7 +76,7 @@ function Dashboard({ plugin }) {
     }
     const [data, setData] = React.useState(false);
     const [audit, setAudit] = React.useState(false);
-    const [website, setWebsite] = React.useState(meta.searchConsoleWebsites && meta.searchConsoleWebsites[0] ? meta.searchConsoleWebsites[0] : false);
+    const [website] = React.useState(meta.searchConsoleWebsites && meta.searchConsoleWebsites[0] ? meta.searchConsoleWebsites[0] : false);
     const [loadScript, setLoadScript] = React.useState(false);
     const [listDataType, setListDataType] = React.useState(
         [
@@ -400,7 +380,7 @@ function Dashboard({ plugin }) {
                                                         </Typography>
                                                     </Link>
                                                     <div onClick={(e) => e.stopPropagation()}>
-                                                        <CustomTooltip interactive={true} key={item.id} title={<><strong>{item.title}</strong> {item.description}<br /><a target="_blank" href={item.linkHelper} color="default">LEARN MORE</a></>}   >
+                                                        <CustomTooltip interactive={true} key={item.id} title={<><strong>{item.title}</strong> {item.description}<br /><a target="_blank" href={item.linkHelper}>LEARN MORE</a></>}   >
                                                             <HelpOutlineIcon className='icon' />
                                                         </CustomTooltip>
                                                     </div>

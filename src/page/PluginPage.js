@@ -16,9 +16,7 @@ function PluginPage(props) {
     const plugins = useSelector(state => state.plugins);
 
     const dispatch = useDispatch();
-    const { ajax, Loading, open, setOpen } = useAjax();
-
-    const [render, setRender] = React.useState(0);
+    const { ajax, Loading, open, setOpen } = useAjax({ loadingType: 'custom' });
 
     if (plugin && plugins[plugin]) {
 

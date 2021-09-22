@@ -137,6 +137,11 @@ $arg_type_mysql_input = [
 		return $table->integer($name)->after($after)->nullable()->comment('property: '.$data['title']);
 	},
 	'number'=>function(&$table, $name, $after, $data){
+
+		if( isset($data['type']) && isset($data[ $data['type'] ])  ){
+			return $table->decimal($name, $data[ $data['type'] ][0], $data[ $data['type'] ][1] ?? null )->after($after)->default(0)->comment('property: '.$data['title']);
+		}
+
 		return $table->integer($name)->after($after)->nullable()->comment('property: '.$data['title']);
 	},
 	'tinyInteger'=>function($table, $name, $after, $data){

@@ -41,11 +41,11 @@
                 <?php
                     $price = ecommerce_the_price($product);
                 ?>
-                @if( isset($price['price']) && $price['price'] )
-                <del class="uk-text-meta">{!!$price['price']!!}</del>
+                @if( isset($price['compare_price']) && $price['compare_price'] )
+                <del class="uk-text-meta">{!!$price['compare_price']!!}</del>
                 @endif
-                @if( isset($price['sale_price']) && $price['sale_price'] )
-                <div class="tm-product-card-price">{!!$price['sale_price']!!}</div>
+                @if( isset($price['price']) && $price['price'] )
+                <div class="tm-product-card-price">{!!$price['price']!!}</div>
                 @endif
             </div>
             <div class="tm-product-card-add">

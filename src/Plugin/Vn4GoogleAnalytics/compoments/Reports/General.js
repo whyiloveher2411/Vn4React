@@ -1,7 +1,7 @@
-import React from 'react'
-import { Typography } from '@material-ui/core'
+import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -11,6 +11,9 @@ const useStyles = makeStyles((theme) => ({
                 width: 10,
                 height: 9
             }
+        },
+        '& svg>g>g>g:nth-child(1) rect': {
+            fill: theme.palette.divider + ' !important',
         },
         '& .uninverse .increase, & .inverse .decrease': {
             color: '#0f9d58 !important',
@@ -79,6 +82,7 @@ const IconDecrease = () => {
 function General({ google, dataGA }) {
 
     const classes = useStyles();
+    const theme = useSelector(state => state.theme);
 
     const [tabCurrent, setTabCurrent] = React.useState(0);
 
@@ -93,11 +97,6 @@ function General({ google, dataGA }) {
         tabs[tabCurrent].func(tabs[tabCurrent]);
 
     }, [tabCurrent]);
-
-
-    React.useEffect(() => {
-
-    }, []);
 
     const renderTabUser = (tabThis) => {
         google.charts.load('current', {
@@ -119,6 +118,7 @@ function General({ google, dataGA }) {
                 data.addRows(dataUsers);
                 let options = {
                     title: '',
+                    backgroundColor: 'transparent',
                     colors: ['rgb(66, 133, 244)', 'rgb(101, 152, 239)'],
                     chartArea: { left: 0, right: 4 },
                     tooltip: { isHtml: true, showColorCode: false },
@@ -131,8 +131,8 @@ function General({ google, dataGA }) {
                     crosshair: { orientation: 'vertical', trigger: 'focus', color: '#f1f1f1' },
                     focusTarget: 'category',
                     pointsVisible: false,
-                    hAxis: { title: '', format: 'MMM d', textStyle: { fontSize: 12 }, baselineColor: 'none', gridlines: { count: 4, color: 'transparent' } },
-                    vAxis: { textPosition: 'in', format: 'short', textStyle: { fontWeight: 100, fontName: 'arial', fontSize: 12 }, minValue: 0, baselineColor: 'none', gridlines: { count: 3, color: '#f1f1f1' } },
+                    hAxis: { title: '', format: 'MMM d', textStyle: { color: theme.palette.text.secondary, fontSize: 12 }, baselineColor: 'none', gridlines: { count: 4, color: 'transparent' } },
+                    vAxis: { textPosition: 'in', format: 'short', textStyle: { color: theme.palette.text.secondary, fontWeight: 100, fontName: 'arial', fontSize: 12 }, minValue: 0, baselineColor: 'none', gridlines: { count: 3, color: theme.palette.divider } },
                 };
                 let chart = new google.visualization.LineChart(document.getElementById(tabThis.id));
                 chart.draw(data, options);

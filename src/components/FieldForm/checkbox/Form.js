@@ -1,4 +1,4 @@
-import { Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, FormLabel } from '@material-ui/core'
+import { Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, FormLabel, Typography } from '@material-ui/core'
 import React, { useState } from 'react'
 
 export default React.memo(function CheckboxForm(props) {
@@ -45,7 +45,7 @@ export default React.memo(function CheckboxForm(props) {
 
     return (
         <FormControl >
-            <FormLabel component="legend">{config.title}</FormLabel>
+            <Typography>{config.title}</Typography>
             <FormGroup>
 
                 {

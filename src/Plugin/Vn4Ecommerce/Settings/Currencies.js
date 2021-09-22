@@ -1,6 +1,6 @@
-import { Box, Button, Typography } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { Alert, Skeleton } from '@material-ui/lab';
-import { DialogCustom, FieldForm, LoadingButton } from 'components';
+import { FieldForm, LoadingButton } from 'components';
 import SettingEdit1 from 'components/Setting/SettingEdit1';
 import React from 'react';
 import { useAjax } from 'utils/useAjax';

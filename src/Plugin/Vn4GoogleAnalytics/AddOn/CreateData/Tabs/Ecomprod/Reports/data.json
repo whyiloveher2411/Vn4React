@@ -1,0 +1,693 @@
+{
+    "demographics": [
+        {
+            "c": [
+                {
+                    "v": 13,
+                    "f": "13-17"
+                },
+                {
+                    "v": -11,
+                    "f": "11%"
+                },
+                {
+                    "v": 2,
+                    "f": "2%"
+                }
+            ]
+        },
+        {
+            "c": [
+                {
+                    "v": 18,
+                    "f": "18-24"
+                },
+                {
+                    "v": -8,
+                    "f": "8%"
+                },
+                {
+                    "v": 5,
+                    "f": "5%"
+                }
+            ]
+        },
+        {
+            "c": [
+                {
+                    "v": 25,
+                    "f": "25-34"
+                },
+                {
+                    "v": -6,
+                    "f": "6%"
+                },
+                {
+                    "v": 8,
+                    "f": "8%"
+                }
+            ]
+        },
+        {
+            "c": [
+                {
+                    "v": 35,
+                    "f": "35-44"
+                },
+                {
+                    "v": -6,
+                    "f": "6%"
+                },
+                {
+                    "v": 10,
+                    "f": "10%"
+                }
+            ]
+        },
+        {
+            "c": [
+                {
+                    "v": 45,
+                    "f": "45-54"
+                },
+                {
+                    "v": -8,
+                    "f": "8%"
+                },
+                {
+                    "v": 12,
+                    "f": "12%"
+                }
+            ]
+        },
+        {
+            "c": [
+                {
+                    "v": 55,
+                    "f": "55-64"
+                },
+                {
+                    "v": -3,
+                    "f": "3%"
+                },
+                {
+                    "v": 7,
+                    "f": "7%"
+                }
+            ]
+        },
+        {
+            "c": [
+                {
+                    "v": 64,
+                    "f": "64+"
+                },
+                {
+                    "v": -1,
+                    "f": "1%"
+                },
+                {
+                    "v": 2,
+                    "f": "2%"
+                }
+            ]
+        }
+    ],
+    "audience": {
+        "ga:users": {
+            "title": "Users",
+            "data": [
+                [
+                    {
+                        "f": "",
+                        "v": "Sep 14, 2021"
+                    },
+                    "37",
+                    "Tue 14 Sep vs Tue 07 Sep",
+                    "12",
+                    "<strong>37</strong>&nbsp;&nbsp;<span class=\"present increase\"><svg id=\"metric-table-increase-delta-arrow_cache67\" class=\"\" viewBox=\"0 0 7 9\" xmlns=\"http://www.w3.org/2000/svg\" fit=\"\" height=\"100%\" width=\"100%\" preserveAspectRatio=\"xMidYMid meet\" focusable=\"false\"><g transform=\"translate(-2, -3)\"><polygon points=\"5.65 3 2.5 6.26454545 4.8625 6.26454545 4.8625 12 6.4375 12 6.4375 6.26454545 8.8 6.26454545\"></polygon> </g></svg> 208.3%<span>"
+                ],
+                [
+                    {
+                        "f": "",
+                        "v": "Sep 15, 2021"
+                    },
+                    "44",
+                    "Wed 15 Sep vs Wed 08 Sep",
+                    "15",
+                    "<strong>44</strong>&nbsp;&nbsp;<span class=\"present increase\"><svg id=\"metric-table-increase-delta-arrow_cache67\" class=\"\" viewBox=\"0 0 7 9\" xmlns=\"http://www.w3.org/2000/svg\" fit=\"\" height=\"100%\" width=\"100%\" preserveAspectRatio=\"xMidYMid meet\" focusable=\"false\"><g transform=\"translate(-2, -3)\"><polygon points=\"5.65 3 2.5 6.26454545 4.8625 6.26454545 4.8625 12 6.4375 12 6.4375 6.26454545 8.8 6.26454545\"></polygon> </g></svg> 193.3%<span>"
+                ],
+                [
+                    {
+                        "f": "",
+                        "v": "Sep 16, 2021"
+                    },
+                    "41",
+                    "Thu 16 Sep vs Thu 09 Sep",
+                    "30",
+                    "<strong>41</strong>&nbsp;&nbsp;<span class=\"present increase\"><svg id=\"metric-table-increase-delta-arrow_cache67\" class=\"\" viewBox=\"0 0 7 9\" xmlns=\"http://www.w3.org/2000/svg\" fit=\"\" height=\"100%\" width=\"100%\" preserveAspectRatio=\"xMidYMid meet\" focusable=\"false\"><g transform=\"translate(-2, -3)\"><polygon points=\"5.65 3 2.5 6.26454545 4.8625 6.26454545 4.8625 12 6.4375 12 6.4375 6.26454545 8.8 6.26454545\"></polygon> </g></svg> 36.7%<span>"
+                ],
+                [
+                    {
+                        "f": "",
+                        "v": "Sep 17, 2021"
+                    },
+                    "87",
+                    "Fri 17 Sep vs Fri 10 Sep",
+                    "36",
+                    "<strong>87</strong>&nbsp;&nbsp;<span class=\"present increase\"><svg id=\"metric-table-increase-delta-arrow_cache67\" class=\"\" viewBox=\"0 0 7 9\" xmlns=\"http://www.w3.org/2000/svg\" fit=\"\" height=\"100%\" width=\"100%\" preserveAspectRatio=\"xMidYMid meet\" focusable=\"false\"><g transform=\"translate(-2, -3)\"><polygon points=\"5.65 3 2.5 6.26454545 4.8625 6.26454545 4.8625 12 6.4375 12 6.4375 6.26454545 8.8 6.26454545\"></polygon> </g></svg> 141.7%<span>"
+                ],
+                [
+                    {
+                        "f": "",
+                        "v": "Sep 18, 2021"
+                    },
+                    "44",
+                    "Sat 18 Sep vs Sat 11 Sep",
+                    "16",
+                    "<strong>44</strong>&nbsp;&nbsp;<span class=\"present increase\"><svg id=\"metric-table-increase-delta-arrow_cache67\" class=\"\" viewBox=\"0 0 7 9\" xmlns=\"http://www.w3.org/2000/svg\" fit=\"\" height=\"100%\" width=\"100%\" preserveAspectRatio=\"xMidYMid meet\" focusable=\"false\"><g transform=\"translate(-2, -3)\"><polygon points=\"5.65 3 2.5 6.26454545 4.8625 6.26454545 4.8625 12 6.4375 12 6.4375 6.26454545 8.8 6.26454545\"></polygon> </g></svg> 175.0%<span>"
+                ],
+                [
+                    {
+                        "f": "",
+                        "v": "Sep 19, 2021"
+                    },
+                    "35",
+                    "Sun 19 Sep vs Sun 12 Sep",
+                    "25",
+                    "<strong>35</strong>&nbsp;&nbsp;<span class=\"present increase\"><svg id=\"metric-table-increase-delta-arrow_cache67\" class=\"\" viewBox=\"0 0 7 9\" xmlns=\"http://www.w3.org/2000/svg\" fit=\"\" height=\"100%\" width=\"100%\" preserveAspectRatio=\"xMidYMid meet\" focusable=\"false\"><g transform=\"translate(-2, -3)\"><polygon points=\"5.65 3 2.5 6.26454545 4.8625 6.26454545 4.8625 12 6.4375 12 6.4375 6.26454545 8.8 6.26454545\"></polygon> </g></svg> 40.0%<span>"
+                ],
+                [
+                    {
+                        "f": "",
+                        "v": "Sep 20, 2021"
+                    },
+                    "37",
+                    "Mon 20 Sep vs Mon 13 Sep",
+                    "28",
+                    "<strong>37</strong>&nbsp;&nbsp;<span class=\"present increase\"><svg id=\"metric-table-increase-delta-arrow_cache67\" class=\"\" viewBox=\"0 0 7 9\" xmlns=\"http://www.w3.org/2000/svg\" fit=\"\" height=\"100%\" width=\"100%\" preserveAspectRatio=\"xMidYMid meet\" focusable=\"false\"><g transform=\"translate(-2, -3)\"><polygon points=\"5.65 3 2.5 6.26454545 4.8625 6.26454545 4.8625 12 6.4375 12 6.4375 6.26454545 8.8 6.26454545\"></polygon> </g></svg> 32.1%<span>"
+                ]
+            ],
+            "total": "300",
+            "present": 108.33333333333334
+        },
+        "ga:sessions": {
+            "title": "Sessions",
+            "data": [
+                [
+                    {
+                        "f": "",
+                        "v": "Sep 14, 2021"
+                    },
+                    "39",
+                    "Tue 14 Sep vs Tue 07 Sep",
+                    "13",
+                    "<strong>39</strong>&nbsp;&nbsp;<span class=\"present increase\"><svg id=\"metric-table-increase-delta-arrow_cache67\" class=\"\" viewBox=\"0 0 7 9\" xmlns=\"http://www.w3.org/2000/svg\" fit=\"\" height=\"100%\" width=\"100%\" preserveAspectRatio=\"xMidYMid meet\" focusable=\"false\"><g transform=\"translate(-2, -3)\"><polygon points=\"5.65 3 2.5 6.26454545 4.8625 6.26454545 4.8625 12 6.4375 12 6.4375 6.26454545 8.8 6.26454545\"></polygon> </g></svg> 200.0%<span>"
+                ],
+                [
+                    {
+                        "f": "",
+                        "v": "Sep 15, 2021"
+                    },
+                    "47",
+                    "Wed 15 Sep vs Wed 08 Sep",
+                    "18",
+                    "<strong>47</strong>&nbsp;&nbsp;<span class=\"present increase\"><svg id=\"metric-table-increase-delta-arrow_cache67\" class=\"\" viewBox=\"0 0 7 9\" xmlns=\"http://www.w3.org/2000/svg\" fit=\"\" height=\"100%\" width=\"100%\" preserveAspectRatio=\"xMidYMid meet\" focusable=\"false\"><g transform=\"translate(-2, -3)\"><polygon points=\"5.65 3 2.5 6.26454545 4.8625 6.26454545 4.8625 12 6.4375 12 6.4375 6.26454545 8.8 6.26454545\"></polygon> </g></svg> 161.1%<span>"
+                ],
+                [
+                    {
+                        "f": "",
+                        "v": "Sep 16, 2021"
+                    },
+                    "47",
+                    "Thu 16 Sep vs Thu 09 Sep",
+                    "32",
+                    "<strong>47</strong>&nbsp;&nbsp;<span class=\"present increase\"><svg id=\"metric-table-increase-delta-arrow_cache67\" class=\"\" viewBox=\"0 0 7 9\" xmlns=\"http://www.w3.org/2000/svg\" fit=\"\" height=\"100%\" width=\"100%\" preserveAspectRatio=\"xMidYMid meet\" focusable=\"false\"><g transform=\"translate(-2, -3)\"><polygon points=\"5.65 3 2.5 6.26454545 4.8625 6.26454545 4.8625 12 6.4375 12 6.4375 6.26454545 8.8 6.26454545\"></polygon> </g></svg> 46.9%<span>"
+                ],
+                [
+                    {
+                        "f": "",
+                        "v": "Sep 17, 2021"
+                    },
+                    "93",
+                    "Fri 17 Sep vs Fri 10 Sep",
+                    "39",
+                    "<strong>93</strong>&nbsp;&nbsp;<span class=\"present increase\"><svg id=\"metric-table-increase-delta-arrow_cache67\" class=\"\" viewBox=\"0 0 7 9\" xmlns=\"http://www.w3.org/2000/svg\" fit=\"\" height=\"100%\" width=\"100%\" preserveAspectRatio=\"xMidYMid meet\" focusable=\"false\"><g transform=\"translate(-2, -3)\"><polygon points=\"5.65 3 2.5 6.26454545 4.8625 6.26454545 4.8625 12 6.4375 12 6.4375 6.26454545 8.8 6.26454545\"></polygon> </g></svg> 138.5%<span>"
+                ],
+                [
+                    {
+                        "f": "",
+                        "v": "Sep 18, 2021"
+                    },
+                    "49",
+                    "Sat 18 Sep vs Sat 11 Sep",
+                    "20",
+                    "<strong>49</strong>&nbsp;&nbsp;<span class=\"present increase\"><svg id=\"metric-table-increase-delta-arrow_cache67\" class=\"\" viewBox=\"0 0 7 9\" xmlns=\"http://www.w3.org/2000/svg\" fit=\"\" height=\"100%\" width=\"100%\" preserveAspectRatio=\"xMidYMid meet\" focusable=\"false\"><g transform=\"translate(-2, -3)\"><polygon points=\"5.65 3 2.5 6.26454545 4.8625 6.26454545 4.8625 12 6.4375 12 6.4375 6.26454545 8.8 6.26454545\"></polygon> </g></svg> 145.0%<span>"
+                ],
+                [
+                    {
+                        "f": "",
+                        "v": "Sep 19, 2021"
+                    },
+                    "36",
+                    "Sun 19 Sep vs Sun 12 Sep",
+                    "28",
+                    "<strong>36</strong>&nbsp;&nbsp;<span class=\"present increase\"><svg id=\"metric-table-increase-delta-arrow_cache67\" class=\"\" viewBox=\"0 0 7 9\" xmlns=\"http://www.w3.org/2000/svg\" fit=\"\" height=\"100%\" width=\"100%\" preserveAspectRatio=\"xMidYMid meet\" focusable=\"false\"><g transform=\"translate(-2, -3)\"><polygon points=\"5.65 3 2.5 6.26454545 4.8625 6.26454545 4.8625 12 6.4375 12 6.4375 6.26454545 8.8 6.26454545\"></polygon> </g></svg> 28.6%<span>"
+                ],
+                [
+                    {
+                        "f": "",
+                        "v": "Sep 20, 2021"
+                    },
+                    "46",
+                    "Mon 20 Sep vs Mon 13 Sep",
+                    "33",
+                    "<strong>46</strong>&nbsp;&nbsp;<span class=\"present increase\"><svg id=\"metric-table-increase-delta-arrow_cache67\" class=\"\" viewBox=\"0 0 7 9\" xmlns=\"http://www.w3.org/2000/svg\" fit=\"\" height=\"100%\" width=\"100%\" preserveAspectRatio=\"xMidYMid meet\" focusable=\"false\"><g transform=\"translate(-2, -3)\"><polygon points=\"5.65 3 2.5 6.26454545 4.8625 6.26454545 4.8625 12 6.4375 12 6.4375 6.26454545 8.8 6.26454545\"></polygon> </g></svg> 39.4%<span>"
+                ]
+            ],
+            "total": "357",
+            "present": 95.08196721311475
+        },
+        "ga:bounceRate": {
+            "title": "Bounce Rate",
+            "data": [
+                [
+                    {
+                        "f": "",
+                        "v": "Sep 14, 2021"
+                    },
+                    "53.85",
+                    "Tue 14 Sep vs Tue 07 Sep",
+                    "46.15384615384615",
+                    "<strong>53.85</strong>&nbsp;&nbsp;<span class=\"present increase\"><svg id=\"metric-table-increase-delta-arrow_cache67\" class=\"\" viewBox=\"0 0 7 9\" xmlns=\"http://www.w3.org/2000/svg\" fit=\"\" height=\"100%\" width=\"100%\" preserveAspectRatio=\"xMidYMid meet\" focusable=\"false\"><g transform=\"translate(-2, -3)\"><polygon points=\"5.65 3 2.5 6.26454545 4.8625 6.26454545 4.8625 12 6.4375 12 6.4375 6.26454545 8.8 6.26454545\"></polygon> </g></svg> 16.7%<span>"
+                ],
+                [
+                    {
+                        "f": "",
+                        "v": "Sep 15, 2021"
+                    },
+                    "38.30",
+                    "Wed 15 Sep vs Wed 08 Sep",
+                    "33.33333333333333",
+                    "<strong>38.30</strong>&nbsp;&nbsp;<span class=\"present increase\"><svg id=\"metric-table-increase-delta-arrow_cache67\" class=\"\" viewBox=\"0 0 7 9\" xmlns=\"http://www.w3.org/2000/svg\" fit=\"\" height=\"100%\" width=\"100%\" preserveAspectRatio=\"xMidYMid meet\" focusable=\"false\"><g transform=\"translate(-2, -3)\"><polygon points=\"5.65 3 2.5 6.26454545 4.8625 6.26454545 4.8625 12 6.4375 12 6.4375 6.26454545 8.8 6.26454545\"></polygon> </g></svg> 14.9%<span>"
+                ],
+                [
+                    {
+                        "f": "",
+                        "v": "Sep 16, 2021"
+                    },
+                    "44.68",
+                    "Thu 16 Sep vs Thu 09 Sep",
+                    "50.0",
+                    "<strong>44.68</strong>&nbsp;&nbsp;<span class=\"present decrease\"><svg id=\"metric-table-decrease-delta-arrow_cache64\" class=\"\" viewBox=\"0 0 7 9\" xmlns=\"http://www.w3.org/2000/svg\" fit=\"\" height=\"100%\" width=\"100%\" preserveAspectRatio=\"xMidYMid meet\" focusable=\"false\"><g transform=\"translate(3, 4.5)\"> <polygon transform=\"rotate(-180)\" points=\"0 -4.5 -3.15 -1.2354545 -0.7875 -1.2354545 -0.7875 4.5 0.7875 4.5 0.7875 -1.2354545 3.15 -1.2354545\"></polygon></g></svg>&nbsp;10.6%<span>"
+                ],
+                [
+                    {
+                        "f": "",
+                        "v": "Sep 17, 2021"
+                    },
+                    "49.46",
+                    "Fri 17 Sep vs Fri 10 Sep",
+                    "41.02564102564102",
+                    "<strong>49.46</strong>&nbsp;&nbsp;<span class=\"present increase\"><svg id=\"metric-table-increase-delta-arrow_cache67\" class=\"\" viewBox=\"0 0 7 9\" xmlns=\"http://www.w3.org/2000/svg\" fit=\"\" height=\"100%\" width=\"100%\" preserveAspectRatio=\"xMidYMid meet\" focusable=\"false\"><g transform=\"translate(-2, -3)\"><polygon points=\"5.65 3 2.5 6.26454545 4.8625 6.26454545 4.8625 12 6.4375 12 6.4375 6.26454545 8.8 6.26454545\"></polygon> </g></svg> 20.6%<span>"
+                ],
+                [
+                    {
+                        "f": "",
+                        "v": "Sep 18, 2021"
+                    },
+                    "46.94",
+                    "Sat 18 Sep vs Sat 11 Sep",
+                    "60.0",
+                    "<strong>46.94</strong>&nbsp;&nbsp;<span class=\"present decrease\"><svg id=\"metric-table-decrease-delta-arrow_cache64\" class=\"\" viewBox=\"0 0 7 9\" xmlns=\"http://www.w3.org/2000/svg\" fit=\"\" height=\"100%\" width=\"100%\" preserveAspectRatio=\"xMidYMid meet\" focusable=\"false\"><g transform=\"translate(3, 4.5)\"> <polygon transform=\"rotate(-180)\" points=\"0 -4.5 -3.15 -1.2354545 -0.7875 -1.2354545 -0.7875 4.5 0.7875 4.5 0.7875 -1.2354545 3.15 -1.2354545\"></polygon></g></svg>&nbsp;21.8%<span>"
+                ],
+                [
+                    {
+                        "f": "",
+                        "v": "Sep 19, 2021"
+                    },
+                    "27.78",
+                    "Sun 19 Sep vs Sun 12 Sep",
+                    "53.57142857142857",
+                    "<strong>27.78</strong>&nbsp;&nbsp;<span class=\"present decrease\"><svg id=\"metric-table-decrease-delta-arrow_cache64\" class=\"\" viewBox=\"0 0 7 9\" xmlns=\"http://www.w3.org/2000/svg\" fit=\"\" height=\"100%\" width=\"100%\" preserveAspectRatio=\"xMidYMid meet\" focusable=\"false\"><g transform=\"translate(3, 4.5)\"> <polygon transform=\"rotate(-180)\" points=\"0 -4.5 -3.15 -1.2354545 -0.7875 -1.2354545 -0.7875 4.5 0.7875 4.5 0.7875 -1.2354545 3.15 -1.2354545\"></polygon></g></svg>&nbsp;48.1%<span>"
+                ],
+                [
+                    {
+                        "f": "",
+                        "v": "Sep 20, 2021"
+                    },
+                    "41.30",
+                    "Mon 20 Sep vs Mon 13 Sep",
+                    "60.60606060606061",
+                    "<strong>41.30</strong>&nbsp;&nbsp;<span class=\"present decrease\"><svg id=\"metric-table-decrease-delta-arrow_cache64\" class=\"\" viewBox=\"0 0 7 9\" xmlns=\"http://www.w3.org/2000/svg\" fit=\"\" height=\"100%\" width=\"100%\" preserveAspectRatio=\"xMidYMid meet\" focusable=\"false\"><g transform=\"translate(3, 4.5)\"> <polygon transform=\"rotate(-180)\" points=\"0 -4.5 -3.15 -1.2354545 -0.7875 -1.2354545 -0.7875 4.5 0.7875 4.5 0.7875 -1.2354545 3.15 -1.2354545\"></polygon></g></svg>&nbsp;31.8%<span>"
+                ]
+            ],
+            "total": "44.26%",
+            "present": -10.998245452026964
+        },
+        "ga:avgSessionDuration": {
+            "title": "Avg. Session Duration",
+            "data": [
+                [
+                    {
+                        "f": "",
+                        "v": "Sep 14, 2021"
+                    },
+                    "58.12820512820513",
+                    "Tue 14 Sep vs Tue 07 Sep",
+                    "71.6923076923077",
+                    "<strong>00m 58s</strong>&nbsp;&nbsp;<span class=\"present decrease\"><svg id=\"metric-table-decrease-delta-arrow_cache64\" class=\"\" viewBox=\"0 0 7 9\" xmlns=\"http://www.w3.org/2000/svg\" fit=\"\" height=\"100%\" width=\"100%\" preserveAspectRatio=\"xMidYMid meet\" focusable=\"false\"><g transform=\"translate(3, 4.5)\"> <polygon transform=\"rotate(-180)\" points=\"0 -4.5 -3.15 -1.2354545 -0.7875 -1.2354545 -0.7875 4.5 0.7875 4.5 0.7875 -1.2354545 3.15 -1.2354545\"></polygon></g></svg>&nbsp;18.9%<span>"
+                ],
+                [
+                    {
+                        "f": "",
+                        "v": "Sep 15, 2021"
+                    },
+                    "67.46808510638297",
+                    "Wed 15 Sep vs Wed 08 Sep",
+                    "96.16666666666667",
+                    "<strong>01m 07s</strong>&nbsp;&nbsp;<span class=\"present decrease\"><svg id=\"metric-table-decrease-delta-arrow_cache64\" class=\"\" viewBox=\"0 0 7 9\" xmlns=\"http://www.w3.org/2000/svg\" fit=\"\" height=\"100%\" width=\"100%\" preserveAspectRatio=\"xMidYMid meet\" focusable=\"false\"><g transform=\"translate(3, 4.5)\"> <polygon transform=\"rotate(-180)\" points=\"0 -4.5 -3.15 -1.2354545 -0.7875 -1.2354545 -0.7875 4.5 0.7875 4.5 0.7875 -1.2354545 3.15 -1.2354545\"></polygon></g></svg>&nbsp;29.8%<span>"
+                ],
+                [
+                    {
+                        "f": "",
+                        "v": "Sep 16, 2021"
+                    },
+                    "95.82978723404256",
+                    "Thu 16 Sep vs Thu 09 Sep",
+                    "92.03125",
+                    "<strong>01m 35s</strong>&nbsp;&nbsp;<span class=\"present increase\"><svg id=\"metric-table-increase-delta-arrow_cache67\" class=\"\" viewBox=\"0 0 7 9\" xmlns=\"http://www.w3.org/2000/svg\" fit=\"\" height=\"100%\" width=\"100%\" preserveAspectRatio=\"xMidYMid meet\" focusable=\"false\"><g transform=\"translate(-2, -3)\"><polygon points=\"5.65 3 2.5 6.26454545 4.8625 6.26454545 4.8625 12 6.4375 12 6.4375 6.26454545 8.8 6.26454545\"></polygon> </g></svg> 4.1%<span>"
+                ],
+                [
+                    {
+                        "f": "",
+                        "v": "Sep 17, 2021"
+                    },
+                    "59.774193548387096",
+                    "Fri 17 Sep vs Fri 10 Sep",
+                    "169.23076923076923",
+                    "<strong>00m 59s</strong>&nbsp;&nbsp;<span class=\"present decrease\"><svg id=\"metric-table-decrease-delta-arrow_cache64\" class=\"\" viewBox=\"0 0 7 9\" xmlns=\"http://www.w3.org/2000/svg\" fit=\"\" height=\"100%\" width=\"100%\" preserveAspectRatio=\"xMidYMid meet\" focusable=\"false\"><g transform=\"translate(3, 4.5)\"> <polygon transform=\"rotate(-180)\" points=\"0 -4.5 -3.15 -1.2354545 -0.7875 -1.2354545 -0.7875 4.5 0.7875 4.5 0.7875 -1.2354545 3.15 -1.2354545\"></polygon></g></svg>&nbsp;64.7%<span>"
+                ],
+                [
+                    {
+                        "f": "",
+                        "v": "Sep 18, 2021"
+                    },
+                    "110.04081632653062",
+                    "Sat 18 Sep vs Sat 11 Sep",
+                    "26.15",
+                    "<strong>01m 50s</strong>&nbsp;&nbsp;<span class=\"present increase\"><svg id=\"metric-table-increase-delta-arrow_cache67\" class=\"\" viewBox=\"0 0 7 9\" xmlns=\"http://www.w3.org/2000/svg\" fit=\"\" height=\"100%\" width=\"100%\" preserveAspectRatio=\"xMidYMid meet\" focusable=\"false\"><g transform=\"translate(-2, -3)\"><polygon points=\"5.65 3 2.5 6.26454545 4.8625 6.26454545 4.8625 12 6.4375 12 6.4375 6.26454545 8.8 6.26454545\"></polygon> </g></svg> 320.8%<span>"
+                ],
+                [
+                    {
+                        "f": "",
+                        "v": "Sep 19, 2021"
+                    },
+                    "106.88888888888889",
+                    "Sun 19 Sep vs Sun 12 Sep",
+                    "223.96428571428572",
+                    "<strong>01m 46s</strong>&nbsp;&nbsp;<span class=\"present decrease\"><svg id=\"metric-table-decrease-delta-arrow_cache64\" class=\"\" viewBox=\"0 0 7 9\" xmlns=\"http://www.w3.org/2000/svg\" fit=\"\" height=\"100%\" width=\"100%\" preserveAspectRatio=\"xMidYMid meet\" focusable=\"false\"><g transform=\"translate(3, 4.5)\"> <polygon transform=\"rotate(-180)\" points=\"0 -4.5 -3.15 -1.2354545 -0.7875 -1.2354545 -0.7875 4.5 0.7875 4.5 0.7875 -1.2354545 3.15 -1.2354545\"></polygon></g></svg>&nbsp;52.3%<span>"
+                ],
+                [
+                    {
+                        "f": "",
+                        "v": "Sep 20, 2021"
+                    },
+                    "253.1086956521739",
+                    "Mon 20 Sep vs Mon 13 Sep",
+                    "192.9090909090909",
+                    "<strong>04m 13s</strong>&nbsp;&nbsp;<span class=\"present increase\"><svg id=\"metric-table-increase-delta-arrow_cache67\" class=\"\" viewBox=\"0 0 7 9\" xmlns=\"http://www.w3.org/2000/svg\" fit=\"\" height=\"100%\" width=\"100%\" preserveAspectRatio=\"xMidYMid meet\" focusable=\"false\"><g transform=\"translate(-2, -3)\"><polygon points=\"5.65 3 2.5 6.26454545 4.8625 6.26454545 4.8625 12 6.4375 12 6.4375 6.26454545 8.8 6.26454545\"></polygon> </g></svg> 31.2%<span>"
+                ]
+            ],
+            "total": "01m 42s",
+            "present": -26.479730965233784
+        }
+    },
+    "traffic": {
+        "traffic_channel": {
+            "20210914": {
+                "dayv": "Sep 14, 2021",
+                "dayf": "Tue 14 Sep",
+                "channel": {
+                    "Direct": 5,
+                    "Organic Search": 3,
+                    "Social": 31,
+                    "Paid Search": 0,
+                    "Referral": 0,
+                    "Display": 0,
+                    "(Other)": 31
+                }
+            },
+            "20210915": {
+                "dayv": "Sep 15, 2021",
+                "dayf": "Wed 15 Sep",
+                "channel": {
+                    "Direct": 11,
+                    "Organic Search": 4,
+                    "Referral": 1,
+                    "Social": 31,
+                    "Paid Search": 0,
+                    "Display": 0,
+                    "(Other)": 31
+                }
+            },
+            "20210916": {
+                "dayv": "Sep 16, 2021",
+                "dayf": "Thu 16 Sep",
+                "channel": {
+                    "Direct": 6,
+                    "Organic Search": 9,
+                    "Referral": 1,
+                    "Social": 31,
+                    "Paid Search": 0,
+                    "Display": 0,
+                    "(Other)": 31
+                }
+            },
+            "20210917": {
+                "dayv": "Sep 17, 2021",
+                "dayf": "Fri 17 Sep",
+                "channel": {
+                    "Direct": 9,
+                    "Organic Search": 10,
+                    "Referral": 1,
+                    "Social": 73,
+                    "Paid Search": 0,
+                    "Display": 0,
+                    "(Other)": 73
+                }
+            },
+            "20210918": {
+                "dayv": "Sep 18, 2021",
+                "dayf": "Sat 18 Sep",
+                "channel": {
+                    "Direct": 15,
+                    "Organic Search": 10,
+                    "Social": 24,
+                    "Paid Search": 0,
+                    "Referral": 0,
+                    "Display": 0,
+                    "(Other)": 24
+                }
+            },
+            "20210919": {
+                "dayv": "Sep 19, 2021",
+                "dayf": "Sun 19 Sep",
+                "channel": {
+                    "Direct": 7,
+                    "Organic Search": 8,
+                    "Social": 21,
+                    "Paid Search": 0,
+                    "Referral": 0,
+                    "Display": 0,
+                    "(Other)": 21
+                }
+            },
+            "20210920": {
+                "dayv": "Sep 20, 2021",
+                "dayf": "Mon 20 Sep",
+                "channel": {
+                    "Direct": 10,
+                    "Organic Search": 15,
+                    "Referral": 2,
+                    "Social": 19,
+                    "Paid Search": 0,
+                    "Display": 0,
+                    "(Other)": 19
+                }
+            }
+        },
+        "traffic_referrer": {
+            "key": {
+                "l.facebook.com": 91,
+                "m.facebook.com": 67,
+                "youtube.com": 35,
+                "lm.facebook.com": 27,
+                "Other": 0
+            },
+            "data": {
+                "20210914": {
+                    "Other": 3,
+                    "l.facebook.com": 10,
+                    "lm.facebook.com": 1,
+                    "m.facebook.com": 10,
+                    "youtube.com": 7
+                },
+                "20210915": {
+                    "Other": 6,
+                    "l.facebook.com": 8,
+                    "lm.facebook.com": 2,
+                    "m.facebook.com": 13,
+                    "youtube.com": 3
+                },
+                "20210916": {
+                    "l.facebook.com": 13,
+                    "lm.facebook.com": 2,
+                    "m.facebook.com": 11,
+                    "youtube.com": 5
+                },
+                "20210917": {
+                    "Other": 1,
+                    "l.facebook.com": 33,
+                    "lm.facebook.com": 12,
+                    "m.facebook.com": 23,
+                    "youtube.com": 4
+                },
+                "20210918": {
+                    "Other": 1,
+                    "l.facebook.com": 10,
+                    "lm.facebook.com": 5,
+                    "m.facebook.com": 4,
+                    "youtube.com": 4
+                },
+                "20210919": {
+                    "l.facebook.com": 11,
+                    "lm.facebook.com": 3,
+                    "m.facebook.com": 3,
+                    "youtube.com": 4
+                },
+                "20210920": {
+                    "l.facebook.com": 6,
+                    "lm.facebook.com": 2,
+                    "m.facebook.com": 3,
+                    "youtube.com": 8
+                }
+            }
+        },
+        "traffic_sourcemedium": {
+            "key": {
+                "l.facebook.com / referral": 91,
+                "m.facebook.com / referral": 67,
+                "(direct) / (none)": 63,
+                "google / organic": 58,
+                "Other": 0
+            },
+            "data": {
+                "20210914": {
+                    "(direct) / (none)": 5,
+                    "Other": 11,
+                    "google / organic": 3,
+                    "l.facebook.com / referral": 10,
+                    "m.facebook.com / referral": 10
+                },
+                "20210915": {
+                    "(direct) / (none)": 11,
+                    "Other": 11,
+                    "google / organic": 4,
+                    "l.facebook.com / referral": 8,
+                    "m.facebook.com / referral": 13
+                },
+                "20210916": {
+                    "(direct) / (none)": 6,
+                    "google / organic": 9,
+                    "l.facebook.com / referral": 13,
+                    "Other": 8,
+                    "m.facebook.com / referral": 11
+                },
+                "20210917": {
+                    "(direct) / (none)": 9,
+                    "Other": 18,
+                    "google / organic": 10,
+                    "l.facebook.com / referral": 33,
+                    "m.facebook.com / referral": 23
+                },
+                "20210918": {
+                    "(direct) / (none)": 15,
+                    "Other": 10,
+                    "google / organic": 10,
+                    "l.facebook.com / referral": 10,
+                    "m.facebook.com / referral": 4
+                },
+                "20210919": {
+                    "(direct) / (none)": 7,
+                    "google / organic": 8,
+                    "l.facebook.com / referral": 11,
+                    "Other": 7,
+                    "m.facebook.com / referral": 3
+                },
+                "20210920": {
+                    "(direct) / (none)": 10,
+                    "Other": 13,
+                    "google / organic": 14,
+                    "l.facebook.com / referral": 6,
+                    "m.facebook.com / referral": 3
+                }
+            }
+        }
+    },
+    "userVisitor": {
+        "kind": "analytics#gaData",
+        "id": "https://www.googleapis.com/analytics/v3/data/ga?ids=ga:229656284&dimensions=ga:userType&metrics=ga:users&sort=ga:userType&start-date=2021-09-15&end-date=2021-09-21",
+        "query": {
+            "start-date": "2021-09-15",
+            "end-date": "2021-09-21",
+            "ids": "ga:229656284",
+            "dimensions": "ga:userType",
+            "metrics": [
+                "ga:users"
+            ],
+            "sort": [
+                "ga:userType"
+            ],
+            "start-index": 1,
+            "max-results": 1000
+        },
+        "itemsPerPage": 1000,
+        "totalResults": 2,
+        "selfLink": "https://www.googleapis.com/analytics/v3/data/ga?ids=ga:229656284&dimensions=ga:userType&metrics=ga:users&sort=ga:userType&start-date=2021-09-15&end-date=2021-09-21",
+        "profileInfo": {
+            "profileId": "229656284",
+            "accountId": "178896408",
+            "webPropertyId": "UA-178896408-1",
+            "internalWebPropertyId": "247378199",
+            "profileName": "Tất cả dữ liệu trang web",
+            "tableId": "ga:229656284"
+        },
+        "containsSampledData": false,
+        "columnHeaders": [
+            {
+                "name": "ga:userType",
+                "columnType": "DIMENSION",
+                "dataType": "STRING"
+            },
+            {
+                "name": "ga:users",
+                "columnType": "METRIC",
+                "dataType": "INTEGER"
+            }
+        ],
+        "totalsForAllResults": {
+            "ga:users": "305"
+        },
+        "rows": [
+            [
+                "New Visitor",
+                "242"
+            ],
+            [
+                "Returning Visitor",
+                "63"
+            ]
+        ]
+    }
+}

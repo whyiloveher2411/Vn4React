@@ -1,24 +1,21 @@
+import { makeStyles, Tab, Tabs, Typography } from '@material-ui/core';
+import { Divider, Page } from 'components';
 import React from 'react';
-import { Page } from 'components'
-import { Tabs, Tab, Divider, makeStyles, Typography, colors } from '@material-ui/core'
-import Theme from './components/Theme';
-import Widget from './components/Widget';
-import ThemeOptions from './components/ThemeOptions';
-import Menu from './components/Menu';
 import { Redirect, useHistory, useRouteMatch } from 'react-router-dom';
+import Menu from './components/Menu';
+import Theme from './components/Theme';
+import ThemeOptions from './components/ThemeOptions';
+import Widget from './components/Widget';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
         marginTop: theme.spacing(3),
     },
-    divider: {
-        backgroundColor: colors.grey[300],
-    },
     tabs: {
         position: 'sticky',
         top: 0,
-        backgroundColor: '#f4f6f8',
+        backgroundColor: theme.palette.body.background,
         zIndex: 2
     },
 }));
@@ -59,7 +56,7 @@ function Appearance() {
                 </Typography>
                 <Typography component="h1" variant="h3">
                     Appearance
-            </Typography>
+                </Typography>
             </div>
             <div className={classes.root}>
                 <Tabs
@@ -74,7 +71,7 @@ function Appearance() {
                         <Tab key={tab.value} label={tab.label} value={tab.value} />
                     ))}
                 </Tabs>
-                <Divider className={classes.divider} />
+                <Divider color="dark" />
                 {tabs.map((t, i) => (
                     tab === t.value ?
                         t.component

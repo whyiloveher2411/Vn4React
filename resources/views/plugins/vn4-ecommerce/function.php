@@ -1,8 +1,11 @@
 <?php
 function ecommerce_price($price, $arg = []){
 
+	if( !$price ) return '';
+
 	$decimal_separator = '.';
 	$thousands_separator = ',';
+	
 	$number_of_decimal = 2;
 
 	if( is_numeric($price) ){

@@ -1,17 +1,16 @@
-import { Badge, Button, Card, CardActions, CardContent, Divider, IconButton, makeStyles, Typography } from '@material-ui/core';
+import { Badge, Card, CardActions, CardContent, Divider, IconButton, makeStyles, Typography } from '@material-ui/core';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import FlashOnOutlinedIcon from '@material-ui/icons/FlashOnOutlined';
+import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 import { Skeleton } from '@material-ui/lab';
-import { NotFound, DrawerCustom } from 'components';
+import { Button, NotFound } from 'components';
+import EditPostType from 'components/EditPostType';
 import React from 'react';
+import { useHistory } from "react-router-dom";
 import SortableTree from 'react-sortable-tree';
 import 'react-sortable-tree/style.css';
 import { convertListToTree } from 'utils/helper';
 import { useAjax } from 'utils/useAjax';
-import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
-import FlashOnOutlinedIcon from '@material-ui/icons/FlashOnOutlined';
-import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
-import { useHistory } from "react-router-dom";
-import EditPostType from 'components/EditPostType';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
             border: '1px solid #bdbdbd'
         },
         '& .rst__lineHalfHorizontalRight::before,& .rst__lineFullVertical::after,& .rst__lineHalfVerticalTop::after,& .rst__lineHalfVerticalBottom::after,& .rst__lineChildren::after': {
-            backgroundColor: '#e7e7e7',
+            backgroundColor: theme.palette.dividerDark,
         },
         '& .rst__row': {
             overflow: 'hidden',
@@ -40,15 +39,15 @@ const useStyles = makeStyles((theme) => ({
         },
         '& .rst__rowContents': {
             borderRadius: '0 5px 5px 0',
-            borderColor: '#e7e7e7',
             padding: 0,
+            backgroundColor: theme.palette.background.selected,
+            borderColor: theme.palette.dividerDark,
         },
         '& .rst__moveHandle,& .rst__loadingHandle': {
-            borderColor: '#e7e7e7',
-            borderRight: 0,
-            background: "#eaeaea url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RTdBRUU5M0M3Njg3MTFFQkE5M0NCOUZFMTM3NzdBOEEiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RTdBRUU5M0Q3Njg3MTFFQkE5M0NCOUZFMTM3NzdBOEEiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpFN0FFRTkzQTc2ODcxMUVCQTkzQ0I5RkUxMzc3N0E4QSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpFN0FFRTkzQjc2ODcxMUVCQTkzQ0I5RkUxMzc3N0E4QSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PmMpG7UAAACmSURBVHja7NgxDoAgDAVQazwbd4bLYZxMcMC5fV1I3PosTfgx5zwq13kULwAAAAAAAAAAAABV61o/jDGeI+sDIVpr2wnI/DqargAAAAAAbAAicb+f3mLNBCMi9R9f+3UFAAAAAACAPOCt3nvqPODPBMgD7AAAAADIA+QB8gA7AAAAAAAAyAPkAfIAOwAAAADygCp5gAkAAAAAAAAAAAAAAKBE3QIMADtvIs1XDohhAAAAAElFTkSuQmCC') no-repeat center",
+            background: theme.palette.background.default + " url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RTdBRUU5M0M3Njg3MTFFQkE5M0NCOUZFMTM3NzdBOEEiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RTdBRUU5M0Q3Njg3MTFFQkE5M0NCOUZFMTM3NzdBOEEiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpFN0FFRTkzQTc2ODcxMUVCQTkzQ0I5RkUxMzc3N0E4QSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpFN0FFRTkzQjc2ODcxMUVCQTkzQ0I5RkUxMzc3N0E4QSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PmMpG7UAAACmSURBVHja7NgxDoAgDAVQazwbd4bLYZxMcMC5fV1I3PosTfgx5zwq13kULwAAAAAAAAAAAABV61o/jDGeI+sDIVpr2wnI/DqargAAAAAAbAAicb+f3mLNBCMi9R9f+3UFAAAAAACAPOCt3nvqPODPBMgD7AAAAADIA+QB8gA7AAAAAAAAyAPkAfIAOwAAAADygCp5gAkAAAAAAAAAAAAAAKBE3QIMADtvIs1XDohhAAAAAElFTkSuQmCC') no-repeat center",
             borderRadius: '5px 0 0 5px',
             backgroundSize: '20px',
+            borderColor: theme.palette.dividerDark,
         },
         '& .rst__rowLabel,& .rst__rowTitle,& .rst__rowWrapper .MuiTypography-root': {
             display: 'flex',
@@ -79,13 +78,6 @@ const useStyles = makeStyles((theme) => ({
         '& .MuiFormControlLabel-root': {
             marginRight: 8
         }
-    },
-    saveButton: {
-        color: theme.palette.white,
-        backgroundColor: theme.palette.buttonSave.main,
-        '&:hover': {
-            backgroundColor: theme.palette.buttonSave.dark,
-        },
     },
 }));
 
@@ -194,7 +186,7 @@ function Structure(props) {
                         <>
                             <Divider />
                             <CardActions style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                <Button onClick={saveStruct} className={classes.saveButton} variant="contained">Save Changes</Button>
+                                <Button onClick={saveStruct} color="success" variant="contained">Save Changes</Button>
                             </CardActions>
                         </>
                     }

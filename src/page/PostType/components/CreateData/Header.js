@@ -1,5 +1,5 @@
 // import DateFnsUtils from '@date-io/date-fns';
-import { Button, colors, Dialog, DialogActions, DialogContent, CircularProgress, DialogContentText, DialogTitle, Divider, Fab, Grid, Chip, IconButton, List, ListItemIcon, ListItem, ListItemText, Menu, MenuItem, Tooltip, Typography } from '@material-ui/core';
+import { colors, Dialog, DialogActions, DialogContent, CircularProgress, DialogContentText, DialogTitle, Fab, Grid, Chip, IconButton, List, ListItemIcon, ListItem, ListItemText, Menu, MenuItem, Tooltip, Typography } from '@material-ui/core';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import ArrowBackOutlined from '@material-ui/icons/ArrowBackOutlined';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -16,7 +16,7 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import VpnKeyRoundedIcon from '@material-ui/icons/VpnKeyRounded';
 import { makeStyles } from '@material-ui/styles';
 import clsx from 'clsx';
-import { FieldForm, Hook, CustomTooltip } from 'components';
+import { FieldForm, Hook, CustomTooltip, Button, Divider } from 'components';
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useAjax } from 'utils/useAjax';
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         top: 0,
         position: 'sticky',
-        backgroundColor: '#f4f6f8',
+        backgroundColor: theme.palette.body.background,
         zIndex: 9,
         margin: '0 -2px',
         '& $dateRelease': {
@@ -54,35 +54,17 @@ const useStyles = makeStyles((theme) => ({
             height: 40,
             margin: '0 1px',
             opacity: 0.5,
-            color: '#202124',
+            color: 'inherit',
             '&:hover': {
                 opacity: 1
             }
         }
     },
-
-    divider: {
-        backgroundColor: colors.grey[300],
-    },
-    saveButton: {
-        color: theme.palette.white,
-        backgroundColor: colors.green[600],
-        '&:hover': {
-            backgroundColor: colors.green[900],
-        },
-    },
-
-    deleteButton: {
-        color: theme.palette.white,
-        backgroundColor: colors.red[600],
-        '&:hover': {
-            backgroundColor: colors.red[900],
-        },
-    },
     seperateAction: {
         display: 'inline-block',
         padding: '0 10px',
         position: 'relative',
+        minHeight: 12,
         '&:first-child': {
             paddingLeft: 0
         },
@@ -454,7 +436,7 @@ const Header = (props) => {
                         <>
                             {
                                 checkPermission(postType + '_delete') && data.post?.id &&
-                                <Button style={{ marginRight: 8 }} className={classes.deleteButton} onClick={handelOnClickDelete} color="default" variant="contained">
+                                <Button style={{ marginRight: 8 }} onClick={handelOnClickDelete} color="secondary" variant="contained">
                                     Delete
                                 </Button>
                             }
@@ -462,7 +444,7 @@ const Header = (props) => {
                             {
                                 checkPermission(postType + '_restore') &&
                                 <Tooltip title="Restore" aria-label="Restore">
-                                    <Button style={{ marginRight: 8 }} className={classes.saveButton} onClick={restorePost} color="default" variant="contained">
+                                    <Button style={{ marginRight: 8 }} onClick={restorePost} color="success" variant="contained">
                                         Restore
                                     </Button>
                                 </Tooltip>
@@ -537,7 +519,7 @@ const Header = (props) => {
                     {Loading}
                 </Grid>
             </Grid>
-            <Divider className={classes.divider} />
+            <Divider color="dark" />
         </div >
     )
 }

@@ -1,7 +1,7 @@
-import { Button, Grid, Hidden, Typography } from '@material-ui/core';
+import { Button, Grid, Hidden, IconButton, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updatePlugins } from 'actions/plugins';
 import { updateSidebar } from 'actions/sidebar';
 import { login } from 'actions/user';
@@ -9,11 +9,12 @@ import { useAjax } from 'utils/useAjax';
 import FieldForm from 'components/FieldForm';
 import MobileFriendlyIcon from '@material-ui/icons/MobileFriendly';
 import { useSnackbar } from 'notistack';
+import { MaterialIcon } from 'components';
+import { toogleViewMode } from 'actions/viewMode';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         minHeight: '100vh',
-        background: 'white',
     },
     mid: {
         display: 'flex',
@@ -102,6 +103,11 @@ const useStyles = makeStyles((theme) => ({
             top: '-11px',
             zIndex: 1
         }
+    },
+    viewMode: {
+        position: 'fixed',
+        top: 8,
+        right: 8,
     }
 }));
 
@@ -110,6 +116,8 @@ function Login() {
     const classes = useStyles();
 
     const { enqueueSnackbar } = useSnackbar();
+
+    const theme = useSelector(state => state.theme);
 
     const dispatch = useDispatch();
     const { ajax, Loading } = useAjax();
@@ -124,7 +132,7 @@ function Login() {
 
     const [showVerificationCode, setShowVerificationCode] = React.useState(false);
 
-    const [formData, setFormData] = React.useState(valueInital)
+    const [formData] = React.useState(valueInital)
 
     React.useEffect(() => {
         ajax({
@@ -134,17 +142,12 @@ function Login() {
                 if (result.security && result.template) {
                     setSettings(result);
                 }
-            },
-            error: () => {
-
             }
         });
-
     }, []);
 
     React.useEffect(() => {
         if (settings) {
-
             if (settings.security_active_recapcha_google * 1 === 1) {
                 if (!document.getElementById('recaptcha')) {
                     let script = document.createElement("script");
@@ -270,8 +273,12 @@ function Login() {
             data['g-recaptcha-response'] = recaptcha;
         }
 
-        handleEmailResponse( data );
+        handleEmailResponse(data);
     };
+
+    const handleUpdateViewMode = () => {
+        dispatch(toogleViewMode());
+    }
 
     if (!settings) {
         return null;
@@ -291,14 +298,9 @@ function Login() {
             <Grid item xs={12} md={4} className={classes.mid + ' ' + classes.colRight}>
                 <div className={classes.form}>
                     <Typography component="h1" style={{ fontWeight: 'bold', fontSize: 24 }} gutterBottom dangerouslySetInnerHTML={{ __html: settings.template && settings.template['admin_template_headline-right'] ? settings.template['admin_template_headline-right'] : 'Log in' }} />
-
-
                     {
                         !showVerificationCode &&
                         <div style={{ marginTop: 24 }}>
-
-
-
                             <div style={{ marginTop: 24 }}>
                                 <FieldForm
                                     compoment={'text'}
@@ -325,7 +327,6 @@ function Login() {
                             </div>
                         </div>
                     }
-
                     {
                         showVerificationCode &&
                         <div style={{ marginTop: 42 }}>
@@ -352,7 +353,6 @@ function Login() {
                             />
                         </div>
                     }
-
                     {
                         settings.security_active_recapcha_google * 1 === 1 &&
                         <div style={{ marginTop: 24 }}>
@@ -365,7 +365,6 @@ function Login() {
                         </Button>
                         {Loading}
                     </div>
-
                     {
                         Boolean(settings.security.security_active_signin_with_google_account) &&
                         <div>
@@ -383,6 +382,9 @@ function Login() {
                         </div>
                     }
                 </div>
+                <IconButton className={classes.viewMode} onClick={handleUpdateViewMode}>
+                    <MaterialIcon icon={theme.type === 'light' ? { custom: '<path d="M12 9c1.65 0 3 1.35 3 3s-1.35 3-3 3-3-1.35-3-3 1.35-3 3-3m0-2c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"></path>' } : 'Brightness2Outlined'} />
+                </IconButton>
             </Grid>
         </Grid>
     )

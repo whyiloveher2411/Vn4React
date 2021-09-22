@@ -31,10 +31,10 @@ function CircularChart({ scrore, width }) {
                         d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                     />
                     <path className='vn4seo-circle' style={{ stroke: 'var(--color)' }}
-                        strokeDasharray={(scrore * 100) + ', 100'}
+                        strokeDasharray={parseInt(scrore * 100) + ', 100'}
                         d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                     />
-                    <text x="18" y="20.35" className='vn4seo-percentage' style={{ fill: 'var(--color)' }}>{(scrore * 100).toFixed(0)}%</text>
+                    <text x="18" y="20.35" className='vn4seo-percentage' style={{ fill: 'var(--color)' }}>{parseInt(scrore * 100).toFixed(0)}%</text>
                 </svg>
             </div>
         </div >

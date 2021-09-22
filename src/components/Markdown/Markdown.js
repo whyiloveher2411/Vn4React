@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
         '& hr': {
             marginTop: theme.spacing(3),
             marginBottom: theme.spacing(3),
-            backgroundColor: colors.grey[300],
+            backgroundColor: theme.palette.divider,
             border: 0,
             height: 1,
         },

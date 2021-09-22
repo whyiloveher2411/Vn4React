@@ -1,6 +1,6 @@
-import { Button, colors, Divider, makeStyles, Tab, Tabs, withStyles, Typography } from '@material-ui/core';
+import { Button, makeStyles, Tab, Tabs, withStyles } from '@material-ui/core';
 import React from 'react';
-
+import Divider from './DividerCustom';
 
 const StyledTabs = withStyles({
     indicator: {
@@ -54,7 +54,6 @@ const useStyles = makeStyles((theme) => ({
             color: 'var(--color)',
         },
         '& .MuiTabs-indicator': {
-            backgroundColor: 'var(--color)',
             left: 'var(--left) !important',
             transition: 'all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
         }
@@ -63,17 +62,14 @@ const useStyles = makeStyles((theme) => ({
         padding: '6px 16px',
         whiteSpace: 'nowrap',
     },
-    divider: {
-        backgroundColor: colors.grey[300],
-    },
     tabs: {
-        background: '#F2F0F0',
+        background: theme.palette.body.background,
         display: 'flex',
         flexDirection: 'column',
         borderRight: `1px solid ${theme.palette.divider}`,
         position: 'relative',
+        '--color': theme.palette.primary.main,
         '&>.indicator': {
-            backgroundColor: 'var(--color)',
             position: 'absolute',
             right: 0,
             width: 2,
@@ -81,11 +77,14 @@ const useStyles = makeStyles((theme) => ({
             transition: 'all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
         },
         '&>button': {
-            width: '100%', minWidth: 160, minHeight: 48, opacity: 0.7,
+            width: '100%',
+            minWidth: 160,
+            minHeight: 48,
+            opacity: 0.7,
             '&.active': {
                 opacity: 1,
                 color: 'var(--color)',
-            }
+            },
         },
         '& .MuiButton-label': {
             justifyContent: 'left'
@@ -109,11 +108,9 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: 0,
         paddingRight: 0,
         margin: '0 16px',
-        '&.Mui-selected': {
-            color: 'var(--color)',
-        },
     },
     dense: {
+        '--color': theme.palette.primary.main,
         '& $tabHorizontal:first-child': {
             marginLeft: 0
         }
@@ -151,7 +148,7 @@ function TabsCustom({ name, tabs, tabIcon, orientation = "horizontal", tabIndex,
     if (orientation === 'vertical') {
         return (
             <div className={classes.tabs2Root}>
-                <div style={{ '--color': (tabs[tabCurrent[name]] && tabs[tabCurrent[name]].color) ? tabs[tabCurrent[name]].color : '#3f51b5' }} className={classes.tabs + ' ' + (tabIcon ? classes.tabsIcon : '')}>
+                <div className={classes.tabs + ' ' + (tabIcon ? classes.tabsIcon : '')}>
                     <span className='indicator' style={{ top: (tabCurrent[name] - tabs.filter((item, index) => index < tabCurrent[name] && item.hidden).length) * 48 }}></span>
                     {
                         tabs.map((tab, i) => (
@@ -182,17 +179,15 @@ function TabsCustom({ name, tabs, tabIcon, orientation = "horizontal", tabIndex,
                 scrollButtons="auto"
                 variant="scrollable"
                 value={tabCurrent[name]}
+                textColor="primary"
                 className={disableDense ? '' : classes.dense}
                 onChange={(e, v) => handleChangeTab(v)}
-                style={{
-                    '--color': (tabs[tabCurrent[name]] && tabs[tabCurrent[name]].color) ? tabs[tabCurrent[name]].color : '#3f51b5'
-                }}
             >
                 {tabs.map((tab, i) => (
                     <StyledTab className={classes.tabHorizontal + ' ' + (tab.hidden ? classes.displayNone : '')} key={i} label={tab.title} value={i} />
                 ))}
             </StyledTabs>
-            <Divider className={classes.divider} />
+            <Divider color="dark" />
             <div className={classes.tabContent}>
                 {
                     (() => {

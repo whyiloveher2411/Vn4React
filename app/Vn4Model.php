@@ -211,6 +211,7 @@ class Vn4Model extends Eloquent{
             }
 
             do_action('before_save_post',$post, $input);
+            do_action('before_save_post_'.$post->type,$post, $input);
 
             if( $post->status == 'trash' ){
                 $save = $post->save([],false);

@@ -65,15 +65,13 @@ const DashboardAudit = props => {
       {...rest}
       className={clsx(classes.root, className)}
     >
-      <div>
-        <Typography
-          component="h3"
-          gutterBottom
-          variant="h4"
-        >
-          {title}
-        </Typography>
-      </div>
+      <Typography
+        component="h3"
+        gutterBottom
+        variant="h4"
+      >
+        {title}
+      </Typography>
       <div style={{ display: 'flex', justifyContent: 'space-around' }}>
         <div style={{ width: '100%' }}>
           <Link className={classes.link} to={keyAudit === 'best_practices' ? '/plugin/vn4seo/measure/best-practices?device=mobile' : ('/plugin/vn4seo/measure/' + keyAudit + '?device=mobile')}>
@@ -91,7 +89,7 @@ const DashboardAudit = props => {
             align="center"
           >
             Mobile
-            </Typography>
+          </Typography>
         </div>
         <div style={{ width: '100%' }}>
           <Link className={classes.link} to={keyAudit === 'best_practices' ? '/plugin/vn4seo/measure/best-practices?device=desktop' : ('/plugin/vn4seo/measure/' + keyAudit + '?device=desktop')}>
@@ -110,7 +108,7 @@ const DashboardAudit = props => {
             align="center"
           >
             Desktop
-            </Typography>
+          </Typography>
         </div>
       </div>
     </Card >

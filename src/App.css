@@ -30,7 +30,7 @@ body.is-iframe::-webkit-scrollbar, .custom_scroll::-webkit-scrollbar {
 
 /* Track */
 body.is-iframe::-webkit-scrollbar-track,.custom_scroll::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background: rgba(255, 255, 255, .7); 
   border-radius: 15px;
 }
  

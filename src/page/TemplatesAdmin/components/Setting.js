@@ -1,10 +1,8 @@
-import { Button } from '@material-ui/core';
 import { Hook } from 'components';
 import SettingBlock1 from 'components/Setting/SettingBlock1';
 import SettingBlock2 from 'components/Setting/SettingBlock2';
 import SettingScreen1 from 'components/Setting/SettingScreen1';
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 function Setting({ title, subTitle, settings }) {
 

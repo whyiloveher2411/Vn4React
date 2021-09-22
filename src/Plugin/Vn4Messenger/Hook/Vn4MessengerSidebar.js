@@ -1,10 +1,9 @@
+import { Typography } from '@material-ui/core'
 import React from 'react'
 
 function Vn4MessengerSidebar() {
     return (
-        <div style={{ padding: 16 }}>
-            Coming soon
-        </div>
+        <Typography style={{ padding: 16 }}>Coming soon</Typography>
     )
 }
 

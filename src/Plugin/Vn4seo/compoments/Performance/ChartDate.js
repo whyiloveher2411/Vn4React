@@ -3,6 +3,7 @@ import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import React from 'react';
 import { addScript } from 'utils/helper';
 import { CircularCustom, CustomTooltip } from 'components';
+import theme from 'theme';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -307,6 +308,7 @@ function ChartDate({ ajaxPluginHandle, website, date, labelDateFilter }) {
 
                 data.addRows(dataUsers);
                 let options = {
+                    backgroundColor: 'transparent',
                     title: '',
                     colors: colorsTemplate,
                     chartArea: { left: 16, right: 16 },
@@ -318,11 +320,11 @@ function ChartDate({ ajaxPluginHandle, website, date, labelDateFilter }) {
                         duration: 800,
                         startup: true
                     },
-                    crosshair: { orientation: 'vertical', trigger: 'focus', color: '#f1f1f1' },
+                    crosshair: { orientation: 'vertical', trigger: 'focus', color: theme.palette.dividerDark },
                     focusTarget: 'category',
                     pointsVisible: false,
-                    hAxis: { ticks: ticks, title: '', format: 'MMM d', textStyle: { fontSize: 12 }, baselineColor: 'none', gridlines: { count: 4, color: 'transparent' } },
-                    vAxis: { textPosition: 'none', format: 'short', textStyle: { fontWeight: 100, fontName: 'arial', fontSize: 12 }, minValue: 0, baselineColor: 'none', gridlines: { count: 4, color: '#f1f1f1' } },
+                    hAxis: { ticks: ticks, title: '', format: 'MMM d', textStyle: { fontSize: 12, color: theme.palette.text.secondary }, baselineColor: 'none', gridlines: { count: 4, color: 'transparent' } },
+                    vAxis: { textPosition: 'none', format: 'short', textStyle: { fontWeight: 100, fontName: 'arial', fontSize: 12 }, minValue: 0, baselineColor: 'none', gridlines: { count: 4, color: theme.palette.dividerDark } },
                 };
                 let chart = new window.google.visualization.LineChart(document.getElementById('chart_search_by_date'));
                 chart.draw(data, options);

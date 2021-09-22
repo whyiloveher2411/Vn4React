@@ -1,25 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import { colors, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
-import { Typography, Divider, colors } from '@material-ui/core'
-
-import { Page, Markdown } from '../../components'
-import { Link } from 'react-router-dom'
+import { Markdown } from 'components'
+import { PageHeaderSticky } from 'components/Page'
+import React, { useEffect, useState } from 'react'
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        padding: theme.spacing(3, 3, 6, 3),
-    },
-    divider: {
-        backgroundColor: colors.grey[300],
-        marginTop: theme.spacing(1),
-        marginBottom: theme.spacing(3),
-    },
     markdownContainer: {
         maxWidth: 700,
+        color: theme.palette.text.primary,
     },
 }))
 
-const GettingStarted = (props) => {
+const GettingStarted = () => {
 
     const classes = useStyles();
 
@@ -32,12 +24,18 @@ const GettingStarted = (props) => {
     }, [])
 
     return (
-        <Page className={classes.root} title="Getting Started">
-            <Typography gutterBottom variant="overline">
-                Development
-            </Typography>
-            <Typography variant="h3">Getting Started</Typography>
-            <Divider className={classes.divider} />
+        <PageHeaderSticky
+            className={classes.root}
+            title="Getting Started"
+            header={
+                <>
+                    <Typography gutterBottom variant="overline">
+                        Development
+                    </Typography>
+                    <Typography variant="h3">Getting Started</Typography>
+                </>
+            }
+        >
             {source && (
                 <div className={classes.markdownContainer}>
                     <Markdown
@@ -46,8 +44,7 @@ const GettingStarted = (props) => {
                     />
                 </div>
             )}
-            <Link to="/input-field">Input Field</Link>
-        </Page>
+        </PageHeaderSticky>
     )
 }
 

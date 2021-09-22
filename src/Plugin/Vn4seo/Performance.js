@@ -1,4 +1,4 @@
-import { Chip, Collapse, colors, Divider, FormControl, FormControlLabel, Grid, InputLabel, makeStyles, MenuItem, Radio, RadioGroup, Select, Typography } from '@material-ui/core';
+import { Chip, Collapse, Divider, FormControl, FormControlLabel, Grid, InputLabel, makeStyles, MenuItem, Radio, RadioGroup, Select, Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -8,31 +8,21 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import CreateIcon from '@material-ui/icons/Create';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import { Alert } from '@material-ui/lab';
+import { FieldForm } from 'components';
+import { PageHeaderSticky } from 'components/Page';
 import RedirectWithMessage from 'components/RedirectWithMessage';
 import React from 'react';
-import { checkPermission } from 'utils/user';
-import { FieldForm, Page } from 'components';
 import { getCookie, setCookie } from 'utils/cookie';
+import { checkPermission } from 'utils/user';
 import ChartDate from './compoments/Performance/ChartDate';
 import Detail from './compoments/Performance/Detail';
 
 
 const useStyles = makeStyles((theme) => ({
-    headTop: {
-        position: 'sticky',
-        top: 0,
-        background: '#f4f6f8',
-        zIndex: 3,
-        boxShadow: '2px 0px 0 #f4f6f8, -2px 0px 0 #f4f6f8'
-    },
     title: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between'
-    },
-    divider: {
-        backgroundColor: colors.grey[300],
-        margin: '16px 0',
     },
     disableOutline: {
         "& .Mui-focused .MuiOutlinedInput-notchedOutline": {
@@ -163,7 +153,6 @@ function Performance({ meta, ajaxPluginHandle }) {
         }
     ];
 
-
     const [openDialog, setOpenDialog] = React.useState(false);
 
     const [openDialogDate, setOpenDialogDate] = React.useState(false);
@@ -192,8 +181,9 @@ function Performance({ meta, ajaxPluginHandle }) {
         return <RedirectWithMessage />
     }
     return (
-        <Page title="SEO Performance">
-            <div className={classes.headTop}>
+        <PageHeaderSticky
+            title="SEO Performance"
+            header={
                 <Grid
                     alignItems="flex-end"
                     container
@@ -307,9 +297,8 @@ function Performance({ meta, ajaxPluginHandle }) {
                         </Typography>
                     </Grid>
                 </Grid>
-                <Divider className={classes.divider} />
-            </div>
-
+            }
+        >
             {
                 hideAlert === null || hideAlert === true
                     ?
@@ -319,11 +308,9 @@ function Performance({ meta, ajaxPluginHandle }) {
                     :
                     <></>
             }
-
-
             <ChartDate ajaxPluginHandle={ajaxPluginHandle} labelDateFilter={labelDateFilter} date={date} website={website} />
             <Detail ajaxPluginHandle={ajaxPluginHandle} labelDateFilter={labelDateFilter} date={date} website={website} />
-        </Page >
+        </PageHeaderSticky >
     )
 }
 

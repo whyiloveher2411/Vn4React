@@ -1,14 +1,12 @@
-import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         '& table.table-chart': {
             width: '100%',
             marginTop: '20px'
-        },
-        '& table.table-chart td': {
-            whiteSpace: 'pre'
         },
         '& table.table-chart thead td': {
             padding: 5,
@@ -21,11 +19,12 @@ const useStyles = makeStyles((theme) => ({
             color: 'white',
         },
         '& table.table-chart td': {
+            whiteSpace: 'pre',
             padding: 5,
-            color: 'rgba(0, 0, 0, 0.87)',
             fontSize: 13,
             height: 29,
-            borderBottom: '1px solid rgba(0,0,0,0.08)'
+            borderBottom: '1px solid ' + theme.palette.divider,
+            color: theme.palette.text.secondary
         },
         '& table.table-chart td:nth-child(2), table.table-chart td:nth-child(3)': {
             textAlign: 'right'
@@ -36,14 +35,15 @@ const useStyles = makeStyles((theme) => ({
 
 function PageVisit({ dataGA2 }) {
     const classes = useStyles();
+    const theme = useSelector(state => state.theme);
 
     React.useEffect(() => {
         if (dataGA2) {
-            let str = '<thead><tr style="padding: 12px 5px;"><td style="color:rgba(0,0,0,0.54);font-size:14px;">Page</td><td style="width: 77px;color:rgba(0,0,0,0.54);font-size:14px;">Pageviews</td><td style="width: 83px;color:rgba(0,0,0,0.54);font-size:14px;">Page Value</td></tr></thead><tbody></tbody>';
+            let str = '<thead><tr style="padding: 12px 5px;"><td style="color:' + theme.palette.text.secondary + ';font-size:14px;">Page</td><td style="width: 77px;color:' + theme.palette.text.secondary + ';font-size:14px;">Pageviews</td><td style="width: 83px;color:' + theme.palette.text.secondary + ';font-size:14px;">Page Value</td></tr></thead><tbody></tbody>';
 
             if (dataGA2.path_pageview) {
                 for (var i = 0; i < dataGA2.path_pageview.length; i++) {
-                    str += '<tr><td><div style="word-break: break-all;width: 100%;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden;height: 17px;">' + dataGA2.path_pageview[i][0] + '</div></td><td>' + dataGA2.path_pageview[i][1] + '</td><td>$' + dataGA2.path_pageview[i][2] + '</td></tr>';
+                    str += '<tr><td><div style="max-width:250px;white-space: pre;word-break: break-all;width: 100%;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden;height: 17px;">' + dataGA2.path_pageview[i][0] + '</div></td><td>' + dataGA2.path_pageview[i][1] + '</td><td>$' + dataGA2.path_pageview[i][2] + '</td></tr>';
                 };
             }
             document.getElementById('path_pageview').innerHTML = str;
@@ -52,7 +52,7 @@ function PageVisit({ dataGA2 }) {
 
     return (
         <div className={classes.root}>
-            <table class="table-chart" id="path_pageview" style={{ margin: 0 }}>
+            <table className="table-chart" id="path_pageview" style={{ margin: 0 }}>
 
             </table>
         </div >

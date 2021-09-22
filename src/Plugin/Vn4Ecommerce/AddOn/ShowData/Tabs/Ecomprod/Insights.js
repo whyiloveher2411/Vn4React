@@ -1,5 +1,6 @@
 import { Grid, makeStyles } from '@material-ui/core';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import addScript from 'utils/addScript';
 import Channel from './components/Insights/Channel';
 import Order from './components/Insights/Order';
@@ -8,33 +9,37 @@ import ReturnRate from './components/Insights/ReturnRate';
 import Revenue from './components/Insights/Revenue';
 import Reviews from './components/Insights/Reviews';
 
-const useStyles = makeStyles((theme) => {
-    return {
-        titlePanel: {
-            color: theme.palette.grey.A200,
-            fontWeight: 'normal', marginBottom: 8,
-            fontSize: 15
+const useStyles = makeStyles((theme) => ({
+    root: {
+        '& svg>g>g>g:nth-child(1) rect': {
+            fill: theme.palette.divider + ' !important',
         },
-        valuePanel: {
-            marginBottom: 8,
-            fontSize: 26
-        }
-
-    }
-});
+    },
+    titlePanel: {
+        color: theme.palette.grey.A200,
+        fontWeight: 'normal', marginBottom: 8,
+        fontSize: 15
+    },
+    valuePanel: {
+        marginBottom: 8,
+        fontSize: 26
+    },
+}
+));
 
 function Insights() {
 
     const classes = useStyles();
+    const theme = useSelector(state => state.theme);
 
     const [data, setData] = React.useState(false);
 
     React.useEffect(() => {
 
         setTimeout(() => {
-            
+
             addScript("https://www.gstatic.com/charts/loader.js", 'googleCharts', () => {
-                
+
                 setData(true);
 
                 window.google.charts.load('current', { packages: ['corechart', 'line'] });
@@ -63,11 +68,25 @@ function Insights() {
                         ]);
 
                         let options = {
+                            backgroundColor: 'transparent',
+                            legend: { textStyle: { color: theme.palette.text.secondary } },
                             hAxis: {
-                                title: 'Time'
+                                title: 'Time',
+                                titleTextStyle: {
+                                    color: theme.palette.text.secondary
+                                },
+                                textStyle: {
+                                    color: theme.palette.text.secondary
+                                }
                             },
                             vAxis: {
-                                title: 'Popularity'
+                                title: 'Popularity',
+                                titleTextStyle: {
+                                    color: theme.palette.text.secondary
+                                },
+                                textStyle: {
+                                    color: theme.palette.text.secondary
+                                }
                             }
                         };
 
@@ -93,13 +112,16 @@ function Insights() {
 
                         let options = {
                             title: 'Popularity of Types of Pizza',
+                            backgroundColor: 'transparent',
                             sliceVisibilityThreshold: .2,
                             fontSize: 13,
                             pieHole: 0.5,
+                            pieSliceBorderColor: 'transparent',
                             chartArea: {
                                 height: 300,
                                 width: 400
-                            }
+                            },
+                            legend: { textStyle: { color: theme.palette.text.secondary } },
                         };
 
                         let chart = new window.google.visualization.PieChart(document.getElementById('chart_channel'));
@@ -121,12 +143,15 @@ function Insights() {
 
                         let options = {
                             title: 'Popularity of Types of Pizza',
+                            backgroundColor: 'transparent',
                             sliceVisibilityThreshold: .2,
                             fontSize: 13,
+                            pieSliceBorderColor: 'transparent',
                             chartArea: {
                                 height: 300,
-                                width: 400
-                            }
+                                width: 400,
+                            },
+                            legend: { textStyle: { color: theme.palette.text.secondary } },
                         };
 
                         let chart = new window.google.visualization.PieChart(document.getElementById('chart_return_rate'));
@@ -145,11 +170,23 @@ function Insights() {
                         ]);
                         let options = {
                             title: "Density of Precious Metals, in g/cm^3",
+                            backgroundColor: 'transparent',
+                            titleTextStyle: { color: theme.palette.text.secondary },
                             width: '100%',
                             height: 277,
                             bar: { groupWidth: '95%' },
                             legend: { position: 'none' },
                             fontSize: 13,
+                            hAxis: {
+                                textStyle: {
+                                    color: theme.palette.text.secondary
+                                }
+                            },
+                            vAxis: {
+                                textStyle: {
+                                    color: theme.palette.text.secondary
+                                }
+                            },
                             chartArea: {
                                 left: 20,
                                 width: '100%'
@@ -165,7 +202,7 @@ function Insights() {
     }, []);
 
     return (
-        <Grid container spacing={3}>
+        <Grid container spacing={3} className={classes.root}>
             <Grid item md={4} xs={12}>
                 <Grid container spacing={3}>
                     <Grid item md={12} xs={12}>

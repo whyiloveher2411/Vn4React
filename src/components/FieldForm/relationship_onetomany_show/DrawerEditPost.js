@@ -4,8 +4,11 @@ import { DrawerCustom } from 'components';
 import Form from 'page/PostType/components/CreateData/Form';
 import Header from 'page/PostType/components/CreateData/Header';
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 function DrawerEditPost({ data, open, onClose, handleSubmit, showLoadingButton, children }) {
+
+    const theme = useSelector(state => state.theme);
 
     const onReview = (value) => {
         data.post = { ...data.post, ...value };
@@ -16,7 +19,7 @@ function DrawerEditPost({ data, open, onClose, handleSubmit, showLoadingButton, 
             restDialogContent={
                 {
                     style: {
-                        background: '#f4f6f8',
+                        background: theme.palette.body.background,
                         paddingTop: 0,
                     }
                 }

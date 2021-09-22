@@ -1,9 +1,9 @@
-import { Button, colors, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
+import { colors, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 import React from 'react';
 import { useAjax } from 'utils/useAjax';
 import FieldForm from 'components/FieldForm';
 import { Skeleton } from '@material-ui/lab';
-import { NotFound } from 'components';
+import { NotFound, Button } from 'components';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -21,13 +21,6 @@ const useStyles = makeStyles((theme) => ({
     },
     tabsItem: {
         whiteSpace: 'nowrap',
-    },
-    saveButton: {
-        color: theme.palette.white,
-        backgroundColor: colors.green[600],
-        '&:hover': {
-            backgroundColor: colors.green[900],
-        },
     },
     paper: {
         padding: 16,
@@ -227,9 +220,9 @@ function Widget() {
 
                 </Grid>
                 <Button
-                    className={classes.saveButton}
                     onClick={handleSubmit}
                     type="submit"
+                    color="success"
                     variant="contained">
                     Save Changes
                 </Button>

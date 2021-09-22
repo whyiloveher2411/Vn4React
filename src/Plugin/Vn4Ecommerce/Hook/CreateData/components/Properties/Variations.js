@@ -83,7 +83,7 @@ function Variations({ valuesAttributes, attributes, postDetail, post, onReview }
                     title: postDetail.title + ' - ' + variantTitle.join(' - '),
                     sku: skuGenerate.join('-'),
                     price: postDetail.ecom_prod_detail.general_price,
-                    sale_price: postDetail.ecom_prod_detail.general_sale_price,
+                    compare_price: postDetail.ecom_prod_detail.general_compare_price,
                 };
             }
         }
@@ -382,9 +382,9 @@ function Variations({ valuesAttributes, attributes, postDetail, post, onReview }
                                 <FieldForm
                                     compoment="number"
                                     config={{
-                                        title: 'Sale Price',
+                                        title: 'Compare at Price',
                                     }}
-                                    name="sale_price"
+                                    name="compare_price"
                                     post={editVariationCurrent.variation}
                                     onReview={(value) => { }}
                                 />

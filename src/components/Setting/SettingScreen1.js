@@ -1,5 +1,5 @@
 import { colors, makeStyles, Grid, Typography, Divider } from '@material-ui/core';
-import { Page } from 'components';
+import { PageHeaderSticky } from 'components/Page';
 import React from 'react';
 
 const useStyles = makeStyles((theme) => {
@@ -12,17 +12,6 @@ const useStyles = makeStyles((theme) => {
                 color: theme.palette.buttonSave.contrastText,
             }
         },
-        headTop: {
-            position: 'sticky',
-            top: 0,
-            background: '#f4f6f8',
-            zIndex: 2,
-            boxShadow: '2px 0px 0 #f4f6f8, -2px 0px 0 #f4f6f8'
-        },
-        divider: {
-            backgroundColor: colors.grey[300],
-            margin: '16px 0',
-        },
     }
 });
 
@@ -30,8 +19,9 @@ function SettingScreen1({ title, subTitle, header, children }) {
 
     const classes = useStyles();
     return (
-        <Page title={title}>
-            <div className={classes.headTop}>
+        <PageHeaderSticky
+            title={title}
+            header={
                 <Grid
                     alignItems="flex-end"
                     container
@@ -52,14 +42,12 @@ function SettingScreen1({ title, subTitle, header, children }) {
                         }
                     </Grid>
                 </Grid>
-                <Divider className={classes.divider} />
-            </div>
-            {
-                <div className={classes.root}>
-                    {children}
-                </div>
             }
-        </Page>
+        >
+            <div className={classes.root}>
+                {children}
+            </div>
+        </PageHeaderSticky>
     );
 }
 

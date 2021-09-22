@@ -22,7 +22,7 @@ const useStyles = makeStyles(() => ({
     }
 }))
 
-export default function SelectForm(props) {
+export default React.memo(function SelectForm(props) {
 
     const { config, post, onReview, name, ...rest } = props;
 
@@ -58,8 +58,6 @@ export default function SelectForm(props) {
         onReview(post[name], name);
         setRender(prev => prev + 1);
     }
-
-    console.log('render SELECT');
 
     return (
         <FormControl fullWidth variant="outlined">
@@ -137,4 +135,7 @@ export default function SelectForm(props) {
     //     </FormControl >
 
     // )
-}
+}, (props1, props2) => {
+    return JSON.stringify(props1) === JSON.stringify(props2);
+})
+
