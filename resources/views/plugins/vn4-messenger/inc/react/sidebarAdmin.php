@@ -4,7 +4,7 @@ $sidebar = array_slice($sidebar, 0, 100, true) +
         'title'=>'Chat',
         'show' => false,
         'icon'=>['custom'=>'<image style="width:100%;" href="/plugins/vn4-messenger/img/chat.svg" />'],
-        'component'=>'Vn4MessengerSidebar',
+        'component'=>'Custom/SubMenu',
         'pages'=>[
             
         ]

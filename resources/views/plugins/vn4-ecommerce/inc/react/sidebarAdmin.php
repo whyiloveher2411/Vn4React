@@ -25,28 +25,27 @@ $sidebar = array_slice($sidebar, 0, 3, true) +
                 'name' =>  'Sales',
                 'title' =>  'Sales',
                 'icon' =>  'AttachMoneyRounded',
-                'href' =>  '#',
                 'children'=>[
                     [
                         'name'=>'Orders',
                         'title'=>'Orders',
                         'href' =>  '/post-type/ecom_order/list',
                     ],
-                    // [
-                    //     'name'=>'Invoices',
-                    //     'title'=>'Invoices',
-                    //     'href' =>  '#',
-                    // ],
-                    // [
-                    //     'name'=>'Shipments',
-                    //     'title'=>'Shipments',
-                    //     'href' =>  '#',
-                    // ],
-                    // [
-                    //     'name'=>'Transactions',
-                    //     'title'=>'Transactions',
-                    //     'href' =>  '#',
-                    // ],
+                    [
+                        'name'=>'Invoices',
+                        'title'=>'Invoices',
+                        'href' =>  '/post-type/ecom_invoices/list',
+                    ],
+                    [
+                        'name'=>'Shipments',
+                        'title'=>'Shipments',
+                        'href' =>  '/post-type/ecom_shipments/list',
+                    ],
+                    [
+                        'name'=>'Transactions',
+                        'title'=>'Transactions',
+                        'href' =>  '/post-type/ecom_transactions/list',
+                    ],
                 ]
             ],
             [

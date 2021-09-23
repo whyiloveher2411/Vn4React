@@ -1,7 +1,6 @@
 import { LinearProgress } from '@material-ui/core';
-import { Hook, Page, TabsCustom, AddOn } from 'components';
+import { AddOn, Hook, Page, TabsCustom } from 'components';
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { toCamelCase } from 'utils/helper';
 import { getUrlParams } from 'utils/herlperUrl';
 import { useAjax } from 'utils/useAjax';
@@ -12,11 +11,9 @@ const CreateData = (props) => {
 
     const { match, history, location } = props;
 
-    const plugins = useSelector(state => state.plugins);
-
     const [data, setData] = useState(false);
 
-    const { ajax, Loading, open } = useAjax();
+    const { ajax, open } = useAjax();
 
     const [title, setTitle] = useState('...');
 
@@ -114,7 +111,7 @@ const CreateData = (props) => {
     return (
         <>
             <Hook
-                hook={'CreateData' + toCamelCase(match.params.type)}
+                hook={'PostType/' + toCamelCase(match.params.type) + '/CreateData'}
                 {...props}
                 data={data}
                 postType={match.params.type}

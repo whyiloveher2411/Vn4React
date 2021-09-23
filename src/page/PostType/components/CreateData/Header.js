@@ -426,7 +426,7 @@ const Header = (props) => {
                             }
                         </div>
                         <div className={classes.seperateAction}>
-                            <Hook hook="ActionWithPostTypeDetail" screen="detail" post={data.post ?? null} />
+                            <Hook hook="PostType/Action" screen="detail" post={data.post ?? null} />
                         </div>
                     </Typography>
                 </Grid>

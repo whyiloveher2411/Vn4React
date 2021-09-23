@@ -19,7 +19,7 @@ register_post_type(function($list_post_type) use ($plugin) {
 		        'title'=>[
 		            'title'=>__('Title'),
 		            'view'=>'text',
-					'customViewList'=>'CustomViewProductTitleAndThumbnail',
+					'customViewList'=>'PostType/EcomProd/Title',
 		        ],
 		        'slug' => [
 		            'title'=>__('Slug'),
@@ -44,7 +44,7 @@ register_post_type(function($list_post_type) use ($plugin) {
 					'type'=>'decimal',
 					'decimal'=>[20, 6],
 					'hidden'=>true,
-					'customViewList'=>'CustomViewListProductPrice'
+					'customViewList'=>'PostType/EcomProd/Views/Price'
 		        ],
 				'compare_price'=>[
 					'title'=>'Compare at Price',
@@ -738,8 +738,8 @@ register_post_type(function($list_post_type) use ($plugin) {
 				'rating'=>[
 					'title'=>'Rating',
 					'view'=>'number',
-					'customViewForm'=>'CustomViewRating',
-					'customViewList'=>'CustomViewRating',
+					'customViewForm'=>'PostType/EcomProdReview/RatingCustom',
+					'customViewList'=>'PostType/EcomProdReview/RatingCustom',
 				],
 				'review_status'=>[
 					'title'=>'Status',
@@ -766,8 +766,8 @@ register_post_type(function($list_post_type) use ($plugin) {
 					'view' =>'relationship_onetomany',
 					'show_data'=>true,
 					'object'=>'ecom_prod',
-					'customViewList'=>'CustomViewListProduct',
-					'customViewForm'=>'CustomFormChooseProduct',
+					'customViewForm'=>'PostType/EcomProd/Forms/OneChooseProduct',
+					'customViewList'=>'PostType/EcomProd/Views/Main',
 					'requestMoreData'=>true,
 				],
 			]
@@ -882,13 +882,20 @@ register_post_type(function($list_post_type) use ($plugin) {
 					'type'=>'decimal',
 					'decimal'=>[20, 6],
 				],
-				'ecom_order_detail' => [
-		            'title'=>'Order Detail',
-		            'view' =>'relationship_onetomany_show',
+				'ecom_prod'=>[
+					'title'=>'Product',
+		            'view' =>'relationship_manytomany',
 		            'show_data'=>false,
-					'field'=>'ecom_order',
-		            'object'=>'ecom_order_detail',
-		        ],
+		            'object'=>'ecom_prod',
+					'customViewForm'=>'PostType/EcomOrder/ChooseProduct',
+				]
+				// 'ecom_order_detail' => [
+		        //     'title'=>'Order Detail',
+		        //     'view' =>'relationship_onetomany_show',
+		        //     'show_data'=>false,
+				// 	'field'=>'ecom_order',
+		        //     'object'=>'ecom_order_detail',
+		        // ],
 			]
 		]
 	];
@@ -922,8 +929,8 @@ register_post_type(function($list_post_type) use ($plugin) {
 		            'title'=>'Product',
 		            'view' =>'relationship_onetomany',
 		            'object'=>'ecom_prod',
-					'customViewList'=>'CustomViewListProduct',
-					'customViewForm'=>'CustomFormChooseProduct',
+					'customViewForm'=>'PostType/EcomProd/Forms/OneChooseProduct',
+					'customViewList'=>'PostType/EcomProd/Views/Main',
 					'requestMoreData'=>true,
 		        ],
 				'quantity'=>[

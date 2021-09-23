@@ -98,7 +98,7 @@ function ActionPost({ post, setConfirmDelete, acctionPost, postType, fromLayout,
                         }
                     </>
             }
-            < Hook hook="ActionWithPostTypeDetail" screen="list" post={post} postType={postType} />
+            <Hook hook="PostType/Action" screen="list" post={post} postType={postType} />
         </div>
     )
 }

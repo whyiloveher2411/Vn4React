@@ -23,7 +23,7 @@ export default function AddOn() {
                 try {
                     let component = toCamelCase(plugin) + hook;
 
-                    let resolved = require(`./../Plugin/${component}`).default;
+                    let resolved = require(`./../plugins/${component}`).default;
 
                     if (typeof resolved === 'function') {
                         resolved = resolved(params);

@@ -35,7 +35,7 @@ export function copyArray(array) {
 }
 
 export function toCamelCase(str) {
-    return str.replace(/\b(\w)/g, function (match, capture) {
+    return str.replaceAll('_', '-').replace(/\b(\w)/g, function (match, capture) {
         return capture.toUpperCase();
     }).replace(/[^a-zA-Z0-9/ ]/g, '');
 }

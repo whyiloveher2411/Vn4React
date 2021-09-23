@@ -177,7 +177,7 @@ function Plugins() {
                                         <a href={data[plugin].document} target="_blank">Read Docs</a>
                                         {
                                             data[plugin].active &&
-                                            <PluginHook plugin={plugin} hook='LinkSetting' />
+                                            <PluginHook plugin={plugin} hook='Custom/LinkSetting' />
                                         }
                                     </div>
                                     <Button variant="contained" onClick={e => changePlugin(plugin)} size="small" color={data[plugin].active ? 'primary' : 'default'}>{data[plugin].active ? 'Activated' : 'Activate'}</Button>

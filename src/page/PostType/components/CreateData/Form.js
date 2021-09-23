@@ -219,8 +219,7 @@ function Form(props) {
                             </Grid>
                         }
 
-                        <Hook hook="CreateData" data={data} onReview={(value, key2) => onReview(value, key2)} postType={postType} />
-                        <Hook hook="CreateDataAdvance" data={data} onReview={(value, key2) => onReview(value, key2)} postType={postType} />
+                        <Hook hook="PostType/CreateData" data={data} onReview={(value, key2) => onReview(value, key2)} postType={postType} />
                     </Grid>
                 </Grid>
             </Grid>

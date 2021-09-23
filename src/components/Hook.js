@@ -7,50 +7,12 @@ function Hook(props) {
     const plugins = useSelector(state => state.plugins);
     const settings = useSelector(state => state.settings);
 
-    // const [views, setViews] = React.useState([]);
-
-    // React.useEffect(() => {
-
-    //     let viewsTemp = [];
-
-    //     Object.keys(plugins).map((plugin) => (
-    //         (() => {
-    //             if (plugins[plugin].status === 'publish') {
-    //                 try {
-    //                     let compoment = toCamelCase(plugin) + '/Hook/' + hook;
-
-    //                     let resolved = require(`./../Plugin/${compoment}`).default;
-
-    //                     if (Number.isInteger(resolved.priority)) {
-    //                         viewsTemp.splice(resolved.priority, 0, React.createElement(resolved.content, { key: plugin, plugin: plugins[plugin], ...propsChild }));
-    //                     } else {
-    //                         viewsTemp.push(React.createElement(resolved, { key: plugin, plugin: plugins[plugin], ...propsChild }));
-    //                     }
-
-    //                 } catch (error) {
-
-    //                 }
-    //             }
-    //         })()
-    //     ));
-
-    //     try {
-    //         let compoment = toCamelCase(settings.general_client_theme) + '/Hook/' + hook;
-    //         let resolved = require(`./../Themes/${compoment}`).default;
-    //         viewsTemp.unshift(React.createElement(resolved, { ...propsChild }));
-    //     } catch (error) {
-
-    //     }
-
-    //     setViews(viewsTemp);
-    // }, []);
-
     return <React.Fragment>
         {
             (() => {
                 try {
-                    let compoment = toCamelCase(settings.general_client_theme) + '/Hook/' + hook;
-                    let resolved = require(`./../Themes/${compoment}`).default;
+                    let compoment = toCamelCase(settings.general_client_theme) + '/' + hook;
+                    let resolved = require(`./../themes/${compoment}`).default;
                     return React.createElement(resolved, { ...propsChild });
                 } catch (error) {
 
@@ -66,9 +28,9 @@ function Hook(props) {
                     (() => {
                         if (plugins[plugin].status === 'publish') {
                             try {
-                                let compoment = toCamelCase(plugin) + '/Hook/' + hook;
+                                let compoment = toCamelCase(plugin) + '/' + hook;
 
-                                let resolved = require(`./../Plugin/${compoment}`).default;
+                                let resolved = require(`./../plugins/${compoment}`).default;
 
                                 if (Number.isInteger(resolved.priority)) {
                                     viewsTemp.splice(resolved.priority, 0, React.createElement(resolved.content, { key: plugin, plugin: plugins[plugin], ...propsChild }));

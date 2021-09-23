@@ -135,6 +135,10 @@ const ShowData = (props) => {
 
     const redirectTo = getUrlParams(window.location.search, 'redirectTo');
 
+    if (data.config?.redirect) {
+        return <Redirect to={data.config?.redirect} />
+    }
+
     if (redirectTo === 'edit') {
         return <Redirect to={`/post-type/${match.params.type}/edit?post_id=` + getUrlParams(window.location.search, 'post')} />
     }
@@ -142,7 +146,7 @@ const ShowData = (props) => {
     return (
         <>
             <Hook
-                hook={'ShowData' + toCamelCase(match.params.type)}
+                hook={'PostType/' + toCamelCase(match.params.type) + '/ShowData'}
                 result={data}
                 loading={showLoading}
                 queryUrl={queryUrl}

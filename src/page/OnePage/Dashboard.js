@@ -27,7 +27,7 @@ const Dashboard = () => {
                 container
                 spacing={3}
             >
-                <Hook hook="Dashboard" />
+                <Hook hook="Dashboard/Main" />
             </Grid>
         </Page>
     );
