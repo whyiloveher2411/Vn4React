@@ -1,4 +1,4 @@
-import { FormControl, FormHelperText, makeStyles, TextField, Typography } from '@material-ui/core';
+import { FormControl, FormHelperText, InputAdornment, makeStyles, TextField, Typography } from '@material-ui/core';
 import { Alert, Autocomplete } from '@material-ui/lab';
 import React from 'react';
 
@@ -19,6 +19,14 @@ const useStyles = makeStyles(() => ({
     },
     helperText: {
         marginBottom: 8
+    },
+    pointSelect: {
+        display: 'inline-block',
+        width: 8,
+        height: 8,
+        borderRadius: '50%',
+        backgroundColor: 'var(--bg)',
+        marginRight: 8,
     }
 }))
 
@@ -67,8 +75,20 @@ export default React.memo(function SelectForm(props) {
                 disableClearable={config.disableClearable ? Boolean(config.disableClearable) : false}
                 size={config.size ?? 'medium'}
                 renderInput={(params) => {
+                    console.log(params);
+
+                    if (config.list_option[post[name]] && config.list_option[post[name]].color) {
+                        params.InputProps.startAdornment = <span
+                            className={classes.pointSelect}
+                            style={{ '--bg': config.list_option[post[name]].color, marginLeft: 8 }}
+                            position="start"></span>;
+                    }
                     return <>
-                        <TextField {...params} label={config.title} variant="outlined" />
+                        <TextField
+                            {...params}
+                            label={config.title}
+                            variant="outlined"
+                        />
                         {
                             Boolean(config.note) &&
                             <FormHelperText ><span dangerouslySetInnerHTML={{ __html: config.note }}></span></FormHelperText>
@@ -86,6 +106,10 @@ export default React.memo(function SelectForm(props) {
                 getOptionSelected={(option, value) => option._key === value._key}
                 renderOption={(option) => (
                     <div className={classes.selectItem}>
+                        {
+                            Boolean(option.color) &&
+                            <Typography style={{ '--bg': option.color }} component="span" className={classes.pointSelect} ></Typography>
+                        }
                         {option.title}
                         {
                             Boolean(option.description) &&

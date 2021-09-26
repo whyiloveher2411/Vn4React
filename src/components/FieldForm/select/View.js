@@ -9,7 +9,7 @@ function View(props) {
                 <Label
                     color={props.config.list_option[props.content]?.color ?? '#dedede'}
                     textColor={props.config.list_option[props.content]?.textColor} >
-                    {props.content}
+                    {props.config.list_option[props.content]?.title ?? props.content}
                 </Label>
             </>
         )
