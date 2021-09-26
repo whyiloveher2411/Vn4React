@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
         transition: 'all .15s ease-in',
         '&:hover': {
             opacity: 1,
-            background: 'white',
             transform: 'scale(1.02)',
             boxShadow: '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
         },
@@ -34,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
                 opacity: 1,
             }
         }
+    },
+    noImage: {
+        backgroundSize: 'contain', borderBottom: '1px solid ' + theme.palette.divider,
     },
     notActive: {
         opacity: 0.5,
@@ -128,7 +130,7 @@ function Theme() {
             success: (result) => {
                 setData(result.rows);
 
-                if( result.sidebar ){
+                if (result.sidebar) {
                     dispatch(updateSidebar(result.sidebar));
                 }
             }
@@ -204,9 +206,8 @@ function Theme() {
                             <Card className={classes.root + ' ' + (!data[theme].active ? 'notActive' : '')}>
                                 <CardActionArea>
                                     <CardMedia
-                                        className={classes.media}
+                                        className={classes.media + ' ' + (!data[theme].hasImage ? classes.noImage : '')}
                                         image={data[theme].image}
-                                        style={data[theme].hasImage ? { borderBottom: '1px solid #eee' } : { backgroundSize: 'contain', borderBottom: '1px solid #eee' }}
                                         title="Contemplative Reptile"
                                     />
                                     <CardContent>

@@ -29,7 +29,7 @@ export default function RelationshipManyToManyFormForm(props) {
         if (post[name] && typeof post[name] === 'object') {
             valueInital = post[name];
         } else {
-            if (post[name] && post[name]) {
+            if (post[name]) {
                 valueInital = JSON.parse(post[name]);
             }
         }

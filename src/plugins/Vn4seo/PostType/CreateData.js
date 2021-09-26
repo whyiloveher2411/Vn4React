@@ -38,7 +38,8 @@ function CreateData(props) {
         props.data.post.meta[key] = value;
     }
 
-    if (props.data.post.meta !== null && typeof props.data.post.meta === 'object') {
+    if (props.data.post.meta !== null && typeof props.data.post.meta === 'object' && props.data.config?.public_view) {
+
         return (
             <Grid item md={12} xs={12}>
                 <Card>

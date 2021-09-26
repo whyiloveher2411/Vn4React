@@ -104,10 +104,6 @@ const CreateData = (props) => {
         });
     }, [location]);
 
-
-
-
-
     return (
         <>
             <Hook

@@ -53,7 +53,7 @@ if( isset( $input [ $key ]) ){
         $value['fields_related'][] = 'type';
     }
 
-    if( isset($admin_object[$value['object']]['slug']) && array_search('slug', $value['fields_related']) === false ){
+    if( isset($admin_object[$value['object']]['fields']['slug']) && array_search('slug', $value['fields_related']) === false ){
         $value['fields_related'][] = 'slug';
     }
 

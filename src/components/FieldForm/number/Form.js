@@ -1,7 +1,7 @@
 import { FormControl, FormHelperText, InputLabel, OutlinedInput } from '@material-ui/core';
 import React from 'react';
 
-export default React.memo(function NumberForm(props) {
+export default function NumberForm(props) {
     const { config, post, onReview, name, ...rest } = props;
     let valueInital = post && post[name] ? Number((parseFloat(post[name])).toFixed(6)) : '';
 
@@ -43,8 +43,4 @@ export default React.memo(function NumberForm(props) {
             }
         </FormControl>
     )
-
-}, (props1, props2) => {
-    return props1.post[props1.name] === props2.post[props2.name];
-})
-
+}

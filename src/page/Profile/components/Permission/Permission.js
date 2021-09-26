@@ -3,7 +3,7 @@ import { Skeleton } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/styles';
 import { Button } from 'components';
 import React from 'react';
-import { useAjax } from '../../../../utils/useAjax';
+import { useAjax } from 'utils/useAjax';
 import GroupPermission from './GroupPermission';
 import PermissionList from './PermissionList';
 

@@ -122,6 +122,35 @@ function Form(props) {
                         container
                         spacing={3}>
                         {
+                            Boolean(listFieldNotIntabs.length) &&
+                            <Grid item md={12} xs={12}>
+                                <Card>
+                                    <CardContent>
+                                        <Grid
+                                            container
+                                            spacing={4}>
+                                            {
+                                                listFieldNotIntabs.map(key => (
+                                                    !data.config.fields[key].hidden ?
+                                                        <Grid item md={12} xs={12} key={key} >
+                                                            <FieldForm
+                                                                compoment={data.config.fields[key].view}
+                                                                config={data.config.fields[key]}
+                                                                post={data.post}
+                                                                name={key}
+                                                                onReview={(value, key2 = key) => onReview(value, key2)}
+                                                            />
+                                                        </Grid>
+                                                        :
+                                                        <React.Fragment key={key}></React.Fragment>
+                                                ))
+                                            }
+                                        </Grid>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        }
+                        {
                             Boolean(listFieldInTabs.length) &&
                             <Grid item md={12} xs={12}>
                                 <Card>
@@ -189,36 +218,6 @@ function Form(props) {
                                 </Card>
                             </Grid>
                         }
-                        {
-                            Boolean(listFieldNotIntabs.length) &&
-                            <Grid item md={12} xs={12}>
-                                <Card>
-                                    <CardContent>
-                                        <Grid
-                                            container
-                                            spacing={4}>
-                                            {
-                                                listFieldNotIntabs.map(key => (
-                                                    !data.config.fields[key].hidden ?
-                                                        <Grid item md={12} xs={12} key={key} >
-                                                            <FieldForm
-                                                                compoment={data.config.fields[key].view}
-                                                                config={data.config.fields[key]}
-                                                                post={data.post}
-                                                                name={key}
-                                                                onReview={(value, key2 = key) => onReview(value, key2)}
-                                                            />
-                                                        </Grid>
-                                                        :
-                                                        <React.Fragment key={key}></React.Fragment>
-                                                ))
-                                            }
-                                        </Grid>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
-                        }
-
                         <Hook hook="PostType/CreateData" data={data} onReview={(value, key2) => onReview(value, key2)} postType={postType} />
                     </Grid>
                 </Grid>

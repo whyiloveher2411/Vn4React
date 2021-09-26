@@ -11,6 +11,10 @@
   array (
     0 => 'resources/views/plugins/vn4-ecommerce/inc/hook/api_save_post_type_ecom_prod_spec_sets.php',
   ),
+  'before_save_post_ecom_order' => 
+  array (
+    0 => 'resources/views/plugins/vn4-ecommerce/inc/hook/before_save_post_ecom_order.php',
+  ),
   'before_save_post_ecom_prod' => 
   array (
     0 => 'resources/views/plugins/vn4-ecommerce/inc/hook/before_save_post_ecom_prod.php',

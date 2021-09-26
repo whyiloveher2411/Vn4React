@@ -106,9 +106,9 @@ $sidebar = array_slice($sidebar, 0, 3, true) +
                 'href' =>  '#',
                 'children'=>[
                     [
-                        'name'=>'Orders',
-                        'title'=>'Orders',
-                        'href' =>  '#',
+                        'name'=>'Coupons',
+                        'title'=>'Coupons',
+                        'href' =>  '/post-type/ecom_coupon/list',
                     ],
                 ]
             ],

@@ -125,11 +125,9 @@ register_post_type(function($list_post_type) use ($plugin) {
 				]
 		    ],
 		    'tabs'=>[
-		        'general'=>[ 'title'=>'General', 'fields'=>['title','slug','description'] ],
 		        'image'=>[ 'title'=>'Image', 'fields'=>['thumbnail','gallery'] ],
 		        'categories'=>[ 'title'=>'Categories', 'fields'=>['ecom_prod_cate', 'ecom_prod_tag', 'ecom_prod_spec_sets'] ],
 		        'filters'=>['title'=>'Filters','fields'=>['detailed_filters']],
-		        'other'=>['title'=>'Other','fields'=>['order']],
 		    ],
 			// 'tabSummary'=>[
 			// 	'summary'=>['title'=>'Summary'],
@@ -787,6 +785,13 @@ register_post_type(function($list_post_type) use ($plugin) {
 					'view'=>'text',
 					'required'=>true,
 				],
+				'slug' => [
+					'title'=>__('Slug'),
+					'view' =>'slug',
+					'key_slug'=>'title',
+					'type' => 'text',
+					'show_data'=>false,
+				],
 				'first_name'=>[
 					'title'=>'First Name',
 					'view'=>'text',
@@ -796,13 +801,6 @@ register_post_type(function($list_post_type) use ($plugin) {
 					'title'=>'Last Name',
 					'view'=>'text',
 					'required'=>true,
-				],
-				'slug' => [
-					'title'=>__('Slug'),
-					'view' =>'slug',
-					'key_slug'=>'title',
-					'type' => 'text',
-					'show_data'=>false,
 				],
 				'birthday'=>[
 					'title'=>'Birthday',
@@ -846,6 +844,131 @@ register_post_type(function($list_post_type) use ($plugin) {
 		]
 	];
 
+	$add_object[] = [
+		'ecom_coupon',
+		1,
+		[
+			'table'=>'ecom_coupon',
+			'slug'=>'coupon',
+			'title'=> __('Coupon'),
+			'dialogContent'=>[
+				'width'=>1000
+			],
+			'fields'=>[
+				'title'=>[
+					'title'=>'Code',
+					'view'=>'text',
+					'required'=>true,
+					'unique'=>'coupon_code',
+					'customViewForm'=>'PostType/EcomCoupon/Code',
+				],
+				'description'=>[
+					'title'=>'Description',
+					'view'=>'textarea'
+				],
+				'discount_type'=>[
+					'title'=>'Discount type',
+					'view'=>'select',
+					'list_option'=>[
+						'%'=>['title'=>'Percentage discount','color'=>'#5a5a5a'],
+						'$'=>['title'=>'Fixed discount','color'=>'#ff3333'],
+					]
+				],
+				'coupon_amount'=>[
+					'title'=>'Coupon amount',
+					'view'=>'number',
+				],
+				'expiry_date'=>[
+					'title'=>'Coupon expiry date',
+					'view'=>'dateTime'
+				],
+				'minimum_spend'=>[
+					'title'=>'Minimum spend',
+					'view'=>'number',
+					'note'=>'This field allows you to set the minimum spend (subtotal) allowed to use the coupon.',
+					'show_data'=>false,
+				],
+				'maximum_spend'=>[
+					'title'=>'Maximum spend',
+					'view'=>'number',
+					'note'=>'This field allows you to set the maximum spend (subtotal) allowed when using the coupon.',
+					'show_data'=>false,
+				],
+				'individual_use'=>[
+					'title'=>'Individual use only',
+					'view'=>'true_false',
+					'note'=>'Check this box if the coupon cannot be used in conjunction with other coupons.',
+					'show_data'=>false,
+				],
+				'exclude_sale_items'=>[
+					'title'=>'Exclude sale items',
+					'view'=>'true_false',
+					'note'=>'Check this box if the coupon should not apply to items on sale. Per-item coupons will only work if the item is not on sale. Per-cart coupons will only work if there are items in the cart that are not on sale.',
+					'show_data'=>false,
+				],
+				'products'=>[
+					'title'=>'Products',
+					'view'=>'relationship_manytomany',
+					'object'=>'ecom_prod',
+					'fields_related'=>['price','compare_price','thumbnail'],
+					'show_data'=>false,
+				],
+				'exclude_products'=>[
+					'title'=>'Exclude products',
+					'view'=>'relationship_manytomany',
+					'object'=>'ecom_prod',
+					'fields_related'=>['price','compare_price','thumbnail'],
+					'show_data'=>false,
+				],
+				'product_categories'=>[
+					'title'=>'Product categories',
+					'view'=>'relationship_manytomany',
+					'object'=>'ecom_prod_cate',
+					'hierarchical'=>'parent',
+					'show_data'=>false,
+				],
+				'exclude_categories'=>[
+					'title'=>'Exclude categories',
+					'view'=>'relationship_manytomany',
+					'object'=>'ecom_prod_cate',
+					'hierarchical'=>'parent',
+					'show_data'=>false,
+				],
+				'allowed_emails'=>[
+					'title'=>'Allowed emails',
+					'view'=>'textarea',
+					'show_data'=>false,
+				],
+				'usage_limit'=>[
+					'title'=>'Usage limit per coupon',
+					'view'=>'number',
+					'show_data'=>false,
+				],
+				'limit_usage_to_x_items'=>[
+					'title'=>'Limit usage to X items',
+					'view'=>'number',
+					'show_data'=>false,
+				],
+				'usage_limit_per_user'=>[
+					'title'=>'Usage limit per user',
+					'view'=>'number',
+					'show_data'=>false,
+				]
+				// 'ecom_order_detail' => [
+		        //     'title'=>'Order Detail',
+		        //     'view' =>'relationship_onetomany_show',
+		        //     'show_data'=>false,
+				// 	'field'=>'ecom_order',
+		        //     'object'=>'ecom_order_detail',
+		        // ],
+			],
+			'tabs'=>[
+				'General'=>[ 'title'=>'General', 'fields'=>['discount_type','coupon_amount', 'expiry_date'] ],
+				'Usage_restriction'=>[ 'title'=>'Usage restriction', 'fields'=>['minimum_spend','maximum_spend','individual_use','exclude_sale_items','products','exclude_products','product_categories','exclude_categories','allowed_emails'] ],
+				'Usage-limits'=>[ 'title'=>'Usage limits', 'fields'=>['usage_limit','limit_usage_to_x_items', 'usage_limit_per_user'] ],
+			],
+		]
+	];
 
 	$add_object[] = [
 		'ecom_order',
@@ -875,12 +998,89 @@ register_post_type(function($list_post_type) use ($plugin) {
 		            'view' =>'relationship_onetomany',
 		            // 'show_data'=>false,
 		            'object'=>'ecom_customer',
+					'fields_related'=>['first_name','last_name','avatar'],
 		        ],
+				'date_created'=>[
+					'title'=>'Date created',
+					'view'=>'dateTime',
+				],
+				'order_status'=>[
+					'title'=>'Status',
+					'view'=>'select',
+					'list_option'=>[
+						'pending'=>['title'=>'Pending payment','color'=>'#404040'],
+						'processing'=>['title'=>'Processing','color'=>'#3f51b5'],
+						'on-hold'=>['title'=>'On hold','color'=>'#ffaa00'],
+						'completed'=>['title'=>'Completed','color'=>'#43a047'],
+						'cancelled'=>['title'=>'Cancelled','color'=>'#a00'],
+						'refunded'=>['title'=>'Refunded','color'=>'#7903da'],
+						'failed'=>['title'=>'Failed','color'=>'#ff5900'],
+					]
+				],
+				'billing_address'=>[
+					'title'=>'Billing Address',
+					'view'=>'group',
+					'sub_fields'=>[
+						'name_prefix'=>['title'=>'Name Prefix'],
+						'first_name'=>['title'=>'First Name'],
+						'middle_name'=>['title'=>'Middle Name/Initial'],
+						'last_name'=>['title'=>'Last Name'],
+						'company'=>['title'=>'Company'],
+						'street_address'=>['title'=>'Street Address'],
+						'country'=>['title'=>'country'],
+						'state_province'=>['title'=>'State/Province'],
+						'city'=>['title'=>'City'],
+						'postal_code'=>['title'=>'Zip/Postal Code'],
+						'phone_number'=>['title'=>'Phone Number'],
+						'fax'=>['title'=>'Fax'],
+						'vat_number'=>['title'=>'VAT Number'],
+					],
+					'show_data'=>false,
+				],
+				'shipping_address'=>[
+					'title'=>'Shipping Address',
+					'view'=>'group',
+					'sub_fields'=>[
+						'name_prefix'=>['title'=>'Name Prefix'],
+						'first_name'=>['title'=>'First Name'],
+						'middle_name'=>['title'=>'Middle Name/Initial'],
+						'last_name'=>['title'=>'Last Name'],
+						'company'=>['title'=>'Company'],
+						'street_address'=>['title'=>'Street Address'],
+						'country'=>['title'=>'country'],
+						'state_province'=>['title'=>'State/Province'],
+						'city'=>['title'=>'City'],
+						'postal_code'=>['title'=>'Zip/Postal Code'],
+						'phone_number'=>['title'=>'Phone Number'],
+						'fax'=>['title'=>'Fax'],
+						'vat_number'=>['title'=>'VAT Number'],
+					],
+					'show_data'=>false,
+				],
+				'discount'=>[
+					'title'=>'Discount',
+					'layout'=>'table',
+					'view'=>'group',
+					'hidden'=>true,
+					'show_data'=>false,
+					'sub_fields'=>[
+						'type'=>[
+							'title'=>'Type',
+							'view'=>'select',
+							'list_option'=>[
+								'%' => ['title'=>'%'],
+								'$' => ['title'=>'$'],
+							]
+						],
+						'value'=>['title'=>'Value','type'=>'number']
+					]
+				],
 				'total_money'=>[
 					'title'=>'Total Money',
 					'view'=>'number',
 					'type'=>'decimal',
 					'decimal'=>[20, 6],
+					'customViewForm'=>'PostType/EcomOrder/TotalMoney',
 				],
 				'ecom_prod'=>[
 					'title'=>'Product',
@@ -888,6 +1088,22 @@ register_post_type(function($list_post_type) use ($plugin) {
 		            'show_data'=>false,
 		            'object'=>'ecom_prod',
 					'customViewForm'=>'PostType/EcomOrder/ChooseProduct',
+					'fields_related'=>['compare_price','price','thumbnail'],
+				],
+				'coupons'=>[
+					'title'=>'Coupons',
+		            'view' =>'relationship_manytomany',
+		            'object'=>'ecom_coupon',
+					'show_data'=>false,
+				],
+				'history'=>[
+					'title'=>'History',
+					'view'=>'repeater',
+					'sub_fields'=>[
+						'description'=>['title'=>'Description','view'=>'textarea'],
+						'time'=>['title'=>'Time','view'=>'dateTime']
+					],
+					'show_data'=>false,
 				]
 				// 'ecom_order_detail' => [
 		        //     'title'=>'Order Detail',
@@ -896,7 +1112,20 @@ register_post_type(function($list_post_type) use ($plugin) {
 				// 	'field'=>'ecom_order',
 		        //     'object'=>'ecom_order_detail',
 		        // ],
-			]
+			],
+			'tabs'=>[
+				'Information'=>[ 'title'=>'Information', 'fields'=>['title','slug','date_created', 'ecom_customer'] ],
+				'address'=>[ 
+					'title'=>'Address', 
+					'fields'=>['billing_address','shipping_address'],
+					'templates'=>[
+
+					]
+				],
+				'detail'=>[ 'title'=>'Detail', 'fields'=>['ecom_prod','coupons','total_money'] ],
+				'invoices'=>[ 'title'=>'Invoices', 'fields'=>[] ],
+				'history'=>[ 'title'=>'History', 'fields'=>['history'] ],
+			],
 		]
 	];
 

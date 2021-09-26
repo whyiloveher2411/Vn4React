@@ -3,15 +3,10 @@ import React from 'react'
 
 function PermissionList({ data, mePermission, reviewPermission, setting, listGroupPermission, hasShowGroup }) {
 
-    console.log(data);
-
-    const [render, setRender] = React.useState(0);
-
     const handleCheckPermission = (e, group, per) => {
         listGroupPermission[group].permission[per] = e.target.checked;
         reviewPermission();
     };
-
 
     return (
         Object.keys(data).map(key => (

@@ -16,9 +16,6 @@ const useStyles = makeStyles((theme) => ({
     tabs: {
         marginTop: theme.spacing(3),
     },
-    divider: {
-        backgroundColor: colors.grey[300],
-    },
     content: {
         marginTop: theme.spacing(3),
     },

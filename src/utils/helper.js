@@ -18,6 +18,13 @@ export function makeid(length, group = 'all') {
     return group + '_' + result;
 }
 
+export function uuid(format = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx') {
+    return format.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
+
 export function randomColor() {
     return '#' + Math.floor(Math.random() * 16777215).toString(16);
 }

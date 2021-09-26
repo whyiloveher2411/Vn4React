@@ -75,7 +75,6 @@ function changeDataInput( $input, $fields, $table, $type, &$taxonomy, $user, $po
             }
             
         }
-
     }
 
     $input = apply_filter('change_data_'.$type,$input,false);
@@ -114,13 +113,15 @@ function getPostTypeConfig( $type ){
     
     $admin_object = get_admin_object($type);
     
-    $admin_object['fields']['order'] = [
-        'title'=>'Order',
-        'name'=>'attributes_order',
-        'view'=>'number',
-        'advance'=>'right',
-        'show_data'=>false,
-    ];
+    if( isset($admin_object['fields']['order']) ){
+        $admin_object['fields']['order'] = [
+            'title'=>'Order',
+            'name'=>'attributes_order',
+            'view'=>'number',
+            'advance'=>'right',
+            'show_data'=>false,
+        ];
+    }
 
     $theme_name = theme_name();
 
