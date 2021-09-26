@@ -53,7 +53,6 @@ function Connectedproducts(props) {
 
     const classes = useStyles();
 
-
     const renderOption = (option, { selected }) => (
         <Box display="flex" alignItems="center" width={1}>
             <Checkbox
