@@ -26,7 +26,7 @@ export default React.memo(function TextForm(props) {
                         <OutlinedInput
                             type='text'
                             variant="outlined"
-                            name={name}
+                            // autoComplete="off"
                             value={valueInital}
                             label={config.title}
                             onBlur={e => { onReview(e.target.value); }}
@@ -40,7 +40,7 @@ export default React.memo(function TextForm(props) {
                     <OutlinedInput
                         type='text'
                         variant="outlined"
-                        name={name}
+                        // autoComplete="off"
                         value={valueInital}
                         onBlur={handleOnChange}
                         onChange={handleOnChange}

@@ -1,6 +1,22 @@
 <?php
 $input = json_decode( $r->getContent(), true );
 
+if( !is_writable(__DIR__.'/../core.php') ){
+    return [
+        'message'=>[
+            'content'=>'Do not have permission to write file cms/core.php',
+            'options'=>[
+                'variant'=>'error',
+                'anchorOrigin'=>[
+                    'vertical'=>'bottom',
+                    'horizontal'=>'right'
+                ]
+            ]
+        ],
+        'success'=>false
+    ];
+}
+
 $GLOBALS['vn4_table_prefix'] = config('app.TABLE_PREFIX');
 
 function vn4_tbpf(){
@@ -58,7 +74,7 @@ cache()->flush();
 //     'https'=>1
 // ]));
 
-file_put_contents(__DIR__.'/../core.php', file_get_contents(__DIR__.'/../core_temp.txt'));
+file_put_contents(__DIR__.'/../core.php', file_get_contents(__DIR__.'/../temporarySample/core.txt'));
 
 return ['success'=>true,'backend_url'=>url('/'.$input['backend_url'])];
 

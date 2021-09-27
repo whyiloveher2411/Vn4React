@@ -4,7 +4,7 @@ const valueFace = { light: true, dark: true };
 
 let valueInitial = localStorage.getItem("view_mode");
 
-if (!valueFace[valueInitial]) valueInitial = 'dark';
+if (!valueFace[valueInitial]) valueInitial = 'light';
 
 const userReducer = (state = valueInitial, action) => {
 

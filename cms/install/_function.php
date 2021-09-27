@@ -74,17 +74,20 @@ function setEnvironmentValue(array $values)
 
 function makesFolderPath(){
     
-    if( !file_exists( $file =   cms_path('storage','logs')) ){
-        mkdir($file, 0777, true);
-    }
+    $result = true;
 
-    if( !file_exists( $file =  cms_path('storage','framework/views')) ){
-        mkdir( $file, 0777, true);
+    if( !file_exists( $file = cms_path('storage','logs')) ){
+        mkdir($file, 0777, true);
     }
 
     if( !file_exists( $file = cms_path('storage','framework/cache')) ){
         mkdir( $file , 0777, true);
     }
+
+    if( !file_exists( $file = cms_path('storage','framework/views')) ){
+        mkdir( $file, 0777, true);
+    }
+  
     if( !file_exists( $file = cms_path('storage','framework/sessions') ) ){
         mkdir( $file, 0777, true);
     }
@@ -109,4 +112,9 @@ function makesFolderPath(){
             copyemz( app()->resourcePath('views/themes/'.$theme.'/public/screenshot.png'), public_path('themes/'.$theme.'.png'));
         }
     }
+
+    return [
+        'message'=>'',
+        'result'=>$result
+    ];
 }

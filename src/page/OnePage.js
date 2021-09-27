@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 import { useParams } from 'react-router-dom';
-import { toCamelCase } from '../utils/helper';
-import NotFound from './NotFound/NotFound';
+import { toCamelCase } from 'utils/helper';
+import Home from './Home';
 import TemplatesAdmin from './TemplatesAdmin';
 
 function OnePage() {
@@ -33,11 +33,7 @@ function OnePage() {
         }
     }
 
-
-    let resolved = require('./Home').default;
-    return React.createElement(resolved, { page: page });
-
-
+    return <Home page={page} />
 }
 
 export default OnePage

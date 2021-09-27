@@ -13,7 +13,6 @@ export default React.memo(function TextForm(props) {
         <TextField
             fullWidth
             variant="outlined"
-            name={name}
             value={valueInital}
             label={config.title}
             helperText={config.note}

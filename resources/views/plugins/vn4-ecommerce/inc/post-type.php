@@ -996,9 +996,9 @@ register_post_type(function($list_post_type) use ($plugin) {
 				'ecom_customer' => [
 		            'title'=>'Customer',
 		            'view' =>'relationship_onetomany',
-		            // 'show_data'=>false,
 		            'object'=>'ecom_customer',
 					'fields_related'=>['first_name','last_name','avatar'],
+					'customViewForm'=>'PostType/EcomOrder/Customer',
 		        ],
 				'date_created'=>[
 					'title'=>'Date created',
@@ -1118,9 +1118,7 @@ register_post_type(function($list_post_type) use ($plugin) {
 				'address'=>[ 
 					'title'=>'Address', 
 					'fields'=>['billing_address','shipping_address'],
-					'templates'=>[
-
-					]
+					'hook'=>'PostType/EcomOrder/Address'
 				],
 				'detail'=>[ 'title'=>'Detail', 'fields'=>['ecom_prod','coupons','total_money'] ],
 				'invoices'=>[ 'title'=>'Invoices', 'fields'=>[] ],

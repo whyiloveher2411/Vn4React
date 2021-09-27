@@ -129,11 +129,16 @@ function TotalMoney(props) {
             <Box width={320} display="flex" alignItems="centeer" justifyContent="space-between">
                 <Typography align="right" style={{ margin: '16px 0' }} variant="h5">Total:</Typography>
                 <Typography align="right" style={{ margin: '16px 0' }} variant="h5">${
+                    (() => {
+                        let total = products.reduce((previousValue, item) => previousValue + item.quantity * item.price, 0)
+                            - (discount.value ? discount.type === '%' ? Number((products.reduce((previousValue, item) => previousValue + item.quantity * item.price, 0) * discount.value / 100).toFixed(2)) : discount.value : 0)
 
-                    products.reduce((previousValue, item) => previousValue + item.quantity * item.price, 0)
-                    - (discount.value ? discount.type === '%' ? Number((products.reduce((previousValue, item) => previousValue + item.quantity * item.price, 0) * discount.value / 100).toFixed(2)) : discount.value : 0)
+                        if (total > 0) return total;
 
-                }</Typography>
+                        return 0;
+                    })()
+                }
+                </Typography>
             </Box>
 
             <Menu

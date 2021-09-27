@@ -1,4 +1,4 @@
-import { FormControl, FormHelperText, InputAdornment, makeStyles, TextField, Typography } from '@material-ui/core';
+import { FormControl, FormHelperText, makeStyles, TextField, Typography } from '@material-ui/core';
 import { Alert, Autocomplete } from '@material-ui/lab';
 import React from 'react';
 
@@ -75,8 +75,6 @@ export default React.memo(function SelectForm(props) {
                 disableClearable={config.disableClearable ? Boolean(config.disableClearable) : false}
                 size={config.size ?? 'medium'}
                 renderInput={(params) => {
-                    console.log(params);
-
                     if (config.list_option[post[name]] && config.list_option[post[name]].color) {
                         params.InputProps.startAdornment = <span
                             className={classes.pointSelect}

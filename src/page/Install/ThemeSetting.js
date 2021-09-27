@@ -63,16 +63,6 @@ function ThemeSetting({ data, setThemeActive, themeActive }) {
                 importData: false,
             })
         }
-        // ajax({
-        //     url: 'appearance/theme/change-theme',
-        //     method: 'POST',
-        //     data: {
-        //         theme: theme
-        //     },
-        //     success: (result) => {
-        //         // setData(result.rows);
-        //     }
-        // })
     };
     if (!data) {
         return (

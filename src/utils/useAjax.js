@@ -4,7 +4,7 @@ import { useSnackbar } from 'notistack';
 import { useDispatch } from 'react-redux';
 import { Loading } from 'components';
 
-const urlPrefix = process.env.REACT_APP_BASE_URL + 'api/admin/';
+const urlPrefixDefault = process.env.REACT_APP_BASE_URL + 'api/admin/';
 
 export function useAjax(props) {
 
@@ -69,7 +69,7 @@ export function useAjax(props) {
     }
 
     const requestLogin = (url, param) => {
-        if (!window.__afterLogin) window.__afterLogin = { };
+        if (!window.__afterLogin) window.__afterLogin = {};
         window.__afterLogin[url] = param;
         dispatch(updateRequireLogin({ open: true, updateUser: false }));
     }
@@ -87,7 +87,7 @@ export function useAjax(props) {
 
     const bind = (params) => {
 
-        let { url, method, data, loading = true } = params;
+        let { url, urlPrefix = null, method, data, loading = true } = params;
 
         let headers = {
             'Accept': 'application/json',
@@ -108,7 +108,7 @@ export function useAjax(props) {
             method = 'POST';
         }
 
-        fetch(urlPrefix + url, {
+        fetch((urlPrefix ?? urlPrefixDefault) + url, {
             headers: headers,
             method: method,
             body: JSON.stringify(data)

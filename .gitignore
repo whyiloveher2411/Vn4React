@@ -12,8 +12,11 @@
 # production
 /build
 
-/storage
-
+/storage/app/public/*
+/storage/chunk/*
+/storage/cms/*
+/storage/downloader/*
+/storage/logs/*
 
 #config
 .env

@@ -43,13 +43,13 @@ function PluginPage(props) {
                     compoment = toCamelCase(plugin) + '/' + toCamelCase(tab);
                 }
 
-                resolved = require(`../Plugin/${compoment}`).default;
+                resolved = require(`../plugins/${compoment}`).default;
 
             } catch (error) {
 
                 compoment = toCamelCase(plugin) + '/' + toCamelCase(tab);
 
-                resolved = require(`../Plugin/${compoment}`).default;
+                resolved = require(`../plugins/${compoment}`).default;
 
             }
 

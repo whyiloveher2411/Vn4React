@@ -1,4 +1,4 @@
-import { Card, CardActions, CardContent, CardHeader } from '@material-ui/core';
+import { Box, Card, CardActions, CardContent, CardHeader } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Step from '@material-ui/core/Step';
 import StepConnector from '@material-ui/core/StepConnector';
@@ -209,6 +209,9 @@ export default function CustomizedSteppers() {
   const [activeStep, setActiveStep] = React.useState(0);
 
   const [systemCheck, setSystemCheck] = React.useState(false);
+
+  const urlPrefix = process.env.REACT_APP_BASE_URL + 'api/install/admin/';
+
   const [themeActive, setThemeActive] = React.useState({
     name: '',
     importData: false,
@@ -250,6 +253,7 @@ export default function CustomizedSteppers() {
         return;
       case 1:
         ajax({
+          urlPrefix,
           url: 'database-check',
           method: 'POST',
           data: database,
@@ -262,9 +266,10 @@ export default function CustomizedSteppers() {
         return;
       case 2:
         ajax({
+          urlPrefix,
           url: 'theme-check',
           method: 'POST',
-          data: { ...themeActive, action: 'next' },
+          data: { ...themeActive, ...database, action: 'next' },
           success: (result) => {
             if (result.success) {
               setActiveStep(activeStep + 1);
@@ -274,6 +279,7 @@ export default function CustomizedSteppers() {
         return;
       case 3:
         ajax({
+          urlPrefix,
           url: 'administrator-check',
           method: 'POST',
           data: administrator,
@@ -310,7 +316,7 @@ export default function CustomizedSteppers() {
         return <div style={{ textAlign: 'center' }}><Link variant="contained" color="primary" to={'/dashboard'}>
           <Button variant="contained" color="primary">
             Backend
-            </Button>
+          </Button>
         </Link></div>;
     }
   };
@@ -321,6 +327,7 @@ export default function CustomizedSteppers() {
     switch (activeStep) {
       case 0:
         ajax({
+          urlPrefix,
           url: 'system-check',
           method: 'POST',
           success: (result) => {
@@ -333,6 +340,7 @@ export default function CustomizedSteppers() {
         break;
       case 2:
         ajax({
+          urlPrefix,
           url: 'theme-check',
           method: 'POST',
           data: { action: 'get' },
@@ -348,64 +356,64 @@ export default function CustomizedSteppers() {
   }, [activeStep]);
 
   return (
-    <div style={{ maxWidth: 1040, margin: '0 auto', minHeight: '100vh', padding: '50px 20px' }}>
-      <Card style={{ width: '100%' }}>
-        <CardHeader
-          title={
-            <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
-              {steps.map((label) => (
-                <Step key={label}>
-                  <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
-                </Step>
-              ))}
-            </Stepper>
-          }
-        />
-        <CardContent >
-          <div className={classes.root}>
+    <Box alignItems="center" justifyContent="center" padding={'50px 20px'} style={{ overflowY: 'auto', height: '100vh' }} className="custom_scroll">
+      <div style={{ maxWidth: 1040, margin: '0 auto' }}>
+        <Card style={{ width: '100%' }}>
+          <CardHeader
+            title={
+              <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
+                {steps.map((label) => (
+                  <Step key={label}>
+                    <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
+                  </Step>
+                ))}
+              </Stepper>
+            }
+          />
+          <CardContent >
+            <div className={classes.root}>
 
-            {getStepContent(activeStep)}
+              {getStepContent(activeStep)}
 
-          </div>
-        </CardContent>
-        <CardActions style={{ justifyContent: 'flex-end' }}>
-          <div>
-            {activeStep === steps.length ? (
-              <div>
-
-                <Button onClick={handleReset} className={classes.button}>
-                  Reset
-            </Button>
-              </div>
-            ) : (
-              <div>
+            </div>
+          </CardContent>
+          <CardActions style={{ justifyContent: 'flex-end' }}>
+            <div>
+              {activeStep === steps.length ? (
                 <div>
 
-                  {
-                    activeStep < (steps.length - 1) &&
-                    <>
-                      <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
-                        Back
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleNext}
-                        className={classes.button}
-                      >
-                        Next
-                    </Button>
-                    </>
-                  }
+                  <Button onClick={handleReset} className={classes.button}>
+                    Reset
+                  </Button>
                 </div>
-              </div>
-            )}
-          </div>
-        </CardActions>
-      </Card>
+              ) : (
+                <div>
+                  <div>
 
-      {Loading}
-
-    </div>
+                    {
+                      activeStep < (steps.length - 1) &&
+                      <>
+                        <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
+                          Back
+                        </Button>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={handleNext}
+                          className={classes.button}
+                        >
+                          Next
+                        </Button>
+                      </>
+                    }
+                  </div>
+                </div>
+              )}
+            </div>
+          </CardActions>
+        </Card>
+        {Loading}
+      </div>
+    </Box>
   );
 }

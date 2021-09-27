@@ -74,32 +74,8 @@ var_dump($r);
 Route::any('{group}/{file}/{param1?}/{param2?}/{param3?}',['as'=>'api_group', 'uses'=>function($group, $file, $param1 = null, $param2 = null, $param3 = null){
 
     $r = request();
-    $user = false;
-
-    if( $group !== 'login' && !($group === 'settings' && $file === 'all' ) ){
-
-        $access_token = getBearerToken();
-
-    	if( !$access_token ) return [ 'require_login'=>true ];
-
-        $key = config('app.key');
-
-        $decoded = \Firebase\JWT\JWT::decode($access_token, $key, array('HS256'),true);
-
-        $decoded->user = get_post('user', $decoded->id);
-        if( $decoded->expires_time < time()
-            || !$decoded->user  ){
-
-            return [ 'require_login'=>true ];
-        }
-        
-        $GLOBALS['access_token'] = $decoded;
-        $user = $decoded->user;
-
-    }
-
-
-    if( file_exists( $file = __DIR__.'/api/'.$group.'/'.$file.'.php') ){
+    
+    if( file_exists( $file = __DIR__.'/'.$group.'/'.$file.'.php') ){
 	    return include $file;
     }
 

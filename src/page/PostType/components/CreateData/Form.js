@@ -155,65 +155,63 @@ function Form(props) {
                             <Grid item md={12} xs={12}>
                                 <Card>
                                     <CardContent>
-                                        <Grid
-                                            container
-                                            spacing={4}>
-                                            <Grid item md={12} xs={12}>
-                                                {
-                                                    Boolean(data.config.tabs) &&
-                                                    <div className={classes.root}>
-                                                        <div className={classes.tabs}>
-                                                            <span className='indicator' style={{ top: tabCurrent[postType] * 48 }}></span>
-                                                            {
-                                                                listTabs.map((g, i) => (
-                                                                    <Button key={g} onClick={e => handleChangeTab(i)} name={i} className={classes.tabsItem + (tabCurrent[postType] === i ? ' active' : '')} color="default">{data.config.tabs[g].title}</Button>
-                                                                ))
-                                                            }
-                                                        </div>
-                                                        <div style={{ paddingLeft: 24, width: 'calc( 100% - 160px )' }}>
-                                                            <Grid
-                                                                container
-                                                                spacing={4}>
-                                                                {
-                                                                    (() => {
+                                        {
+                                            Boolean(data.config.tabs) &&
+                                            <div className={classes.root}>
+                                                <div className={classes.tabs}>
+                                                    <span className='indicator' style={{ top: tabCurrent[postType] * 48 }}></span>
+                                                    {
+                                                        listTabs.map((g, i) => (
+                                                            <Button key={g} onClick={e => handleChangeTab(i)} name={i} className={classes.tabsItem + (tabCurrent[postType] === i ? ' active' : '')} color="default">{data.config.tabs[g].title}</Button>
+                                                        ))
+                                                    }
+                                                </div>
+                                                <div style={{ paddingLeft: 24, width: 'calc( 100% - 160px )' }}>
+                                                    <Grid
+                                                        container
+                                                        spacing={4}>
+                                                        {
+                                                            (() => {
 
-                                                                        if (listTabs[tabCurrent[postType]]) {
+                                                                if (listTabs[tabCurrent[postType]]) {
 
-                                                                            if (data.config.tabs[Object.keys(data.config.tabs)[tabCurrent[postType]]].fields) {
+                                                                    if (data.config.tabs[listTabs[tabCurrent[postType]]].hook) {
+                                                                        return <Grid item md={12} xs={12}><Hook
+                                                                            {...props}
+                                                                            {...data.config.tabs[listTabs[tabCurrent[postType]]]}
+                                                                            onReview={onReview}
+                                                                        /></Grid>
+                                                                    } else if (data.config.tabs[listTabs[tabCurrent[postType]]].fields) {
 
-                                                                                return data.config.tabs[Object.keys(data.config.tabs)[tabCurrent[postType]]].fields.map(key => (
-                                                                                    <Grid item md={12} xs={12} key={key}>
-                                                                                        <FieldForm
-                                                                                            compoment={data.config.fields[key].view}
-                                                                                            config={data.config.fields[key]}
-                                                                                            post={data.post}
-                                                                                            name={key}
-                                                                                            onReview={(value, key2 = key) => onReview(value, key2)}
-                                                                                        />
-                                                                                    </Grid>
-                                                                                ))
+                                                                        return data.config.tabs[listTabs[tabCurrent[postType]]].fields.map(key => (
+                                                                            <Grid item md={12} xs={12} key={key}>
+                                                                                <FieldForm
+                                                                                    compoment={data.config.fields[key].view}
+                                                                                    config={data.config.fields[key]}
+                                                                                    post={data.post}
+                                                                                    name={key}
+                                                                                    onReview={(value, key2 = key) => onReview(value, key2)}
+                                                                                />
+                                                                            </Grid>
+                                                                        ))
+                                                                    }
 
-                                                                            }
+                                                                    return data.config.tabs[listTabs[tabCurrent[postType]]].compoment;
 
-                                                                            return data.config.tabs[Object.keys(data.config.tabs)[tabCurrent[postType]]].compoment;
-
-                                                                        } else {
-                                                                            setTableCurrent({
-                                                                                ...tabCurrent,
-                                                                                [postType]: 0
-                                                                            });
-                                                                        }
-                                                                    })()
-
+                                                                } else {
+                                                                    setTableCurrent({
+                                                                        ...tabCurrent,
+                                                                        [postType]: 0
+                                                                    });
                                                                 }
+                                                            })()
 
-                                                            </Grid>
-                                                        </div>
-                                                    </div>
+                                                        }
 
-                                                }
-                                            </Grid>
-                                        </Grid>
+                                                    </Grid>
+                                                </div>
+                                            </div>
+                                        }
                                     </CardContent>
                                 </Card>
                             </Grid>

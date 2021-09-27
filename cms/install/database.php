@@ -7,7 +7,22 @@ try{
                     $input['database_account'],$input['database_password'],
                     array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 
-
+    if( !is_writable(__DIR__.'/../../config/database.php') ){
+        return [
+            'message'=>[
+                'content'=>'Do not have permission to write file config/database.php',
+                'options'=>[
+                    'variant'=>'error',
+                    'anchorOrigin'=>[
+                        'vertical'=>'bottom',
+                        'horizontal'=>'right'
+                    ]
+                ]
+            ],
+            'success'=>false
+        ];
+    }
+    
     // setEnvironmentValue([
     //     'APP_URL'=>url('/').'/',
     //     'DB_HOST'=>$input['database_host'],
@@ -18,6 +33,26 @@ try{
     //     'TABLE_PREFIX'=>$input['table_prefix'],
     // ]);
     
+    $finds = [
+        '{{MYSQL_HOST}}',
+        '{{MYSQL_PORT}}',
+        '{{MYSQL_DATABASE}}',
+        '{{MYSQL_USERNAME}}',
+        '{{MYSQL_PASSWORD}}',
+    ];
+
+    $replace = [
+        $input['database_host'],
+        $input['database_port'],
+        $input['database_name'],
+        $input['database_account'],
+        $input['database_password']
+    ];
+
+    $databaseText = str_replace( $finds, $replace, file_get_contents(__DIR__.'/../temporarySample/config_database.txt') );
+
+    file_put_contents(__DIR__.'/../../config/database.php', $databaseText);
+
     return [
         'message'=>[
             'content'=>'Valid database',
@@ -31,8 +66,7 @@ try{
             ],
         'success'=>true
     ];
-}
-catch(PDOException $ex){
+}catch(PDOException $ex){
     return [
         'message'=>[
             'content'=>'Unable to connect',

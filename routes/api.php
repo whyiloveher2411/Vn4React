@@ -53,7 +53,7 @@ if( request()->is('api/admin/*') ){
 
 		});
 
-		include cms_path('resource','views/admin/themes/default/api.php');
+		include cms_path('resource','views/admin/themes/default/api/admin/loader.php');
 
 	});
 }

@@ -78,6 +78,7 @@ function RequireLogin() {
 
     const settings = useSelector(state => state.settings);
     const requireLogin = useSelector(state => state.requireLogin);
+    const user = useSelector(state => state.user);
 
     const dispatch = useDispatch();
 
@@ -87,7 +88,7 @@ function RequireLogin() {
     const { ajax, Loading } = useAjax();
 
     const valueInital = {
-        username: '',
+        username: user.email,
         password: '',
         verification_code: ''
     };
@@ -342,6 +343,7 @@ function RequireLogin() {
                                             }}
                                             required
                                             post={formData}
+                                            disabled
                                             name={'username'}
                                             onReview={value => { setFormData(prev => ({ ...prev, username: value })) }}
                                         />

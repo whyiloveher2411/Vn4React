@@ -5,10 +5,12 @@ let settingsInitial = {};
 try {
     settingsInitial = JSON.parse(sessionStorage.getItem('settings')) || {};
 } catch (error) {
+
 }
 
+let uri = window.location.pathname.substring(1);
 
-if (!Object.keys(settingsInitial).length) {
+if ( uri !== 'install' && !Object.keys(settingsInitial).length) {
 
     const urlPrefix = process.env.REACT_APP_BASE_URL + 'api/admin/';
 
@@ -48,7 +50,7 @@ const settingsReducer = (state = settingsInitial, action) => {
 
             sessionStorage.setItem("settings", '{}');
             return {};
-            
+
         default:
             return state;
             break;
