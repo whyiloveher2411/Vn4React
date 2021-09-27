@@ -21,16 +21,6 @@
 /storage/framework/sessions/*
 /storage/framework/views/*
 
-
-!/storage/app/public
-!/storage/chunk
-!/storage/cms
-!/storage/downloader
-!/storage/logs
-!/storage/framework/cache
-!/storage/framework/sessions
-!/storage/framework/views
-
 #config
 .env
 
