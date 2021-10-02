@@ -38,7 +38,7 @@ $sidebar = [
         'pages' => []
     ],
     'management'=>[
-        'title' =>  'Management',
+        'title' =>'Settings',
         'icon'=>'SettingsOutlined',
         'show'=>false,
         'description'=>'Users, Settings, Appearance, Plugin, Logs, Media,...',

@@ -7,6 +7,10 @@ $r = request();
 // }
 $user = get_post('user',$r->get('id'));
 
+if( !$user ){
+	return [ 'require_login'=>true ];
+}
+
 $input = $r->all();
 
 $update_data = $r->only(['number_phone','url_social_network','description','profile_picture','active_show_toolbar']);

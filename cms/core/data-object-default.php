@@ -32,48 +32,57 @@ $object['page'] = [
 
 $object['user'] = [
 		'table'=>vn4_tbpf().'user',
-	    'title'=>'User',
-	    'layout'=>'show_data',
-	    'is_post_system'=>true,
-	    'fields' => [
-	        'email' => [
-	            'title'=>'Email',
-	            'view' =>'email',
-	            'unique'=>true,
-	            'note'=>'Email dùng để đăng nhập.'],
-	        'slug'=>[
-	            'title'=>__('Slug'),
-	            'view'=>'slug',
-	            'key_slug'=>'email',
-	            'show_data'=>false,
-	        ],
-	        'first_name'=>[
-	            'title'=>'First Name',
-	            'view'=>'text',
-	            'show_data'=>false,
-	        ],
-	        'last_name'=>[
-	            'title'=>'Last Name',
-	            'view'=>'text',
-	            'show_data'=>false,
-	        ],
-	        'password'  => [
-	            'title'=>'Password',
-	            'show_data'=>false,
-	            'view' =>'password',
-	            'note'=>'Password dùng để đăng nhập vào user'
-	        ],
-	        'role'=>[
-	            'title'=>'Role',
-	            'view'=>'text',
-	            'length'=>60,
-	        ],
-	        'customize_time'=>[
-	            'title'=>'Customize Time',
-	            'show_data'=>false,
-	            'view'=>'text'
-	        ],
-	    ],
+		'title'=>__('User'),
+		'is_post_system'=>true,
+		'fields' => [
+			'email' => [
+				'title'=>__('Email'),
+				'view' =>'email',
+				'unique'=>true,
+				'note'=>'Email used to login.'],
+			'slug'=>[
+				'title'=>__('Slug'),
+				'view'=>'slug',
+				'key_slug'=>'email',
+				'show_data'=>false,
+			],
+			'first_name'=>[
+				'title'=>__('First Name'),
+				'view'=>'text',
+				'show_data'=>false,
+			],
+			'last_name'=>[
+				'title'=>__('Last Name'),
+				'view'=>'text',
+				'show_data'=>false,
+			],
+			'profile_picture'=>[
+				'title'=>'Avata',
+				'view'=>'image',
+				'show_data'=>false,
+				'thumbnail'=>[
+					'nav-top'=>['title'=>'Nav Top','type'=>1,'width'=>74,'height'=>74]
+				]
+			],
+			'password'  => [
+				'title'=>__('Password'),
+				'show_data'=>false,
+				'view' =>'password',
+				'note'=>'Password used to log in the user'
+			],
+			'role'=>[
+				'title'=>'Role',
+				'view'=>'text',
+				'length'=>60,
+			],
+			'customize_time'=>[
+				'title'=>'Customize Time',
+				'show_data'=>false,
+				'view'=>'text'
+			]
+		],
+		'show_in_nav_menus'=>false,
+		'public'=>false,
 	];
 
 return $object;

@@ -1,10 +1,11 @@
 // import DateFnsUtils from '@date-io/date-fns';
-import { colors, Dialog, DialogActions, DialogContent, CircularProgress, DialogContentText, DialogTitle, Fab, Grid, Chip, IconButton, List, ListItemIcon, ListItem, ListItemText, Menu, MenuItem, Tooltip, Typography } from '@material-ui/core';
+import { CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fab, Grid, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Tooltip, Typography } from '@material-ui/core';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import ArrowBackOutlined from '@material-ui/icons/ArrowBackOutlined';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EventIcon from '@material-ui/icons/Event';
 import FormatListBulletedRoundedIcon from '@material-ui/icons/FormatListBulletedRounded';
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import LinkRoundedIcon from '@material-ui/icons/LinkRounded';
 import LockIcon from '@material-ui/icons/Lock';
 import NoteIcon from '@material-ui/icons/Note';
@@ -16,13 +17,12 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import VpnKeyRoundedIcon from '@material-ui/icons/VpnKeyRounded';
 import { makeStyles } from '@material-ui/styles';
 import clsx from 'clsx';
-import { FieldForm, Hook, CustomTooltip, Button, Divider } from 'components';
+import { Button, CustomTooltip, Divider, FieldForm, Hook } from 'components';
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useAjax } from 'utils/useAjax';
 import { checkPermission } from 'utils/user';
 import LabelPost from '../LabelPost';
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import PostTypeInfo from './PostTypeInfo';
 
 const useStyles = makeStyles((theme) => ({
@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
             position: 'absolute',
             width: 1,
             height: 20,
-            background: '#dedede',
+            background: theme.palette.dividerDark,
             top: '50%',
             right: 0,
             transform: 'translateY(-50%)'
@@ -229,7 +229,6 @@ const Header = (props) => {
                                     </IconButton>
                                 </Tooltip>
                             }
-
                             {
                                 Boolean(backToList) &&
                                 <Tooltip className={classes.backToList} onClick={handleBackToList} title="Back to list" aria-label="back-to-list">

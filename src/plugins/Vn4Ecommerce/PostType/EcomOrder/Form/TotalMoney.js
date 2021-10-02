@@ -1,11 +1,24 @@
 import { Box, Button, IconButton, InputAdornment, Menu, MenuItem, Typography } from '@material-ui/core';
-import { FieldForm, MaterialIcon } from 'components';
+import { Divider, FieldForm, MaterialIcon } from 'components';
+import { moneyFormat } from 'plugins/Vn4Ecommerce/helpers/Money';
 import React from 'react';
 
-function TotalMoney(props) {
-    const { post, name } = props;
 
-    const [products, setProducts] = React.useState([]);
+export function calculateTotal(products, coupons, discount) {
+
+    let total = products.total - coupons.total
+        - (discount.value ? discount.type === '%' ? Number((products.total * discount.value / 100).toFixed(2)) : discount.value : 0)
+
+    if (total > 0) return total;
+
+    return 0;
+};
+
+function TotalMoney(props) {
+    const { post } = props;
+
+    const [products, setProducts] = React.useState({ items: [], total: 0 });
+    const [coupons, setCoupons] = React.useState({ items: [], total: 0 });
 
     const [discount, setDiscount] = React.useState({
         type: '$',
@@ -15,26 +28,25 @@ function TotalMoney(props) {
     const [openDiscountForm, setOpenDiscountForm] = React.useState(false);
 
     React.useEffect(() => {
-        let valueInital = [];
+
+        let valueInital = { item: [], total: 0 };
+
         try {
-            if (post.ecom_prod && typeof post.ecom_prod === 'object') {
-                valueInital = post.ecom_prod;
+            if (post.products && typeof post.products === 'object') {
+                valueInital = post.products;
             } else {
-                if (post.ecom_prod) {
-                    valueInital = JSON.parse(post.ecom_prod);
+                if (post.products) {
+                    valueInital = JSON.parse(post.products);
                 }
             }
-
-            if (!Array.isArray(valueInital)) valueInital = [];
         } catch (error) {
-            valueInital = [];
+            valueInital = { item: [], total: 0 };
         }
 
         let valueInitalDiscount = {
             type: '$',
             value: 0
         };
-
 
         try {
             if (post.discount && typeof post.discount === 'object') {
@@ -56,7 +68,26 @@ function TotalMoney(props) {
         setDiscount(valueInitalDiscount);
         setProducts(valueInital);
 
-    }, []);
+    }, [post.products]);
+
+    React.useEffect(() => {
+
+        let valueInital = { items: [], total: 0 };
+        try {
+            if (post.coupons && typeof post.coupons === 'object') {
+                valueInital = post.coupons;
+            } else {
+                if (post.coupons) {
+                    valueInital = JSON.parse(post.coupons);
+                }
+            }
+        } catch (error) {
+            valueInital = { items: [], total: 0 };
+        }
+
+        setCoupons(valueInital);
+
+    }, [post.coupons]);
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -81,14 +112,20 @@ function TotalMoney(props) {
     }
 
     return (
-        <div>
+        <>
+            <Divider color="dark" style={{ marginBottom: 32 }} />
             <Box width={320} display="flex" alignItems="centeer" justifyContent="space-between">
-                <Typography align="right" style={{ margin: '16px 0' }} variant="h5">Items Subtotal: </Typography>
-                <Typography align="right" style={{ margin: '16px 0' }} variant="h5">${products.reduce((previousValue, item) => previousValue + item.quantity * item.price, 0)}</Typography>
+                <Typography align="right" style={{ margin: '8px 0' }}>Items Subtotal: </Typography>
+                <Typography align="right" style={{ margin: '8px 0' }}>{moneyFormat(products.total)}</Typography>
 
             </Box>
             <Box width={320} display="flex" alignItems="centeer" justifyContent="space-between">
-                <Typography align="right" style={{ margin: '16px 0' }} variant="h5">Discount:</Typography>
+                <Typography align="right" style={{ margin: '8px 0' }}>Coupons: </Typography>
+                <Typography align="right" style={{ margin: '8px 0' }}>- {moneyFormat(coupons.total)}</Typography>
+
+            </Box>
+            <Box width={320} display="flex" alignItems="centeer" justifyContent="space-between">
+                <Typography align="right" style={{ margin: '8px 0' }}>Discount:</Typography>
                 {
                     openDiscountForm ?
                         <Box display="flex" justifyContent="flex-end" flexWrap="wrap" gridGap={8}>
@@ -107,37 +144,28 @@ function TotalMoney(props) {
                         </Box>
                         :
                         discount.value ?
-                            <Typography onClick={() => setOpenDiscountForm(true)} align="right" style={{ textDecoration: 'underline', cursor: 'pointer', margin: '16px 0' }} variant="h5">$
+                            <Typography onClick={() => setOpenDiscountForm(true)} align="right" style={{ textDecoration: 'underline', cursor: 'pointer', margin: '8px 0' }}>-
                                 {
                                     discount.type === '%' ?
-                                        Number((products.reduce((previousValue, item) => previousValue + item.quantity * item.price, 0) * discount.value / 100).toFixed(2)) + ' (' + discount.value + '%)'
+                                        moneyFormat(Number((products.total * discount.value / 100).toFixed(2))) + ' (' + discount.value + '%)'
                                         :
-                                        discount.value
+                                        moneyFormat(discount.value)
                                 }
                             </Typography>
                             :
-                            <IconButton onClick={() => setOpenDiscountForm(true)} style={{ marginRight: -8 }}>
+                            <IconButton size="small" onClick={() => setOpenDiscountForm(true)} style={{ marginRight: -8 }}>
                                 <MaterialIcon icon="AddRounded" />
                             </IconButton>
                 }
 
             </Box>
             <Box width={320} display="flex" alignItems="centeer" justifyContent="space-between">
-                <Typography align="right" style={{ margin: '16px 0' }} variant="h5">Shipping:</Typography>
-                <Typography align="right" style={{ margin: '16px 0' }} variant="h5">$0</Typography>
+                <Typography align="right" style={{ margin: '8px 0' }}>Shipping:</Typography>
+                <Typography align="right" style={{ margin: '8px 0' }}>{moneyFormat(0)}</Typography>
             </Box>
             <Box width={320} display="flex" alignItems="centeer" justifyContent="space-between">
-                <Typography align="right" style={{ margin: '16px 0' }} variant="h5">Total:</Typography>
-                <Typography align="right" style={{ margin: '16px 0' }} variant="h5">${
-                    (() => {
-                        let total = products.reduce((previousValue, item) => previousValue + item.quantity * item.price, 0)
-                            - (discount.value ? discount.type === '%' ? Number((products.reduce((previousValue, item) => previousValue + item.quantity * item.price, 0) * discount.value / 100).toFixed(2)) : discount.value : 0)
-
-                        if (total > 0) return total;
-
-                        return 0;
-                    })()
-                }
+                <Typography align="right" style={{ margin: '8px 0' }}>Total:</Typography>
+                <Typography align="right" style={{ margin: '8px 0' }}>{moneyFormat(calculateTotal(products, coupons, discount))}
                 </Typography>
             </Box>
 
@@ -158,7 +186,7 @@ function TotalMoney(props) {
                 }
             </Menu>
 
-        </div >
+        </>
     )
 }
 

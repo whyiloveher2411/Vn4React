@@ -134,3 +134,61 @@ function apiNotFound(){
         'message'=>apiMessage('Api Not Found', 'error')
     ], 404);
 }
+
+function getUser(){
+    if( isset($GLOBALS['access_token']) ){
+        return $GLOBALS['access_token']->user;
+    }
+    return null;
+}
+
+function apiAccessHeader(){
+        
+    if (isset($_SERVER['HTTP_ORIGIN'])) {
+        header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+        header('Access-Control-Allow-Credentials: true');
+        header('Access-Control-Max-Age: 86400');    // cache for 1 day
+    }
+    // Access-Control headers are received during OPTIONS requests
+    if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+
+        if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+            header("Access-Control-Allow-Methods: GET, POST, OPTIONS");         
+
+        if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+            header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
+
+        exit(0);
+    }
+}
+
+function checkUserAdmin($group = null, $file = null){
+
+    $r = request();
+    
+    $user = false;
+
+    if( $group !== 'login' && !($group === 'settings' && $file === 'all' ) ){
+
+        $access_token = getBearerToken();
+
+    	if( !$access_token ) return [ 'require_login'=>true ];
+
+        $key = config('app.key');
+
+        $decoded = \Firebase\JWT\JWT::decode($access_token, $key, array('HS256'),true);
+
+        $decoded->user = get_post('user', $decoded->id);
+        if( $decoded->expires_time < time()
+            || !$decoded->user  ){
+
+            return [ 'require_login'=>true ];
+        }
+        
+        $GLOBALS['access_token'] = $decoded;
+        $user = $decoded->user;
+    }
+
+    return null;
+
+}

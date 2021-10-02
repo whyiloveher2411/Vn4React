@@ -98,7 +98,7 @@ $arg_type_mysql_input = [
 	},
 	'json'=>function(&$table, $name, $after, $data){
 
-		$dataType = isset($data['type'])?$data['type']:'simple';
+		$dataType = isset($data['type'])?$data['type']:'text';
 
 		if( $dataType === 'simple' ){
 			return $table->string($name,500)->after($after)->nullable()->comment('property: '.$data['title']);
@@ -205,9 +205,9 @@ $arg_type_mysql_input = [
 		}
 
 		if( isset($data['unique']) && $data['unique'] ){
-			return $table->string($name,$length)->unique($data['unique'])->after($after)->nullable()->comment('property: '.$data['title']);
+			return $table->string($name,$length)->unique($data['unique'])->default('')->after($after)->nullable()->comment('property: '.$data['title']);
 		}else{
-			return $table->string($name,$length)->after($after)->nullable()->comment('property: '.$data['title']);
+			return $table->string($name,$length)->after($after)->default('')->nullable()->comment('property: '.$data['title']);
 		}
 
 
@@ -216,7 +216,7 @@ $arg_type_mysql_input = [
 		return $arg_type_mysql_input[$data['data_type']]($table,$name,$after,$data);
 	},
 	'textarea'=>function(&$table, $name, $after, $data){
-		return $table->string($name,500)->after($after)->nullable()->comment('property: '.$data['title']);
+		return $table->string($name,500)->after($after)->default('')->nullable()->comment('property: '.$data['title']);
 	},
 	'true_false'=>function(&$table, $name, $after,$data){
 		return $table->string($name,50)->after($after)->nullable()->comment('property: '.$data['title']);
@@ -275,10 +275,20 @@ foreach ($admin_object as $object_key => $object) {
 
 					if( isset($column_value['database']) ){
 						
-						if( Schema::hasColumn( $object['table'], $column_name ) ){
-							$table = $column_value['database']($table,$column_name,$after,$column_value, $arg_type_mysql_input,true)->change();
+						if( $isChange = Schema::hasColumn( $object['table'], $column_name ) ){
+							$table = $column_value['database']($table,$column_name,$after,$column_value, $arg_type_mysql_input,true);
 						}else{
 							$table = $column_value['database']($table,$column_name,$after,$column_value, $arg_type_mysql_input,false);
+						}
+
+						if( isset($column_value['defaultValue']) ){
+							$table = $table->default( $column_value['defaultValue'] )->nullable(false);
+						}else{
+							$table = $table->nullable(true);
+						}
+
+						if( $isChange ){
+							$table->change();
 						}
 
 						$after = $column_name;
@@ -289,28 +299,33 @@ foreach ($admin_object as $object_key => $object) {
 
 						if( isset($arg_type_mysql_input[$column_value['view']]) ){
 
-							if( Schema::hasColumn( $object['table'], $column_name ) ){
-								$table = $arg_type_mysql_input[$column_value['view']]($table,$column_name,$after,$column_value, $arg_type_mysql_input,true)->change();
+							if( $isChange = Schema::hasColumn( $object['table'], $column_name ) ){
+								$table = $arg_type_mysql_input[$column_value['view']]($table,$column_name,$after,$column_value, $arg_type_mysql_input,true);
 							}else{
 								$table = $arg_type_mysql_input[$column_value['view']]($table,$column_name,$after,$column_value, $arg_type_mysql_input,false);
 							}
 
-							$after = $column_name;
+							if( isset($column_value['defaultValue']) ){
+								$table = $table->default( $column_value['defaultValue'] )->nullable(false);
+							}else{
+								$table = $table->nullable(true);
+							}
+	
+							if( $isChange ){
+								$table = $table->change();
+							}
 
+							$after = $column_name;
 						}
 
 					}
 
-
 				});
-
-				
 
 
 			// } catch (Exception $e) {
 			// 	dd($column_value);
 			// }
-			
 			
 			// $after = $column_name;
 			// DB::raw('ALTER TABLE '.$object['table'].' ADD FULLTEXT INDEX full_text_'.$column_name.' ('.$column_name.')');

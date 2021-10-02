@@ -54,6 +54,8 @@ return [
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
             'strict' => false,
+            
+            'table_prefix' => '{{TABLE_PREFIX}}',
             // 'modes' => [
             //     //'ONLY_FULL_GROUP_BY', // Disable this to allow grouping by one column
             //     'STRICT_TRANS_TABLES',

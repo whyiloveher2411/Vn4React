@@ -55,7 +55,6 @@ export default React.memo( function JsonForm(props) {
         <TextField
             onKeyDown={keyDownTab}
             fullWidth
-            required
             multiline
             variant="outlined"
             className={classes.editor}

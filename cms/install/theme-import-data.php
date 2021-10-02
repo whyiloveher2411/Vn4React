@@ -21,7 +21,7 @@ if( $import !== true ){
 
 include __DIR__.'/../module/check_database_mysql.php';
 
-$table_user = vn4_tbpf().'user';
+$table_user = get_admin_object('user')['table'];
 
 Schema::table($table_user, function($table) use ($table_user) {
     if( !Schema::hasColumn( $table_user, 'permission' ) ){

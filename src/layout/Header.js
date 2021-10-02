@@ -59,6 +59,7 @@ const useStyles = makeStyles((theme) => ({
   },
   header: {
     background: theme.palette.header.background,
+    zIndex: 1350,
   },
   search: {
     backgroundColor: "rgba(255,255,255, 0.1)",

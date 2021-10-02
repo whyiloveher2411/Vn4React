@@ -17,11 +17,11 @@ const useStyles = makeStyles(() => ({
 
 export default React.memo(function TextareaForm(props) {
 
-    const { config, post, name, onReview, ...rest } = props;
+    const { config, post, name, onReview, forceUpdate, ...rest } = props;
     const classes = useStyles()
 
     const valueInital = post && post[name] ? post[name] : '';
-    const [render, setRender] = React.useState(0);
+    const [, setRender] = React.useState(0);
 
     console.log('render TEXTAREA');
 
@@ -57,6 +57,11 @@ export default React.memo(function TextareaForm(props) {
         </FormControl>
     )
 }, (props1, props2) => {
+
+    if (props1.forceUpdate) {
+        return false;
+    }
+
     return props1.post[props1.name] === props2.post[props2.name];
 })
 

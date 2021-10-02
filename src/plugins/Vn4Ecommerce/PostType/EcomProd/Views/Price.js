@@ -1,4 +1,5 @@
 import React from 'react'
+import { moneyFormat } from 'plugins/Vn4Ecommerce/helpers/Money';
 
 function Price(props) {
 
@@ -7,10 +8,10 @@ function Price(props) {
             {
                 Boolean(props.post.compare_price) &&
                 <>
-                    <del style={{ textDecoration: 'line-through', color: 'red' }}>${new Intl.NumberFormat().format(props.post.compare_price)}</del> - 
+                    <del style={{ textDecoration: 'line-through', color: 'red' }}>{moneyFormat(props.post.compare_price)}</del> -
                 </>
             }
-            <span style={{ color: 'green', fontWeight: 'bold' }}> ${new Intl.NumberFormat().format(props.post.price)}</span>
+            <span style={{ color: 'green', fontWeight: 'bold' }}> {moneyFormat(props.post.price)}</span>
         </div>
     )
 }

@@ -4,6 +4,8 @@ $r = request();
 
 $input = json_decode($r->getContent(),true);
 
+$objectConfig = get_admin_object('user');
+
 // Check login by email
 $loginByEmail = setting('security_active_signin_with_google_account');
 if( $loginByEmail && isset($input['loginByEmail']) ){
@@ -73,7 +75,7 @@ if( $recapCha ){
 }
 
 //Check User info
-if( $user = Vn4Model::table('vn4_user')->where('email',trim($input['username']))->where('status','publish')->first() ){
+if( $user = Vn4Model::table($objectConfig['table'])->where('email',trim($input['username']))->where('status','publish')->first() ){
 
     if (Hash::check( $input['password'] , $user->password)) {
 

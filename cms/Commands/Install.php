@@ -11,14 +11,14 @@ class Install extends Command
      *
      * @var string
      */
-    protected $signature = 'cms:instal {type}';
+    protected $signature = 'cms:install:gui {action}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Toggle installation mode by gui';
+    protected $description = '"disable" or "enable" installation by gui';
 
     /**
      * Create a new command instance.
@@ -37,19 +37,21 @@ class Install extends Command
      */
     public function handle()
     {
-        // $answer = $this->ask('What is your name?');
-        // $name = $this->choice('What is your name?', ['Trang', 'Boo'], 0);
+        $action = $this->argument('action');
 
-        if ($this->confirm('Is Trang correct, do you wish to continue? [y|N]')) {
-            $this->info('Success!');
-        }else{
-            $this->error('Error!');
+        if( !is_writable($coreFile = cms_path('root', 'cms/core.php')) ){
+            return $this->error('Do not have permission to write file cms/core.php');
         }
 
-        // $this->line('Hello '.$name);
-        // $this->info('Success!');
-        // $this->comment('Success!');
-        // $this->error('Success!');
-        // $this->question('Success!');
+        if( $action === 'enable' ){
+            file_put_contents( $coreFile, file_get_contents( cms_path('root','cms/temporarySample/install.txt')) );
+            return $this->info('Install CMS by GUI  has been turned on, please visit URL "/install" with a web browser to proceed with the installation');
+        }elseif( $action === 'disable' ){
+            file_put_contents( $coreFile, file_get_contents( cms_path('root','cms/temporarySample/core.txt')) );
+            return $this->info('The function install CMS by GUI has been turned off.');
+        }else{
+            return $this->error('don\'t understand action "'.$action.'". Please review the list of support actions: disable, enable');
+        }
+
     }
 }

@@ -47,14 +47,11 @@ if( !function_exists('updatePostRelationship') ){
                     && isset( $field['object'] )
                     && $field['object'] === $post->type )
                 {
-
-                    $callbackView[ $field['view'] ]($post, $key, $fieldKey, $field);
-
+                    if( !isset($field['isUpdateWhenChangePost']) || $field['isUpdateWhenChangePost'] ){
+                        $callbackView[ $field['view'] ]($post, $key, $fieldKey, $field);
+                    }
                 }
-               
-                    
             }
-
         }
     }
 

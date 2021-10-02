@@ -39,6 +39,7 @@ try{
         '{{MYSQL_DATABASE}}',
         '{{MYSQL_USERNAME}}',
         '{{MYSQL_PASSWORD}}',
+        '{{TABLE_PREFIX}}'
     ];
 
     $replace = [
@@ -46,7 +47,8 @@ try{
         $input['database_port'],
         $input['database_name'],
         $input['database_account'],
-        $input['database_password']
+        $input['database_password'],
+        $input['table_prefix'],
     ];
 
     $databaseText = str_replace( $finds, $replace, file_get_contents(__DIR__.'/../temporarySample/config_database.txt') );

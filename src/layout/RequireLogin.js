@@ -187,11 +187,12 @@ function RequireLogin() {
                 if (result.requiredVerificationCode) {
                     setShowVerificationCode(true);
                 } else if (result.user) {
-                    if (requireLogin.updateUser) {
+                    if (requireLogin.updateUser || user.id !== result.user.id) {
                         dispatch(login(result.user));
                     }
 
                     dispatch(updateRequireLogin({ open: false, updateUser: requireLogin.updateUser }));
+
                     localStorage.setItem('access_token', result.user.access_token);
 
                     if (window.__afterLogin) {

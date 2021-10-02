@@ -18,8 +18,6 @@ return [
     'name' => env('APP_NAME', 'Laravel'),
 
     'EXPERIENCE_MODE' => env('EXPERIENCE_MODE', false),
-    'TABLE_PREFIX'    => env('TABLE_PREFIX', 'vn4_'),
-
     /*
     |--------------------------------------------------------------------------
     | Application Environment

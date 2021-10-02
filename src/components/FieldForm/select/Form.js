@@ -51,10 +51,10 @@ export default React.memo(function SelectForm(props) {
         valueInital = { ...config.list_option[post[name]], _key: post[name] };
     } else if (config.defaultValue) {
         valueInital = { ...config.list_option[config.defaultValue], _key: config.defaultValue };
+        post[name] = config.defaultValue;
     } else {
         valueInital = { _key: '__', title: '' };
     }
-
 
     const onChange = (e, value) => {
         if (value) {
@@ -75,10 +75,10 @@ export default React.memo(function SelectForm(props) {
                 disableClearable={config.disableClearable ? Boolean(config.disableClearable) : false}
                 size={config.size ?? 'medium'}
                 renderInput={(params) => {
-                    if (config.list_option[post[name]] && config.list_option[post[name]].color) {
+                    if (valueInital.color) {
                         params.InputProps.startAdornment = <span
                             className={classes.pointSelect}
-                            style={{ '--bg': config.list_option[post[name]].color, marginLeft: 8 }}
+                            style={{ '--bg': valueInital.color, marginLeft: 8 }}
                             position="start"></span>;
                     }
                     return <>

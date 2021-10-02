@@ -208,6 +208,8 @@ export default function CustomizedSteppers() {
 
   const [activeStep, setActiveStep] = React.useState(0);
 
+  const [enableInstall, setEnableInstall] = React.useState(false);
+
   const [systemCheck, setSystemCheck] = React.useState(false);
 
   const urlPrefix = process.env.REACT_APP_BASE_URL + 'api/install/admin/';
@@ -331,7 +333,14 @@ export default function CustomizedSteppers() {
           url: 'system-check',
           method: 'POST',
           success: (result) => {
-            setSystemCheck(result.rows);
+            if (result.rows) {
+              setSystemCheck(result.rows);
+              setEnableInstall(true);
+            }
+
+            if (result.redirect) {
+              history.push('/dashboard');
+            }
           },
           error: () => {
             history.push('/dashboard');
@@ -355,65 +364,73 @@ export default function CustomizedSteppers() {
 
   }, [activeStep]);
 
-  return (
-    <Box alignItems="center" justifyContent="center" padding={'50px 20px'} style={{ overflowY: 'auto', height: '100vh' }} className="custom_scroll">
-      <div style={{ maxWidth: 1040, margin: '0 auto' }}>
-        <Card style={{ width: '100%' }}>
-          <CardHeader
-            title={
-              <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
-                {steps.map((label) => (
-                  <Step key={label}>
-                    <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
-                  </Step>
-                ))}
-              </Stepper>
-            }
-          />
-          <CardContent >
-            <div className={classes.root}>
+  if (enableInstall) {
 
-              {getStepContent(activeStep)}
+    return (
+      <Box alignItems="center" justifyContent="center" padding={'50px 20px'} style={{ overflowY: 'auto', height: '100vh' }} className="custom_scroll">
+        <div style={{ maxWidth: 1040, margin: '0 auto' }}>
+          <Card style={{ width: '100%' }}>
+            <CardHeader
+              title={
+                <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
+                  {steps.map((label) => (
+                    <Step key={label}>
+                      <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
+                    </Step>
+                  ))}
+                </Stepper>
+              }
+            />
+            <CardContent >
+              <div className={classes.root}>
 
-            </div>
-          </CardContent>
-          <CardActions style={{ justifyContent: 'flex-end' }}>
-            <div>
-              {activeStep === steps.length ? (
-                <div>
+                {getStepContent(activeStep)}
 
-                  <Button onClick={handleReset} className={classes.button}>
-                    Reset
-                  </Button>
-                </div>
-              ) : (
-                <div>
+              </div>
+            </CardContent>
+            <CardActions style={{ justifyContent: 'flex-end' }}>
+              <div>
+                {activeStep === steps.length ? (
                   <div>
 
-                    {
-                      activeStep < (steps.length - 1) &&
-                      <>
-                        <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
-                          Back
-                        </Button>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={handleNext}
-                          className={classes.button}
-                        >
-                          Next
-                        </Button>
-                      </>
-                    }
+                    <Button onClick={handleReset} className={classes.button}>
+                      Reset
+                    </Button>
                   </div>
-                </div>
-              )}
-            </div>
-          </CardActions>
-        </Card>
-        {Loading}
-      </div>
-    </Box>
-  );
+                ) : (
+                  <div>
+                    <div>
+
+                      {
+                        activeStep < (steps.length - 1) &&
+                        <>
+                          <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
+                            Back
+                          </Button>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handleNext}
+                            className={classes.button}
+                          >
+                            Next
+                          </Button>
+                        </>
+                      }
+                    </div>
+                  </div>
+                )}
+              </div>
+            </CardActions>
+          </Card>
+          {Loading}
+        </div>
+      </Box>
+    );
+  }
+
+  return <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+    {Loading}
+  </Box>
+
 }

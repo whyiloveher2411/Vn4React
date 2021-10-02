@@ -2,7 +2,7 @@
 
 $GLOBALS['backend_theme'] = 'default';
 
-$GLOBALS['vn4_table_prefix'] = config('app.TABLE_PREFIX');
+$GLOBALS['vn4_table_prefix'] = config('database.connections.'.config('database.default').'.table_prefix');
 
 function vn4_tbpf(){
 	return $GLOBALS['vn4_table_prefix'] ;

@@ -45,7 +45,7 @@ return [
             'host' => 'localhost',
             'port' => '3306',
             
-            'database' => 'vn4cms_react2',
+            'database' => 'vn4cms_react',
             'username' => 'root',
             'password' => '',
 
@@ -54,6 +54,8 @@ return [
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
             'strict' => false,
+            
+            'table_prefix' => 'vn4_',
             // 'modes' => [
             //     //'ONLY_FULL_GROUP_BY', // Disable this to allow grouping by one column
             //     'STRICT_TRANS_TABLES',

@@ -1,7 +1,6 @@
 import { Box, Typography } from '@material-ui/core';
-import { AvatarCustom, FieldForm } from 'components'
-import React from 'react'
-import { getImageUrl } from 'utils/image';
+import { AvatarCustom, FieldForm } from 'components';
+import React from 'react';
 import { useAjax } from 'utils/useAjax';
 
 function CustomerTemplate(props) {
@@ -17,7 +16,7 @@ function CustomerTemplate(props) {
     </Box>
 }
 
-function Customer(props) {
+function Main(props) {
 
     const { post, onReview } = props;
 
@@ -83,4 +82,4 @@ function Customer(props) {
     )
 }
 
-export default Customer
+export default Main

@@ -17,12 +17,6 @@ if( !is_writable(__DIR__.'/../core.php') ){
     ];
 }
 
-$GLOBALS['vn4_table_prefix'] = config('app.TABLE_PREFIX');
-
-function vn4_tbpf(){
-    return $GLOBALS['vn4_table_prefix'] ;
-}
-
 $table_user = vn4_tbpf().'user';
 
 Schema::table($table_user, function($table) use ($table_user) {

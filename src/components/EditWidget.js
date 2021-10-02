@@ -1,9 +1,8 @@
-import { Avatar, Box, Card, Button, CardActionArea, CardActions, Slide, IconButton, CardContent, CardMedia, Divider, Grid, makeStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Collapse } from '@material-ui/core'
-import { CustomTooltip, FieldForm, TabsCustom, MaterialIcon } from 'components'
-import React from 'react'
-import { useAjax } from 'utils/useAjax';
+import { Box, Button, CardMedia, Collapse, IconButton, makeStyles, Typography } from '@material-ui/core';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { CustomTooltip, FieldForm, MaterialIcon } from 'components';
+import React from 'react';
+import { useAjax } from 'utils/useAjax';
 
 const useStyles = makeStyles((theme) => ({
     root: {

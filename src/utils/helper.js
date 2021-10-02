@@ -4,10 +4,10 @@ export function makeid(length, group = 'all') {
         window.ids = {};
     }
 
-    var result = '';
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for (var i = 0; i < length; i++) {
+    let result = '';
+    let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
 
@@ -20,7 +20,7 @@ export function makeid(length, group = 'all') {
 
 export function uuid(format = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx') {
     return format.replace(/[xy]/g, function (c) {
-        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        let r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8); 
         return v.toString(16);
     });
 }
@@ -72,7 +72,7 @@ export function addScript(src, id, callback) {
 
 export function convertListToTree(list) {
 
-    var map = {}, node, roots = [], i;
+    let map = {}, node, roots = [], i;
 
     for (i = 0; i < list.length; i += 1) {
         map[list[i].id] = i; // initialize the map

@@ -1,5 +1,4 @@
 <?php
-
 $input = $r->all();
 
 if( $input['action'] === 'get' ){
@@ -19,12 +18,6 @@ if( $input['action'] === 'get' ){
 
     if( $input['name'] ){
         recurse_copy( app()->resourcePath('views/themes/'.$input['name'].'/public/'), public_path('themes/'.$input['name'].'/') );
-    }
-
-    $GLOBALS['vn4_tbpf'] = $input['table_prefix'];
-
-    function vn4_tbpf(){
-        return $GLOBALS['vn4_tbpf'];
     }
 
     if( $input['importData'] ){

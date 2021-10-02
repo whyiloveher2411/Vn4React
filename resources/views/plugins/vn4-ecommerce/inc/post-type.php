@@ -784,6 +784,7 @@ register_post_type(function($list_post_type) use ($plugin) {
 					'title'=>'Email',
 					'view'=>'text',
 					'required'=>true,
+					'customViewList'=>'PostType/EcomCustomer/View/Email',
 				],
 				'slug' => [
 					'title'=>__('Slug'),
@@ -796,11 +797,13 @@ register_post_type(function($list_post_type) use ($plugin) {
 					'title'=>'First Name',
 					'view'=>'text',
 					'required'=>true,
+					'show_data'=>false,
 				],
 				'last_name'=>[
 					'title'=>'Last Name',
 					'view'=>'text',
 					'required'=>true,
+					'show_data'=>false,
 				],
 				'birthday'=>[
 					'title'=>'Birthday',
@@ -809,6 +812,7 @@ register_post_type(function($list_post_type) use ($plugin) {
 				'gender'=>[
 					'title'=>'Gender',
 					'view'=>'select',
+					'defaultValue'=>'male',
 					'list_option'=>[
 						'male'=>['title'=>'Male','color'=>'#e85342'],
 						'female'=>['title'=>'Female','color'=>'#448fea'],
@@ -829,11 +833,13 @@ register_post_type(function($list_post_type) use ($plugin) {
 						'city'=>['title'=>'City'],
 						'province'=>['title'=>'Province'],
 						'street_address'=>['title'=>'Street Address'],
-					]
+					],
+					'show_data'=>false,
 				],
 				'avatar'=>[
 					'title'=>'Avatar',
 					'view'=>'image',
+					'show_data'=>false,
 				]
 			],
 			'tabs'=>[
@@ -864,7 +870,8 @@ register_post_type(function($list_post_type) use ($plugin) {
 				],
 				'description'=>[
 					'title'=>'Description',
-					'view'=>'textarea'
+					'view'=>'textarea',
+					'show_data'=>false,
 				],
 				'discount_type'=>[
 					'title'=>'Discount type',
@@ -872,11 +879,15 @@ register_post_type(function($list_post_type) use ($plugin) {
 					'list_option'=>[
 						'%'=>['title'=>'Percentage discount','color'=>'#5a5a5a'],
 						'$'=>['title'=>'Fixed discount','color'=>'#ff3333'],
-					]
+					],
 				],
 				'coupon_amount'=>[
 					'title'=>'Coupon amount',
 					'view'=>'number',
+				],
+				'start_date'=>[
+					'title'=>'Start date',
+					'view'=>'dateTime'
 				],
 				'expiry_date'=>[
 					'title'=>'Coupon expiry date',
@@ -963,12 +974,41 @@ register_post_type(function($list_post_type) use ($plugin) {
 		        // ],
 			],
 			'tabs'=>[
-				'General'=>[ 'title'=>'General', 'fields'=>['discount_type','coupon_amount', 'expiry_date'] ],
+				'General'=>[ 'title'=>'General', 'fields'=>['discount_type','coupon_amount','start_date', 'expiry_date'] ],
 				'Usage_restriction'=>[ 'title'=>'Usage restriction', 'fields'=>['minimum_spend','maximum_spend','individual_use','exclude_sale_items','products','exclude_products','product_categories','exclude_categories','allowed_emails'] ],
 				'Usage-limits'=>[ 'title'=>'Usage limits', 'fields'=>['usage_limit','limit_usage_to_x_items', 'usage_limit_per_user'] ],
 			],
 		]
 	];
+
+	// $add_object[] = [
+	// 	'ecom_shipping',
+	// 	1,
+	// 	[
+	// 		'table'=>'ecom_ship_class',
+	// 		'table'=>'ecom_ship_class',
+	// 		'slug'=>'shipping-class',
+	// 		'title'=> __('Shipping class'),
+	// 		'fields'=>[
+	// 			'title'=>[
+	// 				'title'=>'Title',
+	// 				'view'=>'text',
+	// 				'required'=>true,
+	// 			],
+	// 			'description'=>[
+	// 				'title'=>'Description',
+	// 				'view'=>'textarea',
+	// 				'show_data'=>false,
+	// 			],
+	// 			'shipping_fee'=>[
+	// 				'title'=>'Shipping fee',
+	// 				'view'=>'number',
+	// 				'type'=>'decimal',
+	// 				'decimal'=>[20, 6],
+	// 			],
+	// 		]
+	// 	]
+	// ];
 
 	$add_object[] = [
 		'ecom_order',
@@ -982,9 +1022,12 @@ register_post_type(function($list_post_type) use ($plugin) {
 			],
 			'fields'=>[
 				'title'=>[
-					'title'=>'Title',
+					'title'=>'Code',
 					'view'=>'text',
 					'required'=>true,
+		        	'unique'=>'ecom_order_code',
+					'customViewForm'=>'PostType/EcomOrder/Form/Code',
+					'formatCode'=>'OD-xxxxxx-xxxx-xxxx-xxxxxx',
 				],
 				'slug' => [
 					'title'=>__('Slug'),
@@ -998,15 +1041,18 @@ register_post_type(function($list_post_type) use ($plugin) {
 		            'view' =>'relationship_onetomany',
 		            'object'=>'ecom_customer',
 					'fields_related'=>['first_name','last_name','avatar'],
-					'customViewForm'=>'PostType/EcomOrder/Customer',
+					'customViewList'=>'PostType/EcomCustomer/View/Main',
+					'customViewForm'=>'PostType/EcomCustomer/Form/Main',
 		        ],
 				'date_created'=>[
 					'title'=>'Date created',
 					'view'=>'dateTime',
+					'defaultValue'=>'CURRENT_TIMESTAMP'
 				],
 				'order_status'=>[
 					'title'=>'Status',
 					'view'=>'select',
+					'defaultValue'=>'pending',
 					'list_option'=>[
 						'pending'=>['title'=>'Pending payment','color'=>'#404040'],
 						'processing'=>['title'=>'Processing','color'=>'#3f51b5'],
@@ -1062,7 +1108,6 @@ register_post_type(function($list_post_type) use ($plugin) {
 					'layout'=>'table',
 					'view'=>'group',
 					'hidden'=>true,
-					'show_data'=>false,
 					'sub_fields'=>[
 						'type'=>[
 							'title'=>'Type',
@@ -1073,36 +1118,61 @@ register_post_type(function($list_post_type) use ($plugin) {
 							]
 						],
 						'value'=>['title'=>'Value','type'=>'number']
-					]
+					],
+					'show_data'=>false,
 				],
 				'total_money'=>[
 					'title'=>'Total Money',
 					'view'=>'number',
 					'type'=>'decimal',
 					'decimal'=>[20, 6],
-					'customViewForm'=>'PostType/EcomOrder/TotalMoney',
+					'customViewForm'=>'PostType/EcomOrder/Form/TotalMoney',
+					'customViewList'=>'PostType/EcomOrder/View/TotalMoney',
 				],
 				'ecom_prod'=>[
-					'title'=>'Product',
+					'title'=>'Products',
 		            'view' =>'relationship_manytomany',
 		            'show_data'=>false,
 		            'object'=>'ecom_prod',
-					'customViewForm'=>'PostType/EcomOrder/ChooseProduct',
-					'fields_related'=>['compare_price','price','thumbnail'],
+					'hidden'=>true,
+					// 'fields_related'=>['compare_price','price','thumbnail'],
 				],
-				'coupons'=>[
+				'products'=>[
+					'title'=>'Products',
+		            'view' =>'json',
+		            'show_data'=>false,
+					'customViewForm'=>'PostType/EcomOrder/ChooseProduct',
+				],
+				'ecom_coupon'=>[
 					'title'=>'Coupons',
 		            'view' =>'relationship_manytomany',
 		            'object'=>'ecom_coupon',
 					'show_data'=>false,
+					'hidden'=>true,
+				],
+				'coupons'=>[
+					'title'=>'Coupons',
+		            'view' =>'json',
+		            'show_data'=>false,
+					'customViewForm'=>'PostType/EcomOrder/ChooseCoupon',
 				],
 				'history'=>[
 					'title'=>'History',
 					'view'=>'repeater',
 					'sub_fields'=>[
 						'description'=>['title'=>'Description','view'=>'textarea'],
-						'time'=>['title'=>'Time','view'=>'dateTime']
+						'time'=>['title'=>'Time','view'=>'dateTime'],
+						'note_type'=>[
+							'title'=>'Note type',
+							'view'=>'select',
+							'defaultValue'=>'private',
+							'list_option'=>[
+								'private'=>['title'=>'Private note','color'=>'#7903da'],
+								'customer'=>['title'=>'Note to customer','color'=>'#3f51b5'],
+							]
+						]
 					],
+					'customViewForm'=>'PostType/EcomOrder/History',
 					'show_data'=>false,
 				]
 				// 'ecom_order_detail' => [
@@ -1120,7 +1190,7 @@ register_post_type(function($list_post_type) use ($plugin) {
 					'fields'=>['billing_address','shipping_address'],
 					'hook'=>'PostType/EcomOrder/Address'
 				],
-				'detail'=>[ 'title'=>'Detail', 'fields'=>['ecom_prod','coupons','total_money'] ],
+				'detail'=>[ 'title'=>'Detail', 'fields'=>['products','coupons','total_money'] ],
 				'invoices'=>[ 'title'=>'Invoices', 'fields'=>[] ],
 				'history'=>[ 'title'=>'History', 'fields'=>['history'] ],
 			],

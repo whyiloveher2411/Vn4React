@@ -28,11 +28,11 @@ export default function (props) {
                 component: (props) => <Orders {...props} />,
                 priority: 4,
             },
-            customers: {
-                title: 'Customers',
-                component: (props) => <Customers {...props} />,
-                priority: 5,
-            },
+            // customers: {
+            //     title: 'Customers',
+            //     component: (props) => <Customers {...props} />,
+            //     priority: 5,
+            // },
         }
     }
 }

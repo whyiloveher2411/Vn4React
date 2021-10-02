@@ -3,7 +3,7 @@ import React from 'react'
 function View(props) {
     return (
         <>
-            {props.content}
+            {props.content ? (new Date(props.content)).toLocaleString() : ''}
         </>
     )
 }

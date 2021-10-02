@@ -25,6 +25,7 @@ if (app()->runningInConsole()) {
         $artisan->resolveCommands(\CMS\Commands\SetupCompile::class);
         $artisan->resolveCommands(\CMS\Commands\ViewClear::class);
         $artisan->resolveCommands(\CMS\Commands\ViewMinify::class);
+        $artisan->resolveCommands(\CMS\Commands\AdminSetPassword::class);
     });
 }
 

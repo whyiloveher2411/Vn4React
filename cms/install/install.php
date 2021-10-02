@@ -1,9 +1,9 @@
 <?php
 
 // header('Content-Type: application/json');
+$r = request();
 
 include __DIR__.'/_function.php';
-
 
 if (isset($_SERVER['HTTP_ORIGIN'])) {
     header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
@@ -12,7 +12,7 @@ if (isset($_SERVER['HTTP_ORIGIN'])) {
 }
 
 // Access-Control headers are received during OPTIONS requests
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
     if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
         header("Access-Control-Allow-Methods: GET, POST, OPTIONS");         
@@ -25,7 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
 header('Content-Type: application/json');
 
-$r = request();
 
 $urlPath = explode('/',url()->full());
 $urlPath = end($urlPath);
