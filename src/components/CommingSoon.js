@@ -2,6 +2,7 @@ import { Button, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import { __ } from 'utils/i18n';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -42,13 +43,13 @@ function CommingSoon() {
                 align="center"
                 variant={mobileDevice ? 'h4' : 'h1'}
             >
-                Something awesome is coming!
+                {__('Something awesome is coming!')}
             </Typography>
             <Typography
                 align="center"
                 variant="subtitle2"
             >
-                We are working very hard on the new version of our site. It will bring a lot of new features. Stay tuned!
+                {__('We are working very hard on the new version of our site. It will bring a lot of new features. Stay tuned!')}
             </Typography>
             <div className={classes.imageContainer}>
                 <img
@@ -64,7 +65,7 @@ function CommingSoon() {
                     to="/"
                     variant="outlined"
                 >
-                    Back to home
+                    {__("Back to home")}
                 </Button>
             </div>
         </div>

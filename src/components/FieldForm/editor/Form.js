@@ -5,6 +5,7 @@ import { makeid } from 'utils/helper';
 import GoogleDrive from '../image/GoogleDrive';
 import ReactDOMServer from 'react-dom/server'
 import EditWidget from 'components/EditWidget';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -14,6 +15,40 @@ const useStyles = makeStyles((theme) => ({
         },
         '& .tox-edit-area': {
             paddingTop: 'var(--toxHeaderHeight)',
+        },
+    },
+    darkMode: {
+        '& .tox .tox-menubar': {
+            borderBottom: '1px solid ' + theme.palette.dividerDark,
+        },
+        '& .tox .tox-toolbar>*': {
+            borderBottom: '1px solid ' + theme.palette.dividerDark,
+            marginBottom: -1
+        },
+        '& .tox:not(.tox-tinymce-inline) .tox-editor-header': {
+            borderBottom: '1px solid ' + theme.palette.dividerDark,
+        },
+        '& .tox .tox-menubar, & .tox .tox-toolbar,& .tox .tox-toolbar__overflow,& .tox .tox-toolbar__primary, & .tox .tox-statusbar, & .tox .tox-edit-area__iframe': {
+            background: theme.palette.background.paper,
+        },
+        '& .tox-tinymce, & .tox:not([dir=rtl]) .tox-toolbar__group:not(:last-of-type), & .tox .tox-statusbar': {
+            borderColor: theme.palette.dividerDark,
+        },
+        '& .tox .tox-mbtn, & .tox .tox-tbtn, & .tox .tox-statusbar a,& .tox .tox-statusbar__wordcount, & .tox .tox-statusbar__path-item, & .tox .tox-edit-area__iframe': {
+            color: theme.palette.text.secondary,
+            '--color': theme.palette.text.secondary,
+            cursor: 'pointer',
+        },
+        '& .tox .tox-tbtn svg': {
+            fill: theme.palette.text.secondary,
+        },
+        '& .tox .tox-tbtn:hover svg, & .tox .tox-tbtn--enabled svg, & .tox .tox-tbtn--enabled:hover svg, .tox .tox-tbtn:active svg,& .tox .tox-tbtn:focus:not(.tox-tbtn--disabled) svg': {
+            fill: theme.palette.text.primary,
+        },
+        '& .tox .tox-mbtn:hover:not(:disabled):not(.tox-mbtn--active), & .tox .tox-tbtn:active, & .tox .tox-mbtn--active, & .tox .tox-mbtn:focus:not(:disabled), & .tox .tox-tbtn:hover, & .tox .tox-tbtn--enabled,& .tox .tox-tbtn--enabled:hover, &.tox .tox-tbtn:focus:not(.tox-tbtn--disabled)': {
+            backgroundColor: theme.palette.background.selected,
+            color: theme.palette.text.primary,
+            cursor: 'pointer',
         }
     },
     editor: {
@@ -27,7 +62,8 @@ const useStyles = makeStyles((theme) => ({
             padding: 0,
         },
         '& .tox.tox-tinymce': {
-            width: '100%'
+            width: '100%',
+            minHeight: 400,
         }
     },
     title: {
@@ -43,6 +79,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default React.memo(function TextareaForm(props) {
 
+    const theme = useSelector(state => state.theme);
 
     const { config, post, name, onReview, ...rest } = props;
     const classes = useStyles()
@@ -191,6 +228,7 @@ export default React.memo(function TextareaForm(props) {
                 toolbar_sticky: true,
                 // height: 800,
                 verify_html: false,
+                skin: 'oxide' + (theme.type === 'dark' ? '-dark' : ''),
                 extended_valid_elements: true,
                 fontsize_formats: "8px 10px 12px 14px 16px 18px 24px 36px 48px 72px",
                 setup: function (editor) {
@@ -217,12 +255,28 @@ export default React.memo(function TextareaForm(props) {
                     });
 
                     editor.on('change', function (e) {
-                        // onReview(editor.getContent());
                         editor.save();
                     });
 
                     editor.on('init', function (args) {
                         setEditor(editor);
+
+
+                        var css = ':root { --color: ' + theme.palette.text.primary + ' }',
+                            head = document.head || document.getElementsByTagName('head')[0],
+                            style = document.createElement('style');
+
+                        head.appendChild(style);
+
+                        editor.dom.$('head').append(style);
+
+                        style.type = 'text/css';
+
+                        if (style.styleSheet) {
+                            style.styleSheet.cssText = css;
+                        } else {
+                            style.appendChild(document.createTextNode(css));
+                        }
 
                         // var scriptId = editor.dom.uniqueId();
 
@@ -235,6 +289,8 @@ export default React.memo(function TextareaForm(props) {
                         // editor.getDoc().getElementsByTagName('head')[0].appendChild(scriptElm);
                     });
 
+
+                    //Add Widget
                     editor.ui.registry.addIcon('widgetIcon', ReactDOMServer.renderToString(<MaterialIcon style={{ width: 24, height: 24 }} icon={{ custom: '<image style="width:100%;" href="/admin/images/page_builder_icon.svg"></image>' }} />));
 
                     editor.ui.registry.addButton('widget', {
@@ -337,9 +393,9 @@ export default React.memo(function TextareaForm(props) {
     console.log('render EDITOR');
     if (id) {
         return (
-            <div>
-                <Typography variant="body1">{config.title}</Typography>
-                <div className={classes.root + " warpper-editor"} >
+            <>
+                <Typography style={{ marginBottom: 4 }}>{config.title}</Typography>
+                <div className={classes.root + " warpper-editor " + (theme.type === 'dark' ? classes.darkMode : '')} >
                     <TextField
                         fullWidth
                         multiline
@@ -411,7 +467,7 @@ export default React.memo(function TextareaForm(props) {
                         />
                     </DrawerCustom>
                 </div>
-            </div>
+            </>
         )
     }
     return null;

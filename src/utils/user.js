@@ -5,11 +5,14 @@ export function checkPermission(permission) {
     if (!window.__userLogin) {
         try {
             window.__userLogin = JSON.parse(localStorage.getItem('user')) || null;
-            if (window.__userLogin.permission) {
+
+            if (window.__userLogin.permission && !Array.isArray(window.__userLogin.permission)) {
                 window.__userLogin.permissions = array_flip(window.__userLogin.permission.split(", "));
             }
+
         } catch (error) {
             return false;
+            // window.__userLogin.permission = {};
         }
     }
 
@@ -17,7 +20,7 @@ export function checkPermission(permission) {
 
     if (window.__userLogin.role === 'Super Admin') return true;
 
-    if( !window.__userLogin.permission ) return false;
+    if (!window.__userLogin.permission) return false;
 
     if (typeof permission === 'string' && window.__userLogin.permissions[permission]) {
         return true;

@@ -303,7 +303,7 @@ function Performance({ meta, ajaxPluginHandle }) {
                 hideAlert === null || hideAlert === true
                     ?
                     <Collapse in={hideAlert === null}>
-                        <Alert className={classes.alert} variant="filled" severity="warning"><div className="alert-content">Google delivers the Search Console data through their API with a three day delay. This means that the complete data for the previous week usually becomes available on Wednesday, at which time we will display it in the toolbox. The data update happens automatically. No activity on your part is necessary. <HighlightOffIcon onClick={() => { setCookie('vn4seoHideAlert', true, 1); setHideAlert(true); }} className={classes.removeAlert} /></div></Alert>
+                        <Alert className={classes.alert} variant="filled" severity="warning"><div className="alert-content">Google delivers the Search Console data through their API with a two to three-day delay. This means that the complete data for the previous week usually become available on Wednesday, at which time we will display it in the toolbox. The data update happens automatically. No activity on your part is necessary.<HighlightOffIcon onClick={() => { setCookie('vn4seoHideAlert', true, 1); setHideAlert(true); }} className={classes.removeAlert} /></div></Alert>
                     </Collapse>
                     :
                     <></>

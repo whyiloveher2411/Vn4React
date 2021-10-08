@@ -1,7 +1,11 @@
-import { List, ListItem, ListItemText, makeStyles, Chip } from '@material-ui/core'
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import { makeStyles } from '@material-ui/core';
+import ListItemText from '@material-ui/core/ListItemText';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
-import { AvatarCustom } from 'components';
-import React from 'react'
+import AvatarCustom from 'components/AvatarCustom';
+import React from 'react';
+import { __ } from 'utils/i18n';
 
 
 const useStyles = makeStyles(() => ({
@@ -24,7 +28,7 @@ function PostTypeInfo({ data }) {
 
                 data.author ?
                     <ListItem button>
-                        <ListItemText><strong>Author:</strong>
+                        <ListItemText><strong>{__('Author')}:</strong>
                             <AvatarCustom
                                 image={data.author.profile_picture}
                                 name={data.author.first_name + ' ' + data.author.last_name}
@@ -38,7 +42,7 @@ function PostTypeInfo({ data }) {
                 data.editor && data.editor.length ?
                     <ListItem button>
                         <ListItemText>
-                            <strong>Editor:</strong>
+                            <strong>{__('Editor')}:</strong>
                             <AvatarGroup max={6}>
                                 {data.editor.map((user, index) =>
                                     <AvatarCustom
@@ -55,13 +59,13 @@ function PostTypeInfo({ data }) {
 
 
             <ListItem button>
-                <ListItemText><strong>Created At:</strong> {data.post.created_at} </ListItemText>
+                <ListItemText><strong>{__('Created At')}:</strong> {data.post.created_at} </ListItemText>
             </ListItem>
             <ListItem button>
-                <ListItemText><strong>Last Updated:</strong> {data.post.updated_at} </ListItemText>
+                <ListItemText><strong>{__('Last Updated')}:</strong> {data.post.updated_at} </ListItemText>
             </ListItem>
             <ListItem button>
-                <ListItemText><strong>Update:</strong> {data.post.update_count} times</ListItemText>
+                <ListItemText><strong>{__('Update')}:</strong> {data.post.update_count} {__('times')}</ListItemText>
             </ListItem>
         </List>
     )

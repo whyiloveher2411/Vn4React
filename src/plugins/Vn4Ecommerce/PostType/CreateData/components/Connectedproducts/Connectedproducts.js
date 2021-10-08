@@ -5,6 +5,7 @@ import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
 import { Skeleton } from '@material-ui/lab';
 import { AvatarCustom, FieldForm } from 'components';
 import React from 'react';
+import { __p } from 'utils/i18n';
 import Price from './../../../EcomProd/Views/Price';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
@@ -49,7 +50,7 @@ const useStyles = makeStyles((theme) => {
 const AvatarThumbnail = ({ product }) => <AvatarCustom variant="square" style={{ marginRight: 8 }} image={product.thumbnail} name={product.title} />;
 
 
-function Connectedproducts(props) {
+function Connectedproducts({ post, postDetail, onReview, PLUGIN_NAME }) {
 
     const classes = useStyles();
 
@@ -67,7 +68,7 @@ function Connectedproducts(props) {
                 <span className={classes.productID}>(ID: {option.id})</span> {option.title}
                 <Price post={option} />
             </div>
-            {Boolean(option.new_post) && <strong>&nbsp;(New Option)</strong>}
+            {Boolean(option.new_post) && <strong>&nbsp;{__p('(New Option)', PLUGIN_NAME)}</strong>}
         </Box>
     );
 
@@ -92,7 +93,7 @@ function Connectedproducts(props) {
         });
     };
 
-    if (props.post) {
+    if (post) {
         return (
             <Grid
                 container
@@ -102,10 +103,10 @@ function Connectedproducts(props) {
                         className={classes.selectProduct}
                         compoment='relationship_manytomany'
                         config={{
-                            title: 'Up-Selling',
+                            title: __p('Up-Selling', PLUGIN_NAME),
                             object: 'ecom_prod',
                             conditions: [
-                                ['id', '!=', props.postDetail.id]
+                                ['id', '!=', postDetail.id]
                             ],
                         }}
                         includeInputInList
@@ -113,9 +114,9 @@ function Connectedproducts(props) {
                         renderOption={renderOption}
                         disableClearable
                         disableListWrap
-                        post={props.post}
+                        post={post}
                         name='connected_products_up_selling'
-                        onReview={(value) => props.onReview(value, 'connected_products_up_selling')}
+                        onReview={(value) => onReview(value, 'connected_products_up_selling')}
                     />
                 </Grid>
 
@@ -124,18 +125,18 @@ function Connectedproducts(props) {
                         className={classes.selectProduct}
                         compoment='relationship_manytomany'
                         config={{
-                            title: 'Cross-Selling',
+                            title: __p('Cross-Selling', PLUGIN_NAME),
                             object: 'ecom_prod',
                             conditions: [
-                                ['id', '!=', props.postDetail.id]
+                                ['id', '!=', postDetail.id]
                             ],
                         }}
                         renderTags={renderTags}
                         renderOption={renderOption}
                         disableClearable
-                        post={props.post}
+                        post={post}
                         name='connected_products_cross_selling'
-                        onReview={(value) => props.onReview(value, 'connected_products_cross_selling')}
+                        onReview={(value) => onReview(value, 'connected_products_cross_selling')}
                     />
                 </Grid>
             </Grid >

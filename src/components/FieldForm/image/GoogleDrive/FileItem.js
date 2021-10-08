@@ -3,13 +3,14 @@ import FolderIcon from '@material-ui/icons/Folder';
 import GradeRoundedIcon from '@material-ui/icons/GradeRounded';
 import { FileDragDrop, MenuMouseRight } from 'components';
 import React from 'react';
+import { __ } from 'utils/i18n';
 import FileManagerContext from './FileManagerContext';
 import ListMenuMouseRightFile from './ListMenuMouseRightFile';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
     root: {
         '&.menuMouseRight-selected': {
-            backgroundColor: '#e8f0fe'
+            backgroundColor: theme.palette.dividerDark
         }
     },
     avatar: {
@@ -153,7 +154,7 @@ function FileItem({ file, className, handleReloadDir, eventDragDropFile, ...rest
                         {file.basename}
                     </Typography>
                     {Boolean(file.data?.starred) && <GradeRoundedIcon className={classes.starred} />}
-                    {Boolean(file.data?.is_remove) && <Chip size="small" label="Removed" color="secondary" />}
+                    {Boolean(file.data?.is_remove) && <Chip size="small" label={__('Removed')} color="secondary" />}
                 </Box>
             </TableCell>
 

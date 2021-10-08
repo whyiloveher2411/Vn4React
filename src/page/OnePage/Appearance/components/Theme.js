@@ -10,6 +10,7 @@ import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import FieldForm from 'components/FieldForm';
 import { updateSidebar } from 'actions/sidebar';
 import { useDispatch } from 'react-redux';
+import { __ } from 'utils/i18n';
 
 const useStyles = makeStyles((theme) => ({
     grid: {
@@ -50,42 +51,42 @@ const fieldForm = [
     {
         view: 'text',
         config: {
-            title: 'Name'
+            title: __('Name')
         },
         name: 'name',
     },
     {
         view: 'textarea',
         config: {
-            title: 'Description'
+            title: __('Description')
         },
         name: 'description',
     },
     {
         view: 'text',
         config: {
-            title: 'Author'
+            title: __('Author')
         },
         name: 'author',
     },
     {
         view: 'text',
         config: {
-            title: 'Author URL'
+            title: __('Author URL')
         },
         name: 'author_url',
     },
     {
         view: 'textarea',
         config: {
-            title: 'Tags'
+            title: __('Tags')
         },
         name: 'tags',
     },
     {
         view: 'image',
         config: {
-            title: 'Screenshot'
+            title: __('Screenshot')
         },
         name: 'screenshot',
     },
@@ -193,7 +194,7 @@ function Theme() {
                     <Card style={{ cursor: 'pointer' }} className={classes.root + ' notActive'} onClick={() => setOpenCreateTheme(true)} >
                         <CardContent style={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
                             <AddRoundedIcon color='primary' style={{ fontSize: '8rem', opacity: 0.7, marginTop: -32 }} />
-                            <Typography gutterBottom variant="h5" component="h2">Add New Theme</Typography>
+                            <Typography gutterBottom variant="h5" component="h2">{__('Add New Theme')}</Typography>
                         </CardContent>
                     </Card>
 
@@ -208,7 +209,7 @@ function Theme() {
                                     <CardMedia
                                         className={classes.media + ' ' + (!data[theme].hasImage ? classes.noImage : '')}
                                         image={data[theme].image}
-                                        title="Contemplative Reptile"
+                                        title={data[theme].info.name}
                                     />
                                     <CardContent>
                                         <Typography gutterBottom variant="h5" component="h2">{data[theme].info.name} <small style={{ fontSize: '65%' }}>(v{data[theme].info.version})</small></Typography>
@@ -216,7 +217,7 @@ function Theme() {
                                     </CardContent>
                                 </CardActionArea>
                                 <CardActions style={{ justifyContent: 'flex-end' }}>
-                                    <Button variant="contained" onClick={e => changeTheme(theme)} color={data[theme].active ? 'primary' : 'default'} size="small">{data[theme].active ? 'Activated' : 'Activate'}</Button>
+                                    <Button variant="contained" onClick={e => changeTheme(theme)} color={data[theme].active ? 'primary' : 'default'} size="small">{data[theme].active ? __('Activated') : __('Activate')}</Button>
                                 </CardActions>
                             </Card>
                         </Grid>
@@ -226,7 +227,7 @@ function Theme() {
             <DialogCustom
                 open={openCreateTheme}
                 onClose={handleCloseDialog}
-                title="Create a new theme"
+                title={__('Add New Theme')}
                 content={
                     <Grid container spacing={3}>
                         {
@@ -246,8 +247,8 @@ function Theme() {
                 }
                 action={
                     <>
-                        <Button onClick={handleCloseDialog}>Cancel</Button>
-                        <Button onClick={handleCreateTheme} color="primary">Create</Button>
+                        <Button onClick={handleCloseDialog}>{__('Cancel')}</Button>
+                        <Button onClick={handleCreateTheme} color="primary">{__('Create')}</Button>
                     </>
                 }
             />

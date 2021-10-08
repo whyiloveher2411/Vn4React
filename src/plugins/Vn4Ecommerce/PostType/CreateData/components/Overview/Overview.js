@@ -1,5 +1,6 @@
 import FieldForm from 'components/FieldForm';
 import React from 'react';
+import { __p } from 'utils/i18n';
 
 function Overview(props) {
 
@@ -8,7 +9,7 @@ function Overview(props) {
             <FieldForm
                 compoment='editor'
                 config={{
-                    title: 'Overview',
+                    title: __p('Overview', props.PLUGIN_NAME),
                     note: ' ',
                     maxLength: 70
                 }}

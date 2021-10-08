@@ -3,8 +3,9 @@ import { Skeleton } from '@material-ui/lab';
 import { FieldForm, NotFound } from 'components';
 import { useAjax } from 'utils/useAjax';
 import React from 'react'
+import { __p } from 'utils/i18n';
 
-function Specifications(props) {
+function Specifications({ PLUGIN_NAME, ...props }) {
 
     const { ajax, Loading, open } = useAjax({ loadingType: 'custom' });
 
@@ -59,10 +60,7 @@ function Specifications(props) {
     if (props.post) {
 
         if (!props.postDetail.ecom_prod_spec_sets) {
-            return <NotFound>
-                Nothing To Display. <br />
-                <span style={{ color: '#ababab', fontSize: '16px' }}>Please update the Specifications Sets before editing this section.</span>
-            </NotFound>
+            return <NotFound subTitle={__p('Please update the Specifications Sets before editing this section.', PLUGIN_NAME)} />
         }
 
         return (

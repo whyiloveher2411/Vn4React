@@ -1,8 +1,9 @@
 import { useSnackbar } from 'notistack';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { __ } from 'utils/i18n';
 
-function RedirectWithMessage({ to, message = 'You dont\'t have permission to access on this page', code = 403, variant = 'error' }) {
+function RedirectWithMessage({ to, message = __('You dont\'t have permission to access on this page'), code = 403, variant = 'error' }) {
     const { enqueueSnackbar } = useSnackbar();
 
     const history = useHistory();

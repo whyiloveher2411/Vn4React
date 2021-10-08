@@ -193,10 +193,7 @@ function Variations({ valuesAttributes, attributes, postDetail, post, onReview }
 
     if (!post.variations || Object.keys(post.variations).length < 1 || Object.keys(attributesKey).length < 1) {
         return (
-            <NotFound>
-                Nothing To Display. <br />
-                <span style={{ color: '#ababab', fontSize: '16px' }}>No matching variants found for properties</span>
-            </NotFound>
+            <NotFound subTitle="No matching variants found for properties" />
         );
     }
 

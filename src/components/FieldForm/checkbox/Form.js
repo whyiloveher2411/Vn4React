@@ -1,5 +1,10 @@
-import { Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, FormLabel, Typography } from '@material-ui/core'
-import React, { useState } from 'react'
+import Checkbox from '@material-ui/core/Checkbox'
+import FormControl from '@material-ui/core/FormControl'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import FormGroup from '@material-ui/core/FormGroup'
+import FormHelperText from '@material-ui/core/FormHelperText'
+import FormLabel from '@material-ui/core/FormLabel'
+import React from 'react'
 
 export default React.memo(function CheckboxForm(props) {
     let { config, name, post, onReview } = props;
@@ -20,7 +25,7 @@ export default React.memo(function CheckboxForm(props) {
 
     post[name] = valueInital;
 
-    const [value, setValue] = useState(0);
+    const [value, setValue] = React.useState(0);
 
     const handleOnClick = (e) => {
 
@@ -41,11 +46,9 @@ export default React.memo(function CheckboxForm(props) {
         setValue(value + 1);
     };
 
-    console.log('render CHECKBOX');
-
     return (
         <FormControl >
-            <Typography>{config.title}</Typography>
+            <FormLabel>{config.title}</FormLabel>
             <FormGroup>
 
                 {

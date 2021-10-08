@@ -2,10 +2,11 @@ import { Grid, Typography } from '@material-ui/core'
 import { Skeleton } from '@material-ui/lab'
 import { FieldForm } from 'components'
 import React from 'react'
+import { __p } from 'utils/i18n'
 
-function Shipments(props) {
+function Shipments({ post, onReview, PLUGIN_NAME }) {
 
-    if (props.post) {
+    if (post) {
         return (
             <Grid
                 container
@@ -14,28 +15,28 @@ function Shipments(props) {
                     <FieldForm
                         compoment='number'
                         config={{
-                            title: 'Weight (kg)',
+                            title: __p('Weight (kg)', PLUGIN_NAME),
                             maxLength: 70
                         }}
-                        post={props.post}
+                        post={post}
                         name='shipments_weight'
-                        onReview={(value) => props.onReview(value, 'shipments_weight')}
+                        onReview={(value) => onReview(value, 'shipments_weight')}
                     />
                 </Grid>
                 <Grid item md={12} xs={12}>
-                    <Typography variant="body1">Dimensions (cm)</Typography>
+                    <Typography variant="body1">{__p('Dimensions (cm)', PLUGIN_NAME)}</Typography>
                     <br />
                     <Grid container spacing={2}>
                         <Grid item md={4} xs={12}>
                             <FieldForm
                                 compoment='number'
                                 config={{
-                                    title: 'Length',
+                                    title: __p('Length', PLUGIN_NAME),
                                     maxLength: 70
                                 }}
-                                post={props.post}
+                                post={post}
                                 name='shipments_dimensions_length'
-                                onReview={(value) => props.onReview(value, 'shipments_dimensions_length')}
+                                onReview={(value) => onReview(value, 'shipments_dimensions_length')}
                             />
                         </Grid>
 
@@ -43,12 +44,12 @@ function Shipments(props) {
                             <FieldForm
                                 compoment='number'
                                 config={{
-                                    title: 'Width',
+                                    title: __p('Width', PLUGIN_NAME),
                                     maxLength: 70
                                 }}
-                                post={props.post}
+                                post={post}
                                 name='shipments_dimensions_width'
-                                onReview={(value) => props.onReview(value, 'shipments_dimensions_width')}
+                                onReview={(value) => onReview(value, 'shipments_dimensions_width')}
                             />
                         </Grid>
 
@@ -56,12 +57,12 @@ function Shipments(props) {
                             <FieldForm
                                 compoment='number'
                                 config={{
-                                    title: 'Height',
+                                    title: __p('Height', PLUGIN_NAME),
                                     maxLength: 70
                                 }}
-                                post={props.post}
+                                post={post}
                                 name='shipments_dimensions_height'
-                                onReview={(value) => props.onReview(value, 'shipments_dimensions_height')}
+                                onReview={(value) => onReview(value, 'shipments_dimensions_height')}
                             />
                         </Grid>
                     </Grid>

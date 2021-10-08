@@ -5,6 +5,7 @@ import { useHistory } from 'react-router';
 import { addScript } from 'utils/helper';
 import { useAjax } from 'utils/useAjax';
 import theme from 'theme';
+import { __ } from 'utils/i18n';
 
 
 const useStyles = makeStyles(theme => ({
@@ -238,10 +239,10 @@ function EntityRelationship() {
     }
 
     return (
-        <Page width="xl" title="Entity Relationship">
+        <Page width="xl" title={__('Entity Relationship')}>
             <div>
-                <Typography component="h2" gutterBottom variant="overline">Management</Typography>
-                <Typography component="h1" variant="h3">Entity Relationship </Typography>
+                <Typography component="h2" gutterBottom variant="overline">{__('Management')}</Typography>
+                <Typography component="h1" variant="h3">{__('Entity Relationship')} </Typography>
             </div>
             <br />
             <div id="sample" style={{ position: 'relative' }}>

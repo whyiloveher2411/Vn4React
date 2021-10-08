@@ -1,18 +1,19 @@
 import FieldForm from 'components/FieldForm';
 import React from 'react';
 import { Skeleton } from '@material-ui/lab'
+import { __p } from 'utils/i18n';
 
-function QuestionAndAnswer(props) {
+function QuestionAndAnswer({ PLUGIN_NAME, ...props }) {
 
     if (props.post) {
         return (
             <FieldForm
                 compoment='repeater'
                 config={{
-                    title: 'Question And Answer',
+                    title: __p('Question And Answer', PLUGIN_NAME),
                     sub_fields: {
-                        question: { title: 'Question' },
-                        answer: { title: 'Answer', view: 'textarea' },
+                        question: { title: __p('Question', PLUGIN_NAME) },
+                        answer: { title: __p('Answer', PLUGIN_NAME), view: 'textarea' },
                     }
                 }}
                 post={props.post}

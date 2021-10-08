@@ -2,6 +2,7 @@ import { Card, CardContent, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import { FieldForm } from 'components';
 import React from 'react';
+import { __ } from 'utils/i18n';
 
 function Menu({ listMenu, changeMenuEdit, listPostType }) {
 
@@ -20,13 +21,13 @@ function Menu({ listMenu, changeMenuEdit, listPostType }) {
             <Card>
                 <CardContent>
                     <div style={{ display: 'flex', whiteSpace: 'nowrap', alignItems: 'center' }}>
-                        <Typography>Select menu to edit:</Typography>
+                        <Typography>{__('Select menu to edit:')}</Typography>
                         &nbsp;
                         <div style={{ width: 280 }}>
                             <FieldForm
                                 compoment='select'
                                 config={{
-                                    title: 'Menu',
+                                    title: __('Menu'),
                                     list_option: listMenu.list_option,
                                     size: 'small',
                                     disableAlert: true,

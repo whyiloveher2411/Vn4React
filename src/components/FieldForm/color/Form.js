@@ -1,7 +1,11 @@
+import { makeStyles } from '@material-ui/core'
+import FormControl from '@material-ui/core/FormControl'
+import IconButton from '@material-ui/core/IconButton'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import InputLabel from '@material-ui/core/InputLabel'
+import OutlinedInput from '@material-ui/core/OutlinedInput'
+import ColorLensIcon from '@material-ui/icons/ColorLens'
 import React from 'react'
-import { FormControl, IconButton, InputAdornment, InputLabel, makeStyles, OutlinedInput } from '@material-ui/core'
-import ColorLensIcon from '@material-ui/icons/ColorLens';
-
 
 const useStyles = makeStyles(() => ({
     inputHidden: {
@@ -23,11 +27,8 @@ export default React.memo(function ColorForm(props) {
 
     const [value, setValue] = React.useState(0);
 
-    console.log('render COLOR');
-
     return (
         <FormControl size={config.size ?? 'medium'} fullWidth variant="outlined">
-
             {
                 Boolean(config.title) ?
                     <>

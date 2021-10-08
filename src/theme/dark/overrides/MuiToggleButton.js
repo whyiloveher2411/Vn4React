@@ -6,13 +6,12 @@ export default {
     root: {
         color: palette.icon,
         '&:hover': {
-            backgroundColor: colors.grey[100],
+            backgroundColor: palette.divider
         },
         '&$selected': {
-            backgroundColor: colors.grey[50],
-            color: palette.primary.main,
+            backgroundColor: palette.dividerDark,
             '&:hover': {
-                backgroundColor: colors.grey[100],
+                backgroundColor: palette.dividerDark
             },
         },
         '&:first-child': {

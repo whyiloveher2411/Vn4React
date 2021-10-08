@@ -1,8 +1,9 @@
-import { colors, Typography } from '@material-ui/core'
+import { Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import Markdown from 'components/Markdown'
 import { PageHeaderSticky } from 'components/Page'
 import React, { useEffect, useState } from 'react'
+import { __ } from 'utils/i18n'
 
 const useStyles = makeStyles((theme) => ({
     markdownContainer: {
@@ -25,13 +26,13 @@ const Changelog = () => {
     return (
         <PageHeaderSticky
             className={classes.root}
-            title="Changelog"
+            title={__('Changelog')}
             header={
                 <>
                     <Typography gutterBottom variant="overline">
-                        Support
+                        {__('Support')}
                     </Typography>
-                    <Typography variant="h3">Changelog</Typography>
+                    <Typography variant="h3">{__('Changelog')}</Typography>
                 </>
             }
         >

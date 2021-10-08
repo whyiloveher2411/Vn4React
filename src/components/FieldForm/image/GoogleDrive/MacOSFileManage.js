@@ -7,6 +7,7 @@ import ConfirmDialog from 'components/ConfirmDialog';
 import DialogCustom from 'components/DialogCustom';
 import FieldForm from 'components/FieldForm/FieldForm';
 import React from 'react';
+import { __ } from 'utils/i18n';
 import { useAjax } from 'utils/useAjax';
 import FileDetail from './FileDetail';
 import FileManagerContext from './FileManagerContext';
@@ -77,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
             border: 'none'
         },
         '& .Mui-selected': {
-            background: '#dedede'
+            background: theme.palette.divider
         }
     },
     notShowTrashFile: {
@@ -449,17 +450,12 @@ function MacOSFileManage({ values, handleSubmit, handleChooseFile, filesActive, 
                         onDragOver={(e) => e.preventDefault()}
                         onDragLeave={(e) => e.preventDefault()}
                     >
-                        {/* <div className={classes.col1}>
-                        <div style={{ maxHeight: 'calc( 100vh - 66px )', overflow: 'hidden', overflowY: 'auto' }} ref={selectionSelected} className="custom_scroll">
-                            <DirColumnSelected files={filesSelected} onClickDir={() => { }} />
-                        </div>
-                    </div> */}
                         <div
                             className={classes.col2 + ' ' + (resource.showInTrash ? '' : classes.notShowTrashFile)}
                         >
                             <Box display="flex" justifyContent="space-between" alignItems="center" className={classes.header}>
                                 <Breadcrumbs itemsAfterCollapse={3} itemsBeforeCollapse={2} separator={<NavigateNextIcon fontSize="small" />} className={classes.col2Header + ' custom_scroll'} maxItems={5} aria-label="breadcrumb">
-                                    <Button onClick={e => { handleOnLoadDir('uploads', null, resource.version + 1) }}>My File</Button>
+                                    <Button onClick={e => { handleOnLoadDir('uploads', null, resource.version + 1) }}>{__('My File')}</Button>
                                     {
                                         Boolean(resource.breadcrumbs) &&
                                         resource.breadcrumbs.filter((item, index) => index > 0).map((item, index) => (
@@ -515,7 +511,7 @@ function MacOSFileManage({ values, handleSubmit, handleChooseFile, filesActive, 
                                         <FieldForm
                                             compoment="text"
                                             config={{
-                                                title: 'Search',
+                                                title: __('Search'),
                                                 size: 'small'
                                             }}
                                             post={search}
@@ -563,16 +559,16 @@ function MacOSFileManage({ values, handleSubmit, handleChooseFile, filesActive, 
                     <DialogCustom
                         open={openRenameDialog[0].open}
                         onClose={() => openRenameDialog[1]({ ...openRenameDialog[0], open: false })}
-                        title="Rename"
+                        title={__('Rename')}
                         action={<>
-                            <Button onClick={() => openRenameDialog[1]({ ...openRenameDialog[0], open: false })}>Cancel</Button>
-                            <Button variant="contained" onClick={handleOnSubmitRenameFile} color="primary">Ok</Button>
+                            <Button onClick={() => openRenameDialog[1]({ ...openRenameDialog[0], open: false })}>{__('Cancel')}</Button>
+                            <Button variant="contained" onClick={handleOnSubmitRenameFile} color="primary">{__('OK')}</Button>
                         </>}
                     >
                         <FieldForm
                             compoment="text"
                             config={{
-                                title: 'Name',
+                                title: __('Name'),
                             }}
                             post={openRenameDialog[0].file}
                             name="filename"
@@ -584,16 +580,16 @@ function MacOSFileManage({ values, handleSubmit, handleChooseFile, filesActive, 
                     <DialogCustom
                         open={openNewDialog[0].open}
                         onClose={() => openNewDialog[1]({ ...openNewDialog[0], open: false })}
-                        title="New Folder"
+                        title={__('New Folder')}
                         action={<>
-                            <Button onClick={() => openNewDialog[1]({ ...openNewDialog[0], open: false })}>Cancel</Button>
-                            <Button variant="contained" onClick={handleOnSubmitNewFolder} color="primary">Ok</Button>
+                            <Button onClick={() => openNewDialog[1]({ ...openNewDialog[0], open: false })}>{__('Cancel')}</Button>
+                            <Button variant="contained" onClick={handleOnSubmitNewFolder} color="primary">{__('OK')}</Button>
                         </>}
                     >
                         <FieldForm
                             compoment="text"
                             config={{
-                                title: 'Name',
+                                title: __('Name'),
                             }}
                             post={openNewDialog[0].file}
                             name="filename"

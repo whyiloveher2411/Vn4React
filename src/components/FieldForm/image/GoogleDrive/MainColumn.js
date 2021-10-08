@@ -1,7 +1,6 @@
 import { Box, makeStyles, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import { FileDragDrop, MenuMouseRight } from 'components';
 import React from 'react';
-import { useAjax } from 'utils/useAjax';
 import FileItem from './FileItem';
 import FileItemGrid from './FileItemGrid';
 import FileManagerContext from './FileManagerContext';

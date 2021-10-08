@@ -1,5 +1,5 @@
-import { FormControl, FormGroup, Switch, Typography } from '@material-ui/core'
-import React from 'react'
+import { FormControl, FormGroup, FormLabel, Switch, Typography } from '@material-ui/core';
+import React from 'react';
 
 export default React.memo(function TrueFalseForm(props) {
     const { config, post, onReview, name, inlineEdit } = props;
@@ -16,10 +16,10 @@ export default React.memo(function TrueFalseForm(props) {
     }
 
     return (
-        <FormControl required component="fieldset">
+        <FormControl component="fieldset">
             {
                 Boolean(!inlineEdit && config.title) &&
-                <Typography variant="body1">{config.title}</Typography>
+                <FormLabel component="legend">{config.title}</FormLabel>
             }
             <Typography variant="body2">{config.note}</Typography>
             <FormGroup>

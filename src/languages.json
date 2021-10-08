@@ -1,0 +1,92 @@
+[
+    {
+        "flag": "US",
+        "code": "en_US",
+        "shortCode": "en",
+        "note": "United States",
+        "label": "English"
+    },
+    {
+        "flag": "CN",
+        "code": "zh_CN",
+        "shortCode": "zh",
+        "note": "Simplified",
+        "label": "Chinese"
+    },
+    {
+        "flag": "ES",
+        "code": "es_ES",
+        "shortCode": "es",
+        "note": "ES",
+        "label": "Spanish"
+    },
+    {
+        "flag": "AE",
+        "code": "ar_AE",
+        "shortCode": "ar",
+        "note": "U.A.E",
+        "label": "Arabic"
+    },
+    {
+        "flag": "ID",
+        "code": "id_ID",
+        "shortCode": "id",
+        "note": "Indonesia",
+        "label": "Indonesian"
+    },
+    {
+        "flag": "FR",
+        "code": "fr_FR",
+        "note": "France",
+        "shortCode": "fr",
+        "label": "French"
+    },
+    {
+        "flag": "IT",
+        "code": "it_IT",
+        "shortCode": "it",
+        "note": "Italy",
+        "label": "Italian"
+    },
+    {
+        "flag": "JP",
+        "code": "ja_JP",
+        "shortCode": "ja",
+        "note": "Japan",
+        "label": "Japanese"
+    },
+    {
+        "flag": "KR",
+        "code": "ko_KR",
+        "shortCode": "ko",
+        "note": "Korea",
+        "label": "Korean"
+    },
+    {
+        "flag": "RU",
+        "code": "ru_RU",
+        "shortCode": "ru",
+        "note": "Russia",
+        "label": "Russian"
+    },
+    {
+        "flag": "DE",
+        "code": "de_DE",
+        "shortCode": "de",
+        "note": "Germany",
+        "label": "German"
+    },
+    {
+        "flag": "PT",
+        "code": "pt_PT",
+        "shortCode": "pt",
+        "note": "Portugal",
+        "label": "Portuguese"
+    },
+    {
+        "flag": "VN",
+        "code": "vi_VN",
+        "shortCode": "vi",
+        "label": "Tiếng việt"
+    }
+]

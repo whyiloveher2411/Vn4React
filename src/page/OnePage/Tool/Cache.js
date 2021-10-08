@@ -9,6 +9,8 @@ import { Skeleton } from '@material-ui/lab';
 import { SettingGroup } from 'components';
 import React from 'react';
 import { useAjax } from 'utils/useAjax';
+import { __ } from 'utils/i18n';
+import { clearCache } from './cacheAction';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -73,26 +75,22 @@ function Tool() {
         updateCache({}, true);
     }, []);
 
-    const updateCache = (data, notShowLoading = false) => {
+    const updateCache = (data) => {
+
         if (!useAjax1.open) {
-            useAjax1.ajax({
-                url: 'tool/cache',
-                method: 'POST',
-                isGetData: true,
-                notShowLoading: notShowLoading,
-                data: data,
-                success: (result) => {
-                    setCaches(result);
-                }
+            clearCache(useAjax1.ajax, data.key ?? null, (result) => {
+                setCaches(result);
             });
         }
     };
 
     return (
         <SettingGroup
-            title="Cache"
+            title={__('Cache')}
             description={
-                "Cache is a hardware or software component that stores data so that future requests for that data can be served faster." + (caches.totalSize ? ` (${caches.totalSize})` : '')
+                __('Cache is a hardware or software component that stores data so that future requests for that data can be served faster. {{size}}', {
+                    size: caches.totalSize ? '(' + caches.totalSize + ')' : ''
+                })
             }
         >
             {
@@ -131,14 +129,13 @@ function Tool() {
                             </AccordionDetails>
                             <Divider />
                             <AccordionActions>
-                                <Button size="small">Cancel</Button>
                                 <Button
                                     size="small"
                                     color="secondary"
                                     onClick={e => updateCache({ action: 'clear', key: key })}
                                     startIcon={useAjax1.open ? <CircularProgress size={24} color={'inherit'} /> : null}
                                 >
-                                    Clear
+                                    {__('Clear')}
                                 </Button>
                             </AccordionActions>
                         </Accordion>

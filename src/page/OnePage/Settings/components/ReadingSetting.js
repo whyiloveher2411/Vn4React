@@ -1,12 +1,10 @@
-import { Collapse, FormControl, FormControlLabel, FormHelperText, FormLabel, Grid, Radio, RadioGroup, TextField } from '@material-ui/core'
-import React from 'react'
-import { useAjax } from 'utils/useAjax';
+import { Collapse, FormControl, FormControlLabel, FormHelperText, Grid, Radio, RadioGroup, Typography } from '@material-ui/core';
 import FieldForm from 'components/FieldForm';
+import React from 'react';
+import { __ } from 'utils/i18n';
 
 function DateTimeFormat(props) {
     let { config, name, post, onReview } = props;
-
-    const { ajax } = useAjax();
 
     let valueInital = {};
 
@@ -36,11 +34,11 @@ function DateTimeFormat(props) {
 
     return (
         <FormControl fullWidth component="fieldset">
-            <FormLabel component="legend">{config.title}</FormLabel>
+            <Typography>{config.title}</Typography>
             <RadioGroup aria-label={config.title} name={name} value={value}>
-                <FormControlLabel onClick={() => setValue({ ...post[name], type: 'default' })} value={'default'} control={<Radio checked={value.type === 'default'} color="primary" />} label='Default' />
-                <FormControlLabel onClick={() => setValue({ ...post[name], type: 'static-page' })} value={'static-page'} control={<Radio checked={value.type === 'static-page'} color="primary" />} label='A Static Page' />
-                <Collapse style={{ paddingLeft: 16, paddingRight: 16, width: '100%' }} in={value.type === 'static-page'}>
+                <FormControlLabel onClick={() => setValue({ ...post[name], type: 'default' })} value={'default'} control={<Radio checked={value.type === 'default'} color="primary" />} label={__('Default')} />
+                <FormControlLabel style={{ marginTop: 10 }} onClick={() => setValue({ ...post[name], type: 'static-page' })} value={'static-page'} control={<Radio checked={value.type === 'static-page'} color="primary" />} label={__('A Static Page')} />
+                <Collapse style={{ paddingLeft: 16, paddingRight: 16, width: '100%', marginTop: 10 }} in={value.type === 'static-page'}>
                     <Grid
                         container
                         spacing={4}>
@@ -48,7 +46,7 @@ function DateTimeFormat(props) {
                             <FieldForm
                                 compoment={'select'}
                                 config={{
-                                    title: 'Page',
+                                    title: __('Page'),
                                     list_option: config.readingPageStatic
                                 }}
                                 post={value}
@@ -58,8 +56,8 @@ function DateTimeFormat(props) {
                         </Grid>
                     </Grid>
                 </Collapse>
-                <FormControlLabel onClick={() => setValue({ ...post[name], type: 'custom' })} value={'custom'} control={<Radio checked={value.type === 'custom'} color="primary" />} label='Custom' />
-                <Collapse style={{ paddingLeft: 16, paddingRight: 16, width: '100%' }} in={value.type === 'custom'}>
+                <FormControlLabel onClick={() => setValue({ ...post[name], type: 'custom' })} value={'custom'} control={<Radio checked={value.type === 'custom'} color="primary" />} label={__('Custom')} />
+                <Collapse style={{ paddingLeft: 16, paddingRight: 16, width: '100%', marginTop: 10 }} in={value.type === 'custom'}>
                     <Grid
                         container
                         spacing={4}>
@@ -67,7 +65,7 @@ function DateTimeFormat(props) {
                             <FieldForm
                                 compoment={'select'}
                                 config={{
-                                    title: 'Post Type',
+                                    title: __('Posts'),
                                     list_option: config.adminObject,
                                     disableClearable: true,
                                 }}
@@ -86,7 +84,7 @@ function DateTimeFormat(props) {
                                 <FieldForm
                                     compoment={'relationship_onetomany'}
                                     config={{
-                                        title: 'Detail',
+                                        title: __('Detail'),
                                         object: value['post-type']
                                     }}
                                     post={value}

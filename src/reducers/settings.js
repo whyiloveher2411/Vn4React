@@ -3,14 +3,15 @@ import * as settings from '../actions/settings'
 let settingsInitial = {};
 
 try {
-    settingsInitial = JSON.parse(sessionStorage.getItem('settings')) || {};
+    settingsInitial = JSON.parse(sessionStorage.getItem('settings'));
+    if (!settingsInitial) settingsInitial = {};
 } catch (error) {
-
+    settingsInitial = {};
 }
 
 let uri = window.location.pathname.substring(1);
 
-if ( uri !== 'install' && !Object.keys(settingsInitial).length) {
+if (uri !== 'install' && !Object.keys(settingsInitial).length) {
 
     const urlPrefix = process.env.REACT_APP_BASE_URL + 'api/admin/';
 
@@ -24,10 +25,9 @@ if ( uri !== 'install' && !Object.keys(settingsInitial).length) {
         if (result.message) {
             alert(result.message.content);
         }
+        sessionStorage.setItem('settings', JSON.stringify(result));
 
-        sessionStorage.setItem("settings", JSON.stringify(result));
-
-    }).catch(function (error) {
+    }).catch(function () {
         // alert(error.toString());
     });
 
@@ -39,13 +39,21 @@ const settingsReducer = (state = settingsInitial, action) => {
 
         case settings.UPDATE:
 
+            let newState = {};
+
+            try {
+                newState = JSON.parse(sessionStorage.getItem('settings'));
+                if (!newState) newState = {};
+            } catch (error) {
+                newState = {};
+            }
+
             Object.keys(action.payload).forEach(key => {
-                state[key] = action.payload[key];
+                newState[key] = action.payload[key];
             });
-
-            sessionStorage.setItem("settings", JSON.stringify(state));
-            return state;
-
+            
+            sessionStorage.setItem("settings", JSON.stringify(newState));
+            return newState;
         case settings.CLEAR:
 
             sessionStorage.setItem("settings", '{}');

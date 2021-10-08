@@ -23,7 +23,7 @@ function PermissionList({ data, mePermission, reviewPermission, setting, listGro
                                 !setting.grantedOnly || listGroupPermission[key].permission[key2] ?
                                     <Grid key={key2} style={{ paddingTop: 4, paddingBottom: 4 }} item md={4} xs={12}>
                                         <FormControlLabel
-                                            control={<Checkbox onClick={e => handleCheckPermission(e, key, key2)} name={key2} checked={listGroupPermission[key].permission[key2] ? true : false} name={key2} />}
+                                            control={<Checkbox onClick={e => handleCheckPermission(e, key, key2)} name={key2} checked={listGroupPermission[key].permission[key2] ? true : false} color="primary" name={key2} />}
                                             label={data[key].permission[key2]}
                                         />
                                     </Grid>

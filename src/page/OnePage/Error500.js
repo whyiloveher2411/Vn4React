@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/styles';
 import { Typography, Button, useTheme, useMediaQuery } from '@material-ui/core';
 
 import { Page } from 'components';
+import { __ } from 'utils/i18n';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -45,15 +46,13 @@ const Error403 = () => {
         align="center"
         variant={mobileDevice ? 'h4' : 'h1'}
       >
-        500: Internal Server Error
+        {__('500: Internal Server Error')}
       </Typography>
       <Typography
         align="center"
         variant="subtitle2"
       >
-        Sorry, something went wrong. <br />
-        A team of highly trained monkeys has been dispatched to deal with this situation <br />
-        If you see them, show them this infomation.
+        {__('Sorry, something went wrong. <br /> A team of highly trained monkeys has been dispatched to deal with this situation <br />If you see them, show them this infomation.')}
       </Typography>
       <div className={classes.imageContainer}>
         <img
@@ -69,7 +68,7 @@ const Error403 = () => {
           to="/"
           variant="outlined"
         >
-          Back to home
+          {__('Back to home')}
         </Button>
       </div>
     </Page>

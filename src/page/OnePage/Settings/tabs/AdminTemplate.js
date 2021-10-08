@@ -1,8 +1,9 @@
 import React from 'react'
 import { Grid } from '@material-ui/core'
 import FieldForm from 'components/FieldForm';
+import { __ } from 'utils/i18n';
 
-function AdminTemplate({ post, data, onReview }) {
+function AdminTemplate({ post, onReview }) {
     return (
         <Grid
             container
@@ -11,7 +12,7 @@ function AdminTemplate({ post, data, onReview }) {
                 <FieldForm
                     compoment={'image'}
                     config={{
-                        title: 'Logo',
+                        title: __('Logo'),
                     }}
                     post={post}
                     name={'admin_template_logo'}
@@ -22,7 +23,7 @@ function AdminTemplate({ post, data, onReview }) {
                 <FieldForm
                     compoment={'text'}
                     config={{
-                        title: 'Slogan',
+                        title: __('Slogan'),
                     }}
                     post={post}
                     name={'admin_template_logan'}
@@ -33,7 +34,7 @@ function AdminTemplate({ post, data, onReview }) {
                 <FieldForm
                     compoment={'color'}
                     config={{
-                        title: 'Color Section Left',
+                        title: __('Left column color section'),
                     }}
                     post={post}
                     name={'admin_template_color-left'}
@@ -41,13 +42,13 @@ function AdminTemplate({ post, data, onReview }) {
                 />
             </Grid>
 
-            
+
 
             <Grid item md={12} xs={12} >
                 <FieldForm
                     compoment={'text'}
                     config={{
-                        title: 'Headline Right',
+                        title: __('Headline Right'),
                     }}
                     post={post}
                     name={'admin_template_headline-right'}

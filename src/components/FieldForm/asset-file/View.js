@@ -5,41 +5,44 @@ import React from 'react';
 
 function View(props) {
 
+    const [value, setValue] = React.useState({});
 
-    let valueInital = {};
+    React.useEffect(() => {
+        let valueInital = {};
 
-    try {
-        if (typeof props.content === 'object') {
-            valueInital = props.content;
-        } else {
-            if (props.content) {
-                valueInital = JSON.parse(props.content);
+        try {
+            if (typeof props.content === 'object') {
+                valueInital = props.content;
+            } else {
+                if (props.content) {
+                    valueInital = JSON.parse(props.content);
+                }
             }
+        } catch (error) {
+            valueInital = {};
         }
-    } catch (error) {
-        valueInital = {};
-    }
 
-    if (!valueInital) valueInital = {};
+        if (!valueInital) valueInital = {};
+
+        setValue(valueInital);
+    }, []);
 
 
-    return (
-        <>
-            {valueInital.link &&
-                <div>
-                    <div style={{ marginBottom: 5, position: 'relative', display: 'inline-block' }}>
-                        <CardMedia
-                            style={{ maxWidth: '100%', width: 'auto', cursor: 'pointer' }}
-                            component="img"
-                            image={'/admin/fileExtension/ico/' + (valueInital.ext.replace(/[^a-zA-Z0-9]/g, "").toLowerCase() + '.jpg')}
-                        />
-                    </div>
-                    <Typography variant="body2" style={{ marginBottom: 16, wordBreak: 'break-all' }}>
-                        {unescape(valueInital.link.replace(/^.*[\\/]/, ''))}
-                    </Typography>
-                </div>
-            }
-        </>
+
+    return (value.link ?
+        <div>
+            <div style={{ marginBottom: 5, position: 'relative', display: 'inline-block' }}>
+                <CardMedia
+                    style={{ maxWidth: '100%', width: 'auto', cursor: 'pointer' }}
+                    component="img"
+                    image={'/admin/fileExtension/ico/' + (value.ext.replace(/[^a-zA-Z0-9]/g, "").toLowerCase() + '.jpg')}
+                />
+            </div>
+            <Typography variant="body2" style={{ marginBottom: 16, wordBreak: 'break-all' }}>
+                {decodeURI(value.link.replace(/^.*[\\/]/, ''))}
+            </Typography>
+        </div>
+        : null
     )
 }
 

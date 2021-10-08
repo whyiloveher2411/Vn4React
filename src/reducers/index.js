@@ -6,7 +6,7 @@ import pluginsAdminReducer from './plugins'
 import settingsReducer from './settings'
 import requiredLoginReducer from './requireLogin'
 import viewMode from './viewMode'
-
+import language from './language'
 
 const rootReducer = combineReducers({
     user: userReducer,
@@ -15,6 +15,7 @@ const rootReducer = combineReducers({
     settings: settingsReducer,
     requireLogin: requiredLoginReducer,
     theme: viewMode,
+    language: language,
 })
 
 export default rootReducer

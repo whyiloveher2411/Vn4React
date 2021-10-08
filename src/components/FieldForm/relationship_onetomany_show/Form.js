@@ -2,6 +2,7 @@ import { Fab, FormHelperText, Slide, Typography } from '@material-ui/core';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import { NotFound } from 'components';
 import React from 'react';
+import { __ } from 'utils/i18n';
 import { useAjax } from 'utils/useAjax';
 import DataTable from './DataTable';
 import DrawerEditPost from './DrawerEditPost';
@@ -80,10 +81,12 @@ export default React.memo(function RelationshipOneToManyShowForm(props) {
                 Boolean(config.note) &&
                 <FormHelperText ><span dangerouslySetInnerHTML={{ __html: config.note }}></span></FormHelperText>
             }
-            <NotFound>
-                You need to create taxonomy before creating {config.title}. <br />
-                <span style={{ color: '#ababab', fontSize: '16px' }}>Seems like no {data?.config?.label?.singularName ?? ""} have been created yet.</span>
-            </NotFound>
+            <NotFound
+                title={__(' You need to create taxonomy before creating {{post_type}}',{post_type: config.title})}
+                subTitle={__('Seems like no {{data}} have been created yet.', {
+                                    data: data?.config?.label?.singularName ?? "data"
+                                })}
+            />
         </>);
     }
 

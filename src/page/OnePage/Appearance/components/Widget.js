@@ -4,6 +4,7 @@ import { useAjax } from 'utils/useAjax';
 import FieldForm from 'components/FieldForm';
 import { Skeleton } from '@material-ui/lab';
 import { NotFound, Button } from 'components';
+import { __ } from 'utils/i18n';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -224,7 +225,7 @@ function Widget() {
                     type="submit"
                     color="success"
                     variant="contained">
-                    Save Changes
+                    {__('Save Changes')}
                 </Button>
                 {Loading}
             </>
@@ -233,10 +234,7 @@ function Widget() {
 
     return <>
         <br />
-        <NotFound>
-            Nothing To Display. <br />
-            <span style={{ color: '#ababab', fontSize: '16px' }}>Seems like no Data have been created yet.</span>
-        </NotFound>
+        <NotFound />
     </>
 }
 

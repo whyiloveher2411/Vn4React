@@ -22,7 +22,7 @@ const Header = (props) => {
                 spacing={3}>
                 <Grid item>
                     <Typography component="h2" gutterBottom variant="overline">
-                        Content
+                        Content sdf sdf sdf sdf 
                     </Typography>
                     <Typography component="h1" variant="h3">
                         {label.name}
@@ -49,6 +49,6 @@ Header.defaultProps = {
         singularName: '...',
     }
 }
-
+sfdsdf
 
 export default Header

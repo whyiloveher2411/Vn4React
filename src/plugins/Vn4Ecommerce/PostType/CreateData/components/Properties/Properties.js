@@ -4,8 +4,9 @@ import { FieldForm, NotFound } from 'components';
 import React from 'react';
 import { useAjax } from 'utils/useAjax';
 import Variations from './Variations';
+import { __p } from 'utils/i18n';
 
-function Properties({ post, postDetail, onReview }) {
+function Properties({ post, postDetail, onReview, PLUGIN_NAME }) {
 
     const { ajax, Loading, open } = useAjax({
         loadingType: 'custom'
@@ -26,18 +27,20 @@ function Properties({ post, postDetail, onReview }) {
                     ids: value
                 },
                 success: (result) => {
-                    if (!unmounted) {
-                        if (result.attributes) {
-                            setListValuesAttributes({ ...result.attributes });
-                        } else {
-                            setListValuesAttributes({});
-                        }
+                    // if (!unmounted) {
+                    if (result.attributes) {
+                        setListValuesAttributes({ ...result.attributes });
+                    } else {
+                        setListValuesAttributes({});
+                        setValuesAttributes({});
                     }
+                    // }
 
                 }
             });
         } else {
             setListValuesAttributes({});
+            setValuesAttributes({});
         }
     }
 
@@ -69,6 +72,8 @@ function Properties({ post, postDetail, onReview }) {
 
     const loadAttributeValue = () => {
         post.attributesValues = [];
+
+        if (!post.properties_attributes_values) post.properties_attributes_values = [];
 
         post.properties_attributes_values.forEach(item => {
 
@@ -144,12 +149,12 @@ function Properties({ post, postDetail, onReview }) {
                 container
                 spacing={3}>
                 <Grid item md={12} xs={12}>
-                    <Typography variant="h4">Properties</Typography>
+                    <Typography variant="h4">{__p('Properties', PLUGIN_NAME)}</Typography>
                     <br />
                     <FieldForm
                         compoment='relationship_manytomany'
                         config={{
-                            title: 'Custom product attribute',
+                            title: __p('Custom product attribute', PLUGIN_NAME),
                             object: 'ecom_prod_attr',
                             placeholder: ''
                         }}
@@ -171,11 +176,6 @@ function Properties({ post, postDetail, onReview }) {
                                 container
                                 spacing={2}
                             >
-
-                                <Grid item md={12} xs={12}>
-                                    <Divider />
-                                </Grid>
-
                                 {
                                     (() => {
 
@@ -187,41 +187,46 @@ function Properties({ post, postDetail, onReview }) {
                                                 post.properties_attributes = [];
                                             }
                                         }
+                                        if (Array.isArray(post.properties_attributes) && post.properties_attributes.length > 0) {
 
-                                        if (Array.isArray(post.properties_attributes)) {
+                                            return <>
+                                                <Grid item md={12} xs={12}>
+                                                    <Divider />
+                                                </Grid>
+                                                {
+                                                    post.properties_attributes.map(attribute => {
 
-                                            return post.properties_attributes.map(attribute => {
+                                                        if (!listValuesAttributes['id_' + attribute.id]) return null;
 
-                                                if (!listValuesAttributes['id_' + attribute.id]) return null;
+                                                        return (
+                                                            <Grid key={attribute.id} item md={12} xs={12}>
+                                                                <FormControl >
+                                                                    <Typography>{attribute.title}</Typography>
+                                                                    <FormGroup row>
 
-                                                return (
-                                                    <Grid key={attribute.id} item md={12} xs={12}>
-                                                        <FormControl >
-                                                            <Typography>{attribute.title}</Typography>
-                                                            <FormGroup row>
-
-                                                                {
-                                                                    listValuesAttributes['id_' + attribute.id].values?.map(value => (<FormControlLabel
-                                                                        key={value.id}
-                                                                        control={<Checkbox
-                                                                            checked={Boolean(valuesAttributes
-                                                                                && valuesAttributes['attributes_' + attribute.id]
-                                                                                && valuesAttributes['attributes_' + attribute.id].filter(item => item.id === value.id).length > 0)}
-                                                                            value={value.id}
-                                                                            onChange={(e) => { onChangeAttributesValues(value, attribute, e.target.checked) }}
-                                                                            color="primary"
-                                                                        />}
-                                                                        label={value.title}
-                                                                    />
-                                                                    ))
-                                                                }
-                                                            </FormGroup>
-                                                        </FormControl>
-                                                    </Grid>
-                                                )
-                                            })
+                                                                        {
+                                                                            listValuesAttributes['id_' + attribute.id].values?.map(value => (<FormControlLabel
+                                                                                key={value.id}
+                                                                                control={<Checkbox
+                                                                                    checked={Boolean(valuesAttributes
+                                                                                        && valuesAttributes['attributes_' + attribute.id]
+                                                                                        && valuesAttributes['attributes_' + attribute.id].filter(item => item.id === value.id).length > 0)}
+                                                                                    value={value.id}
+                                                                                    onChange={(e) => { onChangeAttributesValues(value, attribute, e.target.checked) }}
+                                                                                    color="primary"
+                                                                                />}
+                                                                                label={value.title}
+                                                                            />
+                                                                            ))
+                                                                        }
+                                                                    </FormGroup>
+                                                                </FormControl>
+                                                            </Grid>
+                                                        )
+                                                    })
+                                                }
+                                            </>
                                         }
-
                                         return null;
                                     })()
 
@@ -246,10 +251,7 @@ function Properties({ post, postDetail, onReview }) {
                                                     <Divider />
                                                 </Grid>
                                                 < Grid item md={12} xs={12}>
-                                                    <NotFound>
-                                                        Nothing To Display. <br />
-                                                        <span style={{ color: '#ababab', fontSize: '16px' }}>No matching variants found for properties</span>
-                                                    </NotFound>
+                                                    <NotFound subTitle={__p('No matching variants found for properties', PLUGIN_NAME)} />
                                                 </Grid>
                                             </>
                                     )

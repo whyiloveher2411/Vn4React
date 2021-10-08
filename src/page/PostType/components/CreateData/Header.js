@@ -20,6 +20,7 @@ import clsx from 'clsx';
 import { Button, CustomTooltip, Divider, FieldForm, Hook } from 'components';
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import { __ } from 'utils/i18n';
 import { useAjax } from 'utils/useAjax';
 import { checkPermission } from 'utils/user';
 import LabelPost from '../LabelPost';
@@ -217,13 +218,13 @@ const Header = (props) => {
                 spacing={3}>
                 <Grid item>
                     <Typography className={classes.infopage} component="h2" gutterBottom variant="overline">
-                        Content / <span className={classes.backToList} onClick={handleBackToList}>{data.config?.title}</span> / {title} <LabelPost post={data.post} />
+                        {__('Content')} / <span className={classes.backToList} onClick={handleBackToList}>{data.config?.title}</span> / {title} <LabelPost post={data.post} />
                     </Typography>
                     <Typography component="h1" variant="h3" className={classes.rowAction}>
                         <div className={classes.seperateAction}>
                             {
                                 Boolean(goBack) &&
-                                <Tooltip className={classes.backToList} onClick={() => history.goBack()} title="Go Back" aria-label="go-back">
+                                <Tooltip className={classes.backToList} onClick={() => history.goBack()} title={__('Go Back')} aria-label="go-back">
                                     <IconButton color="default" aria-label="Go Back" component="span">
                                         <ArrowBackOutlined />
                                     </IconButton>
@@ -231,7 +232,7 @@ const Header = (props) => {
                             }
                             {
                                 Boolean(backToList) &&
-                                <Tooltip className={classes.backToList} onClick={handleBackToList} title="Back to list" aria-label="back-to-list">
+                                <Tooltip className={classes.backToList} onClick={handleBackToList} title={__('Back to list')} aria-label="back-to-list">
                                     <IconButton color="default" aria-label="Back to list" component="span">
                                         <FormatListBulletedRoundedIcon />
                                     </IconButton>
@@ -239,7 +240,7 @@ const Header = (props) => {
                             }
                         </div>
                         <div className={classes.seperateAction}>
-                            <Tooltip title="Starred" aria-label="Starred">
+                            <Tooltip title={__('Starred')} aria-label="Starred">
                                 <IconButton onClick={handleOnClickStar} aria-label="Starred" component="span">
                                     {
                                         data.post?.starred
@@ -251,7 +252,7 @@ const Header = (props) => {
                                 </IconButton>
                             </Tooltip>
 
-                            <Tooltip title="Status" aria-label="Status">
+                            <Tooltip title={__('Status')} aria-label="Status">
                                 <IconButton ref={statusRef} onClick={() => setOpenMenuStatus(true)} color="default" aria-label="Status" component="span">
                                     {
                                         data.post?.status === 'draft' ?
@@ -287,20 +288,20 @@ const Header = (props) => {
                                         <ListItemIcon>
                                             <PublicRoundedIcon />
                                         </ListItemIcon>
-                                        <ListItemText primary="Publish" />
+                                        <ListItemText primary={__('Publish')} />
                                     </MenuItem>
                                 }
                                 <MenuItem onClick={e => updateStatus('draft')}>
                                     <ListItemIcon>
                                         <NoteIcon />
                                     </ListItemIcon>
-                                    <ListItemText primary="Draft" />
+                                    <ListItemText primary={__('Draft')} />
                                 </MenuItem>
                                 <MenuItem onClick={e => updateStatus('pending')}>
                                     <ListItemIcon>
                                         <UpdateIcon />
                                     </ListItemIcon>
-                                    <ListItemText primary="Pending" />
+                                    <ListItemText primary={__('Pending')} />
                                 </MenuItem>
                                 {
                                     checkPermission(postType + '_trash') &&
@@ -308,12 +309,12 @@ const Header = (props) => {
                                         <ListItemIcon>
                                             <DeleteIcon />
                                         </ListItemIcon>
-                                        <ListItemText primary="Trash" />
+                                        <ListItemText primary={__('Trash')} />
                                     </MenuItem>
                                 }
                             </Menu>
 
-                            <Tooltip title="Release date" aria-label="release-date">
+                            <Tooltip title={__('Release date')} aria-label="release-date">
                                 <IconButton onClick={() => { setOpenDataPicker(true); }} color="default" aria-label="Release date" component="span">
                                     <EventIcon />
                                 </IconButton>
@@ -322,7 +323,7 @@ const Header = (props) => {
                                 <FieldForm
                                     compoment="dateTime"
                                     config={{
-                                        title: "Release date"
+                                        title: __('Release date')
                                     }}
                                     name='post_date_gmt'
                                     post={dateForm}
@@ -332,7 +333,7 @@ const Header = (props) => {
                                 />
                             </div>
 
-                            <Tooltip title="Visibility" aria-label="visibility">
+                            <Tooltip title={__('Visibility')} aria-label="visibility">
                                 <IconButton ref={viewRef} onClick={() => setOpenMenuView(true)} color="default" aria-label="Visibility" component="span">
                                     {
                                         data.post?.visibility === 'password' ?
@@ -362,28 +363,28 @@ const Header = (props) => {
                                     <ListItemIcon>
                                         <VisibilityIcon />
                                     </ListItemIcon>
-                                    <ListItemText primary="Public" />
+                                    <ListItemText primary={__('Public')} />
                                 </MenuItem>
                                 <MenuItem onClick={e => updateViewStatus('password')}>
                                     <ListItemIcon>
                                         <VpnKeyRoundedIcon />
                                     </ListItemIcon>
-                                    <ListItemText primary="Password protected" />
+                                    <ListItemText primary={__('Password protected')} />
                                 </MenuItem>
                                 <MenuItem onClick={e => updateViewStatus('private')}>
                                     <ListItemIcon>
                                         <LockIcon />
                                     </ListItemIcon>
-                                    <ListItemText primary="Private" />
+                                    <ListItemText primary={__('Private')} />
                                 </MenuItem>
                             </Menu>
                             <Dialog
                                 onClose={() => setPasswordProtected({ ...passwordProtected, open: false })}
                                 open={passwordProtected.open}>
-                                <DialogTitle>Password confirm</DialogTitle>
+                                <DialogTitle>{__('Password confirm')}</DialogTitle>
                                 <DialogContent>
                                     <DialogContentText>
-                                        Protected with a password you choose. Only those with the password can view this post
+                                        {__('Protected with a password you choose. Only those with the password can view this post')}
                                     </DialogContentText>
                                     <FieldForm
                                         compoment='password'
@@ -395,15 +396,13 @@ const Header = (props) => {
                                 </DialogContent>
                                 <DialogActions>
                                     <Button onClick={() => setPasswordProtected({ ...passwordProtected, open: false })} color="default">
-                                        Cancel
+                                        {__('Cancel')}
                                     </Button>
                                     <Button onClick={() => updateViewStatus('password', passwordProtected.value ?? data.post?.password)} color="primary">
-                                        Ok
+                                        {__('OK')}
                                     </Button>
                                 </DialogActions>
                             </Dialog>
-                        </div>
-                        <div className={classes.seperateAction}>
                             {
                                 Boolean(data.post?.id) &&
                                 <>
@@ -436,15 +435,15 @@ const Header = (props) => {
                             {
                                 checkPermission(postType + '_delete') && data.post?.id &&
                                 <Button style={{ marginRight: 8 }} onClick={handelOnClickDelete} color="secondary" variant="contained">
-                                    Delete
+                                    {__('Delete')}
                                 </Button>
                             }
 
                             {
                                 checkPermission(postType + '_restore') &&
-                                <Tooltip title="Restore" aria-label="Restore">
+                                <Tooltip title={__('Restore')} aria-label={__('Restore')}>
                                     <Button style={{ marginRight: 8 }} onClick={restorePost} color="success" variant="contained">
-                                        Restore
+                                        {__('Restore')}
                                     </Button>
                                 </Tooltip>
                             }
@@ -456,15 +455,15 @@ const Header = (props) => {
                                 <DialogTitle id="alert-dialog-title">{"Confirm Deletion"}</DialogTitle>
                                 <DialogContent>
                                     <DialogContentText id="alert-dialog-description">
-                                        Are you sure you want to permanently remove this item?
+                                        {__('Are you sure you want to permanently remove this item?')}
                                     </DialogContentText>
                                 </DialogContent>
                                 <DialogActions>
                                     <Button onClick={deletePost} color="default">
-                                        OK
+                                        {__('OK')}
                                     </Button>
                                     <Button onClick={closeDialogConfirmDelete} color="primary" autoFocus>
-                                        Cancel
+                                        {__('Cancel')}
                                     </Button>
                                 </DialogActions>
                             </Dialog>
@@ -481,7 +480,7 @@ const Header = (props) => {
                                             variant="contained"
                                             startIcon={showLoadingButton ? <CircularProgress size={24} color={'inherit'} /> : null}
                                         >
-                                            Publish
+                                            {__('Publish')}
                                         </Button>
                                         : null
                                 )
@@ -489,14 +488,18 @@ const Header = (props) => {
                                 (
                                     checkPermission(postType + '_edit') ?
                                         <>
-                                            <Button onClick={(e) => { data.post._copy = true; handleSubmit(); }} variant="contained" style={{ marginRight: 8 }}>Copy</Button>
+                                            <Tooltip title={__('Create a new post is a copy of the current post')}>
+                                                <span>
+                                                    <Button onClick={(e) => { data.post._copy = true; handleSubmit(); }} variant="contained" style={{ marginRight: 8 }}>{__('Copy')}</Button>
+                                                </span>
+                                            </Tooltip>
                                             <Button
                                                 color="primary"
                                                 onClick={handleSubmit}
                                                 variant="contained"
                                                 startIcon={showLoadingButton ? <CircularProgress size={24} color={'inherit'} /> : null}
                                             >
-                                                Update
+                                                {__('Update')}
                                             </Button>
                                         </>
                                         : null
@@ -507,7 +510,7 @@ const Header = (props) => {
                     }
                     {
                         !Boolean(hiddenAddButton) &&
-                        <Tooltip title="Add new" aria-label="add-new">
+                        <Tooltip title={__('Add new')} aria-label={__('Add new')}>
                             <Link to={`/post-type/${postType}/new`}>
                                 <Fab style={{ marginLeft: 8 }} size="small" color="primary" aria-label="add">
                                     <AddRoundedIcon />

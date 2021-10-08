@@ -2,8 +2,9 @@ import React from 'react'
 import { FieldForm } from 'components'
 import { Grid } from '@material-ui/core'
 import { Skeleton } from '@material-ui/lab'
+import { __p } from 'utils/i18n'
 
-function Advanced(props) {
+function Advanced({ PLUGIN_NAME, ...props }) {
 
     if (props.post) {
         return (
@@ -14,7 +15,7 @@ function Advanced(props) {
                     <FieldForm
                         compoment='textarea'
                         config={{
-                            title: 'Purchase note',
+                            title: __p('Purchase note', PLUGIN_NAME),
                         }}
                         post={props.post}
                         name='advanced_purchase_note'
@@ -25,7 +26,7 @@ function Advanced(props) {
                     <FieldForm
                         compoment='true_false'
                         config={{
-                            title: 'Enable reviews',
+                            title: __p('Enable reviews', PLUGIN_NAME),
                             maxLength: 70,
                             layout: 'table',
                         }}

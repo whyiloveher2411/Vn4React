@@ -1,6 +1,6 @@
 {
-    "name": "vn4-cms-react2",
-    "version": "0.1.0",
+    "name": "vn4-cms-react",
+    "version": "1.0.0",
     "private": true,
     "homepage": "http://dev.laravel.com/",
     "proxy": "http://localhost:8080",

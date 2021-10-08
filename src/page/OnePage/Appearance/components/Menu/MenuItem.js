@@ -2,8 +2,9 @@ import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Button
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Skeleton } from '@material-ui/lab';
 import React from 'react';
-import { CircularCustom } from '../../../../../components';
-import { useAjax } from '../../../../../utils/useAjax';
+import { __ } from 'utils/i18n';
+import { CircularCustom } from 'components';
+import { useAjax } from 'utils/useAjax';
 import MenuItemCustomLink from './MenuItemCustomLink';
 
 function MenuItem({ listPostType, listMenu, setListMenu, tree, setTree }) {
@@ -18,7 +19,7 @@ function MenuItem({ listPostType, listMenu, setListMenu, tree, setTree }) {
 
             let postTypeHasView = Object.keys(listPostType).filter(key => listPostType[key].public_view), postType = {
                 __postType: {
-                    title: 'Post Type',
+                    title: __('Post Type'),
                     isTitle: true,
                 }
             };
@@ -28,16 +29,16 @@ function MenuItem({ listPostType, listMenu, setListMenu, tree, setTree }) {
             });
 
             postType['__system'] = {
-                title: 'System',
+                title: __('System'),
                 isTitle: true,
             };
 
             postType['__page'] = {
-                title: 'Page Static',
+                title: __('Page Static'),
             };
 
             postType['__customLink'] = {
-                title: 'Custom Link',
+                title: __('Custom Link'),
                 component: MenuItemCustomLink
             };
 
@@ -168,7 +169,7 @@ function MenuItem({ listPostType, listMenu, setListMenu, tree, setTree }) {
             spacing={3}>
             <Grid item md={12} xs={12}>
                 {
-                    Object.keys(postType).map((key, index) => {
+                    Object.keys(postType).map((key) => {
 
                         let postTypeItem = postType[key];
 
@@ -234,7 +235,7 @@ function MenuItem({ listPostType, listMenu, setListMenu, tree, setTree }) {
 
                                                 <span>
                                                     <Button size="small" onClick={addMenuItem(key)} color="primary">
-                                                        Add to menu
+                                                        {__('Add to menu')}
                                                     </Button>
                                                 </span>
                                             </AccordionActions>

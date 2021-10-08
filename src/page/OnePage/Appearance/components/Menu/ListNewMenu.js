@@ -6,6 +6,7 @@ import { useAjax } from 'utils/useAjax';
 import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import { DialogCustom, FieldForm } from 'components';
+import { __ } from 'utils/i18n';
 
 const useStyles = makeStyles({
     menu: {
@@ -30,7 +31,7 @@ function ListNewMenu() {
     });
 
     const [dialogCreateMenu, setDialogCreateMenu] = React.useState({
-        title: 'Add new menu',
+        title: __('Add new menu'),
         name: '',
         description: '',
         action: 'create',
@@ -94,7 +95,7 @@ function ListNewMenu() {
 
                     if (result.success) {
                         setDialogCreateMenu({
-                            title: 'Add new menu',
+                            title: __('Add new menu'),
                             name: '',
                             description: '',
                             action: 'create',
@@ -139,9 +140,9 @@ function ListNewMenu() {
                                 <Table>
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell>Name</TableCell>
-                                            <TableCell>Description</TableCell>
-                                            <TableCell>Location</TableCell>
+                                            <TableCell>{__('Name')}</TableCell>
+                                            <TableCell>{__('Description')}</TableCell>
+                                            <TableCell>{__('Location')}</TableCell>
                                             <TableCell></TableCell>
                                         </TableRow>
                                     </TableHead>
@@ -156,7 +157,7 @@ function ListNewMenu() {
                                                         <Box className={classes.action}>
                                                             <IconButton onClick={() => setDialogCreateMenu({
                                                                 open: true,
-                                                                title: 'Edit menu',
+                                                                title: __('Edit menu'),
                                                                 name: item.title,
                                                                 description: item.description,
                                                                 action: 'edit',
@@ -178,15 +179,12 @@ function ListNewMenu() {
                             :
                             <>
                                 <br />
-                                <NotFound>
-                                    Nothing To Display. <br />
-                                    <span style={{ color: '#ababab', fontSize: '16px' }}>Seems like no Data have been created yet.</span>
-                                </NotFound>
+                                <NotFound />
                             </>
                     }
                     <CardActions>
                         <Box width={1} gridGap={8} display="flex" justifyContent="flex-end">
-                            <Button onClick={() => setDialogCreateMenu({ ...dialogCreateMenu, open: true })} variant="contained" color="primary">Add new</Button>
+                            <Button onClick={() => setDialogCreateMenu({ ...dialogCreateMenu, open: true })} variant="contained" color="primary">{__('Add new')}</Button>
                         </Box>
                     </CardActions>
                 </Card>
@@ -197,8 +195,8 @@ function ListNewMenu() {
                     title={dialogCreateMenu.title}
                     action={
                         <>
-                            <Button onClick={() => setDialogCreateMenu({ ...dialogCreateMenu, open: false })}>Cancel</Button>
-                            <Button color="primary" onClick={handelAddNew}>Save Change</Button>
+                            <Button onClick={() => setDialogCreateMenu({ ...dialogCreateMenu, open: false })}>{__('Cancel')}</Button>
+                            <Button color="primary" onClick={handelAddNew}>{__('Save Changes')}</Button>
                         </>
                     }
                 >
@@ -207,7 +205,7 @@ function ListNewMenu() {
                             <FieldForm
                                 compoment='text'
                                 config={{
-                                    title: 'Menu Name',
+                                    title: __('Menu Name'),
                                 }}
                                 post={dialogCreateMenu}
                                 name='name'
@@ -218,7 +216,7 @@ function ListNewMenu() {
                             <FieldForm
                                 compoment='textarea'
                                 config={{
-                                    title: 'Description',
+                                    title: __('Description'),
                                 }}
                                 post={dialogCreateMenu}
                                 name='description'
@@ -233,7 +231,7 @@ function ListNewMenu() {
                     open={confirmDelete.open}
                     onClose={() => setConfirmDelete({ ...confirmDelete, open: false })}
                     onConfirm={handleConfirmDeleteMenu}
-                    message={'Are you sure you want to permanently remove this "' + (confirmDelete ? confirmDelete.title : '') + '" menu?'}
+                    message={__('Are you sure you want to permanently remove this item?')}
                 />
             </>
         )

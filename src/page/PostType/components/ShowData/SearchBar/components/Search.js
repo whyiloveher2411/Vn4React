@@ -4,6 +4,7 @@ import clsx from 'clsx'
 import { makeStyles } from '@material-ui/styles'
 import { Paper, Button, Input } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
+import { __ } from 'utils/i18n'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -53,7 +54,7 @@ const Search = (props) => {
                     onChange={e => { setInputValue(e.target.value) }}
                     onKeyPress={e => { if (e.which === 13) clickSearch() }}
                     disableUnderline
-                    placeholder="Search"
+                    placeholder={__('Enter something...')}
                     value={inputValue}
                 />
             </Paper>
@@ -62,7 +63,7 @@ const Search = (props) => {
                 onClick={clickSearch}
                 size="large"
                 variant="contained">
-                Search
+                {__('Search')}
             </Button>
         </div>
     )

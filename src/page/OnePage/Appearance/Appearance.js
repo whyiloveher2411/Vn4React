@@ -6,6 +6,7 @@ import Menu from './components/Menu';
 import Theme from './components/Theme';
 import ThemeOptions from './components/ThemeOptions';
 import Widget from './components/Widget';
+import { __ } from 'utils/i18n';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,10 +31,10 @@ function Appearance() {
     const { tab } = match.params
 
     const tabs = [
-        { value: 'theme', label: 'Theme', component: <Theme key="theme" /> },
-        { value: 'menu', label: 'Menu', component: <Menu key="menu" /> },
-        { value: 'widget', label: 'Widget', component: <Widget key="widget" /> },
-        { value: 'theme-options', label: 'Theme Options', component: <ThemeOptions key="theme-options" history={history} /> },
+        { value: 'theme', label: __('Theme'), component: <Theme key="theme" /> },
+        { value: 'menu', label: __('Menu'), component: <Menu key="menu" /> },
+        { value: 'widget', label: __('Widget'), component: <Widget key="widget" /> },
+        { value: 'theme-options', label: __('Theme Options'), component: <ThemeOptions key="theme-options" history={history} /> },
     ];
 
     const handleTabsChange = (event, value) => {
@@ -49,13 +50,13 @@ function Appearance() {
     }
 
     return (
-        <Page className={classes.main} title="Appearance">
+        <Page className={classes.main} title={__('Appearance')}>
             <div>
                 <Typography component="h2" gutterBottom variant="overline">
-                    Management
+                    {__('Management')}
                 </Typography>
                 <Typography component="h1" variant="h3">
-                    Appearance
+                    {__('Appearance')}
                 </Typography>
             </div>
             <div className={classes.root}>

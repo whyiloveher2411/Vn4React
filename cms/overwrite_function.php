@@ -62,93 +62,120 @@ function cms_path($name = 'public' ,$path = ''){
 
 function request($key = null, $default = null){
 
-    if( isset($GLOBALS['____f_request____']) ) return $GLOBALS['____f_request____'];
+    if( isset($GLOBALS['__request']) ) return $GLOBALS['__request'];
 
     if (is_null($key)) {
-        $GLOBALS['____f_request____'] = app('request');
-        return $GLOBALS['____f_request____'];
+        $GLOBALS['__request'] = app('request');
+        return $GLOBALS['__request'];
     }elseif (is_array($key)) {
-        $GLOBALS['____f_request____'] = app('request')->only($key);
-        return $GLOBALS['____f_request____'];
+        $GLOBALS['__request'] = app('request')->only($key);
+        return $GLOBALS['__request'];
     }
 
     $value = app('request')->__get($key);
 
-    $GLOBALS['____f_request____'] = is_null($value) ? value($default) : $value;
+    $GLOBALS['__request'] = is_null($value) ? value($default) : $value;
 
-    return $GLOBALS['____f_request____'];
-    
+    return $GLOBALS['__request'];
 }
 
 /**
-Trans
+*Translate
 */
 
-function __( $trans ){
+function __( $trans, $param = false ){
 	
 	$lang = App::getLocale();
 
-	if( !isset($GLOBALS['trans_framework_'.$lang]) ) {
-		$GLOBALS['trans_framework_'.$lang] = Cache::get('trans_framework_'.$lang );
+	$result = $trans;
+
+	if( !isset($GLOBALS['trans_default_'.$lang]) ) {
+		$GLOBALS['trans_default_'.$lang] = Cache::get('trans_default_'.$lang );
 
 
-		if( $GLOBALS['trans_framework_'.$lang] === null ){
+		if( $GLOBALS['trans_default_'.$lang] === null ){
 
 		 	$translate = [];
 
-			if( file_exists( cms_path('resource','lang/'.$lang.'.csv') ) ){
+			if( file_exists( $file = cms_path('resource','lang/'.$lang.'.json') ) ){
+				$translate = json_decode( file_get_contents($file) , true);
+				if( !$translate ) $translate = [];
+			}
 
-				$csv = array_map("str_getcsv", file(cms_path('resource','lang/'.$lang.'.csv')));
-			 	foreach ($csv as $line){
-			     	$translate[ $line[0] ] = $line[1];
-			 	}
-
-			 }
-		 	Cache::forever('trans_framework_'.$lang, $translate );
+		 	Cache::forever('trans_default_'.$lang, $translate );
 		}
-
-		
 	}
 
-	if( isset($GLOBALS['trans_framework_'.$lang][$trans]) ){
-		return $GLOBALS['trans_framework_'.$lang][$trans];
+	if( isset($GLOBALS['trans_default_'.$lang][$trans]) ){
+		$result = $GLOBALS['trans_default_'.$lang][$trans];
 	}
 
-	return $trans;
+	if( $param ){
 
+		$keys = array_keys( $param );
+
+		$keys = array_map( function($key){
+			return '{{'.$key.'}}';
+		}, $keys );
+
+		$values = array_values( $param );
+
+		$result = str_replace( $keys, $values, $result);
+	}
+
+	return $result;
 }
 
-function __t( $trans ){
+
+function __t( $trans, $param = false ){
 
 	$lang = App::getLocale();
 
+	$result = $trans;
+
 	if( !isset($GLOBALS['trans_theme_'.$lang]) ) {
+		
 		$GLOBALS['trans_theme_'.$lang] = Cache::get('trans_theme_'.$lang );
 
 		if( $GLOBALS['trans_theme_'.$lang] === null ){
 
-		 	$translate = [];
-			if( file_exists( cms_path('resource','views/themes/'.theme_name().'/lang/'.$lang.'.csv') ) ){
-				$csv = array_map("str_getcsv", file(cms_path('resource','views/themes/'.theme_name().'/lang/'.$lang.'.csv')));
-			 	foreach ($csv as $line){
-			     	$translate[ $line[0] ] = $line[1];
-			 	}
-		 	}
+			$translate = [];
+
+			if( file_exists($file = cms_path('resource','views/themes/'.theme_name().'/lang/'.$lang.'.json') ) ){
+				$translate = json_decode( file_get_contents($file) , true);
+				if( !$translate ) $translate = [];
+			}
+
 		 	Cache::forever('trans_theme_'.$lang, $translate );
 		}
 
 	}
-
+	
 	if( isset($GLOBALS['trans_theme_'.$lang][$trans]) ){
-		return $GLOBALS['trans_theme_'.$lang][$trans];
+		$result = $GLOBALS['trans_theme_'.$lang][$trans];
 	}
 
-	return $trans;
+	if( $param ){
+
+		$keys = array_keys( $param );
+
+		$keys = array_map( function($key){
+			return '{{'.$key.'}}';
+		}, $keys );
+
+		$values = array_values( $param );
+
+		$result = str_replace( $keys, $values, $result);
+	}
+
+	return $result;
 }
 
-function __p($trans, $plugin_keyword ){
+function __p($trans, $plugin_keyword, $param = false ){
 
 	$lang = App::getLocale();
+
+	$result = $trans;
 
 	if( !isset($GLOBALS['trans_plugin_'.$plugin_keyword.'_'.$lang]) ) {
 		$GLOBALS['trans_plugin_'.$plugin_keyword.'_'.$lang] = Cache::get( 'trans_plugin_'.$plugin_keyword.'_'.$lang );
@@ -156,24 +183,34 @@ function __p($trans, $plugin_keyword ){
 
 		if( $GLOBALS['trans_plugin_'.$plugin_keyword.'_'.$lang] === null ){
 
-		 	$translate = [];
-			if( file_exists( cms_path('resource','views/plugins/'.$plugin_keyword.'/lang/'.$lang.'.csv') ) ){
-				$csv = array_map("str_getcsv", file(cms_path('resource','views/plugins/'.$plugin_keyword.'/lang/'.$lang.'.csv')));
-			 	foreach ($csv as $line){
-			     	$translate[ $line[0] ] = $line[1];
-			 	}
-		 	}
+			$translate = [];
+
+			if( file_exists($file = cms_path('resource','views/plugins/'.$plugin_keyword.'/lang/'.$lang.'.json') ) ){
+				$translate = json_decode( file_get_contents($file) , true);
+				if( !$translate ) $translate = [];
+			}
 		 	Cache::forever('trans_plugin_'.$plugin_keyword.'_'.$lang, $translate );
 		}
-
-
 	}
 
 	if( isset($GLOBALS['trans_plugin_'.$plugin_keyword.'_'.$lang][$trans]) ){
-		return $GLOBALS['trans_plugin_'.$plugin_keyword.'_'.$lang][$trans];
+		$result = $GLOBALS['trans_plugin_'.$plugin_keyword.'_'.$lang][$trans];
+	}
+	
+	if( $param ){
+
+		$keys = array_keys( $param );
+
+		$keys = array_map( function($key){
+			return '{{'.$key.'}}';
+		}, $keys );
+
+		$values = array_values( $param );
+
+		$result = str_replace( $keys, $values, $result);
 	}
 
-	return $trans;
+	return $result;
 }
 
 

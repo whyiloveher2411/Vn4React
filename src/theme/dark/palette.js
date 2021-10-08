@@ -1,7 +1,6 @@
 import { colors } from '@material-ui/core'
 
 const white = '#FFFFFF'
-const black = '#000000'
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {

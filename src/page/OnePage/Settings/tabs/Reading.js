@@ -1,4 +1,5 @@
 import React from 'react'
+import { __ } from 'utils/i18n';
 import ReadingSetting from '../components/ReadingSetting';
 
 function Reading({ post, data, onReview }) {
@@ -7,7 +8,7 @@ function Reading({ post, data, onReview }) {
             <ReadingSetting
                 compoment={'radio'}
                 config={{
-                    title: 'Homepage',
+                    title: __('Homepage'),
                     readingPageStatic: data.reading_page_static,
                     adminObject: data.admin_object
                 }}

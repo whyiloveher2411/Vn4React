@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, colors, Grid, makeStyles, Tooltip, Typography } from '@material-ui/core';
+import { Card, CardContent, CardHeader, Checkbox, colors, FormControlLabel, FormGroup, Grid, makeStyles, Tooltip, Typography } from '@material-ui/core';
 import AppsRoundedIcon from '@material-ui/icons/AppsRounded';
 import BuildOutlinedIcon from '@material-ui/icons/BuildOutlined';
 import CloudDownloadOutlinedIcon from '@material-ui/icons/CloudDownloadOutlined';
@@ -13,9 +13,10 @@ import { AddOn, Divider, FieldForm, TabsCustom } from 'components';
 import React from 'react';
 import { useAjax } from 'utils/useAjax';
 import { Advanced, Connectedproducts, Downloadable, General, Overview, Properties, QuestionAndAnswer, Shipments, Specifications, Warehouse } from './components';
+import { __p } from 'utils/i18n';
+import { PLUGIN_NAME } from '../../helpers/plugin';
 
-
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     cardTitle: {
         alignItems: 'center', display: 'flex',
         '& .MuiFormGroup-root': {
@@ -32,8 +33,8 @@ const ecomName = {
     grouped: 'grouped',
     external: 'external',
     variable: 'variable',
-    downloadable: 'downloadable',
-    virtual: 'virtual',
+    // downloadable: 'downloadable',
+    // virtual: 'virtual',
 
     prodType: 'ecom_prod',
 }
@@ -43,6 +44,7 @@ function CreateData(props) {
     const { post } = props.data;
 
     const classes = useStyles();
+
     const [render, setRender] = React.useState(0);
 
     const useAjax1 = useAjax();
@@ -130,23 +132,24 @@ function CreateData(props) {
             <Grid item md={12} xs={12}>
                 <Card>
                     <CardHeader
+                        style={{ whiteSpace: 'nowrap' }}
                         title={
                             <div className={classes.cardTitle}>
                                 <Typography variant="h5" >
-                                    Product Data
+                                    {__p('Product Data', PLUGIN_NAME)}
                                 </Typography>
                                 <div style={{ maxWidth: 260, width: '100%', marginLeft: 16 }}>
                                     <FieldForm
                                         compoment='select'
                                         config={{
-                                            title: 'Product type',
+                                            title: __p('Product type', PLUGIN_NAME),
                                             list_option: {
-                                                simple: { title: 'Simple Product' },
-                                                grouped: { title: 'Grouped product' },
-                                                external: { title: 'External/Affiliate product' },
-                                                variable: { title: 'Variable product' },
-                                                virtual: { title: 'Virtual product' },
-                                                downloadable: { title: 'Downloadable product' },
+                                                simple: { title: __p('Simple Product', PLUGIN_NAME) },
+                                                grouped: { title: __p('Grouped product', PLUGIN_NAME) },
+                                                external: { title: __p('External/Affiliate product', PLUGIN_NAME) },
+                                                variable: { title: __p('Variable product', PLUGIN_NAME) },
+                                                // virtual: { title: __p('Virtual product', PLUGIN_NAME) },
+                                                // downloadable: { title: __p('Downloadable product', PLUGIN_NAME) },
                                             },
                                             size: "small",
                                             defaultValue: 'simple',
@@ -162,6 +165,32 @@ function CreateData(props) {
                                         }}
                                     />
                                 </div>
+
+                                <FormGroup>
+                                    <FormControlLabel
+                                        style={{ marginRight: 24 }}
+                                        control={<Checkbox
+                                            onClick={() => {
+                                                if (post.virtual_product) {
+                                                    props.onReview(0, 'virtual_product');
+                                                } else {
+                                                    props.onReview(1, 'virtual_product');
+                                                }
+                                            }} checked={Boolean(post.virtual_product)} color="primary" />}
+                                        label={__p('Virtual product', PLUGIN_NAME)}
+                                    />
+                                    <FormControlLabel
+                                        control={<Checkbox
+                                            onChange={() => {
+                                                if (post.downloadable_product) {
+                                                    props.onReview(0, 'downloadable_product');
+                                                } else {
+                                                    props.onReview(1, 'downloadable_product');
+                                                }
+                                            }} checked={Boolean(post.downloadable_product)} color="primary" />}
+                                        label={__p('Downloadable product', PLUGIN_NAME)}
+                                    />
+                                </FormGroup>
                             </div>}
                     />
                     <Divider />
@@ -179,56 +208,57 @@ function CreateData(props) {
                                         'Tabs',
                                         {
                                             general: {
-                                                title: <Tooltip title="Price"><AttachMoneyRoundedIcon /></Tooltip>,
-                                                content: () => <General onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
+                                                title: <Tooltip title={__p('Price', PLUGIN_NAME)}><AttachMoneyRoundedIcon /></Tooltip>,
+                                                content: () => <General PLUGIN_NAME={PLUGIN_NAME} onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
                                                 priority: 1,
                                                 // hidden: post.product_type === ecomName.variable,
                                             },
                                             overview: {
-                                                title: <Tooltip title="Overview"><InfoOutlinedIcon /></Tooltip>,
-                                                content: () => <Overview onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
+                                                title: <Tooltip title={__p('Overview', PLUGIN_NAME)}><InfoOutlinedIcon /></Tooltip>,
+                                                content: () => <Overview PLUGIN_NAME={PLUGIN_NAME} onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
                                                 priority: 2,
                                             },
                                             properties: {
-                                                title: <Tooltip title={"Properties" + (post.product_type === 'variable' ? ' & Variations' : '')}><AppsRoundedIcon /></Tooltip>,
-                                                content: () => <Properties updatePost={props.data.updatePost} onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
+                                                title: <Tooltip title={__p('Properties', PLUGIN_NAME) + (post.product_type === 'variable' ? (' & ' + __p('Variations', PLUGIN_NAME)) : '')}><AppsRoundedIcon /></Tooltip>,
+                                                content: () => <Properties PLUGIN_NAME={PLUGIN_NAME} updatePost={props.data.updatePost} onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
                                                 priority: 3,
                                             },
                                             downloadable: {
-                                                title: <Tooltip title="Downloadable"><CloudDownloadOutlinedIcon /></Tooltip>,
-                                                content: () => <Downloadable onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
-                                                hidden: post.product_type !== ecomName.downloadable,
+                                                title: <Tooltip title={__p('Downloadable', PLUGIN_NAME)}><CloudDownloadOutlinedIcon /></Tooltip>,
+                                                content: () => <Downloadable PLUGIN_NAME={PLUGIN_NAME} onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
+                                                hidden: !Boolean(post.downloadable_product),
                                                 priority: 4,
                                             },
                                             warehouse: {
-                                                title: <Tooltip title="Warehouse"><HomeWorkOutlinedIcon /></Tooltip>,
-                                                content: () => <Warehouse onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
+                                                title: <Tooltip title={__p('Warehouse', PLUGIN_NAME)}><HomeWorkOutlinedIcon /></Tooltip>,
+                                                content: () => <Warehouse PLUGIN_NAME={PLUGIN_NAME} onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
                                                 priority: 5,
                                             },
                                             shipments: {
-                                                title: <Tooltip title="Shipments"><LocalShippingOutlinedIcon /></Tooltip>,
-                                                content: () => <Shipments onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
+                                                title: <Tooltip title={__p('Shipments', PLUGIN_NAME)}><LocalShippingOutlinedIcon /></Tooltip>,
+                                                content: () => <Shipments PLUGIN_NAME={PLUGIN_NAME} onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
                                                 hidden: ['', ecomName.simple, ecomName.variable].indexOf(post.product_type ?? '') === -1,
+                                                hidden: Boolean(post.virtual_product),
                                                 priority: 6,
                                             },
                                             connectedproducts: {
-                                                title: <Tooltip title="Connected products"><ShoppingCartOutlinedIcon /></Tooltip>,
-                                                content: () => <Connectedproducts onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
+                                                title: <Tooltip title={__p('Connected products', PLUGIN_NAME)}><ShoppingCartOutlinedIcon /></Tooltip>,
+                                                content: () => <Connectedproducts PLUGIN_NAME={PLUGIN_NAME} onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
                                                 priority: 7,
                                             },
                                             specifications: {
-                                                title: <Tooltip title="Specifications"><BuildOutlinedIcon /></Tooltip>,
-                                                content: () => <Specifications onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
+                                                title: <Tooltip title={__p('Specifications', PLUGIN_NAME)}><BuildOutlinedIcon /></Tooltip>,
+                                                content: () => <Specifications PLUGIN_NAME={PLUGIN_NAME} onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
                                                 priority: 8,
                                             },
                                             question_and_answer: {
-                                                title: <Tooltip title="Question and Answer"><HelpOutlineOutlinedIcon /></Tooltip>,
-                                                content: () => <QuestionAndAnswer onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
+                                                title: <Tooltip title={__p('Question and Answer', PLUGIN_NAME)}><HelpOutlineOutlinedIcon /></Tooltip>,
+                                                content: () => <QuestionAndAnswer PLUGIN_NAME={PLUGIN_NAME} onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
                                                 priority: 9,
                                             },
                                             advanced: {
-                                                title: <Tooltip title="Advanced"><SettingsOutlinedIcon /></Tooltip>,
-                                                content: () => <Advanced onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
+                                                title: <Tooltip title={__p('Advanced', PLUGIN_NAME)}><SettingsOutlinedIcon /></Tooltip>,
+                                                content: () => <Advanced PLUGIN_NAME={PLUGIN_NAME} onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
                                                 priority: 10,
                                             },
 
@@ -246,7 +276,7 @@ function CreateData(props) {
                         />
                     </CardContent>
                 </Card>
-            </Grid>
+            </Grid >
         )
     }
 

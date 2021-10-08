@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/styles';
 import { Typography, Button, useTheme, useMediaQuery } from '@material-ui/core';
 
 import { Page } from 'components';
+import { __ } from 'utils/i18n';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -39,20 +40,19 @@ const Error403 = () => {
   return (
     <Page
       className={classes.root}
-      title="Error 403"
+      title={__('Error 403')}
     >
       <Typography
         align="center"
         variant={mobileDevice ? 'h4' : 'h1'}
       >
-        403: You dont't have permission to access on this page
+        403: {__('You dont\'t have permission to access on this page')}
       </Typography>
       <Typography
         align="center"
         variant="subtitle2"
       >
-        You either tried some shady route or you came here by mistake. Whichever
-        it is, try using the navigation
+        {__('You either tried some shady route or you came here by mistake. Whichever it is, try using the navigation')}
       </Typography>
       <div className={classes.imageContainer}>
         <img
@@ -68,7 +68,7 @@ const Error403 = () => {
           to="/"
           variant="outlined"
         >
-          Back to home
+          {__('Back to home')}
         </Button>
       </div>
     </Page>

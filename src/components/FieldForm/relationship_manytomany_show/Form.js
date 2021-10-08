@@ -2,6 +2,7 @@ import { Fab, FormHelperText, Typography } from '@material-ui/core';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import { DrawerEditPost, NotFound } from 'components';
 import React from 'react';
+import { __ } from 'utils/i18n';
 import { useAjax } from 'utils/useAjax';
 import DataTable from '../relationship_onetomany_show/DataTable';
 
@@ -79,10 +80,11 @@ export default React.memo(function RelationshipManyToManyShowForm(props) {
                 Boolean(config.note) &&
                 <FormHelperText ><span dangerouslySetInnerHTML={{ __html: config.note }}></span></FormHelperText>
             }
-            <NotFound>
-                Nothing {config.title} To Display. <br />
-                <span style={{ color: '#ababab', fontSize: '16px' }}>Seems like no {data?.config?.label?.singularName ?? ""} have been created yet.</span>
-            </NotFound>
+            <NotFound
+                subTitle={__('Seems like no {{data}} have been created yet.', {
+                                    data: data.config.singularName ?? 'Data'
+                                })}
+            />
         </>);
     }
 

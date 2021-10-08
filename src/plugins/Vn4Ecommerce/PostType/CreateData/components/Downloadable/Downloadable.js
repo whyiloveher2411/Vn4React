@@ -2,10 +2,11 @@ import React from 'react'
 import { Grid } from '@material-ui/core';
 import FieldForm from 'components/FieldForm';
 import { Skeleton } from '@material-ui/lab';
+import { __p } from 'utils/i18n';
 
-function Downloadable(props) {
+function Downloadable({ post, PLUGIN_NAME, onReview }) {
 
-    if (props.post) {
+    if (post) {
         return (
             <Grid
                 container
@@ -14,40 +15,39 @@ function Downloadable(props) {
                     <FieldForm
                         compoment='repeater'
                         config={{
-                            title: 'Downloadable files',
-                            note: 'Leave blank for unlimited re-downloads.',
+                            title: __p('Downloadable files', PLUGIN_NAME),
                             sub_fields: {
-                                name: { title: 'Name' },
+                                name: { title: __p('Name', PLUGIN_NAME) },
                                 fileDetail: { title: 'Field Detail', view: 'asset-file' },
                             }
                         }}
-                        post={props.post}
+                        post={post}
                         name='downloadable_files'
-                        onReview={(value) => props.onReview(value, 'downloadable_files')}
+                        onReview={(value) => onReview(value, 'downloadable_files')}
                     />
                 </Grid>
                 <Grid item md={12} xs={12}>
                     <FieldForm
                         compoment='number'
                         config={{
-                            title: 'Download limit',
-                            note: 'Leave blank for unlimited re-downloads.',
+                            title: __p('Download limit', PLUGIN_NAME),
+                            note: __p('Leave blank for unlimited re-downloads.', PLUGIN_NAME),
                         }}
-                        post={props.post}
+                        post={post}
                         name='downloadable_limit'
-                        onReview={(value) => props.onReview(value, 'downloadable_limit')}
+                        onReview={(value) => onReview(value, 'downloadable_limit')}
                     />
                 </Grid>
                 <Grid item md={12} xs={12}>
                     <FieldForm
                         compoment={'number'}
                         config={{
-                            title: 'Download expiry',
-                            note: 'Enter the number of days before a download link expires, or leave blank.'
+                            title: __p('Download expiry', PLUGIN_NAME),
+                            note: __p('Enter the number of days before a download link expires, or leave blank.', PLUGIN_NAME)
                         }}
-                        post={props.post}
+                        post={post}
                         name={'downloadable_expiry'}
-                        onReview={(value) => props.onReview(value, 'downloadable_expiry')}
+                        onReview={(value) => onReview(value, 'downloadable_expiry')}
                     />
                 </Grid>
             </Grid>

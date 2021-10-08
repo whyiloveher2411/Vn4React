@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/styles';
 import { ActionPost, DialogCustom, DrawerEditPost, FieldView, GenericMoreButton, NotFound, TableEditBar } from 'components';
 import React, { useState } from 'react';
 import { useAjax } from 'utils/useAjax';
+import { __ } from 'utils/i18n';
 import LabelPost from '../LabelPost';
 import FilterGroup from './FilterGroup';
 
@@ -88,8 +89,8 @@ const Results = (props) => {
 
     const { result, onFilter, postType, loading, value, queryUrl, setQueryUrl, isLoadedData, history, acctionPost, ...rest } = props
 
-    const rows = result.rows ?? { };
-    const options = result.config ?? { };
+    const rows = result.rows ?? {};
+    const options = result.config ?? {};
 
     const data = rows?.data ?? [];
 
@@ -99,11 +100,10 @@ const Results = (props) => {
 
     const [confirmDelete, setConfirmDelete] = React.useState(0);
 
-    const { ajax, Loading, setOpen, open } = useAjax();
+    const { ajax, Loading, open } = useAjax();
 
     const [openDrawer, setOpenDrawer] = React.useState(false);
     const [dataDrawer, setDataDrawer] = React.useState(false);
-
 
 
     const closeDialogConfirmDelete = () => {
@@ -238,8 +238,13 @@ const Results = (props) => {
             {
                 rows.total ?
                     <Typography color="textSecondary" gutterBottom variant="body2">
-                        {rows.total} Records found. Page {rows.current_page} of{' '}
-                        {Math.ceil(rows.total / rows.per_page * 1)}
+                        {
+                            __('{{total}} Records found. Page {{current_page}} of {{total_page}}', {
+                                total: rows.total,
+                                current_page: rows.current_page,
+                                total_page: Math.ceil(rows.total / rows.per_page * 1)
+                            })
+                        }
                     </Typography>
                     :
                     <Typography color="textSecondary" gutterBottom variant="body2">
@@ -255,19 +260,19 @@ const Results = (props) => {
                                 import: {
                                     title: 'Import',
                                     icon: 'PublishRounded',
-                                    action: () => { alert('Coming sooon.')}
+                                    action: () => { alert('Coming sooon.') }
                                 },
                                 export: {
                                     title: 'Export',
                                     icon: 'GetAppRounded',
-                                    action: () => { alert('Coming sooon.')}
+                                    action: () => { alert('Coming sooon.') }
                                 },
                             },
                             {
                                 columns: {
                                     title: 'Columns',
                                     icon: 'SettingsOutlined',
-                                    action: () => { alert('Coming sooon.')}
+                                    action: () => { alert('Coming sooon.') }
                                 }
                             }
                         ]}
@@ -412,17 +417,16 @@ const Results = (props) => {
                                 (isLoadedData ?
                                     <TableRow>
                                         <TableCell colSpan={100}>
-                                            <NotFound>
-                                                Nothing To Display. <br />
-                                                <span style={{ color: '#ababab', fontSize: '16px' }}>Seems like no {result.config?.label?.singularName ?? 'Data'} have been created yet.</span>
-                                            </NotFound>
+                                            <NotFound subTitle={__('Seems like no {{data}} have been created yet.', {
+                                                    data: result.config?.label?.singularName ?? 'Data'
+                                                })} />
                                         </TableCell>
                                     </TableRow>
                                     :
                                     <TableRow>
                                         <TableCell colSpan={100}>
                                             <NotFound>
-                                                Loading...
+                                                {__('Loading...')}
                                             </NotFound>
                                         </TableCell>
                                     </TableRow>
@@ -441,6 +445,8 @@ const Results = (props) => {
                         page={rows.current_page ? rows.current_page - 1 : 0}
                         rowsPerPage={rows.per_page ? rows.per_page * 1 : 10}
                         rowsPerPageOptions={[10, 25, 50, 100]}
+                        labelRowsPerPage={__('Rows per page:')}
+                        labelDisplayedRows={({ from, to, count }) => `${from} - ${to} ${__('of')} ${count !== -1 ? count : `${__('more than')} ${to}`}`}
                     />
                 </CardActions>
                 {loading && <CircularProgress value={75} className={classes.iconLoading} />}
@@ -460,19 +466,19 @@ const Results = (props) => {
                 onClose={closeDialogConfirmDelete}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
-                title="Confirm Deletion"
+                title={__('Confirm Deletion')}
                 action={
                     <>
                         <Button onClick={() => { acctionPost({ delete: [confirmDelete] }); closeDialogConfirmDelete(); }} color="default">
-                            OK
+                            {__('OK')}
                         </Button>
                         <Button onClick={closeDialogConfirmDelete} color="primary" autoFocus>
-                            Cancel
+                            {__('Cancel')}
                         </Button>
                     </>
                 }
             >
-                Are you sure you want to permanently remove this item?
+                {__("Are you sure you want to permanently remove this item?")}
             </DialogCustom>
 
             {Loading}

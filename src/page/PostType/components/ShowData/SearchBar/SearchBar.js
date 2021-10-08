@@ -1,9 +1,7 @@
 import { Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
-import clsx from 'clsx'
 import React from 'react'
 import { Search } from './components'
-
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -28,7 +26,7 @@ const SearchBar = (props) => {
     return (
         <Grid
             {...rest}
-            className={clsx(classes.root, className)}
+            className={classes.root + ' ' + className}
             container
             spacing={3}>
             <Grid item>

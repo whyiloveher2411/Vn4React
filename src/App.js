@@ -16,6 +16,7 @@ import Login from './page/login/Login';
 import Install from 'page/Install/Install';
 import RequireLogin from 'layout/RequireLogin';
 import AppMenu from './layout/AppMenu';
+import './utils/i18n';
 
 const useStyles = makeStyles({
   root: {

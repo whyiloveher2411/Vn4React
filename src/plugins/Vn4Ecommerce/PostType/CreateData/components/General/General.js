@@ -1,9 +1,12 @@
-import React from 'react'
-import FieldForm from 'components/FieldForm';
 import { Divider, Grid, InputAdornment, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
+import FieldForm from 'components/FieldForm';
+import React from 'react';
+import { __p } from 'utils/i18n';
 
 function General(props) {
+
+    const { PLUGIN_NAME } = props;
 
     const [profit, setProfit] = React.useState(false);
 
@@ -40,7 +43,7 @@ function General(props) {
                     <FieldForm
                         compoment='number'
                         config={{
-                            title: 'Price',
+                            title: __p('Price', PLUGIN_NAME),
                             note: ' ',
                             maxLength: 70
                         }}
@@ -57,7 +60,7 @@ function General(props) {
                     <FieldForm
                         compoment='number'
                         config={{
-                            title: 'Compare at Price',
+                            title: __p('Compare at Price', PLUGIN_NAME),
                             note: ' ',
                             maxLength: 70
                         }}
@@ -74,8 +77,8 @@ function General(props) {
                     <FieldForm
                         compoment='number'
                         config={{
-                            title: 'Cost per item',
-                            note: 'Customers won’t see this',
+                            title: __p('Cost per item', PLUGIN_NAME),
+                            note: __p('Customers won’t see this', PLUGIN_NAME),
                             maxLength: 70
                         }}
                         startAdornment={<InputAdornment position="start">$</InputAdornment>}
@@ -92,9 +95,9 @@ function General(props) {
                         container
                         spacing={2}>
                         <Grid item md={6} xs={12}>
-                            <Typography variant="body2">Margin</Typography>
+                            <Typography variant="body2">{__p('Margin', PLUGIN_NAME)}</Typography>
                             <Typography variant="body1">
-                                {profit !== false ?
+                                {profit !== false && profit.margin ?
                                     new Intl.NumberFormat().format(profit.margin) + '%'
                                     :
                                     '-'
@@ -102,9 +105,9 @@ function General(props) {
                             </Typography>
                         </Grid>
                         <Grid item md={6} xs={12}>
-                            <Typography variant="body2">Profit</Typography>
+                            <Typography variant="body2">{__p('Profit', PLUGIN_NAME)}</Typography>
                             <Typography variant="body1">
-                                {profit !== false ?
+                                {profit !== false && profit.money ?
                                     '$' + new Intl.NumberFormat().format(profit.money)
                                     :
                                     '-'
@@ -143,7 +146,7 @@ function General(props) {
                     <FieldForm
                         compoment={'true_false'}
                         config={{
-                            title: 'Charge tax on this product',
+                            title: __p('Charge tax on this product', PLUGIN_NAME),
                             defaultValue: true,
                         }}
                         post={props.post}

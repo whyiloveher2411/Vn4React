@@ -3,6 +3,7 @@ import React from 'react'
 import FieldForm from 'components/FieldForm';
 import Timezone from '../components/Timezone';
 import DateTimeFormat from '../components/DateTimeFormat';
+import { __ } from 'utils/i18n';
 
 function General({ post, data, onReview }) {
     return (
@@ -13,12 +14,12 @@ function General({ post, data, onReview }) {
                 <FieldForm
                     compoment={'select'}
                     config={{
-                        title: 'Status',
+                        title: __('Status'),
                         list_option: {
-                            developing: { title: 'Developing' },
-                            production: { title: 'Production' },
+                            developing: { title: __('Developing') },
+                            production: { title: __('Production') },
                         },
-                        note: 'Some functions will be activated when the website is ready, the view will automatically minify, so please check javascript, css, html before turning on.',
+                        note: __('Some functions will be activated when the website is ready, the view will automatically minify, so please check javascript, css, html before turning on.'),
                     }}
                     post={post}
                     name={'general_status'}
@@ -29,7 +30,7 @@ function General({ post, data, onReview }) {
                 <FieldForm
                     compoment={'text'}
                     config={{
-                        title: 'Site Title',
+                        title: __('Site Title'),
                     }}
                     post={post}
                     name={'general_site_title'}
@@ -40,8 +41,8 @@ function General({ post, data, onReview }) {
                 <FieldForm
                     compoment={'text'}
                     config={{
-                        title: 'Description',
-                        note: 'In a few words, explain what this site is about',
+                        title: __('Description'),
+                        note: __('In a few words, explain what this site is about'),
                     }}
                     post={post}
                     name={'general_description'}
@@ -52,8 +53,8 @@ function General({ post, data, onReview }) {
                 <FieldForm
                     compoment={'text'}
                     config={{
-                        title: 'Email Address',
-                        note: 'This address is used for admin purposes, like new user notification',
+                        title: __('Email Address'),
+                        note: __('This address is used for admin purposes, like new user notification'),
                     }}
                     post={post}
                     name={'general_email_address'}
@@ -61,7 +62,7 @@ function General({ post, data, onReview }) {
                 />
             </Grid>
             <Grid item md={12} xs={12} >
-                <Timezone 
+                <Timezone
                     post={post}
                     name={'general_timezone'}
                     onReview={value => onReview(value, 'general_timezone')}
@@ -72,7 +73,7 @@ function General({ post, data, onReview }) {
                 <DateTimeFormat
                     compoment={'radio'}
                     config={{
-                        title: 'Date Format',
+                        title: __('Date Format'),
                         list_option: data.date,
                     }}
                     post={post}
@@ -85,7 +86,7 @@ function General({ post, data, onReview }) {
                 <DateTimeFormat
                     compoment={'radio'}
                     config={{
-                        title: 'Time Format',
+                        title: __('Time Format'),
                         list_option: data.time,
                     }}
                     post={post}

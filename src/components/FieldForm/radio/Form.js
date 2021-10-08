@@ -1,5 +1,5 @@
-import { FormControl, FormControlLabel, FormHelperText, FormLabel, Radio, RadioGroup } from '@material-ui/core'
-import React from 'react'
+import { FormControl, FormControlLabel, FormHelperText, Radio, RadioGroup, Typography } from '@material-ui/core';
+import React from 'react';
 
 export default React.memo(function RadioField(props) {
     let { config, name, post, onReview } = props;
@@ -11,7 +11,7 @@ export default React.memo(function RadioField(props) {
     console.log('render RADIO');
     return (
         <FormControl component="fieldset">
-            <FormLabel component="legend">{config.title}</FormLabel>
+            <Typography>{config.title}</Typography>
             <RadioGroup
                 aria-label={config.title}
                 name={name}

@@ -38,6 +38,18 @@ register_post_type(function($list_post_type) use ($plugin) {
 					'hidden'=>true,
 		            'show_data'=>false,
 		        ],
+				'virtual_product'=>[
+					'title'=>'Virtual product',
+					'view'=>'true_false',
+		            'show_data'=>false,
+					'hidden'=>true,
+				],
+				'downloadable_product'=>[
+					'title'=>'Downloadable product',
+					'view'=>'true_false',
+		            'show_data'=>false,
+					'hidden'=>true,
+				],
 		        'price'=>[
 		        	'title'=>'Price',
 		        	'view'=>'number',
@@ -125,6 +137,7 @@ register_post_type(function($list_post_type) use ($plugin) {
 				]
 		    ],
 		    'tabs'=>[
+				'general'=>[ 'title'=>'General', 'fields'=>['title','slug','description'] ],
 		        'image'=>[ 'title'=>'Image', 'fields'=>['thumbnail','gallery'] ],
 		        'categories'=>[ 'title'=>'Categories', 'fields'=>['ecom_prod_cate', 'ecom_prod_tag', 'ecom_prod_spec_sets'] ],
 		        'filters'=>['title'=>'Filters','fields'=>['detailed_filters']],
@@ -1029,13 +1042,13 @@ register_post_type(function($list_post_type) use ($plugin) {
 					'customViewForm'=>'PostType/EcomOrder/Form/Code',
 					'formatCode'=>'OD-xxxxxx-xxxx-xxxx-xxxxxx',
 				],
-				'slug' => [
-					'title'=>__('Slug'),
-					'view' =>'slug',
-					'key_slug'=>'title',
-					'type' => 'text',
-					'show_data'=>false,
-				],
+				// 'slug' => [
+				// 	'title'=>__('Slug'),
+				// 	'view' =>'slug',
+				// 	'key_slug'=>'title',
+				// 	'type' => 'text',
+				// 	'show_data'=>false,
+				// ],
 				'ecom_customer' => [
 		            'title'=>'Customer',
 		            'view' =>'relationship_onetomany',
@@ -1184,7 +1197,7 @@ register_post_type(function($list_post_type) use ($plugin) {
 		        // ],
 			],
 			'tabs'=>[
-				'Information'=>[ 'title'=>'Information', 'fields'=>['title','slug','date_created', 'ecom_customer'] ],
+				'Information'=>[ 'title'=>'Information', 'fields'=>['title','date_created', 'ecom_customer'] ],
 				'address'=>[ 
 					'title'=>'Address', 
 					'fields'=>['billing_address','shipping_address'],
@@ -1192,6 +1205,7 @@ register_post_type(function($list_post_type) use ($plugin) {
 				],
 				'detail'=>[ 'title'=>'Detail', 'fields'=>['products','coupons','total_money'] ],
 				'invoices'=>[ 'title'=>'Invoices', 'fields'=>[] ],
+				'shipping'=>[ 'title'=>'Shipping', 'fields'=>[] ],
 				'history'=>[ 'title'=>'History', 'fields'=>['history'] ],
 			],
 		]

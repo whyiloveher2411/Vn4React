@@ -1,8 +1,9 @@
-import { colors, Grid, makeStyles, Typography } from '@material-ui/core';
-import { Hook, Divider } from 'components';
+import { Grid, makeStyles, Typography } from '@material-ui/core';
+import { Divider, Hook } from 'components';
 import { PageHeaderSticky } from 'components/Page';
 import RedirectWithMessage from 'components/RedirectWithMessage';
 import React from 'react';
+import { __ } from 'utils/i18n';
 import { checkPermission } from 'utils/user';
 import Cache from './Tool/Cache';
 import Database from './Tool/Database';
@@ -22,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
         },
         '& .divider2': {
             margin: theme.spacing(3, 0),
+        },
+        '& .settingDescription': {
+            marginBottom: 8
         }
     },
     title: {
@@ -82,7 +86,7 @@ function Tool() {
 
     return (
         <PageHeaderSticky
-            title="Vn4 SEO"
+            title={__('Tools')}
             header={
                 <Grid
                     alignItems="flex-end"
@@ -92,9 +96,9 @@ function Tool() {
                     alignItems="center"
                     spacing={3}>
                     <Grid item xs={12}>
-                        <Typography component="h2" gutterBottom variant="overline">Tool</Typography>
+                        <Typography component="h2" gutterBottom variant="overline">{__('Tools')}</Typography>
                         <Typography component="h1" variant="h3" className={classes.title}>
-                            Tool management
+                            {__('Tool management')}
                         </Typography>
                     </Grid>
                 </Grid>

@@ -13,6 +13,7 @@ import { useSnackbar } from 'notistack';
 import React from 'react';
 import { unCamelCase } from 'utils/helper';
 import { validURL } from 'utils/herlperUrl';
+import { __ } from 'utils/i18n';
 import { useAjax } from 'utils/useAjax';
 import GoogleDrive from './GoogleDrive';
 
@@ -252,7 +253,7 @@ export default React.memo(function ImageForm(props) {
                         startIcon={<ImageOutlined />}
                         onClick={handleClickOpenSourceDialog}
                     >
-                        Choose Image
+                        {__('Choose Image')}
                     </Button>
                 </div>
                 <DialogCustom

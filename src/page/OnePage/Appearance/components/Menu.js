@@ -2,6 +2,7 @@ import { Box, makeStyles } from '@material-ui/core';
 import { TabsCustom } from 'components';
 import RedirectWithMessage from 'components/RedirectWithMessage';
 import React from 'react';
+import { __ } from 'utils/i18n';
 import { checkPermission } from 'utils/user';
 import ListNewMenu from '../components/Menu/ListNewMenu';
 import Structure from '../components/Menu/Structure';
@@ -38,10 +39,10 @@ function Menu() {
                 name="menu"
                 tabs={[
                     {
-                        title: 'Menus', content: () => <ListNewMenu />
+                        title: __('Menus'), content: () => <ListNewMenu />
                     },
                     {
-                        title: 'Structure', content: () => <Structure />
+                        title: __('Structure'), content: () => <Structure />
                     }
                 ]}
             />

@@ -1,4 +1,4 @@
-import { Card, CardContent, FormHelperText, Grid, InputLabel, Table, TableBody, TableCell, TableContainer, TableRow } from '@material-ui/core';
+import { Card, CardContent, FormControl, FormHelperText, FormLabel, Grid, InputLabel, Table, TableBody, TableCell, TableContainer, TableRow } from '@material-ui/core';
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import FieldForm from 'components/FieldForm';
@@ -87,7 +87,7 @@ export default React.memo(function GroupForm(props) {
 
   const { config, post, name, onReview } = props;
 
-  let valueInital = { };
+  let valueInital = {};
 
   try {
     if (typeof post[name] === 'object') {
@@ -99,7 +99,7 @@ export default React.memo(function GroupForm(props) {
     }
 
   } catch (error) {
-    valueInital = { };
+    valueInital = {};
   }
 
   // console.log(valueInital);
@@ -154,11 +154,11 @@ export default React.memo(function GroupForm(props) {
 
 
   return (
-    <div className={classes.root}>
-      <InputLabel>{config.title}</InputLabel>
+    <FormControl className={classes.root} component="div">
+      <FormLabel component="legend">{config.title}</FormLabel>
       {
         Boolean(config.note) &&
-        <FormHelperText ><span dangerouslySetInnerHTML={{ __html: config.note }}></span></FormHelperText>
+        <FormHelperText style={{ marginTop: 5 }} ><span dangerouslySetInnerHTML={{ __html: config.note }}></span></FormHelperText>
       }
       {
         Boolean(post[name]) &&
@@ -180,7 +180,7 @@ export default React.memo(function GroupForm(props) {
                             <FieldForm
                               compoment={config.sub_fields[key].view ? config.sub_fields[key].view : 'text'}
                               config={config.sub_fields[key]}
-                              post={post[name] ?? { }}
+                              post={post[name] ?? {}}
                               name={key}
                               onReview={(value, key2 = key) => onChangeInputRepeater(value, key2)}
                             />
@@ -207,7 +207,7 @@ export default React.memo(function GroupForm(props) {
                     <FieldForm
                       compoment={config.sub_fields[key].view ? config.sub_fields[key].view : 'text'}
                       config={config.sub_fields[key]}
-                      post={post[name] ?? { }}
+                      post={post[name] ?? {}}
                       name={key}
                       onReview={(value, key2 = key) => onChangeInputRepeater(value, key2)}
                     />
@@ -217,7 +217,7 @@ export default React.memo(function GroupForm(props) {
             }
           </Grid>
       }
-    </div>
+    </FormControl>
   )
 }, (props1, props2) => {
   return props1.post[props1.name] === props2.post[props2.name];

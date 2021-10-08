@@ -5,7 +5,9 @@ import React from 'react';
 import { Redirect, useHistory, useRouteMatch } from 'react-router-dom';
 import { useAjax } from 'utils/useAjax';
 import { checkPermission } from 'utils/user';
+import { __ } from 'utils/i18n';
 import { AdminTemplate, General, Reading, Security } from './tabs';
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -26,6 +28,8 @@ function Settings() {
 
     const match = useRouteMatch();
     const history = useHistory();
+
+    const dispatch = useDispatch();
 
     const classes = useStyles();
 
@@ -50,17 +54,21 @@ function Settings() {
     }, []);
 
     const tabs = [
-        { value: 'general', label: 'General' },
+        { value: 'general', label: __('General') },
         // { value: 'license', label: 'License' },
-        { value: 'reading-settings', label: 'Reading Settings' },
-        { value: 'admin-template', label: 'Admin Template' },
-        { value: 'security', label: 'Security' },
+        { value: 'reading-settings', label: __('Reading Settings') },
+        { value: 'admin-template', label: __('Admin Template') },
+        { value: 'security', label: __('Security') },
     ];
 
-
     const onReview = (value, key) => {
-        data.row[key] = value;
-        console.log(data.row);
+        setData(prev => ({
+            ...prev,
+            row: {
+                ...prev.row,
+                [key]: value,
+            }
+        }))
     };
 
     const handleTabsChange = (event, value) => {
@@ -75,7 +83,12 @@ function Settings() {
             data: data.row,
             isGetData: false,
             success: function (result) {
-
+                if (result.settings) {
+                    dispatch({
+                        type: 'SETTINGS_UPDATE',
+                        payload: { ...result.settings }
+                    });
+                }
             }
         });
     };
@@ -94,13 +107,13 @@ function Settings() {
 
 
     return (
-        <Page className={classes.main} title="Settings">
+        <Page className={classes.main} title={__("Settings")}>
             <div>
                 <Typography component="h2" gutterBottom variant="overline">
-                    Settings
+                    {__("Settings")}
                 </Typography>
                 <Typography component="h1" variant="h3">
-                    Change settings for a specific site
+                    {__("Change settings that affect the entire website")}
                 </Typography>
             </div>
             <div className={classes.root}>
@@ -135,7 +148,7 @@ function Settings() {
                                     onClick={handleSubmit}
                                     color="success"
                                     variant="contained">
-                                    Save Changes
+                                    {__('Save Changes')}
                                 </Button>
                             </CardActions>
                         </Card>

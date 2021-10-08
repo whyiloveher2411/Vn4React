@@ -1,21 +1,20 @@
-import { Box, Button, Checkbox, Chip, Collapse, colors, FormControlLabel, IconButton, List, ListItem, ListItemText, makeStyles, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@material-ui/core';
+import { Box, Button, Checkbox, Chip, Collapse, FormControlLabel, IconButton, List, ListItem, ListItemText, makeStyles, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@material-ui/core';
 import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { Skeleton } from '@material-ui/lab';
-import { DialogCustom, Page } from 'components';
+import { DialogCustom } from 'components';
+import NotFound from 'components/NotFound';
+import { PageHeaderSticky } from 'components/Page';
 import RedirectWithMessage from 'components/RedirectWithMessage';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { getUrlParams } from 'utils/herlperUrl';
+import { __ } from 'utils/i18n';
 import { useAjax } from 'utils/useAjax';
 import { checkPermission } from 'utils/user';
-import NotFound from 'components/NotFound';
 
 const useStyles = makeStyles((theme) => ({
-    grid: {
-        marginTop: 16
-    },
     root: {
         width: '100%',
         height: '100%',
@@ -27,52 +26,11 @@ const useStyles = makeStyles((theme) => ({
             opacity: 1,
             background: 'white',
             transform: 'scale(1.02)',
-            '& $byVersion': {
-                display: 'flex'
-            }
         },
-        '& a, & .link': {
-            color: '#337ab7',
-            fontSize: 13,
-            cursor: 'pointer',
-            textAlign: 'center',
-        }
-    },
-    byVersion: {
-        fontSize: 13,
-        display: 'none',
-        position: 'absolute',
-        top: 8,
-        width: '100%',
-        justifyContent: 'space-between',
-        padding: '0 16px',
-        fontWeight: 500,
-
-    },
-    notActive: {
-        opacity: 0.5,
-        background: 'transparent',
-    },
-    media: {
-        height: 160,
-    },
-    description: {
-        fontSize: 12,
-        lineHeight: '16px',
-        letterSpacing: 'normal',
-        overflowWrap: 'normal',
-        display: '-webkit-box',
-        textOverflow: 'ellipsis',
-        overflow: 'hidden',
-        '-webkit-line-clamp': 3,
-        '-webkit-box-orient': 'vertical',
-        color: 'rgb(96, 103, 112)',
-        height: 48,
-        maxWidth: 280,
     },
 }));
 
-const useRowStyles = makeStyles({
+const useRowStyles = makeStyles((theme) => ({
     root: {
         '& > *': {
             borderBottom: 'unset',
@@ -81,12 +39,12 @@ const useRowStyles = makeStyles({
     boxContent: {
         maxHeight: 400,
         overflow: 'auto',
-        border: '1px solid #dedede',
+        border: '1px solid ' + theme.palette.divider,
         padding: 10,
         wordBreak: 'break-all',
-        background: '#eeeeee',
+        background: theme.palette.divider,
     }
-});
+}));
 
 
 function LabelLevel({ label }) {
@@ -98,45 +56,55 @@ function LabelLevel({ label }) {
         emergency: {
             color: 'rgb(141 0 1)',
             icon: 'fa-bug',
+            title: __('Emergency'),
         },
         alert: {
             color: '#d32f30',
             icon: 'fa-bell-o',
+            title: __('Alert'),
         },
         critical: {
             color: '#f44437',
             icon: 'fa-heartbeat',
+            title: __('Critical'),
         },
         error: {
             color: 'rgb(225 75 75)',
             icon: 'fa-times-circle',
+            title: __('Error'),
         },
         warning: {
             color: '#CE812E',
             icon: 'fa-exclamation-triangle',
+            title: __('Warning'),
         },
         notice: {
             color: '#29B87E',
             icon: 'fa-exclamation-circle',
+            title: __('Notice'),
         },
         info: {
             color: '#2E79B4',
             icon: 'fa-exclamation-circle',
+            title: __('Info'),
         },
         debug: {
             color: '#90caf8',
             icon: 'fa-globe',
+            title: __('Debug'),
         },
         processed: {
             color: '#c658ff',
             icon: 'fa-bug',
+            title: __('Processed'),
         },
         failed: {
             color: '#CA2121',
             icon: 'fa-bug',
+            title: __('Failed'),
         },
     }
-    return <span style={{ padding: '3px 10px', fontSize: 12, borderRadius: '4px', background: confiLabel[label].color, color: 'white', textShadow: '1px 1px 3px black' }} >{label}</span>
+    return <span style={{ padding: '3px 10px', fontSize: 12, borderRadius: '4px', whiteSpace: 'nowrap', background: confiLabel[label].color, color: 'white', textShadow: '1px 1px 3px black' }} >{confiLabel[label].title}</span>
 }
 
 function Row(props) {
@@ -173,7 +141,7 @@ function Row(props) {
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={5}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box margin={1}>
-                            <Typography component="h3" variant="h3">Detail</Typography>
+                            <Typography component="h3" variant="h3">{__('Detail')}</Typography>
                             <div className={classes.boxContent + ' custom_scroll'} >
                                 {row.stack.split('\n').map((str, index) => <p key={index}>{str}</p>)}
                             </div>
@@ -297,24 +265,24 @@ export default function Log() {
 
     if (!data) {
         return (
-            <Page className={classes.main} title="Appearance">
-                <div>
-                    <Typography component="h2" gutterBottom variant="overline">Management</Typography>
-                    <Typography component="h1" variant="h3">System Log</Typography>
-                </div>
-                <br />
-                <Typography color="textSecondary" gutterBottom variant="body2">
-                    &nbsp;
-                </Typography>
+            <PageHeaderSticky
+                className={classes.main} title={__('Appearance')}
+                header={
+                    <>
+                        <Typography component="h2" gutterBottom variant="overline">{__('Management')}</Typography>
+                        <Typography component="h1" variant="h3">{__('System Log')}</Typography>
+                    </>
+                }
+            >
                 <TableContainer className="custom_scroll" component={Paper}>
                     <Table stickyHeader aria-label="collapsible sticky table">
                         <TableHead>
                             <TableRow>
                                 <TableCell style={{ width: 25 }} />
-                                <TableCell>Level</TableCell>
-                                <TableCell>Context</TableCell>
-                                <TableCell>Date</TableCell>
-                                <TableCell>Content</TableCell>
+                                <TableCell>{__('Level')}</TableCell>
+                                <TableCell>{__('Context')}</TableCell>
+                                <TableCell>{__('Date time')}</TableCell>
+                                <TableCell>{__('Content')}</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -334,30 +302,31 @@ export default function Log() {
                     </Table>
                 </TableContainer>
 
-            </Page>
+            </PageHeaderSticky>
         );
     }
 
     return (
-
-        <Page className={classes.main} title="System Log">
-            <div>
-                <Typography component="h2" gutterBottom variant="overline">Management</Typography>
-                <Typography component="h1" variant="h3">System Log
-                    {
-                        data.files?.length > 0 &&
-                        <Chip
-                            style={{ marginLeft: 8, background: '#546e7a', color: 'white' }}
-                            label={Boolean(data.current_file) && data.current_file}
-                            clickable
-                            color="default"
-                            onClick={() => { setDialog({ ...dialog, open: true }); console.log(filesLogSelected); }}
-                        />
-                    }
-                </Typography>
-            </div>
-            <br />
-
+        <PageHeaderSticky
+            className={classes.main} title={__('Appearance')}
+            header={
+                <>
+                    <Typography component="h2" gutterBottom variant="overline">{__('Management')}</Typography>
+                    <Typography component="h1" variant="h3">{__('System Log')}
+                        {
+                            data.files?.length > 0 &&
+                            <Chip
+                                style={{ marginLeft: 8, background: '#546e7a', color: 'white' }}
+                                label={Boolean(data.current_file) && data.current_file}
+                                clickable
+                                color="default"
+                                onClick={() => { setDialog({ ...dialog, open: true }); console.log(filesLogSelected); }}
+                            />
+                        }
+                    </Typography>
+                </>
+            }
+        >
             <DialogCustom
                 open={dialog.open && data.files?.length && confirmDelete === 0}
                 onClose={() => setDialog({ ...dialog, open: false })}
@@ -383,10 +352,10 @@ export default function Log() {
                     <div>
                         {
                             filesLogSelected.length > 0 &&
-                            <Button color="secondary" onClick={(e) => { e.stopPropagation(); setConfirmDelete(filesLogSelected); }}>Delete</Button>
+                            <Button color="secondary" onClick={(e) => { e.stopPropagation(); setConfirmDelete(filesLogSelected); }}>{__('Delete')}</Button>
 
                         }
-                        <Button onClick={() => setDialog({ ...dialog, open: false })}>Cancel</Button>
+                        <Button onClick={() => setDialog({ ...dialog, open: false })}>{__('Cancel')}</Button>
                     </div>
                 </div>
                 }
@@ -422,12 +391,12 @@ export default function Log() {
                 onClose={closeDialogConfirmDelete}
                 action={
                     <>
-                        <Button onClick={handleConfirmDelete} color="default">OK</Button>
-                        <Button onClick={closeDialogConfirmDelete} color="primary" autoFocus>Cancel</Button>
+                        <Button onClick={handleConfirmDelete} color="default">{__('OK')}</Button>
+                        <Button onClick={closeDialogConfirmDelete} color="primary" autoFocus>{__('Cancel')}</Button>
                     </>
                 }
             >
-                Are you sure you want to permanently remove this item?
+                {__('Are you sure you want to permanently remove this item?')}
             </DialogCustom>
 
 
@@ -435,8 +404,13 @@ export default function Log() {
             {
                 data.logs.length ?
                     <Typography color="textSecondary" gutterBottom variant="body2">
-                        {data.logs.length} Records found. Page {page + 1} of{' '}
-                        {Math.ceil(data.logs.length / rowsPerPage * 1)}
+                        {
+                            __('{{total}} Records found. Page {{current_page}} of {{total_page}}', {
+                                total: data.logs.length,
+                                current_page: page + 1,
+                                total_page: Math.ceil(data.logs.length / rowsPerPage * 1)
+                            })
+                        }
                     </Typography>
                     :
                     <Typography color="textSecondary" gutterBottom variant="body2">
@@ -458,10 +432,10 @@ export default function Log() {
                                 <TableHead>
                                     <TableRow>
                                         <TableCell />
-                                        <TableCell>Level</TableCell>
-                                        <TableCell>Context</TableCell>
-                                        <TableCell>Date</TableCell>
-                                        <TableCell>Content</TableCell>
+                                        <TableCell>{__('Level')}</TableCell>
+                                        <TableCell>{__('Context')}</TableCell>
+                                        <TableCell>{__('Date time')}</TableCell>
+                                        <TableCell>{__('Content')}</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -481,18 +455,16 @@ export default function Log() {
                             page={page}
                             onChangePage={handleChangePage}
                             onChangeRowsPerPage={handleChangeRowsPerPage}
+                            labelRowsPerPage={__('Rows per page:')}
+                            labelDisplayedRows={({ from, to, count }) => `${from} - ${to} ${__('of')} ${count !== -1 ? count : `${__('more than')} ${to}`}`}
+
                         />
                     </>
                     :
-                    <NotFound>
-                        Nothing To Display. <br />
-                        <span style={{ color: '#ababab', fontSize: '16px' }}>Seems like no Data have been created yet.</span>
-                    </NotFound>
-                // <Typography style={{ textAlign: 'center', margin: '10rem 0' }} component="h2" variant="h2">Not found result.</Typography>
+                    <NotFound />
             }
 
-
-        </Page>
+        </PageHeaderSticky>
     )
 }
 

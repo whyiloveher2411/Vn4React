@@ -203,10 +203,7 @@ function Insights(props) {
     }
 
     return (
-        <NotFound>
-            Nothing To Display. <br />
-            <span style={{ color: '#ababab', fontSize: '16px' }}>You need to create a product before viewing this report</span>
-        </NotFound>
+        <NotFound subTitle="You need to create a product before viewing this report" />
     );
 }
 

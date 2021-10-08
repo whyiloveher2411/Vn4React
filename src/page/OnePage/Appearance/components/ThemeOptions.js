@@ -4,6 +4,7 @@ import { CircularCustom, Button } from 'components';
 import RedirectWithMessage from 'components/RedirectWithMessage';
 import React from 'react';
 import { getUrlParams } from 'utils/herlperUrl';
+import { __ } from 'utils/i18n';
 import { useAjax } from 'utils/useAjax';
 import { checkPermission } from 'utils/user';
 import TabContent from './ThemeOptions/TabContent';
@@ -58,7 +59,7 @@ export default function ThemeOptions({ history }) {
         setTableCurrent(i);
     };
 
-    const [dataPost, setDataPost] = React.useState({});
+    const [dataPost] = React.useState({});
 
     const { ajax, Loading } = useAjax();
 
@@ -90,7 +91,7 @@ export default function ThemeOptions({ history }) {
             method: 'POST',
             data: dataPost,
             isGetData: false,
-            success: (result) => {
+            success: () => {
 
             },
         })
@@ -132,7 +133,7 @@ export default function ThemeOptions({ history }) {
                     onClick={handleSubmitForm}
                     color="success"
                     variant="contained">
-                    Save Changes
+                    {__('Save Changes')}
                 </Button>
             </CardActions>
             {Loading}

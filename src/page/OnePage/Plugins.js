@@ -8,6 +8,7 @@ import { updatePlugins } from 'actions/plugins';
 import { updateSidebar } from 'actions/sidebar';
 import { checkPermission } from 'utils/user';
 import RedirectWithMessage from 'components/RedirectWithMessage';
+import { __ } from 'utils/i18n';
 
 const useStyles = makeStyles((theme) => ({
     grid: {
@@ -118,76 +119,67 @@ function Plugins() {
     if (!permission) {
         return <RedirectWithMessage />
     }
-    if (!data) {
-        return (
-            <Page className={classes.main} title="Plugin">
-                <div>
-                    <Typography component="h2" gutterBottom variant="overline">Plugin</Typography>
-                    <Typography component="h1" variant="h3">Extensions that change your settings</Typography>
-                </div>
-                <Grid className={classes.grid} container spacing={3}>
-                    {
-                        [1, 2, 3, 4, 5, 6].map(i => (
-                            <Grid key={i} item md={4} sm={6} xs={12}>
-                                <Card >
-                                    <CardContent style={{
-                                        display: 'flex', flexDirection: 'column', textAlign: 'center', alignItems: 'center'
-                                    }}>
-                                        <Skeleton style={{ height: 128, width: '100%', transform: 'scale(1, 1)' }} animation="wave" height={24} />
-                                        <Skeleton animation="wave" height={24} style={{ margin: '8px 0', width: '100%', transform: 'scale(1, 1)' }} />
-                                        <Skeleton animation="wave" height={40} style={{ width: '100%', transform: 'scale(1, 1)' }} />
-                                    </CardContent>
-                                    <Divider />
-                                    <CardActions style={{ justifyContent: 'space-between' }}>
-                                        <Skeleton animation="wave" height={40} style={{ width: '100%', transform: 'scale(1, 1)' }} />
-                                    </CardActions>
-                                </Card>
-                            </Grid>
-                        ))
-                    }
-                </Grid>
-            </Page>
-        );
-    }
-
     return (
-
-        <Page className={classes.main} title="Appearance">
+        <Page className={classes.main} title={__('Plugin')}>
             <div>
-                <Typography component="h2" gutterBottom variant="overline">Plugin</Typography>
-                <Typography component="h1" variant="h3">Extensions that change your settings</Typography>
+                <Typography component="h2" gutterBottom variant="overline">{__('Plugin')}</Typography>
+                <Typography component="h1" variant="h3">{__('Extend part or all of the functionality of the website')}</Typography>
             </div>
-
-            <Grid className={classes.grid} container spacing={3}>
-                {
-                    Object.keys(data).map(plugin => (
-                        <Grid key={plugin} item md={4} sm={6} xs={12}>
-                            <Card className={classes.root + ' ' + (!data[plugin].active ? 'notActive' : '')}>
-                                <CardContent style={{
-                                    display: 'flex', flexDirection: 'column', textAlign: 'center', alignItems: 'center'
-                                }}>
-                                    <div className={classes.byVersion}><small>By <a href={data[plugin].info.author_url} target="_blank">{data[plugin].info.author}</a></small><small>(v{data[plugin].info.version})</small></div>
-                                    <div><img style={{ height: 128, width: 'auto', marginBottom: 8 }} src={data[plugin].image} /></div>
-                                    <Typography gutterBottom variant="h5" component="h2">{data[plugin].info.name}</Typography>
-                                    <Typography className={classes.description} variant="body2" color="textSecondary" component="p">{data[plugin].info.description}</Typography>
-                                </CardContent>
-                                <Divider />
-                                <CardActions style={{ justifyContent: 'space-between' }}>
-                                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                                        <a href={data[plugin].document} target="_blank">Read Docs</a>
-                                        {
-                                            data[plugin].active &&
-                                            <PluginHook plugin={plugin} hook='Custom/LinkSetting' />
-                                        }
-                                    </div>
-                                    <Button variant="contained" onClick={e => changePlugin(plugin)} size="small" color={data[plugin].active ? 'primary' : 'default'}>{data[plugin].active ? 'Activated' : 'Activate'}</Button>
-                                </CardActions>
-                            </Card>
-                        </Grid>
-                    ))
-                }
-            </Grid>
-            {Loading}
+            {
+                !data ?
+                    <Grid className={classes.grid} container spacing={3}>
+                        {
+                            [1, 2, 3, 4, 5, 6].map(i => (
+                                <Grid key={i} item md={4} sm={6} xs={12}>
+                                    <Card >
+                                        <CardContent style={{
+                                            display: 'flex', flexDirection: 'column', textAlign: 'center', alignItems: 'center'
+                                        }}>
+                                            <Skeleton style={{ height: 128, width: '100%', transform: 'scale(1, 1)' }} animation="wave" height={24} />
+                                            <Skeleton animation="wave" height={24} style={{ margin: '8px 0', width: '100%', transform: 'scale(1, 1)' }} />
+                                            <Skeleton animation="wave" height={40} style={{ width: '100%', transform: 'scale(1, 1)' }} />
+                                        </CardContent>
+                                        <Divider />
+                                        <CardActions style={{ justifyContent: 'space-between' }}>
+                                            <Skeleton animation="wave" height={40} style={{ width: '100%', transform: 'scale(1, 1)' }} />
+                                        </CardActions>
+                                    </Card>
+                                </Grid>
+                            ))
+                        }
+                    </Grid>
+                    :
+                    <Grid className={classes.grid} container spacing={3}>
+                        {
+                            Object.keys(data).map(plugin => (
+                                <Grid key={plugin} item md={4} sm={6} xs={12}>
+                                    <Card className={classes.root + ' ' + (!data[plugin].active ? 'notActive' : '')}>
+                                        <CardContent style={{
+                                            display: 'flex', flexDirection: 'column', textAlign: 'center', alignItems: 'center'
+                                        }}>
+                                            <div className={classes.byVersion}><small>{__('By')} <a href={data[plugin].info.author_url} target="_blank">{data[plugin].info.author}</a></small><small>(v{data[plugin].info.version})</small></div>
+                                            <div><img style={{ height: 128, width: 'auto', marginBottom: 8 }} src={data[plugin].image} /></div>
+                                            <Typography gutterBottom variant="h5" component="h2">{data[plugin].info.name}</Typography>
+                                            <Typography className={classes.description} variant="body2" color="textSecondary" component="p">{data[plugin].info.description}</Typography>
+                                        </CardContent>
+                                        <Divider />
+                                        <CardActions style={{ justifyContent: 'space-between' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                <a href={data[plugin].document} target="_blank">{__('Read Docs')}</a>
+                                                {
+                                                    data[plugin].active &&
+                                                    <PluginHook plugin={plugin} hook='Custom/LinkSetting' />
+                                                }
+                                            </div>
+                                            <Button variant="contained" onClick={e => changePlugin(plugin)} size="small" color={data[plugin].active ? 'primary' : 'default'}>{data[plugin].active ? 'Activated' : 'Activate'}</Button>
+                                        </CardActions>
+                                    </Card>
+                                </Grid>
+                            ))
+                        }
+                        {Loading}
+                    </Grid>
+            }
         </Page>
     )
 }

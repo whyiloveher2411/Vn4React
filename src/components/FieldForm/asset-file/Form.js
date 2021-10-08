@@ -1,5 +1,14 @@
-import { AppBar, CardMedia, CircularProgress, Dialog, FormControl, FormGroup, FormHelperText, FormLabel, IconButton, InputAdornment, InputLabel, makeStyles, OutlinedInput } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
+import CardMedia from '@material-ui/core/CardMedia';
+import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormLabel from '@material-ui/core/FormLabel';
+import IconButton from '@material-ui/core/IconButton';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import InputLabel from '@material-ui/core/InputLabel';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Slide from '@material-ui/core/Slide';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -7,12 +16,10 @@ import CloseIcon from '@material-ui/icons/Close';
 import FolderOpenOutlinedIcon from '@material-ui/icons/FolderOpenOutlined';
 import HighlightOffOutlinedIcon from '@material-ui/icons/HighlightOffOutlined';
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
-import { updateRequireLogin } from 'actions/requiredLogin';
 import { DialogCustom, DrawerCustom } from 'components';
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { makeid } from 'utils/helper';
 import { validURL } from 'utils/herlperUrl';
+import { __ } from 'utils/i18n';
 import GoogleDrive from '../image/GoogleDrive';
 
 
@@ -22,15 +29,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 
 const useStyles = makeStyles((theme) => ({
-    appBar: {
-        position: 'relative',
-    },
-    title: {
-        marginLeft: theme.spacing(2),
-        flex: 1,
-        color: '#fff'
-    },
-
     root: {
         position: 'absolute',
         height: '100%',
@@ -40,16 +38,10 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         background: 'white',
     },
-    bottom: {
-        color: theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],
-    },
-    top: {
-        color: '#1a90ff',
-        animationDuration: '550ms',
-        position: 'absolute',
-    },
-    circle: {
-        strokeLinecap: 'round',
+    title: {
+        marginLeft: theme.spacing(1),
+        flex: 1,
+        color: '#fff'
     },
     removeImg: {
         position: 'absolute',
@@ -57,35 +49,6 @@ const useStyles = makeStyles((theme) => ({
         right: 3
     }
 }));
-
-function FacebookCircularProgress(props) {
-    const classes = useStyles();
-
-    return (
-        <div className={classes.root}>
-            <CircularProgress
-                variant="determinate"
-                className={classes.bottom}
-                size={40}
-                thickness={4}
-                {...props}
-                value={100}
-            />
-            <CircularProgress
-                variant="indeterminate"
-                disableShrink
-                className={classes.top}
-                classes={{
-                    circle: classes.circle,
-                }}
-                size={40}
-                thickness={4}
-                {...props}
-            />
-        </div>
-    );
-}
-
 
 export default React.memo(function ImageForm(props) {
 
@@ -181,12 +144,10 @@ export default React.memo(function ImageForm(props) {
         setOpenFilemanagerDialog(false);
     };
 
-    console.log('render ASSET FILE');
-
     return (
 
-        <FormControl required component="fieldset">
-            <FormLabel style={{ marginBottom: 5 }} component="legend">{config.title}</FormLabel>
+        <FormControl component="fieldset">
+            <FormLabel style={{ marginBottom: 4 }} component="legend">{config.title}</FormLabel>
 
             {post[name].link &&
                 <div>
@@ -202,7 +163,7 @@ export default React.memo(function ImageForm(props) {
                         />
                     </div>
                     <Typography variant="body2" style={{ marginBottom: 16, wordBreak: 'break-all' }}>
-                        {unescape(post[name].link.replace(/^.*[\\/]/, ''))}
+                        {decodeURI(post[name].link.replace(/^.*[\\/]/, ''))}
                     </Typography>
                 </div>
             }
@@ -215,32 +176,30 @@ export default React.memo(function ImageForm(props) {
                         startIcon={<InsertDriveFileOutlinedIcon />}
                         onClick={handleClickOpenSourceDialog}
                     >
-                        Choose File
-
-
+                        {__('Choose File')}
                     </Button>
                 </div>
 
                 <DialogCustom
                     open={openSourDialog}
                     onClose={handleCloseSourceDialog}
-                    title="Insert/edit File"
+                    title={__('Insert/edit File')}
                     action={
                         <>
                             <Button onClick={handleCloseSourceDialog}>
-                                Cancel
+                                {__('Cancel')}
                             </Button>
                             <Button onClick={handleOkSourceDialog} color="primary">
-                                OK
+                                {__('OK')}
                             </Button>
                         </>
                     }
                 >
                     <Typography variant="body2" style={{ marginBottom: '1rem' }}>
-                        You can insert a link directly from the input or select an existing file from the system by clicking the button icon at the end of the input field
+                        {__('You can insert a link directly from the input or select an existing file from the system by clicking the button icon at the end of the input field')}
                     </Typography>
                     <FormControl fullWidth variant="outlined">
-                        <InputLabel htmlFor="outlined-adornment-password">Source (URL)</InputLabel>
+                        <InputLabel htmlFor="outlined-adornment-password">{__('Source (URL)')}</InputLabel>
                         <OutlinedInput
                             fullWidth
                             type='text'
@@ -257,7 +216,7 @@ export default React.memo(function ImageForm(props) {
                                     </IconButton>
                                 </InputAdornment>
                             }
-                            label="Source (URL)"
+                            label={__('Source (URL)')}
                         />
 
                         <DrawerCustom
@@ -272,7 +231,7 @@ export default React.memo(function ImageForm(props) {
                                         <CloseIcon />
                                     </IconButton>
                                     <Typography variant="h4" className={classes.title}>
-                                        File Mangage
+                                        {__('File Mangage')}
                                     </Typography>
                                 </Toolbar>
                             }

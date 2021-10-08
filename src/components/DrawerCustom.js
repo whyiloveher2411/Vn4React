@@ -10,7 +10,10 @@ import { makeStyles } from '@material-ui/core';
 const useStyles = makeStyles(theme => ({
     header: {
         padding: 'var(--padding, 16px 24px)',
-        backgroundColor: theme.palette.header.background
+        backgroundColor: theme.palette.header.background,
+        '& .MuiIconButton-root': {
+            color: 'white',
+        }
     },
 }));
 

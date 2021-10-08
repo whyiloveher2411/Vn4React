@@ -6,6 +6,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { checkPermission } from 'utils/user'
 import AddRoundedIcon from '@material-ui/icons/AddRounded'
+import { __ } from 'utils/i18n'
 
 const useStyles = makeStyles(() => ({
     root: {},
@@ -25,7 +26,7 @@ const Header = (props) => {
                 spacing={3}>
                 <Grid item>
                     <Typography component="h2" gutterBottom variant="overline">
-                        Content
+                       {__('Content')}
                     </Typography>
                     <Typography component="h1" variant="h3">
                         {label.name}
@@ -34,7 +35,7 @@ const Header = (props) => {
                 {
                     checkPermission(type + '_create') &&
                     < Grid item>
-                        <Tooltip title="Add new" aria-label="add-new">
+                        <Tooltip title={__('Add new')} aria-label="add-new">
                             <Link to={`/post-type/${type}/new`}>
                                 <Fab style={{ marginLeft: 8 }} size="small" color="primary" aria-label="add">
                                     <AddRoundedIcon />

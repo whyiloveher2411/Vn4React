@@ -33,3 +33,18 @@ export function usePluginMeta(name) {
 
     return {};
 }
+
+export function plugins() {
+    if (window.__plugins) return window.__plugins;
+
+    let pluginsInitial = {};
+    try {
+        pluginsInitial = JSON.parse(localStorage.getItem('plugins')) || {};
+    } catch (error) {
+        pluginsInitial = {};
+    }
+
+    window.__plugins = pluginsInitial;
+
+    return pluginsInitial;
+}

@@ -5,10 +5,26 @@ use Illuminate\Http\Request;
 include __DIR__.'/../cms/core.php';
 include __DIR__.'/../cms/api_helper.php';
 
+$request = request();
 
-if( request()->is('api/admin/*') ){
+if( $request->is('api/admin/*') ){
 
 	apiAccessHeader();
+
+	$formKey = explode('#',base64_decode($request->get('__l')));
+
+	if( isset($formKey[1]) ){
+		
+		App::setLocale( $formKey[0] );
+		
+		$abs = time() - $formKey[1]/1000;
+
+		if( $abs > 5  || $abs < -5){
+			die(json_encode([
+				'message'=>apiMessage('Form Key error, please refesh page!','error')
+			]));
+		}
+	}
 	
 	Route::group(['prefix'=>'admin','middleware'=>'api', 'namespace'=>'API'],function() use ($router) {
 

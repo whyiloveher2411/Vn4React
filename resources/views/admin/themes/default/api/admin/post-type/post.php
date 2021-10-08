@@ -37,7 +37,7 @@ $result = [
     'config'=>$post_type[$type],
     'post'=>$post,
     'author'=>null, 'editor'=>[],
-    'message'=>apiMessage('Edit post success.')
+    'message'=>apiMessage( isset($input['_copy']) ? 'Copy post success.' : 'Edit post success.')
 ];
 
 

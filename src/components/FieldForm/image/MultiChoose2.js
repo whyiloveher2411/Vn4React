@@ -13,6 +13,7 @@ import { useSnackbar } from 'notistack';
 import React from 'react';
 import { unCamelCase } from 'utils/helper';
 import { validURL } from 'utils/herlperUrl';
+import { __ } from 'utils/i18n';
 import { useAjax } from 'utils/useAjax';
 import GoogleDrive from './GoogleDrive';
 
@@ -447,7 +448,7 @@ export default React.memo(function MultiChoose2(props) {
                         startIcon={<PhotoLibraryOutlinedIcon />}
                         onClick={handleClickOpenSourceDialog}
                     >
-                        Choose Image
+                        {__('Choose Image')}
                     </Button>
                 </div>
 
@@ -458,19 +459,19 @@ export default React.memo(function MultiChoose2(props) {
                     action={
                         <>
                             <Button onClick={handleCloseSourceDialog} color="default">
-                                Cancel
+                                {__('Cancel')}
                             </Button>
                             <Button onClick={handleOkSourceDialog} color="primary">
-                                OK
+                                {__('OK')}
                             </Button>
                         </>
                     }
                 >
                     <Typography variant="body2" style={{ marginBottom: '1rem' }}>
-                        You can insert a link directly from the input or select an existing file from the system by clicking the button icon at the end of the input field
+                        {__('You can insert a link directly from the input or select an existing file from the system by clicking the button icon at the end of the input field')}
                     </Typography>
                     <FormControl fullWidth variant="outlined">
-                        <InputLabel htmlFor="outlined-adornment-password">Source (URL)</InputLabel>
+                        <InputLabel htmlFor="outlined-adornment-password">{__('Source (URL)')}</InputLabel>
                         <OutlinedInput
                             fullWidth
                             type='text'
@@ -487,7 +488,7 @@ export default React.memo(function MultiChoose2(props) {
                                     </IconButton>
                                 </InputAdornment>
                             }
-                            label="Source (URL)"
+                            label={__('Source (URL)')}
                         />
                         <DrawerCustom
                             open={openFilemanagerDialog}
@@ -500,10 +501,10 @@ export default React.memo(function MultiChoose2(props) {
                                         <CloseIcon />
                                     </IconButton>
                                     <Typography variant="h4" className={classes.title}>
-                                        File Mangage
+                                        {__('File Mangage')}
                                     </Typography>
                                     <Button autoFocus color="inherit" onClick={handleSaveFilemanagerDialog}>
-                                        save
+                                        {__('Save Changes')}
                                     </Button>
                                 </Toolbar>
                             </div>}
@@ -537,11 +538,11 @@ export default React.memo(function MultiChoose2(props) {
             </div>
 
             < Alert icon={false} severity="info" >
-                <p><strong>Multiple: </strong> You can select multiple images for this field</p>
+                <p dangerouslySetInnerHTML={{ __html: __('<strong>Multiple: </strong> You can select multiple images for this field') }} />
                 {
                     config.size &&
                     <>
-                        <Typography variant="body1"><strong>Condition:</strong></Typography>
+                        <Typography variant="body1"><strong>{__('Condition')}:</strong></Typography>
                         {
                             Object.keys(config.size).map(key => (
                                 <p key={key}><strong>&nbsp;&nbsp;&nbsp;&nbsp;{unCamelCase(key)}:</strong> {config.size[key]}{key !== "ratio" ? "px" : ""}</p>
@@ -552,7 +553,7 @@ export default React.memo(function MultiChoose2(props) {
                 {
                     config.thumbnail &&
                     <>
-                        <p style={{ marginTop: 8 }}><strong>Thumbnail:</strong></p>
+                        <p style={{ marginTop: 8 }}><strong>{__('Auto crop photo')}:</strong></p>
                         {
                             Object.keys(config.thumbnail).map(key => (
                                 <p key={key}>

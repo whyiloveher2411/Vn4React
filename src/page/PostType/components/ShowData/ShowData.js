@@ -3,11 +3,11 @@ import React, { useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import { toCamelCase } from 'utils/helper'
 import { getUrlParams, replaceUrlParam } from 'utils/herlperUrl'
+import { __ } from 'utils/i18n'
 import { useAjax } from 'utils/useAjax'
 import Header from './Header'
 import Results from './Results'
 import SearchBar from './SearchBar'
-
 
 const ShowData = (props) => {
 
@@ -86,7 +86,7 @@ const ShowData = (props) => {
                     if (result.config && mounted) {
                         result.type = match.params.type;
 
-                        result.config.extendedTab = callAddOn('ShowData/Tabs', match.params.type, { list: { title: 'List', priority: 1 } });
+                        result.config.extendedTab = callAddOn('ShowData/Tabs', match.params.type, { list: { title: __('List'), priority: 1 } });
 
                         setData(result);
                         setTitle(result.config?.title);
@@ -115,7 +115,7 @@ const ShowData = (props) => {
             },
             success: function (result) {
                 if (result.config) {
-                    result.config.extendedTab = callAddOn('ShowData/Tabs', match.params.type, { list: { title: 'List', priority: 1 } });
+                    result.config.extendedTab = callAddOn('ShowData/Tabs', match.params.type, { list: { title: __('List'), priority: 1 } });
                     setData(prev => ({ ...prev, ...result }));
                 }
                 if (success) {
@@ -172,7 +172,7 @@ const ShowData = (props) => {
                                         if (key === 'list') {
                                             return {
                                                 ...data.config.extendedTab[key],
-                                                title: data.config.extendedTab[key].title ?? 'List',
+                                                title: data.config.extendedTab[key].title ?? __('List'),
                                                 content: () => <>
                                                     <SearchBar onValue={queryUrl.search} onSearch={handleSearch} />
                                                     {data && (

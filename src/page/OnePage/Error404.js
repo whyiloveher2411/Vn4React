@@ -3,6 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/styles';
 import { Typography, Button, useTheme, useMediaQuery } from '@material-ui/core';
 import { Page } from 'components'
+import { __ } from 'utils/i18n';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -44,14 +45,13 @@ const Error404 = () => {
                 align="center"
                 variant={mobileDevice ? 'h4' : 'h1'}
             >
-                404: The page you are looking for isn’t here
+                {__('404: The page you are looking for isn’t here')}
             </Typography>
             <Typography
                 align="center"
                 variant="subtitle2"
             >
-                You either tried some shady route or you came here by mistake. Whichever
-                it is, try using the navigation
+                {__('You either tried some shady route or you came here by mistake. Whichever it is, try using the navigation')}
             </Typography>
             <div className={classes.imageContainer}>
                 <img
@@ -67,7 +67,7 @@ const Error404 = () => {
                     to="/"
                     variant="outlined"
                 >
-                    Back to home
+                    {__('Back to home')}
                 </Button>
             </div>
         </Page>

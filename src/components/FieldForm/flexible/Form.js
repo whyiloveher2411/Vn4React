@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, FormHelperText, AccordionSummary, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, InputLabel, ListItemIcon, ListItemText, Menu, MenuItem, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@material-ui/core';
+import { Accordion, AccordionDetails, AccordionSummary, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormHelperText, FormLabel, Grid, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import AddToPhotosRoundedIcon from '@material-ui/icons/AddToPhotosRounded';
@@ -8,8 +8,8 @@ import FileCopyIcon from '@material-ui/icons/FileCopy';
 import LabelRoundedIcon from '@material-ui/icons/LabelRounded';
 import MemoryIcon from '@material-ui/icons/Memory';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import StarRoundedIcon from '@material-ui/icons/StarRounded';
 import RestoreRoundedIcon from '@material-ui/icons/RestoreRounded';
+import StarRoundedIcon from '@material-ui/icons/StarRounded';
 import { Label } from 'components';
 import DialogCustom from 'components/DialogCustom';
 import FieldForm from 'components/FieldForm';
@@ -355,8 +355,6 @@ export default React.memo(function FlexibleForm(props) {
         setAnchorEl(null);
     };
 
-    console.log('render FLEXIBLE', post[name]);
-
     const [refMenuAction, setRefMenuAction] = React.useState(null);
 
     const [contentLabel, setContentLabel] = React.useState(false);
@@ -364,11 +362,11 @@ export default React.memo(function FlexibleForm(props) {
     const [indexOfAction, setIndexOfAction] = React.useState(false);
 
     return (
-        <div className={classes.root}>
-            <InputLabel>{config.title}</InputLabel>
+        <FormControl className={classes.root} component="div">
+            <FormLabel component="legend">{config.title}</FormLabel>
             {
                 Boolean(config.note) &&
-                <FormHelperText ><span dangerouslySetInnerHTML={{ __html: config.note }}></span></FormHelperText>
+                <FormHelperText style={{ marginTop: 5 }} ><span dangerouslySetInnerHTML={{ __html: config.note }}></span></FormHelperText>
             }
             {
                 valueInital && valueInital[0]
@@ -684,8 +682,7 @@ export default React.memo(function FlexibleForm(props) {
                 }
 
             </DialogCustom>
-
-        </div>
+        </FormControl>
     )
 }, (props1, props2) => {
     return props1.post[props1.name] === props2.post[props2.name];

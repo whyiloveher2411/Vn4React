@@ -5,9 +5,22 @@
 
 ###### 2021-03-01
 
-#### Feature
+#### Features
 
-- Dashboard
+##### Creating and editing content
+easily create, edit, and publish content. The easier it is to use, the more time you’ll have to concentrate on your strategy.   
+#### Workflows, reporting, and content organization
+#### User and role-based administration
+#### Security
+#### Multichannel scalability
+#### Multilingual content capabilities
+#### Flexibility, scalability, and performance
+#### Personalization and analytics
+#### Content and commerce integration
+
+
+#### Feature Detail
+- Dashboard multi language
 - Dark mode / Light mode
 - Content
 	- Show list
@@ -17,6 +30,7 @@
 - Add-on
 	- Google Analyctis
 	- Vn4 SEO
+	- Vn4 Ecommerce
 - Management
 	- Log
 	- Media
@@ -33,4 +47,6 @@
 	- Re-capcha
 	- Sign In With Google Account
 	- Token expiration time
+
+
 

@@ -1,15 +1,12 @@
-import * as plugins from '../actions/plugins'
+import * as pluginsAction from '../actions/plugins';
+import { plugins } from 'utils/plugin';
 
-let pluginsInitial = {};
-try {
-    pluginsInitial = JSON.parse(localStorage.getItem('plugins')) || {};
-} catch (error) {
-}
+let pluginsInitial = plugins();
 
 const pluginsReducer = (state = pluginsInitial, action) => {
 
     switch (action.type) {
-        case plugins.UPDATE:
+        case pluginsAction.UPDATE:
 
             Object.keys(action.payload).forEach(key => {
                 state[key] = action.payload[key];
@@ -17,17 +14,17 @@ const pluginsReducer = (state = pluginsInitial, action) => {
 
             let sortable = [];
 
-            Object.keys( state ).forEach( key => {
-                sortable.push( [key, state[key].priority ?? 99] );
+            Object.keys(state).forEach(key => {
+                sortable.push([key, state[key].priority ?? 99]);
             });
 
-            sortable.sort(function(a, b) {
+            sortable.sort(function (a, b) {
                 return a[1] - b[1];
             });
 
             let newState = {};
 
-            sortable.forEach( item => {
+            sortable.forEach(item => {
                 newState[item[0]] = state[item[0]];
             });
 

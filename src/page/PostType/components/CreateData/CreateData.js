@@ -3,6 +3,7 @@ import { AddOn, Hook, Page, TabsCustom } from 'components';
 import React, { useState } from 'react';
 import { toCamelCase } from 'utils/helper';
 import { getUrlParams } from 'utils/herlperUrl';
+import { __ } from 'utils/i18n';
 import { useAjax } from 'utils/useAjax';
 import Form from './Form';
 import Header from './Header';
@@ -72,17 +73,20 @@ const CreateData = (props) => {
 
                         if (result.post) {
 
-                            setTitle('Edit "' + result.post[Object.keys(result.config.fields)[0]] + '"');
+                            setTitle(__('Edit') + ' "' + result.post[Object.keys(result.config.fields)[0]] + '"');
                             result.action = 'EDIT';
 
                         } else {
 
                             if (match.params.action === 'edit') {
                                 history.push(`/post-type/${match.params.type}/list`);
-                                showNotification('This ' + result.config.title + ' no longer exists.', 'warning');
+                                showNotification(__('Does not exist {{post_type}} with id is {{id}}', {
+                                    post_type: result.config.title,
+                                    id
+                                }), 'warning');
                                 return;
                             } else {
-                                setTitle('Add New ' + result.config?.title);
+                                setTitle(__('Add new') + ' ' + result.config?.title);
                                 result.action = 'ADD_NEW';
                                 result = { ...result, post: { meta: {} } };
                             }
@@ -91,7 +95,7 @@ const CreateData = (props) => {
                         result.config.extendedTab = callAddOn(
                             'CreateData/Tabs',
                             match.params.type,
-                            { formEdit: { title: 'Edit', priority: 1 } },
+                            { formEdit: { title: __('Edit'), priority: 1 } },
                             { ...result }
                         );
 
@@ -157,7 +161,7 @@ const CreateData = (props) => {
                                                                 if (key === 'formEdit') {
                                                                     return {
                                                                         ...data.config.extendedTab[key],
-                                                                        title: data.config.extendedTab[key].title ?? 'Edit',
+                                                                        title: data.config.extendedTab[key].title ?? __('Edit'),
                                                                         content: () => <Form
                                                                             {...props}
                                                                             data={data}

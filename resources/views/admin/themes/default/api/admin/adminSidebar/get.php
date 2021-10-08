@@ -126,38 +126,39 @@ $sidebar = [
                 'href' =>  '/tool',
             ],
             [
+                'name' =>  'localization',
+                'title' =>  'Localization',
+                'icon' =>  'Translate',
+                'href' =>  '/tool',
+            ],
+            [
                 'name' =>  'setting',
                 'title' =>  'Settings',
                 'icon' =>  'SettingsOutlined',
                 'href' =>  '/settings',
-                // 'children' =>  [
-                //     [
-                //         'name' =>  'general',
-                //         'title' =>  'General',
-                //         'href' =>  '/settings/general',
-                //     ],
-                //     [
-                //         'name' =>  'license',
-                //         'title' =>  'License',
-                //         'href' =>  '/settings/license',
-                //     ],
-                //     [
-                //         'name' =>  'reading-settings',
-                //         'title' =>  'Reading Settings',
-                //         'href' =>  '/settings/reading-settings',
-                //     ],
-                //     [
-                //         'name' =>  'admin-template',
-                //         'title' =>  'Admin Template',
-                //         'href' =>  '/settings/admin-template',
-                //     ],
-                //     [
-                //         'name' =>  'security',
-                //         'title' =>  'Security',
-                //         'href' =>  '/settings/security',
-                //     ],
+                'children' =>  [
+                    [
+                        'name' =>  'general',
+                        'title' =>  'General',
+                        'href' =>  '/settings/general',
+                    ],
+                    [
+                        'name' =>  'reading-settings',
+                        'title' =>  'Reading Settings',
+                        'href' =>  '/settings/reading-settings',
+                    ],
+                    [
+                        'name' =>  'admin-template',
+                        'title' =>  'Admin Template',
+                        'href' =>  '/settings/admin-template',
+                    ],
+                    [
+                        'name' =>  'security',
+                        'title' =>  'Security',
+                        'href' =>  '/settings/security',
+                    ],
 
-                // ]
+                ]
             ],
         ]
     ],

@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormHelperText, Grid, IconButton, InputLabel, ListItemIcon, ListItemText, Menu, MenuItem, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@material-ui/core';
+import { Accordion, AccordionDetails, AccordionSummary, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormHelperText, FormLabel, Grid, IconButton, InputLabel, ListItemIcon, ListItemText, Menu, MenuItem, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import AddToPhotosRoundedIcon from '@material-ui/icons/AddToPhotosRounded';
@@ -331,23 +331,16 @@ export default React.memo(function RepeaterForm(props) {
         setRender(prev => prev + 1);
     };
 
-    // React.useEffect(() => {
-    //     console.log('CHNAGE VALUE REPEATER: ', post[name]);
-    //     onReview(post[name]);
-    // }, [render]);
-
-    console.log('render REPEATER')
-
     const [refMenuAction, setRefMenuAction] = React.useState(null);
 
     const [indexOfAction, setIndexOfAction] = React.useState(false);
 
     return (
-        <div className={classes.root}>
-            <InputLabel>{config.title}</InputLabel>
+        <FormControl className={classes.root} component="div">
+            <FormLabel component="legend">{config.title}</FormLabel>
             {
                 Boolean(config.note) &&
-                <FormHelperText ><span dangerouslySetInnerHTML={{ __html: config.note }}></span></FormHelperText>
+                <FormHelperText style={{ marginTop: 5 }} ><span dangerouslySetInnerHTML={{ __html: config.note }}></span></FormHelperText>
             }
             {
                 valueInital && valueInital[0]
@@ -417,7 +410,7 @@ export default React.memo(function RepeaterForm(props) {
                                                                                     <DialogTitle id="alert-dialog-title">{"Confirm Deletion"}</DialogTitle>
                                                                                     <DialogContent>
                                                                                         <DialogContentText id="alert-dialog-description">
-                                                                                            Are you sure you want to permanently remove this item?  {index}
+                                                                                            Are you sure you want to permanently remove this item?
                                                                                         </DialogContentText>
                                                                                     </DialogContent>
                                                                                     <DialogActions>
@@ -625,7 +618,7 @@ export default React.memo(function RepeaterForm(props) {
                     }
                 </Menu>
             }
-        </div>
+        </FormControl>
     )
 }, (props1, props2) => {
     return props1.post[props1.name] === props2.post[props2.name];

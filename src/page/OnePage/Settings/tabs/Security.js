@@ -4,6 +4,8 @@ import React from 'react';
 import { useAjax } from 'utils/useAjax';
 import FieldForm from 'components/FieldForm';
 import { Skeleton } from '@material-ui/lab';
+import { __ } from 'utils/i18n';
+import _ from 'lodash';
 
 
 function Security({ post, onReview }) {
@@ -46,7 +48,8 @@ function Security({ post, onReview }) {
                     <FieldForm
                         compoment={'text'}
                         config={{
-                            title: 'Prefix Link Admin',
+                            title: __('Link to admin page'),
+                            note: __('The default admin page path is admin, change it to a secret word that only you and a few people know to be able to access the webmaster')
                         }}
                         post={post}
                         name={'security_prefix_link_admin'}
@@ -69,8 +72,8 @@ function Security({ post, onReview }) {
                     <FieldForm
                         compoment={'number'}
                         config={{
-                            title: 'Token expiration time (Seconds)',
-                            note: 'Default is 3600 seconds',
+                            title: __('Token expiration time (Seconds)'),
+                            note: __('Default is 3600 seconds'),
                         }}
                         post={post}
                         name={'security_token_expiration_time'}
@@ -81,7 +84,7 @@ function Security({ post, onReview }) {
                     <FieldForm
                         compoment={'number'}
                         config={{
-                            title: 'Limit Sign In Count',
+                            title: __('Limit the number of times you enter the wrong password'),
                         }}
                         post={post}
                         name={'security_limit_login_count'}
@@ -92,7 +95,7 @@ function Security({ post, onReview }) {
                     <FieldForm
                         compoment={'number'}
                         config={{
-                            title: 'Limit Sign In Time',
+                            title: __('Waiting time after entering wrong password too many times'),
                         }}
                         post={post}
                         name={'security_limit_login_time'}
@@ -103,7 +106,7 @@ function Security({ post, onReview }) {
                     <FieldForm
                         compoment={'textarea'}
                         config={{
-                            title: 'IP allowed to access login page',
+                            title: __('Limit ip can login admin page'),
                         }}
                         post={post}
                         name={'security_accept_ip_login'}
@@ -114,10 +117,10 @@ function Security({ post, onReview }) {
                     <FieldForm
                         compoment={'select'}
                         config={{
-                            title: 'login on a single machine',
+                            title: __('Sign in on a single machine'),
                             list_option: {
-                                0: { title: 'Không bắt buộc', description: 'User có thể không bật hoặc bật tùy vào mỗi user' },
-                                1: { title: 'Bắt buộc', description: 'Tất cả user chỉ được phép login trên một máy duy nhất tại một thời điểm' }
+                                0: { title: __('Optional'), description: __('User may not enable or enable it depending on the user') },
+                                1: { title: __('Obligatory'), description: __('All users are only allowed to login on a single machine at a time') }
                             }
                         }}
                         post={post}
@@ -130,8 +133,8 @@ function Security({ post, onReview }) {
                     <FieldForm
                         compoment={'true_false'}
                         config={{
-                            title: 'Disable Iframe',
-                            note: 'You will not be able to use theme customization when disabling iframes',
+                            title: __('Disable Iframe'),
+                            note: __('Turn off embedding my website on other websites'),
                         }}
                         post={post}
                         name={'security_disable_iframe'}
@@ -142,8 +145,8 @@ function Security({ post, onReview }) {
                     <FieldForm
                         compoment={'true_false'}
                         config={{
-                            title: 'Sign In on device',
-                            note: 'Only one device login limit',
+                            title: __('Sign In on one device'),
+                            note: __('Only one device login limit'),
                         }}
                         post={post}
                         name={'security_login_on_a_single_machine'}
@@ -155,8 +158,8 @@ function Security({ post, onReview }) {
                     <FieldForm
                         compoment={'true_false'}
                         config={{
-                            title: 'Active Recapcha',
-                            note: 'Enable captcha checking in the login form into the admin area',
+                            title: __('Activate Recaptcha'),
+                            note: __('Enable captcha checking in the login form into the admin area'),
                         }}
                         post={post}
                         name={'security_active_recapcha_google'}
@@ -172,8 +175,8 @@ function Security({ post, onReview }) {
                             <FieldForm
                                 compoment={'text'}
                                 config={{
-                                    title: 'Site Key Recapcha Google',
-                                    note: 'Site Key Recapcha Google is the key capcha of your website used to authenticate recapcha used on login, you can get the key here . learn more here',
+                                    title: __('Site Key Recapcha Google'),
+                                    note: __('Site Key Recapcha Google is the key capcha of your website used to authenticate recapcha used on login, you can get the key here . learn more here'),
                                 }}
                                 post={post}
                                 name={'security_recaptcha_sitekey'}
@@ -184,8 +187,8 @@ function Security({ post, onReview }) {
                             <FieldForm
                                 compoment={'text'}
                                 config={{
-                                    title: 'Recapcha secret',
-                                    note: 'Recapcha secret is the capcha code of your website used to authenticate recapcha used on login, you can get the key here . learn more <a href="https://www.google.com/recaptcha/admin" target="_blank"> here </a>',
+                                    title: __('Recapcha secret'),
+                                    note: __('Recapcha secret is the capcha code of your website used to authenticate recapcha used on login, you can get the key here . learn more <a href="https://www.google.com/recaptcha/admin" target="_blank"> here </a>'),
                                 }}
                                 post={post}
                                 name={'security_recaptcha_secret'}
@@ -199,7 +202,7 @@ function Security({ post, onReview }) {
                     <FieldForm
                         compoment={'true_false'}
                         config={{
-                            title: '2-Step Authentication',
+                            title: __('2-Step Authentication'),
                         }}
                         post={post}
                         name={'security_active_google_authenticator'}
@@ -215,8 +218,8 @@ function Security({ post, onReview }) {
                             <FieldForm
                                 compoment={'text'}
                                 config={{
-                                    title: 'Google Authenticator Secret',
-                                    note: 'Scan the image below with Google Authenticator or an alternative application.'
+                                    title: __('Google Authenticator Secret'),
+                                    note: __('Scan the image below with Google Authenticator or an alternative application.')
                                 }}
                                 endAdornment={
                                     <InputAdornment position="end">
@@ -248,8 +251,8 @@ function Security({ post, onReview }) {
                     <FieldForm
                         compoment={'true_false'}
                         config={{
-                            title: 'Sign In With Google',
-                            note: 'Accounts using google email will be mapped to google accounts to help you sign in faster and more securely (registration not included).',
+                            title: __('Sign In With Google'),
+                            note: __('Accounts using google email will be mapped to google accounts to help you sign in faster and more securely (registration not included).'),
                         }}
                         post={post}
                         name={'security_active_signin_with_google_account'}
@@ -265,7 +268,7 @@ function Security({ post, onReview }) {
                             <FieldForm
                                 compoment={'text'}
                                 config={{
-                                    title: 'Google OAuth Client ID',
+                                    title: __('Google OAuth Client ID'),
                                 }}
                                 post={post}
                                 name={'security_google_oauth_client_id'}
@@ -276,7 +279,7 @@ function Security({ post, onReview }) {
                             <FieldForm
                                 compoment={'text'}
                                 config={{
-                                    title: 'Google OAuth Client Secret',
+                                    title: __('Google OAuth Client Secret'),
                                 }}
                                 post={post}
                                 name={'security_google_oauth_client_secret'}

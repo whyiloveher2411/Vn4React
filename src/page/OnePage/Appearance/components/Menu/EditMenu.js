@@ -7,6 +7,7 @@ import React from 'react';
 import SortableTree from 'react-sortable-tree';
 import 'react-sortable-tree/style.css';
 import { copyArray } from 'utils/helper';
+import { __ } from 'utils/i18n';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -16,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
         },
         '& .rst__rowLandingPad': {
             opacity: 1,
-            backgroundColor: '#ebf2fc',
+            backgroundColor: theme.palette.dividerDark,
             borderRadius: 5,
             border: '1px dashed #5a9ae5 !important',
         },
@@ -38,11 +39,11 @@ const useStyles = makeStyles((theme) => ({
         '& .rst__rowContents': {
             borderRadius: '0 5px 5px 0',
             padding: 0,
-            backgroundColor: theme.palette.background.selected,
+            backgroundColor: theme.palette.background.default,
             borderColor: theme.palette.dividerDark,
         },
         '& .rst__moveHandle,& .rst__loadingHandle': {
-            background: theme.palette.background.default + " url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RTdBRUU5M0M3Njg3MTFFQkE5M0NCOUZFMTM3NzdBOEEiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RTdBRUU5M0Q3Njg3MTFFQkE5M0NCOUZFMTM3NzdBOEEiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpFN0FFRTkzQTc2ODcxMUVCQTkzQ0I5RkUxMzc3N0E4QSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpFN0FFRTkzQjc2ODcxMUVCQTkzQ0I5RkUxMzc3N0E4QSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PmMpG7UAAACmSURBVHja7NgxDoAgDAVQazwbd4bLYZxMcMC5fV1I3PosTfgx5zwq13kULwAAAAAAAAAAAABV61o/jDGeI+sDIVpr2wnI/DqargAAAAAAbAAicb+f3mLNBCMi9R9f+3UFAAAAAACAPOCt3nvqPODPBMgD7AAAAADIA+QB8gA7AAAAAAAAyAPkAfIAOwAAAADygCp5gAkAAAAAAAAAAAAAAKBE3QIMADtvIs1XDohhAAAAAElFTkSuQmCC') no-repeat center",
+            background: theme.palette.background.selected + " url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RTdBRUU5M0M3Njg3MTFFQkE5M0NCOUZFMTM3NzdBOEEiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RTdBRUU5M0Q3Njg3MTFFQkE5M0NCOUZFMTM3NzdBOEEiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpFN0FFRTkzQTc2ODcxMUVCQTkzQ0I5RkUxMzc3N0E4QSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpFN0FFRTkzQjc2ODcxMUVCQTkzQ0I5RkUxMzc3N0E4QSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PmMpG7UAAACmSURBVHja7NgxDoAgDAVQazwbd4bLYZxMcMC5fV1I3PosTfgx5zwq13kULwAAAAAAAAAAAABV61o/jDGeI+sDIVpr2wnI/DqargAAAAAAbAAicb+f3mLNBCMi9R9f+3UFAAAAAACAPOCt3nvqPODPBMgD7AAAAADIA+QB8gA7AAAAAAAAyAPkAfIAOwAAAADygCp5gAkAAAAAAAAAAAAAAKBE3QIMADtvIs1XDohhAAAAAElFTkSuQmCC') no-repeat center",
             borderRadius: '5px 0 0 5px',
             backgroundSize: '20px',
             borderColor: theme.palette.dividerDark,
@@ -221,12 +222,14 @@ function EditMenu({ tree, setTree, listMenu, listPostType, setListMenu, saveChan
                                     <FieldForm
                                         compoment='text'
                                         config={{
-                                            title: 'Menu Name',
+                                            title: __('Menu Name'),
                                             size: 'small'
                                         }}
-                                        post={{ menuName: listMenu.title ? listMenu.title : '[Menu Name]' }}
+                                        post={{
+                                            menuName: listMenu.title ? listMenu.title : '[' + __('Menu Name') + ']'
+                                        }}
                                         name='menuName'
-                                        onReview={(value) => { setListMenu({ ...listMenu, title: value ? value : '[Menu Name]' }) }}
+                                        onReview={(value) => { setListMenu({ ...listMenu, title: value ? value : '[' + __('Menu Name') + ']' }) }}
                                     />
                                 </span>
                             </div>
@@ -236,9 +239,9 @@ function EditMenu({ tree, setTree, listMenu, listPostType, setListMenu, saveChan
                 />
                 <CardContent>
                     <div>
-                        <Typography variant='h3'>Menu Structure</Typography>
+                        <Typography variant='h3'>{__('Menu Structure')}</Typography>
                         <Typography variant='body2'>
-                            Drag each item into the order you want. Click the arrow to the right of the item to display more configuration options.
+                            {__('Drag each item into the order you want. Click the arrow to the right of the item to display more configuration options.')}
                         </Typography>
                         <br />
                         <div style={{ minHeight: 100 }}>
@@ -259,7 +262,7 @@ function EditMenu({ tree, setTree, listMenu, listPostType, setListMenu, saveChan
                                                     // onClick={() => removeMenuItem(rowInfo)}
                                                     className="icon-remove"
                                                     onClick={() => setConfirmDelete(rowInfo)}
-                                                    aria-label="Revemo menu" component="span">
+                                                    aria-label="Remove menu" component="span">
                                                     <ClearRoundedIcon fontSize="small" />
                                                 </IconButton>
                                             ],
@@ -270,7 +273,7 @@ function EditMenu({ tree, setTree, listMenu, listPostType, setListMenu, saveChan
                         </div>
                     </div>
                     < br />
-                    <Typography variant='h3'>Display location</Typography>
+                    <Typography variant='h3'>{__('Display location')}</Typography>
 
                     <FormControl required component="fieldset">
                         <FormGroup className={classes.fieldLocation}>
@@ -300,12 +303,12 @@ function EditMenu({ tree, setTree, listMenu, listPostType, setListMenu, saveChan
                 <Divider />
                 <CardActions style={{ justifyContent: 'space-between' }}>
                     <div>
-                        <Button variant="contained" onClick={() => setConfirmDeleteMenu(true)} style={{ color: '#ba000d', marginRight: 8 }}>Delete</Button>
+                        <Button variant="contained" onClick={() => setConfirmDeleteMenu(true)} style={{ color: '#ba000d', marginRight: 8 }}>{__('Delete')}</Button>
                         {
                             tree ?
-                                <Button variant="contained" onClick={() => { setMenuTemp([...tree]); setTree(false) }} style={{ color: '#ba000d' }}>Clear</Button>
+                                <Button variant="contained" onClick={() => { setMenuTemp([...tree]); setTree(false) }} style={{ color: '#ba000d' }}>{__('Clear')}</Button>
                                 :
-                                <Button variant="contained" onClick={() => { setTree([...menuTemp]) }} style={{ color: '#43a047' }}>Restore</Button>
+                                <Button variant="contained" onClick={() => { setTree([...menuTemp]) }} style={{ color: '#43a047' }}>{__('Restore')}</Button>
                         }
                     </div>
                     <Button
@@ -313,7 +316,7 @@ function EditMenu({ tree, setTree, listMenu, listPostType, setListMenu, saveChan
                         type="submit"
                         color="success"
                         variant="contained">
-                        Save Changes
+                        {__('Save Changes')}
                     </Button>
                 </CardActions>
             </Card>
@@ -330,8 +333,8 @@ function EditMenu({ tree, setTree, listMenu, listPostType, setListMenu, saveChan
                 title={'Menu Item ' + (menuItemEdit.menuItem.label_type ? '(' + menuItemEdit.menuItem.label_type + ')' : '')}
                 action={
                     <>
-                        <Button onClick={handleClose}>Cancel</Button>
-                        <Button onClick={applyMenuItem} color="primary">Apply</Button>
+                        <Button onClick={handleClose}>{__('Cancel')}</Button>
+                        <Button onClick={applyMenuItem} color="primary">{__('Apply')}</Button>
                     </>
                 }
             >
@@ -345,7 +348,7 @@ function EditMenu({ tree, setTree, listMenu, listPostType, setListMenu, saveChan
                             <FieldForm
                                 compoment='text'
                                 config={{
-                                    title: 'URL',
+                                    title: __('URL'),
                                 }}
                                 post={menuItemEdit.menuItem}
                                 name='links'
@@ -358,7 +361,7 @@ function EditMenu({ tree, setTree, listMenu, listPostType, setListMenu, saveChan
                         <FieldForm
                             compoment='text'
                             config={{
-                                title: 'Navigation Label',
+                                title: __('Navigation Label'),
                             }}
                             post={menuItemEdit.menuItem}
                             name='label'
@@ -370,7 +373,7 @@ function EditMenu({ tree, setTree, listMenu, listPostType, setListMenu, saveChan
                         <FieldForm
                             compoment='text'
                             config={{
-                                title: 'Title Attribute',
+                                title: __('Title Attribute'),
                             }}
                             post={menuItemEdit.menuItem}
                             name='attrtitle'
@@ -382,7 +385,7 @@ function EditMenu({ tree, setTree, listMenu, listPostType, setListMenu, saveChan
                         <FieldForm
                             compoment='true_false'
                             config={{
-                                title: 'Open link in a new tab',
+                                title: __('Open link in a new tab'),
                             }}
                             post={menuItemEdit.menuItem}
                             name='target'
@@ -394,7 +397,7 @@ function EditMenu({ tree, setTree, listMenu, listPostType, setListMenu, saveChan
                         <FieldForm
                             compoment='text'
                             config={{
-                                title: 'CSS Classes (optional)',
+                                title: __('CSS Classes (optional)'),
                             }}
                             post={menuItemEdit.menuItem}
                             name='classes'
@@ -405,7 +408,7 @@ function EditMenu({ tree, setTree, listMenu, listPostType, setListMenu, saveChan
                         <FieldForm
                             compoment='text'
                             config={{
-                                title: 'Link Relationship (XFN)',
+                                title: __('Link Relationship (XFN)'),
                             }}
                             post={menuItemEdit.menuItem}
                             name='xfn'
@@ -417,8 +420,8 @@ function EditMenu({ tree, setTree, listMenu, listPostType, setListMenu, saveChan
                         <FieldForm
                             compoment='textarea'
                             config={{
-                                title: 'Description',
-                                note: 'The description will be displayed in the menu if the current theme supports it.'
+                                title: __('Description'),
+                                note: __('The description will be displayed in the menu if the current theme supports it.')
                             }}
                             post={menuItemEdit.menuItem}
                             name='description'
@@ -430,28 +433,28 @@ function EditMenu({ tree, setTree, listMenu, listPostType, setListMenu, saveChan
                         <FieldForm
                             compoment='flexible'
                             config={{
-                                title: 'More information',
+                                title: __('More information'),
                                 templates: {
                                     text: {
-                                        title: 'Text',
+                                        title: __('Text'),
                                         items: {
                                             value: { title: 'Text' }
                                         }
                                     },
                                     textarea: {
-                                        title: 'Textarea',
+                                        title: __('Textarea'),
                                         items: {
                                             value: { title: 'Text', view: 'textarea' }
                                         }
                                     },
                                     image: {
-                                        title: 'Image',
+                                        title: __('Image'),
                                         items: {
                                             value: { title: 'Image', view: 'image' }
                                         }
                                     },
                                     gallery: {
-                                        title: 'Gallery',
+                                        title: __('Gallery'),
                                         items: {
                                             value: { title: 'Gallery', view: 'image', multiple: true }
                                         }

@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
         width: 'calc( (100% - 75px) / 6 )',
         borderRadius: 3,
         '&.menuMouseRight-selected': {
-            backgroundColor: '#e8f0fe'
+            backgroundColor: theme.palette.dividerDark
         }
     },
     padding: {

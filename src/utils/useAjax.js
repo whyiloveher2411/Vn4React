@@ -1,10 +1,13 @@
-import React from 'react';
 import { updateRequireLogin } from 'actions/requiredLogin';
-import { useSnackbar } from 'notistack';
-import { useDispatch } from 'react-redux';
 import { Loading } from 'components';
+import { useSnackbar } from 'notistack';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { getLanguage } from './i18n';
 
 const urlPrefixDefault = process.env.REACT_APP_BASE_URL + 'api/admin/';
+
+const language = getLanguage();
 
 export function useAjax(props) {
 
@@ -87,7 +90,7 @@ export function useAjax(props) {
 
     const bind = (params) => {
 
-        let { url, urlPrefix = null, method, data, loading = true } = params;
+        let { url, urlPrefix = null, method, data = {}, loading = true } = params;
 
         let headers = {
             'Accept': 'application/json',
@@ -104,9 +107,12 @@ export function useAjax(props) {
             setOpen(true);
         }
 
-        if (data) {
-            method = 'POST';
-        }
+        if (!data) data = {};
+
+        data.__l = window.btoa(language.code + '#' + Date.now());
+        // if (data) {
+        method = 'POST';
+        // }
 
         fetch((urlPrefix ?? urlPrefixDefault) + url, {
             headers: headers,

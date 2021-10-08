@@ -1,5 +1,7 @@
 body.editor-content{
   padding: 5px 10px;
+  color: var(--color);
+  min-height: 400px;
 }
 .widget{
   display: flex;

@@ -219,7 +219,7 @@ $arg_type_mysql_input = [
 		return $table->string($name,500)->after($after)->default('')->nullable()->comment('property: '.$data['title']);
 	},
 	'true_false'=>function(&$table, $name, $after,$data){
-		return $table->string($name,50)->after($after)->nullable()->comment('property: '.$data['title']);
+		return $table->boolean($name)->after($after)->default(false)->comment('property: '.$data['title']);
 	},
 	'boolean'=>function(&$table, $name, $after,$data){
 		return $table->boolean($name)->after($after)->default(false)->comment('property: '.$data['title']);

@@ -5,6 +5,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAjax } from 'utils/useAjax';
 import DrawerEditPost from './DrawerEditPost';
+import { __ } from 'utils/i18n';
 
 const useStyles = makeStyles(() => ({
     tr: {
@@ -120,10 +121,10 @@ function DataTable(props) {
                 <TableBody>
                     <TableRow>
                         <TableCell colSpan={100}>
-                            <NotFound>
-                                Nothing To Display. <br />
-                                <span style={{ color: '#ababab', fontSize: '16px' }}>Seems like no {data.config.singularName} have been created yet.</span>
-                            </NotFound>
+                            <NotFound
+                                subTitle={__('Seems like no {{data}} have been created yet.', {
+                                    data: data.config.singularName
+                                })} />
                         </TableCell>
                     </TableRow>
                 </TableBody>
@@ -206,10 +207,10 @@ function DataTable(props) {
                             :
                             <TableRow>
                                 <TableCell colSpan={100}>
-                                    <NotFound>
-                                        Nothing To Display. <br />
-                                        <span style={{ color: '#ababab', fontSize: '16px' }}>Seems like no {data.config.singularName} have been created yet.</span>
-                                    </NotFound>
+                                    <NotFound
+                                        subTitle={__('Seems like no {{data}} have been created yet.', {
+                                            data: data.config.singularName
+                                        })} />
                                 </TableCell>
                             </TableRow>
                         }

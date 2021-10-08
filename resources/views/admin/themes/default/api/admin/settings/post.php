@@ -1,4 +1,5 @@
 <?php
+include __DIR__.'/_helper.php';
 
 $r = request();
 
@@ -92,9 +93,8 @@ foreach ($input as $k => $v) {
 
 Cache::forget('setting.');
 
-vn4_create_session_message( __('Success'), __('Update setting successful.'), 'success');
-
 return [
-    'message'=>apiMessage('Save Change success.')
+    'message'=>apiMessage('Save Change success.'),
+    'settings'=>getSettingAdmin(),
 ];
 
