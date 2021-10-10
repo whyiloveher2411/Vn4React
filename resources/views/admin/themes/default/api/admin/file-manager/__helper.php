@@ -357,9 +357,16 @@ function __updateStarred($file, $starred ){
 }
 
 function __getPath($file){
+
     if( isset($file['dirpath']) && isset($file['basename']) ){
         return  $file['dirpath'].'/'.$file['basename'];
     }
+
+    if( isset($file['basename']) ){
+        return $file['basename'];
+    }
+
+    return null;
 }
 
 function __deleteFile($file,&$message){
@@ -447,6 +454,7 @@ function __createDataDefaultForFile( $path, $isDir = 1 ){
 
 function __createFolder($folder, $name, &$message){
     $path = __getPath( $folder );
+
     if( !file_exists( cms_path('public', $path) ) ){
         $message = apiMessage('Parent folder does not exist', 'error');
         return false;

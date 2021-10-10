@@ -22,6 +22,7 @@ export default function NumberForm(props) {
                             labelWidth={config.title.length * 8}
                             onBlur={e => { onReview(e.target.value) }}
                             onChange={e => { setValue(value + 1); post[name] = e.target.value }}
+                            {...config.inputProps}
                             {...rest}
                         />
                     </>
@@ -34,6 +35,7 @@ export default function NumberForm(props) {
                         labelWidth={config.title.length * 8}
                         onBlur={e => { onReview(e.target.value) }}
                         onChange={e => { setValue(value + 1); post[name] = e.target.value }}
+                        {...config.inputProps}
                         {...rest}
                     />
             }

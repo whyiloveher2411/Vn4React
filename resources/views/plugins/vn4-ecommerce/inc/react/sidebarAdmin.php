@@ -88,6 +88,12 @@ $sidebar = array_slice($sidebar, 0, 3, true) +
                 ]
             ],
             [
+                'name' =>  'Brands',
+                'title' =>  'Brands',
+                'icon' =>  'MoreOutlined',
+                'href' =>  '/post-type/ecom_brand/list',
+            ],
+            [
                 'name' =>  'Customers',
                 'title' =>  'Customers',
                 'icon' =>  'PeopleOutlineRounded',

@@ -165,8 +165,7 @@ function CreateData(props) {
                                         }}
                                     />
                                 </div>
-
-                                <FormGroup>
+                                <FormGroup style={{ opacity: post.product_type === ecomName.simple ? 1 : 0 }}>
                                     <FormControlLabel
                                         style={{ marginRight: 24 }}
                                         control={<Checkbox
@@ -226,7 +225,7 @@ function CreateData(props) {
                                             downloadable: {
                                                 title: <Tooltip title={__p('Downloadable', PLUGIN_NAME)}><CloudDownloadOutlinedIcon /></Tooltip>,
                                                 content: () => <Downloadable PLUGIN_NAME={PLUGIN_NAME} onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
-                                                hidden: !Boolean(post.downloadable_product),
+                                                hidden: !Boolean(post.downloadable_product) || post.product_type !== ecomName.simple,
                                                 priority: 4,
                                             },
                                             warehouse: {
@@ -237,8 +236,7 @@ function CreateData(props) {
                                             shipments: {
                                                 title: <Tooltip title={__p('Shipments', PLUGIN_NAME)}><LocalShippingOutlinedIcon /></Tooltip>,
                                                 content: () => <Shipments PLUGIN_NAME={PLUGIN_NAME} onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
-                                                hidden: ['', ecomName.simple, ecomName.variable].indexOf(post.product_type ?? '') === -1,
-                                                hidden: Boolean(post.virtual_product),
+                                                hidden: (Boolean(post.virtual_product) && post.product_type === ecomName.simple) || ['', ecomName.simple, ecomName.variable].indexOf(post.product_type ?? '') === -1,
                                                 priority: 6,
                                             },
                                             connectedproducts: {

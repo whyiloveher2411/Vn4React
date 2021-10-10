@@ -104,6 +104,13 @@ register_post_type(function($list_post_type) use ($plugin) {
 		            'type'=>'tags',
 		            'object'=>'ecom_prod_tag',
 		        ],
+				'ecom_brand'=>[
+					'title'=>'Brand',
+		            'view' =>'relationship_onetomany',
+		            'object'=>'ecom_brand',
+		            'show_data'=>false,
+					'customViewForm'=>'PostType/EcomBrand/Form/Main',
+				],
 		        'thumbnail'=>[
 		        	'title'=>'Thumbnail',
 		        	'view'=>'image',
@@ -130,7 +137,7 @@ register_post_type(function($list_post_type) use ($plugin) {
 					'show_data'=>false,
 				],
 				'ecom_prod_spec_sets'=>[
-					'title'=>'Specifications Sets',
+					'title'=>'Product Classification',
 					'view'=>'relationship_onetomany',
 					'object'=>'ecom_prod_spec_sets',
 					'show_data'=>false,
@@ -139,7 +146,7 @@ register_post_type(function($list_post_type) use ($plugin) {
 		    'tabs'=>[
 				'general'=>[ 'title'=>'General', 'fields'=>['title','slug','description'] ],
 		        'image'=>[ 'title'=>'Image', 'fields'=>['thumbnail','gallery'] ],
-		        'categories'=>[ 'title'=>'Categories', 'fields'=>['ecom_prod_cate', 'ecom_prod_tag', 'ecom_prod_spec_sets'] ],
+		        'category'=>[ 'title'=>'Category', 'fields'=>['ecom_prod_cate', 'ecom_prod_tag','ecom_brand', 'ecom_prod_spec_sets'] ],
 		        'filters'=>['title'=>'Filters','fields'=>['detailed_filters']],
 		    ],
 			// 'tabSummary'=>[
@@ -189,6 +196,17 @@ register_post_type(function($list_post_type) use ($plugin) {
 					'type'=>'decimal',
 					'decimal'=>[20, 6],
 				],
+				'enable_tax'=>[
+					'title'=>'Enable tax',
+		            'view'=>'true_false',
+					'defaultValue'=>true,
+				],
+				'tax_class'=>[
+					'title'=>'Tax class',
+		            'view'=>'relationship_onetomany',
+					'object'=>'ecom_tax',
+					'fields_related'=>['percentage'],
+				],
 				'general_special_price_from'=>[
 					'title'=>'Special Price From Date',
 		            'view'=>'date_picker',
@@ -222,6 +240,10 @@ register_post_type(function($list_post_type) use ($plugin) {
 				'warehouse_sku'=>[
 					'title'=>'Warehouse sku',
 		            'view'=>'text',
+				],
+				'warehouse_manage_stock'=>[
+					'title'=>'Manage stock?',
+		            'view'=>'true_false',
 				],
 				'warehouse_quantity'=>[
 					'title'=>'Warehouse sku',
@@ -366,7 +388,6 @@ register_post_type(function($list_post_type) use ($plugin) {
     	[
 		    'table'=>'ecom_prod_attr',
 		    'title'=> __('Attribute'),
-		    'way_show'=>'title',
 		    'template'=>'plugins.vn4-ecommerce.views.frontend.attributes',
 		    'fields'=>[
 		        'title'=>[
@@ -418,7 +439,6 @@ register_post_type(function($list_post_type) use ($plugin) {
     	[
 		    'table'=>'ecom_prod_attr_value',
 		    'title'=> __('Attribute Value'),
-		    'way_show'=>'title',
 		    'fields'=>[
 		        'title'=>[
 		            'title'=>__('Title'),
@@ -455,7 +475,6 @@ register_post_type(function($list_post_type) use ($plugin) {
     	[
 		    'table'=>'ecom_prod_filter',
 		    'title'=> __('Filter'),
-		    'way_show'=>'title',
 		    'fields'=>[
 		        'title'=>[
 		            'title'=>__('Title'),
@@ -492,7 +511,6 @@ register_post_type(function($list_post_type) use ($plugin) {
     	[
 		    'table'=>'ecom_prod_filter_value',
 		    'title'=> __('Filters Value'),
-		    'way_show'=>'title',
 		    'fields'=>[
 		        'title'=>[
 		            'title'=>__('Title'),
@@ -530,7 +548,6 @@ register_post_type(function($list_post_type) use ($plugin) {
  //    	[
 	// 	    'table'=>'ecommerce_product_attribute_sets',
 	// 	    'title'=> __('Attribute Sets'),
-	// 	    'way_show'=>'title',
 	// 	    'fields'=>[
 	// 	        'title'=>[
 	// 	            'title'=>__('Title'),
@@ -693,7 +710,6 @@ register_post_type(function($list_post_type) use ($plugin) {
     	[
 		    'table'=>'ecom_prod_tag',
 		    'title'=> __('Tag'),
-		    'way_show'=>'title',
 			'slug'=>'product-tag',
 			'dialogContent'=>[
 				'width'=>1300
@@ -729,7 +745,45 @@ register_post_type(function($list_post_type) use ($plugin) {
 		]
 	];
 
+	$add_object[] =  [
+		'ecom_brand',
+    	1,
+    	[
+		    'table'=>'ecom_brand',
+		    'title'=> 'Brand',
+			'slug'=>'brand',
+		    'fields'=>[
+		        'title'=>[
+		            'title'=>__('Title'),
+		            'view'=>'text',
+		            'required'=>true,
+		        ],
+		        'slug' => [
+		            'title'=>'Slug',
+		            'view' =>'slug',
+		            'key_slug'=> 'title',
+		            'type' =>'text',
+		            'show_data'=>false,
+		        ],
+		        'description' => [
+		            'title'=>__('Description'),
+		            'show_data'=>false,
+		            'view' =>'textarea',
+		        ],
+				'logo' => [
+		            'title'=>'Logo',
+		            'view' =>'image',
+		        ],
+		        'website'=>[
+		        	'title'=>'Website',
+		        	'view'=>'text',
+		            'show_data'=>false,
+		        ],
+		    ],
+		]
+	];
 
+	
 	$add_object[] = [
 		'ecom_prod_review',
 		1,
@@ -752,15 +806,6 @@ register_post_type(function($list_post_type) use ($plugin) {
 					'customViewForm'=>'PostType/EcomProdReview/RatingCustom',
 					'customViewList'=>'PostType/EcomProdReview/RatingCustom',
 				],
-				'review_status'=>[
-					'title'=>'Status',
-					'view'=>'select',
-					'list_option'=>[
-						'approved'=>['title'=>'Approved','color'=>'#43a047'],
-						'pending'=>['title'=>'Pending','color'=>'#3f51b5'],
-						'not-approved'=>['title'=>'Not Approved','color'=>'rgb(255 41 41)']
-					],
-				],
 				'detail'=>[
 					'title'=>'Detail',
 					'view'=>'textarea',
@@ -770,7 +815,18 @@ register_post_type(function($list_post_type) use ($plugin) {
 					'title'=>'Customer',
 					'view'=>'relationship_onetomany',
 					'object'=>'ecom_customer',
-					'show_data'=>false,
+					'customViewForm'=>'PostType/EcomCustomer/Form/Main',
+					'customViewList'=>'PostType/EcomCustomer/View/Main',
+					'fields_related'=>['first_name','last_name','avatar'],
+				],
+				'review_status'=>[
+					'title'=>'Status',
+					'view'=>'select',
+					'list_option'=>[
+						'approved'=>['title'=>'Approved','color'=>'#43a047'],
+						'pending'=>['title'=>'Pending','color'=>'#3f51b5'],
+						'not-approved'=>['title'=>'Not Approved','color'=>'rgb(255 41 41)']
+					],
 				],
 				'ecom_prod' => [
 					'title'=>__('Product'),
@@ -1265,6 +1321,20 @@ register_post_type(function($list_post_type) use ($plugin) {
 					'title'=>'Title',
 					'view'=>'text',
 					'required'=>true,
+				],
+				'description'=>[
+					'title'=>'Description',
+					'view'=>'textarea',
+				],
+				'percentage'=>[
+					'title'=>'Percentage',
+					'view'=>'number',
+					'type'=>'decimal',
+					'decimal'=>[5, 2],
+					'inputProps'=>[
+						'endAdornment'=>'%'
+					]
+					
 				],
 			]
 		]

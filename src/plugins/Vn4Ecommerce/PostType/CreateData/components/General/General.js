@@ -6,7 +6,7 @@ import { __p } from 'utils/i18n';
 
 function General(props) {
 
-    const { PLUGIN_NAME } = props;
+    const { PLUGIN_NAME, postDetail } = props;
 
     const [profit, setProfit] = React.useState(false);
 
@@ -33,12 +33,27 @@ function General(props) {
     }, [props.postDetail]);
 
     if (props.post) {
-
         return (
             <Grid
                 container
                 spacing={3}>
-
+                {
+                    postDetail.product_type === 'external' &&
+                    <Grid item md={12} xs={12}>
+                        <FieldForm
+                            compoment='text'
+                            config={{
+                                title: __p('Product URL', PLUGIN_NAME),
+                                placeholder: 'https://'
+                            }}
+                            post={props.post}
+                            name='product_url'
+                            onReview={(value) => {
+                                props.onReview(value, 'product_url');
+                            }}
+                        />
+                    </Grid>
+                }
                 <Grid item md={6} xs={12}>
                     <FieldForm
                         compoment='number'
@@ -150,12 +165,38 @@ function General(props) {
                             defaultValue: true,
                         }}
                         post={props.post}
-                        name={'tax_class'}
+                        name={'enable_tax'}
                         onReview={(value) => {
-                            props.onReview(value, 'tax_class');
+                            props.onReview(value, 'enable_tax');
                         }}
                     />
                 </Grid>
+                {
+                    Boolean(props.post.enable_tax === undefined || props.post.enable_tax) &&
+                    <Grid item md={12} xs={12}>
+                        <FieldForm
+                            compoment={'relationship_onetomany'}
+                            config={{
+                                title: __p('Tax class', PLUGIN_NAME),
+                                object: 'ecom_tax',
+                            }}
+                            post={props.post}
+                            getOptionLabel={(option) => {
+                                if (option?.id) {
+                                    return option.title + (option.percentage ? ' (' + Number((parseFloat(option.percentage)).toFixed(6)) + '%)' : '')
+                                }
+                                return '';
+                            }}
+                            renderOption={(option) => (
+                                <>{option.title} {option.percentage && '(' + Number((parseFloat(option.percentage)).toFixed(6)) + '%)'}</>
+                            )}
+                            name={'tax_class'}
+                            onReview={(value, key) => {
+                                props.onReview(value, key);
+                            }}
+                        />
+                    </Grid>
+                }
             </Grid>
         )
     }

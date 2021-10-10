@@ -224,50 +224,42 @@ const Header = (props) => {
                         <div className={classes.seperateAction}>
                             {
                                 Boolean(goBack) &&
-                                <Tooltip className={classes.backToList} onClick={() => history.goBack()} title={__('Go Back')} aria-label="go-back">
-                                    <IconButton color="default" aria-label="Go Back" component="span">
-                                        <ArrowBackOutlined />
-                                    </IconButton>
-                                </Tooltip>
+                                <Tooltip className={classes.backToList} onClick={() => history.goBack()} title={__('Go Back')} aria-label="go-back"><IconButton color="default" aria-label="Go Back" component="span">
+                                    <ArrowBackOutlined />
+                                </IconButton></Tooltip>
                             }
                             {
                                 Boolean(backToList) &&
-                                <Tooltip className={classes.backToList} onClick={handleBackToList} title={__('Back to list')} aria-label="back-to-list">
-                                    <IconButton color="default" aria-label="Back to list" component="span">
-                                        <FormatListBulletedRoundedIcon />
-                                    </IconButton>
-                                </Tooltip>
+                                <Tooltip className={classes.backToList} onClick={handleBackToList} title={__('Back to list')} aria-label="back-to-list"><IconButton color="default" aria-label="Back to list" component="span">
+                                    <FormatListBulletedRoundedIcon />
+                                </IconButton></Tooltip>
                             }
                         </div>
                         <div className={classes.seperateAction}>
-                            <Tooltip title={__('Starred')} aria-label="Starred">
-                                <IconButton onClick={handleOnClickStar} aria-label="Starred" component="span">
-                                    {
-                                        data.post?.starred
-                                            ?
-                                            <StarOutlinedIcon style={{ color: '#f4b400' }} />
-                                            :
-                                            <StarBorderOutlinedIcon />
-                                    }
-                                </IconButton>
-                            </Tooltip>
+                            <Tooltip title={__('Starred')} aria-label="Starred"><IconButton onClick={handleOnClickStar} aria-label="Starred" component="span">
+                                {
+                                    data.post?.starred
+                                        ?
+                                        <StarOutlinedIcon style={{ color: '#f4b400' }} />
+                                        :
+                                        <StarBorderOutlinedIcon />
+                                }
+                            </IconButton></Tooltip>
 
-                            <Tooltip title={__('Status')} aria-label="Status">
-                                <IconButton ref={statusRef} onClick={() => setOpenMenuStatus(true)} color="default" aria-label="Status" component="span">
-                                    {
-                                        data.post?.status === 'draft' ?
-                                            <NoteIcon />
+                            <Tooltip title={__('Status')} aria-label="Status"><IconButton ref={statusRef} onClick={() => setOpenMenuStatus(true)} color="default" aria-label="Status" component="span">
+                                {
+                                    data.post?.status === 'draft' ?
+                                        <NoteIcon />
+                                        :
+                                        data.post?.status === 'pending' ?
+                                            <UpdateIcon />
                                             :
-                                            data.post?.status === 'pending' ?
-                                                <UpdateIcon />
+                                            data.post?.status === 'trash' ?
+                                                <DeleteIcon />
                                                 :
-                                                data.post?.status === 'trash' ?
-                                                    <DeleteIcon />
-                                                    :
-                                                    <PublicRoundedIcon />
-                                    }
-                                </IconButton>
-                            </Tooltip>
+                                                <PublicRoundedIcon />
+                                }
+                            </IconButton></Tooltip>
 
                             <Menu
                                 anchorEl={statusRef.current}
@@ -314,11 +306,9 @@ const Header = (props) => {
                                 }
                             </Menu>
 
-                            <Tooltip title={__('Release date')} aria-label="release-date">
-                                <IconButton onClick={() => { setOpenDataPicker(true); }} color="default" aria-label="Release date" component="span">
-                                    <EventIcon />
-                                </IconButton>
-                            </Tooltip>
+                            <Tooltip title={__('Release date')} aria-label="release-date"><IconButton onClick={() => { setOpenDataPicker(true); }} color="default" aria-label="Release date" component="span">
+                                <EventIcon />
+                            </IconButton></Tooltip>
                             <div style={{ display: 'none' }}>
                                 <FieldForm
                                     compoment="dateTime"
@@ -333,19 +323,17 @@ const Header = (props) => {
                                 />
                             </div>
 
-                            <Tooltip title={__('Visibility')} aria-label="visibility">
-                                <IconButton ref={viewRef} onClick={() => setOpenMenuView(true)} color="default" aria-label="Visibility" component="span">
-                                    {
-                                        data.post?.visibility === 'password' ?
-                                            <VpnKeyRoundedIcon />
+                            <Tooltip title={__('Visibility')} aria-label="visibility"><IconButton ref={viewRef} onClick={() => setOpenMenuView(true)} color="default" aria-label="Visibility" component="span">
+                                {
+                                    data.post?.visibility === 'password' ?
+                                        <VpnKeyRoundedIcon />
+                                        :
+                                        data.post?.visibility === 'private' ?
+                                            <LockIcon />
                                             :
-                                            data.post?.visibility === 'private' ?
-                                                <LockIcon />
-                                                :
-                                                <VisibilityIcon />
-                                    }
-                                </IconButton>
-                            </Tooltip>
+                                            <VisibilityIcon />
+                                }
+                            </IconButton></Tooltip>
                             <Menu
                                 anchorEl={viewRef.current}
                                 anchorOrigin={{
@@ -405,22 +393,18 @@ const Header = (props) => {
                             </Dialog>
                             {
                                 Boolean(data.post?.id) &&
-                                <>
-                                    <CustomTooltip interactive={true} title={<PostTypeInfo data={data} />}   >
-                                        <IconButton>
-                                            <InfoOutlinedIcon />
-                                        </IconButton>
-                                    </CustomTooltip>
-                                </>
+                                <CustomTooltip interactive={true} title={<PostTypeInfo data={data} />}   >
+                                    <IconButton>
+                                        <InfoOutlinedIcon />
+                                    </IconButton>
+                                </CustomTooltip>
                             }
 
                             {
                                 Boolean(data.post && data.post._permalink) &&
-                                <Tooltip title="View post" aria-label="view-post">
-                                    <IconButton href={data.post._permalink} style={{ color: '#337ab7', opacity: 1 }} target="_blank" >
-                                        <LinkRoundedIcon />
-                                    </IconButton>
-                                </Tooltip>
+                                <Tooltip title={__('View post')} aria-label="view-post"><IconButton href={data.post._permalink} style={{ color: '#337ab7', opacity: 1 }} target="_blank" >
+                                    <LinkRoundedIcon />
+                                </IconButton></Tooltip>
                             }
                         </div>
                         <div className={classes.seperateAction}>
@@ -441,11 +425,9 @@ const Header = (props) => {
 
                             {
                                 checkPermission(postType + '_restore') &&
-                                <Tooltip title={__('Restore')} aria-label={__('Restore')}>
-                                    <Button style={{ marginRight: 8 }} onClick={restorePost} color="success" variant="contained">
-                                        {__('Restore')}
-                                    </Button>
-                                </Tooltip>
+                                <Tooltip title={__('Restore')} aria-label="Restore"><span><Button style={{ marginRight: 8 }} onClick={restorePost} color="success" variant="contained">
+                                    {__('Restore')}
+                                </Button></span></Tooltip>
                             }
                             <Dialog
                                 open={confirmDelete}
@@ -488,11 +470,9 @@ const Header = (props) => {
                                 (
                                     checkPermission(postType + '_edit') ?
                                         <>
-                                            <Tooltip title={__('Create a new post is a copy of the current post')}>
-                                                <span>
-                                                    <Button onClick={(e) => { data.post._copy = true; handleSubmit(); }} variant="contained" style={{ marginRight: 8 }}>{__('Copy')}</Button>
-                                                </span>
-                                            </Tooltip>
+                                            <Tooltip title={__('Create a new post is a copy of the current post')}><span>
+                                                <Button onClick={(e) => { data.post._copy = true; handleSubmit(); }} variant="contained" style={{ marginRight: 8 }}>{__('Copy')}</Button>
+                                            </span></Tooltip>
                                             <Button
                                                 color="primary"
                                                 onClick={handleSubmit}
@@ -510,13 +490,11 @@ const Header = (props) => {
                     }
                     {
                         !Boolean(hiddenAddButton) &&
-                        <Tooltip title={__('Add new')} aria-label={__('Add new')}>
-                            <Link to={`/post-type/${postType}/new`}>
-                                <Fab style={{ marginLeft: 8 }} size="small" color="primary" aria-label="add">
-                                    <AddRoundedIcon />
-                                </Fab>
-                            </Link>
-                        </Tooltip>
+                        <Tooltip title={__('Add new')} aria-label={__('Add new')}><Link to={`/post-type/${postType}/new`}>
+                            <Fab style={{ marginLeft: 8 }} size="small" color="primary" aria-label="add">
+                                <AddRoundedIcon />
+                            </Fab>
+                        </Link></Tooltip>
                     }
                     {Loading}
                 </Grid>

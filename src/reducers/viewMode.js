@@ -1,37 +1,19 @@
 import * as viewMode from '../actions/viewMode'
+import { changeViewMode, getViewMode, changeViewColorPrimary, changeViewColorSecondary } from 'utils/viewMode';
 
-const valueFace = { light: true, dark: true };
-
-let valueInitial = localStorage.getItem("view_mode");
-
-if (!valueFace[valueInitial]) valueInitial = 'light';
+let valueInitial = getViewMode();
 
 const userReducer = (state = valueInitial, action) => {
 
     switch (action.type) {
-        case viewMode.TOOGLE:
-            if (state.type === 'light') {
-                localStorage.setItem("view_mode", 'dark');
-                const theme = require('./../theme/dark').default;
-                theme.type = 'dark';
-                return theme;
-            } else {
-                localStorage.setItem("view_mode", 'light');
-                const theme = require('./../theme/light').default;
-                theme.type = 'light';
-                return theme;
-            }
-            break;
+        case viewMode.CHANGE_THEME:
+            return changeViewMode(action.payload);
+        case viewMode.CHANGE_COLOR_PRIMARY:
+            return changeViewColorPrimary(action.payload);
+        case viewMode.CHANGE_COLOR_SECONDARY:
+            return changeViewColorSecondary(action.payload);
         default:
-            if (state === 'dark' || state.type === 'dark') {
-                const theme = require('./../theme/dark').default;
-                theme.type = 'dark';
-                return theme;
-            } else {
-                const theme = require('./../theme/light').default;
-                theme.type = 'light';
-                return theme;
-            }
+            return state;
             break;
     }
 }

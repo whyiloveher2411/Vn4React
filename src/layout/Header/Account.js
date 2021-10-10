@@ -1,7 +1,8 @@
 import {
     Box, ListItemIcon,
     ListItemText,
-    Tooltip
+    Tooltip,
+    colors
 } from "@material-ui/core";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Grow from "@material-ui/core/Grow";
@@ -14,13 +15,13 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { changeLanguage } from "actions/language";
 import { login, logout } from "actions/user";
-import { toogleViewMode } from "actions/viewMode";
+import { changeMode, changeColorPrimary, changeColorSecondary } from "actions/viewMode";
 import { AvatarCustom, Divider, MaterialIcon } from 'components';
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getLanguages, init, __ } from "utils/i18n";
-import { useAjax } from "utils/useAjax";
+import { getLanguages, __ } from "utils/i18n";
+import { colorsSchema, themes, shadeColor } from 'utils/viewMode';
 
 const useStyles = makeStyles((theme) => ({
     small: {
@@ -37,9 +38,20 @@ const useStyles = makeStyles((theme) => ({
     },
     menuItem: {
         minHeight: 36
+    },
+    colorItem: {
+        width: 48,
+        height: 48,
+        backgroundColor: 'var(--main)',
+        cursor: 'pointer',
+        '& .MuiIconButton-root': {
+            color: 'white',
+        }
+    },
+    colorItemSelected: {
+        border: '1px solid ' + theme.palette.text.primary,
     }
 }));
-
 
 function Account(props) {
 
@@ -55,12 +67,10 @@ function Account(props) {
 
     const [open, setOpen] = React.useState(false);
 
-    const [openLanguage, setOpenLanguage] = React.useState(false);
-
     const anchorRef = React.useRef(null);
 
     const handleToggle = () => {
-        setOpen((prevOpen) => !prevOpen);
+        setOpen((prevOpen) => prevOpen === false ? 'account' : false);
     };
 
     const handleClose = (event) => {
@@ -94,10 +104,12 @@ function Account(props) {
     //     prevOpen.current = open;
     // }, [open]);
 
+
+
     const renderMenu = (
         <Popper
             style={{ zIndex: 999 }}
-            open={!openLanguage && open}
+            open={open === 'account'}
             anchorEl={anchorRef.current}
             transition
         >
@@ -112,7 +124,7 @@ function Account(props) {
                     <Paper className={classes.menuAccount + ' custom_scroll'}>
                         <ClickAwayListener onClickAway={handleClose}>
                             <MenuList
-                                autoFocusItem={open}
+                                autoFocusItem={open === 'account'}
                                 onKeyDown={handleListKeyDown}
                             >
                                 <MenuItem
@@ -133,19 +145,18 @@ function Account(props) {
                                 </MenuItem>
                                 <Divider style={{ margin: '8px 0' }} color="dark" />
 
-
                                 <MenuItem
                                     className={classes.menuItem}
-                                    onClick={handleUpdateViewMode}>
+                                    onClick={() => setOpen('theme')}>
                                     <ListItemIcon>
-                                        <MaterialIcon icon={theme.type === 'light' ? { custom: '<path d="M12 9c1.65 0 3 1.35 3 3s-1.35 3-3 3-3-1.35-3-3 1.35-3 3-3m0-2c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"></path>' } : 'Brightness2Outlined'} />
+                                        <MaterialIcon icon={themes[theme.type]?.icon} />
                                     </ListItemIcon>
                                     <Typography variant="inherit" noWrap>{__("Appearance")}: {theme.type === 'dark' ? __('Dark') : __('Light')}</Typography>
                                 </MenuItem>
 
                                 <MenuItem
                                     className={classes.menuItem}
-                                    onClick={() => setOpenLanguage(true)}>
+                                    onClick={() => setOpen('languages')}>
                                     <ListItemIcon>
                                         <MaterialIcon icon={'Translate'} />
                                     </ListItemIcon>
@@ -196,7 +207,7 @@ function Account(props) {
     const renderMenuLanguage = (
         <Popper
             style={{ zIndex: 999 }}
-            open={openLanguage}
+            open={open === 'languages'}
             anchorEl={anchorRef.current}
             transition
         >
@@ -210,16 +221,14 @@ function Account(props) {
                 >
                     <Paper className={classes.menuAccount + ' custom_scroll'}>
                         <ClickAwayListener onClickAway={() => {
-                            setOpenLanguage(false);
                             setOpen(false);
                         }}>
                             <MenuList
-                                autoFocusItem={open}
+                                autoFocusItem={open === 'languages'}
                             >
                                 <MenuItem
                                     onClick={() => {
-                                        setOpenLanguage(false);
-                                        setOpen(true);
+                                        setOpen('account');
                                     }}
                                 >
                                     <Box display="flex" width={1} gridGap={16} alignItems="center">
@@ -273,8 +282,120 @@ function Account(props) {
         </Popper >
     );
 
-    const handleUpdateViewMode = () => {
-        dispatch(toogleViewMode());
+    const renderMenuTheme = (
+        <Popper
+            style={{ zIndex: 999 }}
+            open={open === 'theme'}
+            anchorEl={anchorRef.current}
+            transition
+        >
+            {({ TransitionProps, placement }) => (
+                <Grow
+                    {...TransitionProps}
+                    style={{
+                        transformOrigin:
+                            placement === "bottom" ? "center top" : "center bottom",
+                    }}
+                >
+                    <Paper className={classes.menuAccount + ' custom_scroll'}>
+                        <ClickAwayListener onClickAway={() => {
+                            setOpen(false);
+                        }}>
+                            <MenuList
+                                autoFocusItem={open === 'theme'}
+                                style={{ maxWidth: 288 }}
+                            >
+                                <MenuItem
+                                    onClick={() => setOpen('account')}
+                                >
+                                    <Box display="flex" width={1} gridGap={16} alignItems="center">
+                                        <IconButton>
+                                            <MaterialIcon icon="ArrowBackOutlined" />
+                                        </IconButton>
+                                        <Typography variant="h5" style={{ fontWeight: 'normal' }}>{__('Appearance')}</Typography>
+                                    </Box>
+                                </MenuItem>
+                                <Divider style={{ margin: '8px 0' }} color="dark" />
+                                <MenuItem disabled style={{ opacity: .7 }}>
+                                    <ListItemText>
+                                        <Typography disabled variant="inherit" style={{ whiteSpace: 'break-spaces' }}>{__('Setting applies to this browser only')}</Typography>
+                                    </ListItemText>
+                                </MenuItem>
+                                {
+                                    Object.keys(themes).map(key => (
+                                        <MenuItem
+                                            className={classes.menuItem}
+                                            key={key}
+                                            selected={theme.type === key}
+                                            onClick={handleUpdateViewMode(key)}
+                                        >
+                                            <ListItemIcon>
+                                                <MaterialIcon icon={themes[key].icon} />
+                                            </ListItemIcon>
+                                            <Box width={1} display="flex" justifyContent="space-between" alignItems="center">
+                                                <Typography variant="inherit" noWrap>{__('Appearance')} {themes[key].title}</Typography>
+                                                {
+                                                    theme.type === key && <MaterialIcon icon="Check" />
+                                                }
+                                            </Box>
+                                        </MenuItem>
+                                    ))
+                                }
+                                <Divider style={{ margin: '8px 0' }} color="dark" />
+                                <Box paddingLeft={3} paddingRight={3}>
+                                    <Typography >{__('Primary')}</Typography>
+                                    <Box maxWidth={'100%'} display="flex" flexWrap="wrap">
+                                        {
+                                            Object.keys(colorsSchema).map(key => (
+                                                <div onClick={handleChangeColorPrimary(key)} key={key} className={classes.colorItem + ' ' + (theme.primaryColor === key ? classes.colorItemSelected : '')} style={{ '--dark': colors[key][shadeColor.primary.dark], '--main': colors[key][shadeColor.primary.main], '--light': colors[key][shadeColor.primary.light] }}>
+                                                    {
+                                                        theme.primaryColor === key &&
+                                                        <IconButton>
+                                                            <MaterialIcon icon="Check" />
+                                                        </IconButton>
+                                                    }
+                                                </div>
+                                            ))
+                                        }
+                                    </Box>
+                                </Box>
+                                <Box padding={[1, 3, 1, 3]}>
+                                    <Typography >{__('Secondary')}</Typography>
+                                    <Box maxWidth={'100%'} display="flex" flexWrap="wrap">
+                                        {
+                                            Object.keys(colorsSchema).map(key => (
+                                                <div onClick={handleChangeColorSecondary(key)} key={key} className={classes.colorItem + ' ' + (theme.secondaryColor === key ? classes.colorItemSelected : '')} style={{ '--dark': colors[key][shadeColor.secondary.dark], '--main': colors[key][shadeColor.secondary.main], '--light': colors[key][shadeColor.secondary.light] }}>
+                                                    {
+                                                        theme.secondaryColor === key &&
+                                                        <IconButton>
+                                                            <MaterialIcon icon="Check" />
+                                                        </IconButton>
+                                                    }
+                                                </div>
+                                            ))
+                                        }
+                                    </Box>
+                                </Box>
+                            </MenuList>
+
+                        </ClickAwayListener>
+                    </Paper>
+                </Grow>
+            )
+            }
+        </Popper >
+    );
+
+    const handleUpdateViewMode = (mode) => () => {
+        dispatch(changeMode(mode));
+    }
+
+    const handleChangeColorPrimary = (colorKey) => () => {
+        dispatch(changeColorPrimary(colorKey));
+    }
+
+    const handleChangeColorSecondary = (colorKey) => () => {
+        dispatch(changeColorSecondary(colorKey));
     }
 
     return (
@@ -297,6 +418,7 @@ function Account(props) {
             </Tooltip>
             {renderMenuLanguage}
             {renderMenu}
+            {renderMenuTheme}
         </>
     )
 }

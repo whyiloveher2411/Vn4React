@@ -57,7 +57,7 @@ function View(props) {
                 <div>
                     <div style={{ marginBottom: 5, position: 'relative', display: 'inline-block' }}>
                         <CardMedia
-                            style={{ maxWidth: '100%', maxHeight: 160, width: 'auto', cursor: 'pointer' }}
+                            style={{ width: 88, height: 50, maxWidth: '100%', maxHeight: 50, objectFit: 'contain', cursor: 'pointer' }}
                             component="img"
                             image={valueInital.type_link === 'local' ? process.env.REACT_APP_BASE_URL + valueInital.link : valueInital.link}
                         />
