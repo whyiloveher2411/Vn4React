@@ -5,15 +5,7 @@ import { PageHeaderSticky } from 'components/Page'
 import React, { useEffect, useState } from 'react'
 import { __ } from 'utils/i18n'
 
-const useStyles = makeStyles((theme) => ({
-    markdownContainer: {
-        maxWidth: 700,
-        color: theme.palette.text.primary,
-    },
-}))
-
 const Changelog = () => {
-    const classes = useStyles()
 
     const [source, setSource] = useState('')
 
@@ -25,7 +17,6 @@ const Changelog = () => {
 
     return (
         <PageHeaderSticky
-            className={classes.root}
             title={__('Changelog')}
             header={
                 <>
@@ -37,12 +28,10 @@ const Changelog = () => {
             }
         >
             {source && (
-                <div className={classes.markdownContainer}>
-                    <Markdown
-                        escapeHtml={false}
-                        source={source} //
-                    />
-                </div>
+                <Markdown
+                    escapeHtml={false}
+                    source={source} //
+                />
             )}
         </PageHeaderSticky>
     )

@@ -1,5 +1,8 @@
 import { Button, Grid, Hidden, IconButton, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updatePlugins } from 'actions/plugins';
@@ -11,6 +14,8 @@ import MobileFriendlyIcon from '@material-ui/icons/MobileFriendly';
 import { useSnackbar } from 'notistack';
 import { MaterialIcon } from 'components';
 import { changeMode } from 'actions/viewMode';
+import { __ } from 'utils/i18n';
+import { useSetting } from 'utils/settings';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -132,7 +137,7 @@ function Login() {
 
     const [showVerificationCode, setShowVerificationCode] = React.useState(false);
 
-    const [formData] = React.useState(valueInital)
+    const [formData, setFormData] = React.useState(valueInital)
 
     React.useEffect(() => {
         ajax({
@@ -359,6 +364,37 @@ function Login() {
                             <div className="recaptcha-login" id="recaptcha-login"></div>
                         </div>
                     }
+
+                    {
+                        settings?.security.security_enable_remember_me &&
+                        <div style={{ marginTop: 24 }}>
+                            <FormGroup>
+                                <FormControlLabel
+                                    style={{ marginRight: 24 }}
+                                    control={<Checkbox
+                                        onClick={() => {
+                                            if (formData.remember_me) {
+                                                setFormData({ ...formData, remember_me: 0 });
+                                            } else {
+                                                setFormData({ ...formData, remember_me: 1 });
+                                            }
+                                        }} checked={Boolean(formData.remember_me)} color="primary" />}
+                                    label={__('Remember Me')}
+                                />
+                            </FormGroup>
+                            {/* <FieldForm
+                            compoment={'checkbox'}
+                            config={{
+                                title: __('Remember Me'),
+
+                            }}
+                            post={formData}
+                            name={'remember_me'}
+                            onReview={value => { formData.remember_me = value; }}
+                        /> */}
+                        </div>
+                    }
+
                     <div style={{ marginTop: 32, display: 'flex', justifyContent: 'flex-end' }}>
                         <Button style={{ width: '100%' }} variant="contained" color="primary" disableElevation onClick={onClickLogin}>
                             Sign in

@@ -1,4 +1,7 @@
 import { Grid, makeStyles, Typography } from '@material-ui/core';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -368,6 +371,36 @@ function RequireLogin() {
                             settings.security_active_recapcha_google * 1 === 1 &&
                             <Grid item xs={12} md={12}>
                                 <div className="recaptcha-login" id="recaptcha-login"></div>
+                            </Grid>
+                        }
+
+                        {
+                            settings?.security_enable_remember_me &&
+                            <Grid item xs={12} md={12}>
+                                <FormGroup>
+                                    <FormControlLabel
+                                        style={{ marginRight: 24 }}
+                                        control={<Checkbox
+                                            onClick={() => {
+                                                if (formData.remember_me) {
+                                                    setFormData({ ...formData, remember_me: 0 });
+                                                } else {
+                                                    setFormData({ ...formData, remember_me: 1 });
+                                                }
+                                            }} checked={Boolean(formData.remember_me)} color="primary" />}
+                                        label={__('Remember Me')}
+                                    />
+                                </FormGroup>
+                                {/* <FieldForm
+                            compoment={'checkbox'}
+                            config={{
+                                title: __('Remember Me'),
+
+                            }}
+                            post={formData}
+                            name={'remember_me'}
+                            onReview={value => { formData.remember_me = value; }}
+                        /> */}
                             </Grid>
                         }
 

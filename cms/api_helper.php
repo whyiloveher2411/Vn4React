@@ -168,6 +168,8 @@ function checkUserAdmin($group = null, $file = null){
     
     $user = false;
 
+    $enable_remember_me = setting('security_enable_remember_me', false);
+
     if( $group !== 'login' && !($group === 'settings' && $file === 'all' ) ){
 
         $access_token = getBearerToken();
@@ -179,12 +181,13 @@ function checkUserAdmin($group = null, $file = null){
         $decoded = \Firebase\JWT\JWT::decode($access_token, $key, array('HS256'),true);
 
         $decoded->user = get_post('user', $decoded->id);
-        if( $decoded->expires_time < time()
-            || !$decoded->user  ){
 
-            return [ 'require_login'=>true ];
+        if( !$enable_remember_me || !boolval($decoded->remember_me) ){
+            if( $decoded->expires_time < time() || !$decoded->user  ){
+                return [ 'require_login'=>true ];
+            }
         }
-        
+            
         $GLOBALS['access_token'] = $decoded;
         $user = $decoded->user;
     }

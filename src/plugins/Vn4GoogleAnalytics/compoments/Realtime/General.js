@@ -2,7 +2,7 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core'
 import { Skeleton } from '@material-ui/lab';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     root: {
         textAlign: 'center',
         '& .device_item': {

@@ -153,6 +153,18 @@ function Security({ post, onReview }) {
                         onReview={value => onReview(value, 'security_login_on_a_single_machine')}
                     />
                 </Grid>
+                <Grid item md={12} xs={12} >
+                    <FieldForm
+                        compoment={'true_false'}
+                        config={{
+                            title: __('Enable Remember Me'),
+                            note: __('User will not need to sign in after each token expiration, this function is usually used with personal computers'),
+                        }}
+                        post={post}
+                        name={'security_enable_remember_me'}
+                        onReview={value => onReview(value, 'security_enable_remember_me')}
+                    />
+                </Grid>
                 <Divider style={{ width: '100%', margin: '24px 0' }} />
                 <Grid item md={12} xs={12} >
                     <FieldForm

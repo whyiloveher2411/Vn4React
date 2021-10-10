@@ -3,7 +3,7 @@ import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import React from 'react';
 import { addScript } from 'utils/helper';
 import { CircularCustom, CustomTooltip } from 'components';
-import theme from 'theme';
+import { useSelector } from 'react-redux';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -99,6 +99,7 @@ const numberToThousoun = (labelValue) => {
 function ChartDate({ ajaxPluginHandle, website, date, labelDateFilter }) {
     const classes = useStyles();
 
+    const theme = useSelector(s => s.theme);
     const [loadScript, setLoadScript] = React.useState(false);
     const [dataAjax, setDataAjax] = React.useState(false);
 

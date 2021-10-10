@@ -20,6 +20,7 @@ return [
         'security_active_google_authenticator'=>$setting['security_active_google_authenticator']??'',
         'security_active_signin_with_google_account'=>$setting['security_active_signin_with_google_account']??'',
         'security_google_oauth_client_id'=>$setting['security_google_oauth_client_id']??'',
+        'security_enable_remember_me'=>$setting['security_enable_remember_me']??false,
     ]
 ];
 

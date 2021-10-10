@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import React from 'react'
-import theme from 'theme';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -14,6 +14,8 @@ const useStyles = makeStyles((theme) => ({
 
 function PageViews({ classStyle, data, google }) {
     const classes = useStyles();
+
+    const theme = useSelector(state => state.theme);
 
     React.useEffect(() => {
 

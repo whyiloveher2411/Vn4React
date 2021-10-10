@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     menuAccount: {
         minWidth: 280,
         maxWidth: '100%',
-        maxHeight: '78vh',
+        maxHeight: '80vh',
         overflowY: 'auto'
     },
     menuItem: {
@@ -344,7 +344,7 @@ function Account(props) {
                                 <Divider style={{ margin: '8px 0' }} color="dark" />
                                 <Box paddingLeft={3} paddingRight={3}>
                                     <Typography >{__('Primary')}</Typography>
-                                    <Box maxWidth={'100%'} display="flex" flexWrap="wrap">
+                                    <Box marginTop={1} maxWidth={'100%'} display="flex" flexWrap="wrap">
                                         {
                                             Object.keys(colorsSchema).map(key => (
                                                 <div onClick={handleChangeColorPrimary(key)} key={key} className={classes.colorItem + ' ' + (theme.primaryColor === key ? classes.colorItemSelected : '')} style={{ '--dark': colors[key][shadeColor.primary.dark], '--main': colors[key][shadeColor.primary.main], '--light': colors[key][shadeColor.primary.light] }}>
@@ -361,7 +361,7 @@ function Account(props) {
                                 </Box>
                                 <Box padding={[1, 3, 1, 3]}>
                                     <Typography >{__('Secondary')}</Typography>
-                                    <Box maxWidth={'100%'} display="flex" flexWrap="wrap">
+                                    <Box marginTop={1} maxWidth={'100%'} display="flex" flexWrap="wrap">
                                         {
                                             Object.keys(colorsSchema).map(key => (
                                                 <div onClick={handleChangeColorSecondary(key)} key={key} className={classes.colorItem + ' ' + (theme.secondaryColor === key ? classes.colorItemSelected : '')} style={{ '--dark': colors[key][shadeColor.secondary.dark], '--main': colors[key][shadeColor.secondary.main], '--light': colors[key][shadeColor.secondary.light] }}>

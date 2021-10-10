@@ -22,6 +22,7 @@ easily create, edit, and publish content. The easier it is to use, the more time
 #### Feature Detail
 - Dashboard multi language
 - Dark mode / Light mode
+- Customization Theme Color in admin page
 - Content
 	- Show list
 	- Filter
@@ -44,9 +45,13 @@ easily create, edit, and publish content. The easier it is to use, the more time
 - Security
 	- User permissions
 	- Login 2-Step Authentication
+	- Enable/disable remember me
 	- Re-capcha
 	- Sign In With Google Account
 	- Token expiration time
-
+	- Limit the number of times as well as the time after you enter the wrong password many times
+	- Limit the IP address that can be accessed and admin page
+	- Enable / disable the function only allow accounts to be logged in on 1 device at a time
+	- Enable / disable Recapcha
 
 

@@ -2,26 +2,30 @@
 
 $r = request();
 
-$input = json_decode($r->getContent(),true);
+$input =  $r->all();
 
 $objectConfig = get_admin_object('user');
 
+$remember_me = isset($input['remember_me'])? boolval($input['remember_me']) : false;
 // Check login by email
 $loginByEmail = setting('security_active_signin_with_google_account');
+
 if( $loginByEmail && isset($input['loginByEmail']) ){
 
     try {
         $content = json_decode(file_get_contents('https://www.googleapis.com/oauth2/v1/userinfo?access_token='.$input['loginByEmail']),true);
         $email = $content['email'];
 
-        $user = get_posts('user',['count'=>1,'callback'=>function($q) use ($email) {
-            $q->where('email',$email)->where('status','publish');
-        }]);
+        $user = Vn4Model::table($objectConfig['table'])->where('email',$email)->where('status','publish')->first();
 
-        if( isset($user[0]) ){
+        // $user = get_posts('user',['count'=>1,'callback'=>function($q) use ($email) {
+        //     $q->where('email',$email)->where('status','publish');
+        // }]);
+
+        if( $user ){
 
             return [
-                'user'=>getResultLogin($user[0]),
+                'user'=>getUserToken($user, $remember_me),
                 'sidebar'=>include __DIR__.'/../adminSidebar/get.php',
                 'plugins'=>plugins()->keyBy('key_word'),
             ];
@@ -81,6 +85,8 @@ if( $user = Vn4Model::table($objectConfig['table'])->where('email',trim($input['
 
         $googleAuthen = setting('security_active_google_authenticator');
 
+        $result = [];
+
         // Check 2-Step Verification
         if( $googleAuthen === '1' ){
 
@@ -102,28 +108,22 @@ if( $user = Vn4Model::table($objectConfig['table'])->where('email',trim($input['
                     return [
                         'message'=> apiMessage( 'Authentication code incorrect.', 'error')
                     ];
-                }else{
-
-                    return [
-                        'user'=>getResultLogin($user),
-                        'sidebar'=>include __DIR__.'/../adminSidebar/get.php',
-                        'plugins'=>plugins()->keyBy('key_word'),
-                    ];
-
                 }
+
             }else{
+                //Need verification qr code
                 return [
                     'requiredVerificationCode'=>true,
                 ];
             }
             
-        }else{
-            return [
-                'user'=>getResultLogin($user),
-                'sidebar'=>include __DIR__.'/../adminSidebar/get.php',
-                'plugins'=>plugins()->keyBy('key_word'),
-            ];
         }
+
+        $result['user'] = getUserToken($user, $remember_me);
+        $result[ 'sidebar' ] = include __DIR__.'/../adminSidebar/get.php';
+        $result[ 'plugins' ] = plugins()->keyBy('key_word');
+
+        return $result;
     }
 }
 
@@ -132,7 +132,7 @@ return [
 ];
 
 
-function getResultLogin($user){
+function getUserToken($user, $remember_me){
 
     unset($user->password);
     unset($user->refesh_token);
@@ -145,6 +145,7 @@ function getResultLogin($user){
 
     $payload = array(
         'id'=> $user->id,
+        'remember_me'=>$remember_me,
         'remember_token'=>$user->remember_token, //Check change password
         'expires_in'=>$expires_in,
         'expires_time'=>$createdTime + $expires_in,

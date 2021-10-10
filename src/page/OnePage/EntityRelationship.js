@@ -4,8 +4,8 @@ import React from 'react';
 import { useHistory } from 'react-router';
 import { addScript } from 'utils/helper';
 import { useAjax } from 'utils/useAjax';
-import theme from 'theme';
 import { __ } from 'utils/i18n';
+import { useSelector } from 'react-redux';
 
 
 const useStyles = makeStyles(theme => ({
@@ -21,6 +21,7 @@ function EntityRelationship() {
 
     const classes = useStyles();
 
+    const theme = useSelector(state => state.theme);
     const [posts, setPosts] = React.useState(false);
     const history = useHistory();
     const { ajax } = useAjax();
