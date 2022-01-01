@@ -194,9 +194,7 @@ function ActiveUserRightNow({ google, dataGA }) {
             </table>
 
             <div style={{ textAlign: 'right', marginTop: 8 }}>
-                <Link to="/plugin/vn4-google-analytics/realtime">
-                    <Button style={{ color: 'white', fontWeight: '400', fontSize: 13 }} endIcon={<ArrowForwardIosIcon style={{ marginLeft: 5 }} size="small" />}>Real-Time Report</Button>
-                </Link>
+                <Button component={Link} to="/plugin/vn4-google-analytics/realtime" style={{ color: 'white', fontWeight: '400', fontSize: 13 }} endIcon={<ArrowForwardIosIcon style={{ marginLeft: 5 }} size="small" />}>Real-Time Report</Button>
             </div>
 
         </div>

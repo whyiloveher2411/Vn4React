@@ -2,7 +2,7 @@
 
 $plugins = plugins();
 
-$result = [];
+$hookMapData = [];
 
 try {
     
@@ -20,11 +20,11 @@ try {
 
                 if( $info['extension'] === 'php' ){
                     
-                    if( !isset($result[ $info['filename']]) ){
-                        $result[ $info['filename']] = [];
+                    if( !isset($hookMapData[ $info['filename']]) ){
+                        $hookMapData[ $info['filename']] = [];
                     }
 
-                    $result[ $info['filename']][] = 'resources/views/plugins/'.$keyWord.'/inc/hook/'.$hook;
+                    $hookMapData[ $info['filename']][] = 'resources/views/plugins/'.$keyWord.'/inc/hook/'.$hook;
 
                 }
             }
@@ -43,17 +43,17 @@ try {
 
             if( $info['extension'] === 'php' ){
                 
-                if( !isset($result[ $info['filename']]) ){
-                    $result[ $info['filename']] = [];
+                if( !isset($hookMapData[ $info['filename']]) ){
+                    $hookMapData[ $info['filename']] = [];
                 }
 
-                $result[ $info['filename']][] = 'resources/views/themes/'.$theme_name.'/inc/hook/'.$hook;
+                $hookMapData[ $info['filename']][] = 'resources/views/themes/'.$theme_name.'/inc/hook/'.$hook;
 
             }
         }
     }
 
-    file_put_contents(cms_path('root','cms/core/hook_maps.php'), '<?php return ' . var_export($result, true) . ';');
+    file_put_contents(cms_path('root','cms/core/hook_maps.php'), '<?php return ' . var_export($hookMapData, true) . ';');
 
     return [
         'message'=>apiMessage('Compile code successful!')

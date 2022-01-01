@@ -2,7 +2,6 @@ import React from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
-import moment from 'moment'
 import { makeStyles } from '@material-ui/styles'
 import {
     Card,
@@ -73,7 +72,7 @@ const PostCard = (props) => {
                     <div className={classes.subheader}>
                         <AccessTimeIcon className={classes.accessTimeIcon} />
                         <Typography variant="body2">
-                            {moment(post.created_at).fromNow()}
+                            {'12h ago'}
                         </Typography>
                     </div>
                 }

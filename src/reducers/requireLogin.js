@@ -1,15 +1,15 @@
-import * as requiredLogin from '../actions/requiredLogin'
+import { createSlice } from '@reduxjs/toolkit';
 
-const requiredLoginReducer = (state = { open: false, updateUser: false }, action) => {
+export const slice = createSlice({
+    name: 'requiredLogin',
+    initialState: { open: false, updateUser: false },
+    reducers: {
+        update: (state, action) => {
+            return { ...action.payload };
+        },
+    },
+});
 
-    switch (action.type) {
-        case requiredLogin.UPDATE:
-            return action.payload;
-            break;
-        default:
-            return state;
-            break;
-    }
-}
+export const { update } = slice.actions;
 
-export default requiredLoginReducer;
+export default slice.reducer;

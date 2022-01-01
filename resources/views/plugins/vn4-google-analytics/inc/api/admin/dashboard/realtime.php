@@ -1,12 +1,14 @@
 <?php
 
-$access_code = $plugin->getMeta('access_token_first');
+$settings = setting('google_analytics/analytics_api');
 
-if( !isset($access_code['webpropertie_id']) ){
+$access_code = $settings['access_token_first']??[];
+
+if( !isset($settings['website'][0]) ){
   return ['message'=>apiMessage('Please install google analytics before using this feature!','warning')];
 }
 
-$webpropertie_id = $access_code['webpropertie_id'];
+$webpropertie_id = $settings['website'][0];
 
 $access_token = get_access_token($plugin);
 

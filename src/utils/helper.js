@@ -1,3 +1,5 @@
+import cloneDeep from 'lodash/cloneDeep';
+
 export function makeid(length, group = 'all') {
 
     if (!window.ids) {
@@ -20,7 +22,7 @@ export function makeid(length, group = 'all') {
 
 export function uuid(format = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx') {
     return format.replace(/[xy]/g, function (c) {
-        let r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8); 
+        let r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
     });
 }
@@ -29,16 +31,12 @@ export function randomColor() {
     return '#' + Math.floor(Math.random() * 16777215).toString(16);
 }
 
+export function numberWithSeparator(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 export function copyArray(array) {
-
-    if (!array) return [];
-
-    try {
-        return JSON.parse(JSON.stringify(array));
-    } catch (error) {
-        alert(array);
-        return [];
-    }
+    return cloneDeep(array);
 }
 
 export function toCamelCase(str) {
@@ -151,6 +149,22 @@ export function copyTextToClipboard(text) {
     }
 
     document.body.removeChild(textArea);
+}
+
+
+export function array_flip(trans) {
+
+    if (!trans) return {};
+
+    var key, tmp_ar = {};
+
+    for (key in trans) {
+        if (trans.hasOwnProperty(key)) {
+            tmp_ar[trans[key]] = key;
+        }
+    }
+
+    return tmp_ar;
 }
 
 export function dateFormat(date) {

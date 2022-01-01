@@ -1,5 +1,5 @@
 <?php
-add_action('frontend_init',function($request) use ($plugin) {
+add_action('middleware_frontend',function($request) use ($plugin) {
 	
 	add_filter('meta',function($meta_old) use ($request,$plugin){
 
@@ -13,9 +13,11 @@ add_action('frontend_init',function($request) use ($plugin) {
 
 		$webmaster_tools = $plugin->getMeta('webmaster-tools');
 
-		if( isset($webmaster_tools['google']['tag']) ){
+		$verifiWebsite = setting('seo/verify_ownership/metatag',false);
 
-			$meta_vn4seo['google-site-verification'] = '<meta name="google-site-verification" content="'.$webmaster_tools['google']['tag'].'" />';
+		if( $verifiWebsite ){
+
+			$meta_vn4seo['google-site-verification'] = $verifiWebsite;
 		}
 
 		if( $post ){

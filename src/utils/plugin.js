@@ -35,7 +35,10 @@ export function usePluginMeta(name) {
 }
 
 export function plugins() {
+
     if (window.__plugins) return window.__plugins;
+
+    return {};
 
     let pluginsInitial = {};
     try {

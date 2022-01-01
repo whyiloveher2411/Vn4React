@@ -1,12 +1,10 @@
-import { Box, Grid, makeStyles } from '@material-ui/core';
-import { TabsCustom } from 'components';
+import { Grid, makeStyles } from '@material-ui/core';
 import RedirectWithMessage from 'components/RedirectWithMessage';
 import React from 'react';
 import { useAjax } from 'utils/useAjax';
-import { checkPermission } from 'utils/user';
+import { usePermission } from 'utils/user';
 import EditMenu from './EditMenu';
 import Header from './Header';
-import ListNewMenu from './ListNewMenu';
 import MenuItem from './MenuItem';
 
 
@@ -47,7 +45,7 @@ function Structure() {
     const { ajax, Loading } = useAjax();
 
     const [tree, setTree] = React.useState([]);
-    const permission = checkPermission('menu_management');
+    const permission = usePermission('menu_management').menu_management;
 
     const [listMenu, setListMenu] = React.useState({
         list_option: false,

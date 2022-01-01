@@ -72,22 +72,23 @@ if ( !function_exists('vn4_get_post_count_status') ){
 
         $arg_where_count = [
 
-            'all'=>['key'=>'all', 'where'=>[['status','!=','']],'title'=>__('All') ,'default'=>true,'icon'=>'PublicRounded','color'=>'#fff', 'showOnHeader'=>1],
-            'publish'=>['key'=>'publish','where'=>[['status','=','publish']],'title'=>__('Published'),'default'=>true, 'icon'=>'Publish','color'=>'#188038', 'showOnHeader'=>1],
-            'starred'=>['key'=>'starred','where'=>[['starred','=',1]],'title'=>__('Starred'),'default'=>true,'icon'=>'StarOutlined','color'=>'#f4b400', 'showOnHeader'=>1],
+            'all'=>['key'=>'all', 'where'=>[['status','!=','']],'title'=>__('All') ,'default'=>true,'icon'=>'PublicOutlined'],
+            
+            'publish'=>['key'=>'publish','where'=>[['status','=','publish']],'title'=>__('Published'),'default'=>true, 'icon'=>'PublishOutlined','color'=>'#188038'],
+            
+            'starred'=>['key'=>'starred','where'=>[['starred','=',1]],'title'=>__('Starred'),'default'=>true,'icon'=>'StarOutlined','color'=>'#f4b400'],
 
+            'future'=>['key'=>'future', 'where'=>[['post_date_gmt','!=',''],function($q){ return $q->whereNotNull('post_date_gmt'); }], 'title'=>__('Future'),'default'=>true, 'icon'=> 'UpdateOutlined','color'=>'#0079be'],
 
-            'future'=>['key'=>'future', 'where'=>[['post_date_gmt','!=',''],function($q){ return $q->whereNotNull('post_date_gmt'); }], 'title'=>__('Future'),'default'=>true, 'icon'=> 'UpdateRounded','color'=>'#0079be', 'showOnHeader'=>1],
+            'draft'=>['key'=>'draft', 'where'=>[['status','=','draft']],'title'=>__('Drafts'),'default'=>true, 'icon'=>'InsertDriveFileOutlined','color'=>'#757575'],
 
-            'draft'=>['key'=>'draft', 'where'=>[['status','=','draft']],'title'=>__('Drafts'),'default'=>true, 'icon'=>'InsertDriveFileRounded','color'=>'#757575', 'showOnHeader'=>1],
+            'pending'=>['key'=>'pending','where'=>[['status','=','pending']],'title'=>__('Pending'),'default'=>true, 'icon'=>'CreateOutlined','color'=>'#f68924'],
 
-            'pending'=>['key'=>'pending','where'=>[['status','=','pending']],'title'=>__('Pending'),'default'=>true, 'icon'=>'CreateRounded','color'=>'#f68924', 'showOnHeader'=>1],
+            'private'=>['key'=>'private','where'=>[['visibility','=','private']],'title'=>__('Private'),'default'=>true, 'icon'=>'LockOutlined','color'=>'#8604c4'],
 
-            'private'=>['key'=>'private','where'=>[['visibility','=','private']],'title'=>__('Private'),'default'=>true, 'icon'=>'LockRounded','color'=>'#8604c4'],
+            'password'=>['key'=>'password','where'=>[['visibility','=','password']],'title'=>__('Password protected'),'default'=>true, 'icon'=>'VpnKeyOutlined','color'=>'#00851d'],
 
-            'password'=>['key'=>'password','where'=>[['visibility','=','password']],'title'=>__('Password protected'),'default'=>true, 'icon'=>'VpnKeyRounded','color'=>'#00851d'],
-
-            'trash'=>['key'=>'trash','where'=>[['status','=','trash']],'title'=>__('Trash'),'default'=>true, 'icon'=>'DeleteRounded','color'=>'#e53935', 'showOnHeader'=>1],
+            'trash'=>['key'=>'trash','where'=>[['status','=','trash']],'title'=>__('Trash'),'default'=>true, 'icon'=>'DeleteOutlined','color'=>'#e53935'],
 
 
          ];
@@ -140,13 +141,11 @@ if ( !function_exists('vn4_get_post_count_status') ){
                     $arg_where_count[$key]['items'][$key2]['count'] = $count[$key]['items'][$key2]['count'];
                 }
             }else{
-                $arg_where_count[$key]['count'] = $count[$key]['count'];
+                $arg_where_count[$key]['count'] = isset( $count[$key]['count'] ) ? $count[$key]['count'] : 0;
             }
         }
 
-        $string_html = vn4_view(backend_theme('particle.post-type.button-status'),['filter'=>$arg_where_count, 'status_current'=>$status] );
-
-        $GLOBALS['post_php']['button_status'] = ['status_count'=>$string_html, 'status'=>$status];
+        $GLOBALS['post_php']['button_status'] = ['status'=>$status];
 
         return $GLOBALS['post_php']['button_status'];
 
@@ -297,7 +296,7 @@ function vn4_create_taxonomy( $taxonomys, $post ){
                     foreach ($string_find as $title) {
 
 
-                        $tag = do_action('vn4_create_taxonomy',$table_object, $title, $key, $post);
+                        $tag = do_action('vn4_create_taxonomy',null, $table_object, $title, $key, $post);
 
                         if( !$tag ){
 
@@ -476,9 +475,7 @@ function vn4_get_data_table_admin( $type, $getJS = false, $post_filter = null, $
 
     $admin_object = get_admin_object($type);
 
-    $admin_object2 = do_action('custome-post-table',$type, $admin_object);
-
-    if( $admin_object2 ) $admin_object = $admin_object2;
+    $admin_object = do_action('custome-post-table',$admin_object, $type);
 
     $obj = new Vn4Model( $admin_object['table'] );
 
@@ -551,9 +548,7 @@ function vn4_get_data_table_admin( $type, $getJS = false, $post_filter = null, $
 
     $data = $obj->where('type',$type);
 
-    $data2 = do_action('vn4_get_data_table_admin',$data,$type);
-
-    if( $data2 ) $data = $data2;
+    $data = do_action('vn4_get_data_table_admin',$data,$type);
 
     if( !$post_filter ) $post_filter = $r->get('post_filter', 'all');
 

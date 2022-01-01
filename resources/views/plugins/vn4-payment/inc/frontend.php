@@ -17,7 +17,7 @@ add_route('buy_now/{payment}','buy_now','frontend',function($r, $payment_method)
 
 		$parameters = [];
 
-		$parameters = do_action('payment_checkout',$r, $payment_method);
+		$parameters = do_action('payment_checkout',$parameters, $r, $payment_method);
 
 		if( $parameters ){
 
@@ -51,7 +51,7 @@ add_route('checkout/{payment_method}','checkout','frontend',function($r, $paymen
 
 		$transaction->save();
 
-		return do_action('payment_completed',$r, $transaction);
+		return do_action('payment_completed',$transaction, $r);
 
 	}
 

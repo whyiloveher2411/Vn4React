@@ -3,7 +3,7 @@ import { TabsCustom } from 'components';
 import RedirectWithMessage from 'components/RedirectWithMessage';
 import React from 'react';
 import { __ } from 'utils/i18n';
-import { checkPermission } from 'utils/user';
+import { usePermission } from 'utils/user';
 import ListNewMenu from '../components/Menu/ListNewMenu';
 import Structure from '../components/Menu/Structure';
 
@@ -27,7 +27,7 @@ function Menu() {
 
     const classes = useStyles();
 
-    const permission = checkPermission('menu_management');
+    const permission = usePermission('menu_management').menu_management;
 
     if (!permission) {
         return <RedirectWithMessage />

@@ -136,7 +136,6 @@ register_post_type(function($list_post_type){
 					'title'=>'Author',
 					'view'=>'relationship_onetomany',
 					'object'=>'blog_author',
-					'type'=>'many_record',
 					'advance'=>'right',
 				],
 				'blog_category'=>[
@@ -144,12 +143,10 @@ register_post_type(function($list_post_type){
 					'view'=>'relationship_onetomany',
 					'object'=>'blog_category',
 					'advance'=>'right',
-					'type'=>'many_record',
 				],
 				'blog_tag'=>[
 					'title'=>'Tag',
 					'view'=>'relationship_manytomany',
-					'type'=>'many_record',
 					'object'=>'blog_tag',
 					'advance'=>'right',
 					'template'=>function($post){

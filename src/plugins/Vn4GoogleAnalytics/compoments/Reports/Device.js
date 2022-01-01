@@ -97,9 +97,7 @@ function Device({ google, dataGA2, showLinkReport }) {
             {
                 showLinkReport &&
                 <div style={{ position: 'absolute', bottom: 0, right: 0 }}>
-                    <Link to="/plugin/vn4-google-analytics/reports">
-                        <Button style={{ fontWeight: '400', fontSize: 13 }} endIcon={<ArrowForwardIosIcon style={{ marginLeft: 5 }} size="small" />}>Overview Report</Button>
-                    </Link>
+                    <Button component={Link} to="/plugin/vn4-google-analytics/reports" style={{ fontWeight: '400', fontSize: 13 }} endIcon={<ArrowForwardIosIcon style={{ marginLeft: 5 }} size="small" />}>Overview Report</Button>
                 </div>
             }
 

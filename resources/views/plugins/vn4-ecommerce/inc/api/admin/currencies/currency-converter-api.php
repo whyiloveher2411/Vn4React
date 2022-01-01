@@ -5,70 +5,69 @@ $key = $r->get('apiKey');
 $type = $r->get('type');
 
 if( !$key ){
+
+    setting_save($type, '', 'e-commerce', false);
+
     return [
-        'message'=>apiMessage('Api key is required','error')
+        'message'=>apiMessage('Remove api success'),
+        'error'=>0,
     ];
-}
+    
+}else{
 
-$settings = setting('currency_converter_api', [], true);
+    switch ($type) {
 
-if( !is_array($settings) ){
-    $settings = [];
-}
+        case 'currency/currencyconverter/api_key':
 
-switch ($type) {
+            try {
 
-    case 'free.currconv.com':
+                $test = json_decode( file_get_contents_curl('https://free.currconv.com/api/v7/convert?q=USD_PHP&compact=ultra&apiKey='.$key),true );
 
-        try {
-            $test = json_decode( file_get_contents_curl('https://free.currconv.com/api/v7/convert?q=USD_PHP&compact=ultra&apiKey='.$key),true );
+                if( isset($test['error']) ){
+                    return [
+                        'message'=>apiMessage( $test['error'],'error'),
+                        'error'=>1,
+                    ];
+                }
 
-            if( isset($test['error']) ){
-                return [
-                    'message'=>apiMessage( $test['error'],'error'),
-                    'apiKeys'=>$settings
-                ];
-            }
-
-            $settings['free.currconv.com'] = $key;
-
-        } catch (\Throwable $th) {
-            return [
-                'message'=>apiMessage('Api key is not correct','error'),
-                'apiKeys'=>$settings
-            ];
-        }
-
-        break;
-
-    case 'exchangerate-api.com':
-
-        try {
-            $test = json_decode( file_get_contents_curl('https://v6.exchangerate-api.com/v6/'.urlencode( $key ).'/latest/USD'),true );
-            
-            if( !isset($test['conversion_rates']) ){
+            } catch (\Throwable $th) {
                 return [
                     'message'=>apiMessage('Api key is not correct','error'),
-                    'apiKeys'=>$settings
+                    'error'=>1,
                 ];
             }
 
-            $settings['exchangerate-api.com'] = $key;
+            break;
 
-        } catch (\Throwable $th) {
+        case 'currency/exchangerate/api_key':
 
-            return [
-                'message'=>apiMessage('Api key is not correct','error'),
-                'apiKeys'=>$settings
-            ];
-        }
+            try {
+                $test = json_decode( file_get_contents_curl('https://v6.exchangerate-api.com/v6/'.urlencode( $key ).'/latest/USD'),true );
 
-        break;
+                if( !isset($test['conversion_rates']) ){
+                    return [
+                        'message'=>apiMessage('Api key is not correct','error'),
+                        'error'=>1,
+                    ];
+                }
+
+            } catch (\Throwable $th) {
+
+                return [
+                    'message'=>apiMessage('Api key is not correct','error'),
+                    'error'=>1,
+                ];
+            }
+
+            break;
+    }
+
+    setting_save($type, $key, 'e-commerce', false);
+        
+    return [
+        'message'=>apiMessage('Save change api key successfully'),
+        'error'=>0,
+    ];
+
 }
 
-setting_save('currency_converter_api', $settings );
-   
-return [
-    'message'=>apiMessage('save change api key successfully'),
-    'apiKeys'=>$settings
-];

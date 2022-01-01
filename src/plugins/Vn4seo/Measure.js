@@ -1,4 +1,4 @@
-import { Card, CardContent, colors, Divider, Grid, makeStyles, Tab, Tabs, TextField, Typography } from '@material-ui/core';
+import { Card, CardContent, Divider, Grid, makeStyles, Tab, Tabs, TextField, Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import LaptopIcon from '@material-ui/icons/Laptop';
 import SmartphoneIcon from '@material-ui/icons/Smartphone';
@@ -7,7 +7,7 @@ import { PageHeaderSticky } from 'components/Page';
 import RedirectWithMessage from 'components/RedirectWithMessage';
 import React from 'react';
 import { Redirect, useHistory, useRouteMatch } from 'react-router-dom';
-import { checkPermission } from 'utils/user';
+import { usePermission } from 'utils/user';
 import { getUrlParams } from '../../utils/herlperUrl';
 import Accessibility from './compoments/Measure/Accessibility';
 import BestPractices from './compoments/Measure/BestPractices';
@@ -287,7 +287,7 @@ function Measure({ meta, ajaxPluginHandle, loading }) {
 
     const { subtab } = match.params;
 
-    const permission = checkPermission('plugin_vn4seo_view_measure');
+    const permission = usePermission('plugin_vn4seo_view_measure').plugin_vn4seo_view_measure;
 
     const tabs = {
         performance: { value: 'performance', label: 'Performance' },

@@ -5,7 +5,7 @@ $input = $r->all();
 
 $file = $input['file_config_account'];
 
-$dataMeta = [];
+$config = [];
 
 if( !is_array($file) ){
     $file = json_decode($file,true);
@@ -23,12 +23,9 @@ if( isset($file['link']) ){
         copy($filePath,__DIR__.'/../../../client_secret_app.json');
     }
 
-    
-    $dataMeta['complete_installation'] = false;
-    $dataMeta['file_app_json'] = $filePath;
-    $dataMeta['file_config_account'] = $file;
-
-    $plugin->updateMeta($dataMeta);
+    $config['complete_installation'] = false;
+    $config['file_app_json'] = $filePath;
+    $config['file_config_account'] = $file;
 
     $file_congig = __DIR__ . '/../../../client_secret_app.json';
 
@@ -46,8 +43,8 @@ if( isset($file['link']) ){
     $auth_url = $client->createAuthUrl();
     return [
         'success'=>true,
-        'plugin'=>$plugin,
         'authUrl'=>filter_var($auth_url, FILTER_SANITIZE_URL),
+        'value'=>$config,
     ];
 
 }

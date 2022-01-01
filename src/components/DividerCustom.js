@@ -16,7 +16,7 @@ function DividerCustom({ color, className, ...props }) {
     const classes = useStyles();
 
     return (
-        <Divider {...props} className={(color === 'dark' ? classes.dark : classes.normal) + ' ' + className ?? ''} />
+        <Divider {...props} className={(color === 'dark' ? classes.dark : classes.normal) + ' ' + (className ? className : '')} />
     )
 }
 

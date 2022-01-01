@@ -23,6 +23,6 @@ if( $action === 'edit' ){
     }
 }
 
-$result = appearance_get_data($result);
+$result = array_merge( $result,  appearance_get_data() );
 
 return $result;

@@ -106,14 +106,12 @@ register_post_type(function($list_post_type){
 					'title'=>'Category',
 					'view'=>'relationship_onetomany',
 					'object'=>'pnj_category',
-					'type'=>'many_record',
 					'advance'=>'right',
 				],
 				'pnj_topic'=>[
 					'title'=>'Topic',
 					'view'=>'relationship_manytomany',
 					'object'=>'pnj_topic',
-					'type'=>'many_record',
 					'advance'=>'right',
 				],
 				'featured'=>[

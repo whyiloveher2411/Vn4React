@@ -27,11 +27,10 @@ if( $param1 === 'change-theme'){
         if( $install !== 1 ) return $install;
     }
 
-    setting_save('general_client_theme', $theme );
+    setting_save('general_client_theme', $theme , 'general', true);
     Cache::forget('setting.');
 
     $result['message'] = apiMessage('Change Theme Success.');
-    $result['sidebar'] = include __DIR__.'/../adminSidebar/get.php';
 }
 
 include __DIR__.'/_function.php';

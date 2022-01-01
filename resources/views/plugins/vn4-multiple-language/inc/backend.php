@@ -87,7 +87,7 @@ add_action('save_theme_options_function',function($key1,$key2,$value){
 
 
 //Change language current
-add_action('init',function(){
+add_action('middleware_web',function(){
 
 	if( Auth::check() ){
 		$my_lang = Auth::user()->getMeta('vn4-lang-config',false);
@@ -162,7 +162,7 @@ add_action('delete_post',function($post, $admin_object) use($plugin) {
 /**
 ADD HOOK CUSTOM POST CONFIG
 */
-add_action('custome-post-table',function($type, $result) use ($plugin) {
+add_action('custome-post-table',function($data, $type, $result) use ($plugin) {
 
 	$admin_object = get_admin_object($type);
 
@@ -349,7 +349,9 @@ add_action('many-record',function($q) use ($plugin) {
 });
 
 //Change Result of get category relationship one to many
-add_action('getCategory',function($r) use ($plugin) {
+add_action('getCategory',function() use ($plugin) {
+
+	$r = request();
 
 	$type = $r->get('type');
 	$route_type = $r->get('route_type');
@@ -452,7 +454,7 @@ add_meta_box(
 );
 
 
-add_action('get_post_controller',function($r,$type, $postobj = null ) use ($plugin){
+add_action('get_post_controller',function($data, $r,$type, $postobj = null ) use ($plugin){
 
 	$custom_post_types = $plugin->getMeta('custom-post-types',[]);
 
@@ -517,7 +519,7 @@ add_action('get_post_controller',function($r,$type, $postobj = null ) use ($plug
 });
 
 
-add_action('vn4_create_taxonomy',function($table_object, $title, $key, $post) use ($plugin) {
+add_action('vn4_create_taxonomy',function($data, $table_object, $title, $key, $post) use ($plugin) {
 
 	$admin_object = get_admin_object($key);
 
@@ -573,7 +575,7 @@ add_action('vn4_create_taxonomy',function($table_object, $title, $key, $post) us
 
 
 
-add_action('get_permalinks',function( $type, $slug, $post) {
+add_action('get_permalinks',function($data, $type, $slug, $post) {
 
 
 	if( isset( $post->language ) ){

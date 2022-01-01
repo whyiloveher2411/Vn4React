@@ -148,7 +148,7 @@ function updateSettingFilter($post_type, $filter_detail){
     $admin_object['fields'] = array_merge([
             'id'=>['title'=>'ID','view'=>'number'], 
             'created_at'=>['title'=>'Created At','view'=>'date'],
-            'author'=>['title'=>'Author','view'=>'relationship_onetomany','object'=>'user','type'=>'many_record','data'=>['columns'=>['email']]]
+            'author'=>['title'=>'Author','view'=>'relationship_onetomany','object'=>'user','data'=>['columns'=>['email']]]
     ], $admin_object['fields']);
 
     $filters_update = [];
@@ -180,9 +180,9 @@ function updateSettingFilter($post_type, $filter_detail){
     }
 
     if( $hasCustom ){
-        setting_save('filters_post_type_'.$post_type,$filters_update);
+        setting_save('filters_post_type_'.$post_type,$filters_update, 'post-type', true);
     }else{
-        setting_save('filters_post_type_'.$post_type,'');
+        setting_save('filters_post_type_'.$post_type,'', 'post-type', true);
     }
 
     cache_tag('count_filter', $post_type, 'clear');

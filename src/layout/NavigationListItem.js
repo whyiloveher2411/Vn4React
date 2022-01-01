@@ -150,12 +150,6 @@ const useStyles = makeStyles(theme => ({
         paddingTop: 0,
         paddingBottom: 0
     },
-    linkItem: {
-        display: 'flex',
-        textDecoration: 'none',
-        color: 'inherit',
-        width: '100%'
-    },
     itemLeaf: {
         display: 'flex',
         paddingTop: 0,

@@ -25,9 +25,7 @@ if( $loginByEmail && isset($input['loginByEmail']) ){
         if( $user ){
 
             return [
-                'user'=>getUserToken($user, $remember_me),
-                'sidebar'=>include __DIR__.'/../adminSidebar/get.php',
-                'plugins'=>plugins()->keyBy('key_word'),
+                'access_token'=>getUserToken($user, $remember_me),
             ];
 
         }else{
@@ -46,9 +44,15 @@ if( $loginByEmail && isset($input['loginByEmail']) ){
 
 
 //Check Recapcha
-$recapCha = intval( setting('security_active_recapcha_google') );
+$recapCha = intval( setting('security_active_recaptcha_google') );
 
 if( $recapCha ){
+
+    if( !isset($input['g-recaptcha-response']) ){
+        return [
+            'message'=> apiMessage( 'Captcha website validation failed.', 'error')
+        ];
+    }
 
     $url = 'https://www.google.com/recaptcha/api/siteverify';
 
@@ -119,9 +123,7 @@ if( $user = Vn4Model::table($objectConfig['table'])->where('email',trim($input['
             
         }
 
-        $result['user'] = getUserToken($user, $remember_me);
-        $result[ 'sidebar' ] = include __DIR__.'/../adminSidebar/get.php';
-        $result[ 'plugins' ] = plugins()->keyBy('key_word');
+        $result['access_token'] = getUserToken($user, $remember_me);
 
         return $result;
     }
@@ -133,29 +135,7 @@ return [
 
 
 function getUserToken($user, $remember_me){
-
-    unset($user->password);
-    unset($user->refesh_token);
-
     $expires_in = setting('security_token_expiration_time') ? setting('security_token_expiration_time')*1 : 60*60 ;
 
-    $createdTime = time();
-
-    $key = config('app.key');
-
-    $payload = array(
-        'id'=> $user->id,
-        'remember_me'=>$remember_me,
-        'remember_token'=>$user->remember_token, //Check change password
-        'expires_in'=>$expires_in,
-        'expires_time'=>$createdTime + $expires_in,
-        'permission'=>'__full'
-    );
-
-    $jwt = \Firebase\JWT\JWT::encode($payload, $key);
-
-    $user->expires_in = $expires_in - (time() - $createdTime);
-    $user->access_token = $jwt;
-
-    return $user;
+    return createToken($user, [], $expires_in, null, null, $remember_me );
 }

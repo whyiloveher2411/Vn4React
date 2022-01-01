@@ -13,13 +13,13 @@ import Paper from "@material-ui/core/Paper";
 import Popper from "@material-ui/core/Popper";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import { changeLanguage } from "actions/language";
-import { login, logout } from "actions/user";
-import { changeMode, changeColorPrimary, changeColorSecondary } from "actions/viewMode";
+import { changeMode, changeColorPrimary, changeColorSecondary } from "reducers/viewMode";
 import { AvatarCustom, Divider, MaterialIcon } from 'components';
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { change } from "reducers/language";
+import { login, logout } from "reducers/user";
 import { getLanguages, __ } from "utils/i18n";
 import { colorsSchema, themes, shadeColor } from 'utils/viewMode';
 
@@ -59,6 +59,8 @@ function Account(props) {
 
     const language = useSelector(state => state.language);
 
+    const [languages, setLanguages] = React.useState([]);
+
     const theme = useSelector(state => state.theme);
 
     const classes = useStyles();
@@ -93,6 +95,9 @@ function Account(props) {
         }
     }
 
+    React.useEffect(() => {
+        setLanguages(getLanguages());
+    }, []);
     // const prevOpen = React.useRef(open);
 
     const { onOpenNavBarMobile, className, handleRefreshWebsite, ...rest } = props;
@@ -129,7 +134,7 @@ function Account(props) {
                             >
                                 <MenuItem
                                     component={Link}
-                                    to="/users/profile/general"
+                                    to="/user/profile"
                                     onClick={handleClose}
                                 >
                                     <Box display="flex" width={1} gridGap={16}>
@@ -138,7 +143,7 @@ function Account(props) {
                                             name={user.first_name + ' ' + user.last_name}
                                         />
                                         <div>
-                                            <Typography variant="body1">{(user.first_name ?? '') + ' ' + (user.last_name ?? '')}</Typography>
+                                            <Typography noWrap style={{ maxWidth: 190 }} variant="body1">{(user.first_name ?? '') + ' ' + (user.last_name ?? '')}</Typography>
                                             <Typography variant="body2">{__("Manage your Account")}</Typography>
                                         </div>
                                     </Box>
@@ -202,8 +207,6 @@ function Account(props) {
         </Popper>
     );
 
-    const languages = getLanguages();
-
     const renderMenuLanguage = (
         <Popper
             style={{ zIndex: 999 }}
@@ -248,7 +251,7 @@ function Account(props) {
                                             selected={option.code === language.code}
                                             onClick={() => {
                                                 if (option.code !== language.code) {
-                                                    dispatch(changeLanguage(option));
+                                                    dispatch(change(option));
                                                     dispatch(login({ ...user })); //Refresh website
                                                 }
                                             }}>
@@ -347,14 +350,16 @@ function Account(props) {
                                     <Box marginTop={1} maxWidth={'100%'} display="flex" flexWrap="wrap">
                                         {
                                             Object.keys(colorsSchema).map(key => (
-                                                <div onClick={handleChangeColorPrimary(key)} key={key} className={classes.colorItem + ' ' + (theme.primaryColor === key ? classes.colorItemSelected : '')} style={{ '--dark': colors[key][shadeColor.primary.dark], '--main': colors[key][shadeColor.primary.main], '--light': colors[key][shadeColor.primary.light] }}>
-                                                    {
-                                                        theme.primaryColor === key &&
-                                                        <IconButton>
-                                                            <MaterialIcon icon="Check" />
-                                                        </IconButton>
-                                                    }
-                                                </div>
+                                                <Tooltip key={key} title={colorsSchema[key].title}>
+                                                    <div onClick={handleChangeColorPrimary(key)} className={classes.colorItem + ' ' + (theme.primaryColor === key ? classes.colorItemSelected : '')} style={{ '--dark': colors[key][shadeColor.primary.dark], '--main': colors[key][shadeColor.primary.main], '--light': colors[key][shadeColor.primary.light] }}>
+                                                        {
+                                                            theme.primaryColor === key &&
+                                                            <IconButton>
+                                                                <MaterialIcon icon="Check" />
+                                                            </IconButton>
+                                                        }
+                                                    </div>
+                                                </Tooltip>
                                             ))
                                         }
                                     </Box>
@@ -364,14 +369,16 @@ function Account(props) {
                                     <Box marginTop={1} maxWidth={'100%'} display="flex" flexWrap="wrap">
                                         {
                                             Object.keys(colorsSchema).map(key => (
-                                                <div onClick={handleChangeColorSecondary(key)} key={key} className={classes.colorItem + ' ' + (theme.secondaryColor === key ? classes.colorItemSelected : '')} style={{ '--dark': colors[key][shadeColor.secondary.dark], '--main': colors[key][shadeColor.secondary.main], '--light': colors[key][shadeColor.secondary.light] }}>
-                                                    {
-                                                        theme.secondaryColor === key &&
-                                                        <IconButton>
-                                                            <MaterialIcon icon="Check" />
-                                                        </IconButton>
-                                                    }
-                                                </div>
+                                                <Tooltip key={key} title={colorsSchema[key].title}>
+                                                    <div onClick={handleChangeColorSecondary(key)} key={key} className={classes.colorItem + ' ' + (theme.secondaryColor === key ? classes.colorItemSelected : '')} style={{ '--dark': colors[key][shadeColor.secondary.dark], '--main': colors[key][shadeColor.secondary.main], '--light': colors[key][shadeColor.secondary.light] }}>
+                                                        {
+                                                            theme.secondaryColor === key &&
+                                                            <IconButton>
+                                                                <MaterialIcon icon="Check" />
+                                                            </IconButton>
+                                                        }
+                                                    </div>
+                                                </Tooltip>
                                             ))
                                         }
                                     </Box>

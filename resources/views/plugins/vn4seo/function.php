@@ -2,8 +2,7 @@
 
 $plugin_key_word = $plugin->key_word;
 
-
-if( $plugin->getMeta('active_sitemap') ){
+if( setting('seo/sitemap/active', false) ){
 
 	add_route('{type}.xml','sitemap_detail','frontend',function($r,$type) use ($plugin) {
 		return response()->view( 'plugins.'.$plugin->key_word.'.view.frontend.sitemap',['plugin'=>$plugin,'type'=>$type])->header('Content-Type', 'application/xml');

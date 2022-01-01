@@ -19,34 +19,29 @@ function do_action($action_name)
             require_once( cms_path('root', $hook ) );
         }
     }
-    
-     if( isset($GLOBALS['action_hook'][$action_name]) ){
+   
+    $listParam = array_slice(func_get_args(), 1,10);
+
+    $value = isset($listParam[0]) ? $listParam[0] : null;
+
+    if( isset($GLOBALS['action_hook'][$action_name]) ){
 
         $action_hook = $GLOBALS['action_hook'][$action_name];
 
         ksort( $action_hook );
-
-        $listParam = array_slice(func_get_args(), 1,10);
-
-        $callback = null;
-
-        $value = null;
-
+        
+        // $callback = null;
         foreach( $action_hook as $hook){
+            
+            $value2 = call_user_func_array ($hook, array_merge($listParam, [$value]) );
 
-            $value = call_user_func_array ($hook, array_merge($listParam, [$value]) );
-
-            if( $callback ){
-                $value = $callback($value);
+            if( $value2 ){
+                $value = $value2;
             }
-
-
         }
-
-        return $value;
     }
 
-    return null;
+    return $value;
 
 }
 

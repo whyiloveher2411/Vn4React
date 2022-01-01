@@ -10,6 +10,9 @@ function Orders({ data }) {
                 object: 'ecom_order',
                 field: 'ecom_prod',
                 view: "relationship_manytomany_show",
+                paginate: {
+                    rowsPerPage: 10
+                }
                 // showFields: {
                 //     title: {
                 //         title: 'ID',

@@ -20,10 +20,8 @@ function getThemes(){
 
         if( file_exists( cms_path().'themes/'.$folder_theme.'/screenshot.png' ) ){
             $img = asset('themes/'.$folder_theme.'/screenshot.png');
-            $hasImage = true;
         }else{
-            $img = asset('admin/images/no-image-icon.png');
-            $hasImage = false;
+            $img = false;
         }
 
         $active = $themeActive === $folder_theme ? true : false;
@@ -32,7 +30,6 @@ function getThemes(){
             'info'=>$info,
             'active'=>$active,
             'image'=>$img,
-            'hasImage'=>$hasImage
         ];
     }
 

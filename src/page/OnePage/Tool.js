@@ -4,7 +4,7 @@ import { PageHeaderSticky } from 'components/Page';
 import RedirectWithMessage from 'components/RedirectWithMessage';
 import React from 'react';
 import { __ } from 'utils/i18n';
-import { checkPermission } from 'utils/user';
+import { usePermission } from 'utils/user';
 import Cache from './Tool/Cache';
 import Database from './Tool/Database';
 import Development from './Tool/Development';
@@ -78,7 +78,7 @@ function Tool() {
 
     const classes = useStyles();
 
-    const permission = checkPermission('tool_management');
+    const permission = usePermission('tool_management').tool_management;
 
     if (!permission) {
         return <RedirectWithMessage />

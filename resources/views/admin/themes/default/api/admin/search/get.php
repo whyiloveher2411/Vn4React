@@ -39,5 +39,7 @@ if( is_array($searchArray[$channel]) && isset($searchArray[$channel]['callback']
 
 }
 
-return response()->json(['data'=>$data,'learn_more'=>['title'=>__t('Learn More'),'link'=>route('admin.page',['page'=>'search','vn4-tab-left-keyword'=>$channel,'q'=>$stringSearchArray[1]??''])]]);
+return response()->json([
+    'data'=>$data,
+]);
 

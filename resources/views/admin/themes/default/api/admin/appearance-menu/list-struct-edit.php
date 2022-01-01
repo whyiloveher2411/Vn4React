@@ -2,6 +2,14 @@
 
 include __DIR__.'/__helper.php';
 
-$result = appearance_get_data([], true);
+if( $id = $r->get('id') ){
 
-return $result;
+    $result = appearance_get_data($id, true);
+    return $result;
+
+}
+
+return [
+    'message'=>apiMessage('Menu not found')
+];
+

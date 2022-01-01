@@ -12,6 +12,6 @@ if( appearance_menu_delete( $r->all() ) ){
     $result['success'] = false;
 }
 
-$result = appearance_get_data($result);
+$result = array_merge( $result , appearance_get_data() );
 
 return $result;

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import Cookies from 'js-cookie'
 import { makeStyles } from '@material-ui/styles'
 import { Paper, Typography, Link, Button } from '@material-ui/core'
 
@@ -38,15 +37,15 @@ const CookiesNotification = () => {
     const [open, setOpen] = useState(false)
 
     useEffect(() => {
-        const consent = Cookies.get('consent')
+        // const consent = Cookies.get('consent')
 
-        if (!consent) {
-            setOpen(true)
-        }
+        // if (!consent) {
+        //     setOpen(true)
+        // }
     }, [])
 
     const handleClose = () => {
-        Cookies.set('consent', 'true')
+        // Cookies.set('consent', 'true')
         setOpen(false)
     }
 

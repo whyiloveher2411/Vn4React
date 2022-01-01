@@ -34,14 +34,16 @@ export default React.memo(function SelectForm(props) {
 
     const { config, post, onReview, name, ...rest } = props;
 
-    const [render, setRender] = React.useState(0);
+    const [, setRender] = React.useState(0);
 
-    const [listOption, setListOption] = React.useState(
-        config.list_option ?
+    const [listOption, setListOption] = React.useState([]);
+
+    React.useEffect(() => {
+        setListOption(config.list_option ?
             Object.keys(config.list_option).map((key) => ({ ...config.list_option[key], _key: key }))
             :
-            []
-    );
+            []);
+    }, [config.list_option]);
 
     const classes = useStyles();
 
@@ -116,6 +118,7 @@ export default React.memo(function SelectForm(props) {
                     </div>
                 )}
                 {...config.inputProps}
+                {...rest}
             />
         </FormControl>
 
@@ -158,6 +161,11 @@ export default React.memo(function SelectForm(props) {
 
     // )
 }, (props1, props2) => {
-    return JSON.stringify(props1) === JSON.stringify(props2);
+
+    if (props1.forceUpdate) {
+        return false;
+    }
+
+    return props1.post[props1.name] === props2.post[props2.name] && JSON.stringify(props1.config.list_option) === JSON.stringify(props2.config.list_option);
 })
 

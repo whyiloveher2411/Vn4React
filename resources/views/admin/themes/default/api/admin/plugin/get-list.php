@@ -40,7 +40,7 @@ if( $param1 === 'in-active-plugin'){
 
     $result['message'] = apiMessage('Change Plugin Success.');
     
-    $result['sidebar'] = include __DIR__.'/../adminSidebar/get.php';
+    // $result['sidebar'] = include __DIR__.'/../adminSidebar/get.php';
 
     if( $status === 'publish' &&  file_exists( $file = cms_path('resource').'views/plugins/'.$post->key_word.'/inc/activate.php') ){
 
@@ -123,11 +123,16 @@ foreach ($list as $value) {
        }
  
      }
+     $image = false;
+
+     if( file_exists( cms_path('public','plugins/'.$folder_theme.'/plugin.png') ) ){
+        $image = plugin_asset($folder_theme, 'plugin.png');
+     }
 
       $result['rows'][$folder_theme] = [
         'info'=>$info,
         'active'=>$isActive,
-        'image'=> plugin_asset($folder_theme, isset($info->featured) ? $info->featured : 'plugin.png'),
+        'image'=> $image,
         'document'=>'https://www.google.com/search?'.http_build_query(['q'=>'vn4cms.com '.$info->name]),
       ];
  }

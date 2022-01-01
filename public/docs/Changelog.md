@@ -54,4 +54,22 @@ easily create, edit, and publish content. The easier it is to use, the more time
 	- Enable / disable the function only allow accounts to be logged in on 1 device at a time
 	- Enable / disable Recapcha
 
+### Plugin Ecommerce
+- Manage Sale
+	- Order
+	- Invoice
+	- Shipment
+	- Transactions
+- Manage Catalog
+	- Product
+	- Category
+	- Tag
+	- Attribute
+	- Specifications Set
+	- Brand
+- Manage Customer
+- Manage Review
+- Manage Marketing
+- Manage Store
+
 

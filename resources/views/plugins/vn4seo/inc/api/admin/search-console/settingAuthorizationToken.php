@@ -50,12 +50,9 @@ if( isset($access_token['refresh_token']) ){
         }
 
         $meta['sites'] = $sitesMeta;
-        $meta['searchConsoleWebsites'] = [];
         
-        $plugin->updateMeta($meta);
-
         return [
-            'plugin'=>$plugin,
+            'value'=>$meta
         ];
 
     }
@@ -64,8 +61,6 @@ if( isset($access_token['refresh_token']) ){
         'error'=>true,
         'message'=> apiMessage('Could not find any sites on this account','error')
     ];
-
-    
 
 }else{
 

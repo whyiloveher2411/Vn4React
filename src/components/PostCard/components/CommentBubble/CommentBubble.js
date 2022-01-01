@@ -2,7 +2,6 @@ import React from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
-import moment from 'moment'
 import { makeStyles } from '@material-ui/styles'
 import { Avatar, Link, Typography } from '@material-ui/core'
 
@@ -53,7 +52,7 @@ const CommentBubble = (props) => {
                         {comment.author.name}
                     </Link>
                     <Typography className={classes.time} variant="body2">
-                        {moment(comment.created_at).fromNow()}
+                        {'12h ago'}
                     </Typography>
                 </div>
                 <Typography className={classes.message} variant="body1">

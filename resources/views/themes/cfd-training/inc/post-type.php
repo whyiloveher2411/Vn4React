@@ -129,7 +129,6 @@ register_post_type(function($list_post_type){
 				// 	'title'=>'Course',
 				// 	'view'=>'relationship_manytomany',
 				// 	'object'=>'cfd_course',
-				// 	'type'=>'many_record',
 		  //           'show_data'=>false,
 				// ],
 				'total_coin_current'=>[
@@ -208,13 +207,11 @@ register_post_type(function($list_post_type){
 				'cfd_student' => [
 		            'title'=>'Student',
 					'view' =>'relationship_onetomany',
-					'type'=>'many_record',
 					'object'=>'cfd_student',
 				],
 				'cfd_course_register'=>[
 					'title'=>'Course Register',
 					'view' =>'relationship_onetomany',
-					'type'=>'many_record',
 					'object'=>'cfd_course_register',
 				],
 		    ],
@@ -378,7 +375,6 @@ register_post_type(function($list_post_type){
 					'view'=>'relationship_manytomany',
 					'object'=>'cfd_teacher',
 					'advance'=>'right',
-					'type'=>'many_record',
 		            'show_data'=>false,
 				],
 				'mentor'=>[
@@ -386,7 +382,6 @@ register_post_type(function($list_post_type){
 					'view'=>'relationship_manytomany',
 					'object'=>'cfd_teacher',
 					'advance'=>'right',
-					'type'=>'many_record',
 		            'show_data'=>false,
 				],
 				'thubnail'=>[
@@ -475,7 +470,6 @@ register_post_type(function($list_post_type){
 					'title'=>'Course',
 					'view' =>'relationship_onetomany',
 					'object'=>'cfd_course',
-					'type'=>'many_record',
 				],
 				'trang_thai'=>[
 					'title'=>'Trang thái',
@@ -485,14 +479,12 @@ register_post_type(function($list_post_type){
 				'nguoi_gioi_thieu' => [
 		            'title'=>'Người giới thiệu',
 					'view' =>'relationship_onetomany',
-					'type'=>'many_record',
 					'object'=>'cfd_student',
 					'advance'=>'right',
 				],
 		        'cfd_student' => [
 		            'title'=>'Student',
 					'view' =>'relationship_onetomany',
-					'type'=>'many_record',
 					'object'=>'cfd_student',
 					'advance'=>'right',
 				],
@@ -553,14 +545,12 @@ register_post_type(function($list_post_type){
 				'cfd_student' => [
 		            'title'=>'Student',
 					'view' =>'relationship_onetomany',
-					'type'=>'many_record',
 					'object'=>'cfd_student',
 				],
 				'cfd_course'=>[
 					'title'=>'Course',
 					'view' =>'relationship_onetomany',
 					'object'=>'cfd_course',
-					'type'=>'many_record',
 				],
 		    ],
 		]
@@ -639,14 +629,12 @@ register_post_type(function($list_post_type){
 	// 			'cfd_student' => [
 	// 	            'title'=>'Student',
 	// 				'view' =>'relationship_onetomany',
-	// 				'type'=>'many_record',
 	// 				'object'=>'cfd_student',
 	// 			],
 	// 			'cfd_course'=>[
 	// 				'title'=>'Course',
 	// 				'view' =>'relationship_onetomany',
 	// 				'object'=>'cfd_course',
-	// 				'type'=>'many_record',
 	// 			],
 	// 	    ],
 	// 	]
@@ -777,14 +765,11 @@ register_post_type(function($list_post_type){
 					'title'=>'Student',
 					'view'=>'relationship_onetomany',
 					'object'=>'cfd_student',
-					'type'=>'many_record',
 		            'show_data'=>false,
 				],
 				'cfd_course'=>[
 					'title'=>'Course',
 					'view'=>'relationship_onetomany',
-					'object'=>'cfd_course',
-					'type'=>'many_record',
 		            'show_data'=>false,
 				],
 			],

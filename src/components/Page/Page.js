@@ -2,7 +2,8 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import PropTypes from 'prop-types'
-import {makeStyles} from '@material-ui/core'
+import { makeStyles } from '@material-ui/core'
+import { useSelector } from 'react-redux';
 
 
 
@@ -13,23 +14,25 @@ const useStyles = makeStyles((theme) => ({
         margin: '0 auto',
         padding: theme.spacing(3),
     },
-    rootlg:{
+    rootlg: {
         width: theme.breakpoints.values.lg,
     },
-    rootXl:{
+    rootXl: {
         width: theme.breakpoints.values.xl,
     },
 
 }));
 
 const Page = (props) => {
-    const { title, children,width, ...rest} = props
+
+    const setting = useSelector(s => s.settings);
+    const { title, children, width, ...rest } = props
     const classes = useStyles();
     return (
-        <div className={classes.root + ' ' + ( width === 'xl' ?  classes.rootXl :  classes.rootlg ) }>
+        <div className={classes.root + ' ' + (width === 'xl' ? classes.rootXl : classes.rootlg)}>
             <div {...rest}>
                 <Helmet>
-                    <title>{title} - Vn4CMS</title>
+                    <title>{title} - {setting.general_site_title ?? ''}</title>
                 </Helmet>
                 {children}
             </div>

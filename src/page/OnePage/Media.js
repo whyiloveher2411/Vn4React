@@ -1,18 +1,18 @@
-import { Typography } from '@material-ui/core'
+import { Typography } from '@material-ui/core';
+import { Page } from 'components';
 import GoogleDrive from 'components/FieldForm/image/GoogleDrive';
 import RedirectWithMessage from 'components/RedirectWithMessage';
-import React from 'react'
+import React from 'react';
 import { __ } from 'utils/i18n';
-import { checkPermission } from 'utils/user';
-import { Page } from 'components'
+import { usePermission } from 'utils/user';
 
 function Media() {
 
-    const permission = checkPermission('media_management');
+    const permission = usePermission('media_management');
 
     const filesActive = React.useState({});
 
-    if (!permission) {
+    if (!permission.media_management) {
         return <RedirectWithMessage />
     }
     return (

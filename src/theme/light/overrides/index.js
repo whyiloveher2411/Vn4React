@@ -17,7 +17,7 @@ import MuiTypography from './MuiTypography'
 import MuiBackdrop from './MuiBackdrop'
 import MuiPickersModalDialog from './MuiPickersModalDialog'
 
-export default {
+const styles = {
     MuiButton,
     MuiCardActions,
     MuiCardContent,
@@ -37,3 +37,5 @@ export default {
     MuiBackdrop,
     MuiPickersModalDialog,
 }
+
+export default styles;

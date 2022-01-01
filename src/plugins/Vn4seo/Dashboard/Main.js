@@ -8,6 +8,8 @@ import { CircularCustom, CustomTooltip } from 'components';
 import { useAjax } from 'utils/useAjax';
 import DashboardAudit from '../compoments/DashboardAudit';
 import { numberToThousoun } from '../helper';
+import { useSelector } from 'react-redux';
+import { addScript } from 'utils/helper';
 
 const useStyles = makeStyles(() => ({
     overview: {
@@ -63,20 +65,14 @@ function Main({ plugin }) {
 
     const classes = useStyles();
 
+    const settings = useSelector(state => state.settings);
+
+    const config = settings['seo/analytics/google_search_console'];
+
     const { ajax } = useAjax();
 
-    let meta = {};
-
-    if (plugin.meta) {
-        meta = JSON.parse(plugin.meta);
-    }
-
-    if (!meta) {
-        meta = {};
-    }
     const [data, setData] = React.useState(false);
     const [audit, setAudit] = React.useState(false);
-    const [website] = React.useState(meta.searchConsoleWebsites && meta.searchConsoleWebsites[0] ? meta.searchConsoleWebsites[0] : false);
     const [loadScript, setLoadScript] = React.useState(false);
     const [listDataType, setListDataType] = React.useState(
         [
@@ -126,21 +122,11 @@ function Main({ plugin }) {
 
     React.useEffect(() => {
 
-        if (website) {
+        if (settings['seo/analytics/google_search_console/active'] && config.complete_installation) {
 
-            if (!document.getElementById('googleCharts')) {
-                const script = document.createElement("script");
-                script.id = 'googleCharts';
-                script.src = "https://www.gstatic.com/charts/loader.js";
-                script.async = true;
-
-                script.onload = () => {
-                    setLoadScript(true);
-                };
-                document.body.appendChild(script);
-            } else {
+            addScript('https://www.gstatic.com/charts/loader.js', 'googleCharts', () => {
                 setLoadScript(true);
-            }
+            });
 
             let d = new Date(), dayEnd = new Date();
             d.setDate(d.getDate() - 3);
@@ -152,7 +138,6 @@ function Main({ plugin }) {
                 method: 'POST',
                 data: {
                     step: 'getDataOverview',
-                    website: website,
                     date: [
                         getFormatDateApi(d), getFormatDateApi(dayEnd)
                     ]
@@ -168,7 +153,6 @@ function Main({ plugin }) {
                 url: 'plugin/' + plugin.key_word + '/dashboard/audit',
                 method: 'POST',
                 data: {
-                    url: website,
                     dashboard: true,
                 },
                 success: (result) => {
@@ -179,131 +163,135 @@ function Main({ plugin }) {
             });
         }
 
-    }, []);
+    }, [settings]);
 
     React.useEffect(() => {
 
-        if (website && data && loadScript) {
-            window.google.charts.load('current', {
-                'packages': ['corechart'], callback: function () {
+        if (settings['seo/analytics/google_search_console/active'] && config.complete_installation) {
+
+            if (config.anylticWebsite && data && loadScript) {
+
+                window.google.charts.load('current', {
+                    'packages': ['corechart'], callback: function () {
 
 
-                    let weekday = new Array(7);
-                    weekday[0] = "Monday";
-                    weekday[1] = "Tuesday";
-                    weekday[2] = "Wednesday";
-                    weekday[3] = "Thursday";
-                    weekday[4] = "Friday";
-                    weekday[5] = "Saturday";
-                    weekday[6] = "Sunday";
+                        let weekday = new Array(7);
+                        weekday[0] = "Monday";
+                        weekday[1] = "Tuesday";
+                        weekday[2] = "Wednesday";
+                        weekday[3] = "Thursday";
+                        weekday[4] = "Friday";
+                        weekday[5] = "Saturday";
+                        weekday[6] = "Sunday";
 
-                    let monthNames = ["January", "February", "March", "April", "May", "June",
-                        "July", "August", "September", "October", "November", "December"
-                    ];
+                        let monthNames = ["January", "February", "March", "April", "May", "June",
+                            "July", "August", "September", "October", "November", "December"
+                        ];
 
-                    let dataGoogle = {
-                        clicks: [['Data', 'Clicks']],
-                        impressions: [['Data', 'Impressions']],
-                        ctr: [['Data', 'CTR']],
-                        position: [['Data', 'Position']]
-                    };
-
-                    let maxPostion = 0;
-
-                    let dataGoogleTotal = {
-                        clicks: 0,
-                        impressions: 0,
-                        ctr: 0,
-                        position: 0,
-                    };
-
-                    let dTemp;
-
-                    if (data.rows) {
-                        data.rows.forEach((item) => {
-
-                            let d = new Date(item.keys[0]);
-
-                            if (item.position > maxPostion) maxPostion = item.position;
-
-                            dTemp = { v: d, f: weekday[d.getDay()] + ', ' + monthNames[d.getMonth()] + ' ' + d.getDate() };
-
-                            dataGoogle.clicks.push([
-                                dTemp,
-                                item.clicks
-                            ]);
-
-                            dataGoogle.ctr.push([
-                                dTemp,
-                                { v: item.ctr * 100, f: ((item.ctr * 100).toFixed(1) * 1) + '%' }
-                            ]);
-
-                            dataGoogle.impressions.push([
-                                dTemp,
-                                item.impressions
-                            ]);
-
-                            dataGoogle.position.push([
-                                dTemp,
-                            ]);
-
-                            dataGoogleTotal.clicks += item.clicks;
-                            dataGoogleTotal.impressions += item.impressions;
-                            dataGoogleTotal.ctr += item.ctr;
-                            dataGoogleTotal.position += item.position;
-                        });
-
-                        data.rows.forEach((item, index) => {
-                            dataGoogle.position[index + 1].push(
-                                { v: (maxPostion - (item.position - maxPostion)), f: (item.position.toFixed(1) * 1).toString() }
-                            );
-                        });
-                    }
-
-                    let listDataTemp = JSON.parse(JSON.stringify(listDataType));
-
-                    listDataTemp[0].value = numberToThousoun(dataGoogleTotal.clicks);
-                    listDataTemp[1].value = numberToThousoun(dataGoogleTotal.impressions);
-
-                    listDataTemp[2].value = (((dataGoogleTotal.ctr / data.rows?.length) * 100).toFixed(1) * 1).toString() + '%';
-                    listDataTemp[3].value = (dataGoogleTotal.position / data.rows?.length).toFixed(1) * 1;
-
-                    setListDataType(listDataTemp);
-
-                    listDataType.forEach((item) => {
-
-                        let options = {
-                            title: '',
-                            colors: ['rgb(5, 141, 199)'],
-                            chartArea: { left: 0, right: 0 },
-                            tooltip: { textStyle: { fontSize: 12 }, showColorCode: false },
-                            backgroundColor: 'transparent',
-                            focusTarget: 'category',
-                            legend: 'none',
-                            series: {
-                                0: {
-                                    areaOpacity: 0.54
-                                }
-                            },
-                            showBarLabels: false,
-                            hAxis: { ticks: [], textPosition: 'none', title: '', format: 'MMMM dd, yyyy', gridlines: { count: 0, color: 'transparent' } },
-                            vAxis: {
-                                baselineColor: item.color, gridlineColor: item.color, textPosition: 'out', minValue: 0, gridlines: { count: 0, color: 'transparent' }
-                            },
+                        let dataGoogle = {
+                            clicks: [['Data', 'Clicks']],
+                            impressions: [['Data', 'Impressions']],
+                            ctr: [['Data', 'CTR']],
+                            position: [['Data', 'Position']]
                         };
 
-                        let dataTable = window.google.visualization.arrayToDataTable(dataGoogle[item.id]);
-                        let chart = new window.google.visualization.AreaChart(document.getElementById(item.id + '_chart'));
-                        chart.draw(dataTable, options);
+                        let maxPostion = 0;
 
-                    });
-                }
-            });
+                        let dataGoogleTotal = {
+                            clicks: 0,
+                            impressions: 0,
+                            ctr: 0,
+                            position: 0,
+                        };
+
+                        let dTemp;
+
+                        if (data.rows) {
+                            data.rows.forEach((item) => {
+
+                                let d = new Date(item.keys[0]);
+
+                                if (item.position > maxPostion) maxPostion = item.position;
+
+                                dTemp = { v: d, f: weekday[d.getDay()] + ', ' + monthNames[d.getMonth()] + ' ' + d.getDate() };
+
+                                dataGoogle.clicks.push([
+                                    dTemp,
+                                    item.clicks
+                                ]);
+
+                                dataGoogle.ctr.push([
+                                    dTemp,
+                                    { v: item.ctr * 100, f: ((item.ctr * 100).toFixed(1) * 1) + '%' }
+                                ]);
+
+                                dataGoogle.impressions.push([
+                                    dTemp,
+                                    item.impressions
+                                ]);
+
+                                dataGoogle.position.push([
+                                    dTemp,
+                                ]);
+
+                                dataGoogleTotal.clicks += item.clicks;
+                                dataGoogleTotal.impressions += item.impressions;
+                                dataGoogleTotal.ctr += item.ctr;
+                                dataGoogleTotal.position += item.position;
+                            });
+
+                            data.rows.forEach((item, index) => {
+                                dataGoogle.position[index + 1].push(
+                                    { v: (maxPostion - (item.position - maxPostion)), f: (item.position.toFixed(1) * 1).toString() }
+                                );
+                            });
+                        }
+
+                        let listDataTemp = JSON.parse(JSON.stringify(listDataType));
+
+                        listDataTemp[0].value = numberToThousoun(dataGoogleTotal.clicks);
+                        listDataTemp[1].value = numberToThousoun(dataGoogleTotal.impressions);
+
+                        listDataTemp[2].value = (((dataGoogleTotal.ctr / data.rows?.length) * 100).toFixed(1) * 1).toString() + '%';
+                        listDataTemp[3].value = (dataGoogleTotal.position / data.rows?.length).toFixed(1) * 1;
+
+                        setListDataType(listDataTemp);
+
+                        listDataType.forEach((item) => {
+
+                            let options = {
+                                title: '',
+                                colors: ['rgb(5, 141, 199)'],
+                                chartArea: { left: 0, right: 0 },
+                                tooltip: { textStyle: { fontSize: 12 }, showColorCode: false },
+                                backgroundColor: 'transparent',
+                                focusTarget: 'category',
+                                legend: 'none',
+                                series: {
+                                    0: {
+                                        areaOpacity: 0.54
+                                    }
+                                },
+                                showBarLabels: false,
+                                hAxis: { ticks: [], textPosition: 'none', title: '', format: 'MMMM dd, yyyy', gridlines: { count: 0, color: 'transparent' } },
+                                vAxis: {
+                                    baselineColor: item.color, gridlineColor: item.color, textPosition: 'out', minValue: 0, gridlines: { count: 0, color: 'transparent' }
+                                },
+                            };
+
+                            let dataTable = window.google.visualization.arrayToDataTable(dataGoogle[item.id]);
+                            let chart = new window.google.visualization.AreaChart(document.getElementById(item.id + '_chart'));
+                            chart.draw(dataTable, options);
+
+                        });
+                    }
+                });
+            }
         }
 
-    }, [data]);
+    }, [data, settings]);
 
-    if (!website) {
+    if (!settings['seo/analytics/google_search_console/active']) {
         return null;
     }
 

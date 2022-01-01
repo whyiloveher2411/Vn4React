@@ -256,7 +256,7 @@ export default function ListMenuMouseRightFile({ file, fileSelected, configrmDia
                 }
             },
             permanentlyDeleted: {
-                title: __('Permanently deleted'),
+                title: __('Permanently Deleted'),
                 hidden: file.data?.is_remove ? false : true,
                 icon: <CloseRoundedIcon />,
                 action: {

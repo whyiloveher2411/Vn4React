@@ -45,10 +45,8 @@ if( $input['type'] === 'getPostType' ){
 		default:
 			$result = get_posts($input['object_type'],1000);
 
-			$result2 = do_action('appearance_menu_get_object_data',$result, $input['object_type']);
-		
-			if( $result2 ) $result = $result2;
-		
+			$result = do_action('appearance_menu_get_object_data',$result, $input['object_type']);
+
 			return response()->json(['rows'=>$result]);
 			break;
 	}

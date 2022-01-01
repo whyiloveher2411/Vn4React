@@ -6,6 +6,7 @@ import GoogleDrive from '../image/GoogleDrive';
 import ReactDOMServer from 'react-dom/server'
 import EditWidget from 'components/EditWidget';
 import { useSelector } from 'react-redux';
+import { __ } from 'utils/i18n';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -414,17 +415,7 @@ export default React.memo(function TextareaForm(props) {
                         open={openFilemanagerDialog}
                         onClose={handleCloseFilemanagerDialog}
                         TransitionComponent={Transition}
-                        titlePadding={0}
-                        title={
-                            <Toolbar>
-                                <IconButton edge="start" color="inherit" onClick={handleCloseFilemanagerDialog} aria-label="close">
-                                    <MaterialIcon icon="Close" />
-                                </IconButton>
-                                <Typography variant="h4" className={classes.title}>
-                                    File Mangage
-                                </Typography>
-                            </Toolbar>
-                        }
+                        title={__('File Mangage')}
                         width={1700}
                         restDialogContent={{
                             style: {
@@ -439,17 +430,7 @@ export default React.memo(function TextareaForm(props) {
                         open={openWidgetDialog}
                         onClose={handleChooseWidgetDialog}
                         TransitionComponent={Transition}
-                        titlePadding={0}
-                        title={
-                            <Toolbar>
-                                <IconButton edge="start" color="inherit" onClick={handleChooseWidgetDialog} aria-label="close">
-                                    <MaterialIcon icon="Close" />
-                                </IconButton>
-                                <Typography variant="h4" className={classes.title}>
-                                    Edit Widget
-                                </Typography>
-                            </Toolbar>
-                        }
+                        title={__('Edit Widget')}
                         restDialogContent={{
                             style: {
                                 padding: 0,

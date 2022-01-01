@@ -18,7 +18,8 @@ export default React.memo(function RelationshipManyToManyShowForm(props) {
         mainType: post.type,
         id: post.id,
         page: 1,
-        rowsPerPage: 5
+        rowsPerPage: 5,
+        ...config.paginate
     });
 
     const handleOnClose = () => {
@@ -82,8 +83,8 @@ export default React.memo(function RelationshipManyToManyShowForm(props) {
             }
             <NotFound
                 subTitle={__('Seems like no {{data}} have been created yet.', {
-                                    data: data.config.singularName ?? 'Data'
-                                })}
+                    data: data.config.singularName ?? 'Data'
+                })}
             />
         </>);
     }
@@ -92,12 +93,9 @@ export default React.memo(function RelationshipManyToManyShowForm(props) {
         <div>
             <Typography variant="h5" style={{ margin: '8px 0' }}>
                 {config.title}
-                {
-                    Boolean(data) &&
-                    < Fab onClick={handelOnOpen} style={{ marginLeft: 8 }} size="small" color="primary" aria-label="add">
-                        <AddRoundedIcon />
-                    </Fab>
-                }
+                < Fab onClick={handelOnOpen} style={{ marginLeft: 8 }} size="small" color="primary" aria-label="add">
+                    <AddRoundedIcon />
+                </Fab>
             </Typography>
             {
                 Boolean(config.note) &&
@@ -119,6 +117,7 @@ export default React.memo(function RelationshipManyToManyShowForm(props) {
                         open={openDrawer}
                         onClose={handleOnClose}
                         data={data}
+                        setData={setData}
                         handleSubmit={handleSubmit}
                         showLoadingButton={open}
                     />

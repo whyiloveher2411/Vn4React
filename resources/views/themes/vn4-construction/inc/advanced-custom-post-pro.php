@@ -64,7 +64,6 @@ return [
 									'title'=>'Services',
 									'view'=>'relationship_manytomany',
 									'object'=>'service',
-									'type'=>'many_record',
 								]
 							]
 						],
@@ -127,7 +126,6 @@ return [
 								'teams'=>[
 									'title'=>'Teams',
 									'view'=>'relationship_manytomany',
-									'type'=>'many_record',
 									'object'=>'team',
 								]
 							]
@@ -159,7 +157,6 @@ return [
 									'title'=>'Blogs',
 									'view'=>'relationship_manytomany',
 									'object'=>'blog_post',
-									'type'=>'many_record',
 								]
 							]
 						],
@@ -216,7 +213,6 @@ return [
 								'teams'=>[
 									'title'=>'Teams',
 									'view'=>'relationship_manytomany',
-									'type'=>'many_record',
 									'object'=>'team',
 								]
 							]

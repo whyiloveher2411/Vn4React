@@ -6,13 +6,28 @@ import Header from 'page/PostType/components/CreateData/Header';
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-function DrawerEditPost({ data, open, onClose, handleSubmit, showLoadingButton, children }) {
+function DrawerEditPost({ data, setData, open, onClose, handleSubmit, showLoadingButton, children }) {
 
     const theme = useSelector(state => state.theme);
 
-    const onReview = (value) => {
-        data.post = { ...data.post, ...value };
-    };
+    const onUpdateData = (value, key) => {
+        setData(prev => {
+            if (value instanceof Function) {
+                return { ...value(prev) };
+            } else {
+                if (typeof key === 'object' && key !== null) {
+                    prev = {
+                        ...prev,
+                        ...key
+                    };
+                } else {
+                    prev[key] = value;
+                }
+            }
+
+            return { ...prev };
+        });
+    }
 
     return (
         <DrawerCustom
@@ -25,13 +40,7 @@ function DrawerEditPost({ data, open, onClose, handleSubmit, showLoadingButton, 
                 }
             }
             {...data?.config?.dialogContent}
-            title={
-                <Typography variant="h4" style={{ display: 'flex', alignItems: 'center', color: 'white' }}>
-                    <IconButton style={{ margin: '-8px 4px -8px -12px' }} edge="start" color="inherit" onClick={onClose} aria-label="close">
-                        <CloseIcon />
-                    </IconButton>  Edit {data?.config?.label?.singularName ?? ""}
-                </Typography>
-            }
+            title={"Edit "+ data?.config?.title ?? "Post"}
             open={open}
             onClose={onClose}
         >
@@ -42,14 +51,13 @@ function DrawerEditPost({ data, open, onClose, handleSubmit, showLoadingButton, 
                 handleSubmit={handleSubmit}
                 showLoadingButton={showLoadingButton}
                 hiddenAddButton={true}
-                onReview={onReview}
             />
             <br />
             {data &&
                 <Form
                     data={data}
                     postType={data.type}
-                    onReview={onReview}
+                    onUpdateData={onUpdateData}
                 />
             }
             {children}

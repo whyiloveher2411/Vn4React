@@ -7,7 +7,6 @@ import React, { lazy, Suspense } from 'react';
 import { useSelector } from 'react-redux';
 import {
   BrowserRouter as Router,
-
   Route, Switch
 } from "react-router-dom";
 import './App.css';
@@ -31,9 +30,16 @@ const useStyles = makeStyles({
   },
   main: {
     position: 'relative',
-    minHeight: '100.06%'
+    minHeight: 'calc(100% + 0.5px)'
   },
 });
+
+// var old = alert;
+
+// alert = function () {
+//   console.log(new Error().stack);
+//   old.apply(window, arguments);
+// };
 
 function App() {
 
@@ -42,7 +48,7 @@ function App() {
   const theme = useSelector(state => state.theme);
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={{ ...theme }}>
       <SnackbarProvider
         maxSnack={5}
         content={(key, message) => (
@@ -51,36 +57,37 @@ function App() {
       >
         <div className="App" style={{ background: theme.palette.body.background }}>
           {
-            user ?
-              <Router>
-                <Header />
-                <div className={classes.root}>
-                  <AppMenu />
-                  <div id="warperMain" className={classes.warperMain + ' custom_scroll'}>
-                    <Suspense fallback={<LinearProgress />}>
-                      <main className={classes.main}>
-                        <Switch>
-                          <Route path='/post-type/:type/:action' component={lazy(() => import('./page/PostType/PostType'))} />
-                          <Route exact path='/users/profile/:tab' component={lazy(() => import('./page/Profile/Profile'))} />
-                          <Route exact path='/plugin/:plugin/:tab?/:subtab?' component={lazy(() => import('./page/PluginPage'))} />
-                          <Route exact path='/:page?/:tab?/:subTab?' component={lazy(() => import('./page/OnePage'))} />
-                          <Route component={lazy(() => import('./page/NotFound/NotFound'))} />
-                        </Switch>
-                      </main>
-                    </Suspense>
-                  </div>
+            user.state === 'identify' &&
+            <Router>
+              <Header />
+              <div className={classes.root}>
+                <AppMenu />
+                <div id="warperMain" className={classes.warperMain + ' custom_scroll'}>
+                  <Suspense fallback={<LinearProgress />}>
+                    <main className={classes.main}>
+                      <Switch>
+                        <Route path='/post-type/:type/:action' component={lazy(() => import('./page/PostType/PostType'))} />
+                        <Route exact path='/plugin/:plugin/:tab?/:subtab?' component={lazy(() => import('./page/PluginPage'))} />
+                        <Route exact path='/:page?/:tab?/:subtab1?/:subtab2?' component={lazy(() => import('./page/OnePage'))} />
+                        <Route component={lazy(() => import('./page/NotFound/NotFound'))} />
+                      </Switch>
+                    </main>
+                  </Suspense>
                 </div>
-                <RequireLogin />
-              </Router>
-              :
-              <Router>
-                <Suspense fallback={<LinearProgress />}>
-                  <Switch>
-                    <Route path='/install' component={lazy(() => import('./page/Install/Install'))} />
-                    <Route component={lazy(() => import('./page/login/Login'))} />
-                  </Switch>
-                </Suspense>
-              </Router>
+              </div>
+              <RequireLogin />
+            </Router>
+          }
+          {
+            user.state === 'nobody' &&
+            <Router>
+              <Suspense fallback={<LinearProgress />}>
+                <Switch>
+                  <Route path='/install' component={lazy(() => import('./page/Install/Install'))} />
+                  <Route component={lazy(() => import('./page/login/Login'))} />
+                </Switch>
+              </Suspense>
+            </Router>
           }
         </div>
       </SnackbarProvider>

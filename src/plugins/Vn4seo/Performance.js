@@ -1,4 +1,4 @@
-import { Chip, Collapse, Divider, FormControl, FormControlLabel, Grid, InputLabel, makeStyles, MenuItem, Radio, RadioGroup, Select, Typography } from '@material-ui/core';
+import { Chip, Collapse, FormControl, FormControlLabel, Grid, InputLabel, makeStyles, MenuItem, Radio, RadioGroup, Select, Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -13,7 +13,7 @@ import { PageHeaderSticky } from 'components/Page';
 import RedirectWithMessage from 'components/RedirectWithMessage';
 import React from 'react';
 import { getCookie, setCookie } from 'utils/cookie';
-import { checkPermission } from 'utils/user';
+import { usePermission } from 'utils/user';
 import ChartDate from './compoments/Performance/ChartDate';
 import Detail from './compoments/Performance/Detail';
 
@@ -66,7 +66,7 @@ function Performance({ meta, ajaxPluginHandle }) {
     const [date, setDate] = React.useState({ index: 2, count: 0 });
     const [dateInput, setDateInput] = React.useState(2);
     const [hideAlert, setHideAlert] = React.useState(getCookie('vn4seoHideAlert'));
-    const permission = checkPermission('plugin_vn4seo_view_performance');
+    const permission = usePermission('plugin_vn4seo_view_performance').plugin_vn4seo_view_performance;
 
 
     const [dateInputCustom, setDateInputCustom] = React.useState((() => {

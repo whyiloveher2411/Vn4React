@@ -11,14 +11,15 @@ import Popper from "@material-ui/core/Popper";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined';
-import ReplyOutlinedIcon from '@material-ui/icons/ReplyOutlined';
 import { Skeleton } from "@material-ui/lab";
-import { AvatarCustom, Divider } from 'components';
+import { Divider } from 'components';
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { update } from "reducers/settings";
 import { __ } from "utils/i18n";
 import { useAjax } from "utils/useAjax";
+
 
 const useStyles = makeStyles((theme) => ({
     searchPopper: {
@@ -102,29 +103,12 @@ export default function Notification() {
     const updateNotificationLocal = (count) => {
 
         if (count !== settings.notification_count) {
-            dispatch({
-                type: 'SETTINGS_UPDATE',
-                payload: {
-                    notification_count: count
-                }
-            });
+            dispatch(update({
+                notification_count: count
+            }));
         }
 
     };
-
-    React.useEffect(() => {
-
-        updateNotification();
-        window.__updateNotification = setInterval(() => {
-            updateNotification();
-        }, 60000);
-
-        return () => {
-            if (window.__updateNotification) {
-                clearInterval(window.__updateNotification);
-            }
-        };
-    }, []);
 
     return (
         <>
@@ -184,22 +168,10 @@ export default function Notification() {
                                                             className={classes.notification}
                                                             key={item.id}
                                                         >
-                                                            <Box width={1} display="flex" alignItems="flex-start" gridGap={16} style={{ marginTop: 14 }}>
-                                                                <div style={{ height: '100%' }}>
-                                                                    <AvatarCustom
-                                                                        name={notificationContent.severitys[item.severity]?.title}
-                                                                        className={classes.notificationIcon}
-                                                                        style={{
-                                                                            backgroundColor: notificationContent.severitys[item.severity]?.textColor ?? theme.palette.primary.main
-                                                                        }}
-                                                                    />
-                                                                </div>
-                                                                <div style={{ width: '100%' }}>
-                                                                    <Typography className={classes.notificationTitle} variant="h5">{item.title}</Typography>
-                                                                    <Typography className={classes.notificationContent} variant="body1" >{item.message}</Typography>
-                                                                    <Typography variant="body2">{item.created_diffForHumans}</Typography>
-                                                                </div>
-                                                                <ReplyOutlinedIcon />
+                                                            <Box width={1} display="flex" flexDirection="column" gridGap={4} style={{ margin: '8px 0' }}>
+                                                                <Typography className={classes.notificationTitle} variant="h5">{item.title}</Typography>
+                                                                <Typography className={classes.notificationContent} variant="body1" >{item.message}</Typography>
+                                                                <Typography variant="body2">{item.created_diffForHumans}</Typography>
                                                             </Box>
                                                         </ListItem>
                                                     </Link>

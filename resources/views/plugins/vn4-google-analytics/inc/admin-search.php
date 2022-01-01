@@ -7,7 +7,7 @@ return [
 			[
 				'title_type'=>'Analytics',
 				'title'=>'Settings',
-				'link'=>'/plugin/vn4-google-analytics/settings',
+				'link'=>'/settings/google-analytics/analytics',
 			],
 			[
 				'title_type'=>'Analytics',

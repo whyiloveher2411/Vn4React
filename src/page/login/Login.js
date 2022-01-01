@@ -1,21 +1,20 @@
 import { Button, Grid, Hidden, IconButton, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormGroup from '@material-ui/core/FormGroup';
+import { makeStyles } from '@material-ui/core/styles';
+import MobileFriendlyIcon from '@material-ui/icons/MobileFriendly';
+import { MaterialIcon } from 'components';
+import FieldForm from 'components/FieldForm';
+import { useSnackbar } from 'notistack';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updatePlugins } from 'actions/plugins';
-import { updateSidebar } from 'actions/sidebar';
-import { login } from 'actions/user';
-import { useAjax } from 'utils/useAjax';
-import FieldForm from 'components/FieldForm';
-import MobileFriendlyIcon from '@material-ui/icons/MobileFriendly';
-import { useSnackbar } from 'notistack';
-import { MaterialIcon } from 'components';
-import { changeMode } from 'actions/viewMode';
+import { updateAccessToken } from 'reducers/user';
+import { changeMode } from 'reducers/viewMode';
+import setting from 'services/setting';
 import { __ } from 'utils/i18n';
-import { useSetting } from 'utils/settings';
+import { useAjax } from 'utils/useAjax';
+import { themes } from 'utils/viewMode';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -128,8 +127,9 @@ function Login() {
     const { ajax, Loading } = useAjax();
 
     const valueInital = {
-        username: '',
-        password: '',
+        username: 'dangthuyenquan@gmail.com',
+        password: 'dangthuyenquan',
+        _password: 'dangthuyenquan',
         verification_code: ''
     };
 
@@ -140,20 +140,21 @@ function Login() {
     const [formData, setFormData] = React.useState(valueInital)
 
     React.useEffect(() => {
-        ajax({
-            url: 'login/settings',
-            method: 'POST',
-            success: result => {
-                if (result.security && result.template) {
-                    setSettings(result);
-                }
-            }
-        });
+
+        (async () => {
+
+            let config = await setting.getLoginConfig();
+
+            setSettings(config);
+
+        })();
+
     }, []);
 
     React.useEffect(() => {
         if (settings) {
-            if (settings.security_active_recapcha_google * 1 === 1) {
+
+            if (settings?.security.security_active_recaptcha_google * 1 === 1) {
                 if (!document.getElementById('recaptcha')) {
                     let script = document.createElement("script");
                     script.id = 'recaptcha';
@@ -173,7 +174,7 @@ function Login() {
             }
 
 
-            if (settings.security.security_active_signin_with_google_account) {
+            if (settings?.security.security_active_signin_with_google_account) {
 
                 if (!document.getElementById('apis_google_com_platform')) {
                     try {
@@ -205,14 +206,14 @@ function Login() {
 
     const onLoadRecapCha = () => {
         window.capcha_login = window.grecaptcha?.render('recaptcha-login', {
-            'sitekey': settings.security.security_recaptcha_sitekey
+            'sitekey': settings?.security.security_recaptcha_sitekey
         });
     }
 
     const onLoadLoginWithGoogleAccount = () => {
         window.gapi.load('auth2', function () {
             let auth2 = window.gapi.auth2.init({
-                client_id: settings.security.security_google_oauth_client_id,
+                client_id: settings?.security.security_google_oauth_client_id,
                 cookiepolicy: 'single_host_origin',
                 scope: 'email'
             });
@@ -244,11 +245,8 @@ function Login() {
             success: result => {
                 if (result.requiredVerificationCode) {
                     setShowVerificationCode(true);
-                } else if (result.user) {
-                    localStorage.setItem('access_token', result.user.access_token);
-                    dispatch(updateSidebar(result.sidebar));
-                    dispatch(updatePlugins(result.plugins));
-                    dispatch(login(result.user));
+                } else if (result.access_token) {
+                    dispatch(updateAccessToken(result.access_token));
                 }
 
                 if (window.grecaptcha) {
@@ -266,7 +264,7 @@ function Login() {
             showVerificationCode: showVerificationCode
         };
 
-        if (settings.security.security_active_recapcha_google * 1 === 1) {
+        if (settings?.security.security_active_recaptcha_google * 1 === 1 && window.grecaptcha) {
 
             let recaptcha = window.grecaptcha.getResponse(window.capcha_login);
 
@@ -295,14 +293,14 @@ function Login() {
             <Hidden smDown>
                 <Grid item md={8} className={classes.mid + ' ' + classes.colLeft} style={{ background: (settings.template && settings.template['admin_template_color-left']) ? settings.template['admin_template_color-left'] : '#582979' }}>
                     <p className={classes.contentLeft} dangerouslySetInnerHTML={{
-                        __html: settings.template?.admin_template_logan ? settings.template?.admin_template_logan : 'do <br /> something<br /><span style="color:#18b797;font-size: 85px;">you love</span><br /> today</>'
+                        __html: settings.template?.admin_template_slogan ? settings.template?.admin_template_slogan : 'do <br /> something<br /><span style="color:#18b797;font-size: 85px;">you love</span><br /> today</>'
                     }} >
                     </p>
                 </Grid>
             </Hidden>
             <Grid item xs={12} md={4} className={classes.mid + ' ' + classes.colRight}>
                 <div className={classes.form}>
-                    <Typography component="h1" style={{ fontWeight: 'bold', fontSize: 24 }} gutterBottom dangerouslySetInnerHTML={{ __html: settings.template && settings.template['admin_template_headline-right'] ? settings.template['admin_template_headline-right'] : 'Log in' }} />
+                    <Typography component="h1" style={{ fontWeight: 'bold', fontSize: 24 }} gutterBottom dangerouslySetInnerHTML={{ __html: settings.template && settings.template['admin_template_headline-right'] ? settings.template['admin_template_headline-right'] : __('Sign in') }} />
                     {
                         !showVerificationCode &&
                         <div style={{ marginTop: 24 }}>
@@ -310,7 +308,7 @@ function Login() {
                                 <FieldForm
                                     compoment={'text'}
                                     config={{
-                                        title: 'Email or phone number'
+                                        title: __('Email or phone number')
                                     }}
                                     required
                                     post={formData}
@@ -322,7 +320,7 @@ function Login() {
                                 <FieldForm
                                     compoment={'password'}
                                     config={{
-                                        title: 'Enter your password',
+                                        title: __('Enter your password'),
                                         generator: false
                                     }}
                                     post={formData}
@@ -335,21 +333,21 @@ function Login() {
                     {
                         showVerificationCode &&
                         <div style={{ marginTop: 42 }}>
-                            <Typography variant="h4">2-Step Verification</Typography>
+                            <Typography variant="h4">{__('2-Step Verification')}</Typography>
 
                             <Grid container spacing={2} style={{ margin: '10px 0 30px 0' }}>
                                 <Grid item xs={12} md={2}>
                                     <MobileFriendlyIcon style={{ fontSize: 65, color: 'rgb(154 154 154)' }} />
                                 </Grid>
                                 <Grid item xs={12} md={7}>
-                                    <Typography style={{ fontWeight: 500 }} variant="body1">Enter the verification code generated by your mobile application.</Typography>
+                                    <Typography style={{ fontWeight: 500 }} variant="body1">{__('Enter the verification code generated by your mobile application.')}</Typography>
                                 </Grid>
                             </Grid>
 
                             <FieldForm
                                 compoment={'text'}
                                 config={{
-                                    title: 'Verification Code',
+                                    title: __('Verification Code'),
                                     generator: false
                                 }}
                                 post={formData}
@@ -359,7 +357,7 @@ function Login() {
                         </div>
                     }
                     {
-                        settings.security_active_recapcha_google * 1 === 1 &&
+                        settings?.security.security_active_recaptcha_google * 1 === 1 &&
                         <div style={{ marginTop: 24 }}>
                             <div className="recaptcha-login" id="recaptcha-login"></div>
                         </div>
@@ -397,29 +395,29 @@ function Login() {
 
                     <div style={{ marginTop: 32, display: 'flex', justifyContent: 'flex-end' }}>
                         <Button style={{ width: '100%' }} variant="contained" color="primary" disableElevation onClick={onClickLogin}>
-                            Sign in
+                            {__('Sign in')}
                         </Button>
                         {Loading}
                     </div>
                     {
-                        Boolean(settings.security.security_active_signin_with_google_account) &&
+                        Boolean(settings?.security.security_active_signin_with_google_account) &&
                         <div>
                             <div className={classes.orSeperator}>
-                                <i>OR</i>
+                                <i>{__('OR')}</i>
                             </div>
                             <div >
                                 <div id="googleSignIn" className={classes.googleBtn}>
                                     <div className="google-icon-wrapper">
                                         <img className="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" />
                                     </div>
-                                    <p className="btn-text"><b>Sign in with google</b></p>
+                                    <p className="btn-text"><b>{__('Sign in with google')}</b></p>
                                 </div>
                             </div>
                         </div>
                     }
                 </div>
                 <IconButton className={classes.viewMode} onClick={handleUpdateViewMode(theme.type === 'light' ? 'dark' : 'light')}>
-                    <MaterialIcon icon={theme.type === 'light' ? { custom: '<path d="M12 9c1.65 0 3 1.35 3 3s-1.35 3-3 3-3-1.35-3-3 1.35-3 3-3m0-2c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"></path>' } : 'Brightness2Outlined'} />
+                    <MaterialIcon icon={themes[theme.type]?.icon} />
                 </IconButton>
             </Grid>
         </Grid>

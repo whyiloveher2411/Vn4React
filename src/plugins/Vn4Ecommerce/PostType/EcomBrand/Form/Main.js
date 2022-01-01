@@ -1,7 +1,6 @@
-import React from 'react'
+import { Box, CircularProgress, TextField, Typography } from '@material-ui/core';
 import FieldForm from 'components/FieldForm';
-import { Box, TextField, Typography } from '@material-ui/core';
-import AvatarCustom from 'components/AvatarCustom';
+import React from 'react';
 import { getImageUrl } from 'utils/image';
 
 function Main({ config, post, onReview, name }) {
@@ -25,6 +24,38 @@ function Main({ config, post, onReview, name }) {
                         <Typography noWrap variant="body2"> {option.description}</Typography>
                     </div>
                 </Box>
+            )}
+
+            // <div>
+            //             {
+            //                 Boolean(post[name + '_detail']?.logo) &&
+            //                 <img style={{ width: 150, maxHeight: 40, flexShrink: 0, objectFit: 'contain' }} variant="square" src={getImageUrl(post[name + '_detail']?.logo)} title={post[name + '_detail']?.title} />
+            //             }
+            //         </div>
+
+            renderInput={(params, detail, loading) => (
+                <TextField
+                    {...params}
+                    label={config.title}
+                    variant="outlined"
+                    InputProps={{
+                        ...params.InputProps,
+                        endAdornment: (
+                            <React.Fragment>
+                                {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                                {params.InputProps.endAdornment}
+                            </React.Fragment>
+                        ),
+                        startAdornment: (
+                            <Box display="flex" alignItems="center">
+                                {
+                                    Boolean(detail?.logo) &&
+                                    <img style={{ marginRight: 4, maxWidth: 150, height: 24, flexShrink: 0, objectFit: 'contain' }} variant="square" src={getImageUrl(detail.logo)} title={detail?.title} />
+                                }
+                            </Box>
+                        )
+                    }}
+                />
             )}
             post={post}
             name={name}

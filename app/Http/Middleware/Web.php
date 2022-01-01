@@ -39,21 +39,14 @@ class Web {
 		$GLOBALS['route_name'] = Route::currentRouteName();
 		$GLOBALS['route_current'] = Route::current();
 		$GLOBALS['url_current'] = url()->current();
-		do_action('init',$request, $next);
 		
-       	$result = do_action('middleware_web',$request, $next);
-
-       	if($result != null){
-
-			return $result;
-
-		}
+       	$request = do_action('middleware_web',$request, $next);
 		
 		// return $next($request);
 		$response = $next($request);
 
 		if( !is_admin() && !Auth::check() ){
-
+			//Enable cache
 			$response->headers->set('Cache-Control', 'max-age=2628000, public');
 				// ->header('X-Frame-Options', 'SAMEORIGIN')
 				$response->headers->set('X-XSS-Protection', '1; mode=block');
@@ -63,6 +56,8 @@ class Web {
 				$response->headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
 				//->header("Content-Security-Policy", "default-src 'self' www.googleadservices.com ssl.google-analytics.com www.google-analytics.com googleads.g.doubleclick.net sealserver.trustwave.com; style-src 'self' fonts.googleapis.com; object-src 'none';");
 		}else{
+
+			//Clear cache
 			$response->headers->set('Expires', '0');
 				// ->header('X-Frame-Options', 'SAMEORIGIN')
 			$response->headers->set('Last-Modified', gmdate("D, d M Y H:i:s") . " GMT");

@@ -55,59 +55,77 @@ function cache_tag( $group , $key , $value = null , $default = null ){
 }
 
 
-function setting($keyword = null , $default = '', $isJson = false ){
+function setting($keyword = null , $default = null, $getBygroup = null ){
 
-	return Cache::rememberForever('setting.'.($keyword??''), function() use( $keyword, $default, $isJson ) {
+	$data = Cache::rememberForever('setting', function() use( $keyword, $default ) {
 
-		if( $keyword === null && isset($GLOBALS['setting']) ){
-			return $GLOBALS['setting'];
-		}elseif( $keyword === null ){
+		$data = (new Vn4Model(vn4_tbpf().'setting'))->get()->keyBy('key_word');
 
-			$obj = new Vn4Model(vn4_tbpf().'setting');
+		$result = [];
 
-			$obj = $obj->whereType('setting')->pluck('content','key_word');
+		$groups = [];
 
-			$GLOBALS['setting'] = $obj;
+		foreach( $data as $key => $setting){
+			if( $setting->is_json ){
+				$result[$key] = json_decode($setting->content, true) ?? null;
+			}else{
+				$result[$key] = $setting->content;
+			}
 
-			return $obj;
-
+			$groups[ $setting->group][] = $key;
 		}
 
-		if( isset($GLOBALS['setting'][$keyword]) ){
+		return [
+			'settings'=>$result,
+			'groupBy'=>$groups,
+		];
+	});
 
-			if( $GLOBALS['setting'][$keyword] !== '' ){ 
-				
-				if ($isJson ){
-					return json_decode( $GLOBALS['setting'][$keyword], true ); 
+	if( is_string($keyword) ){
+
+		if( isset($data['settings'][$keyword]) && $data['settings'][$keyword] ){
+			return $data['settings'][$keyword];
+		}
+
+		return $default;
+	}
+
+	if( is_array($keyword) ){
+
+		$result = [];
+
+		foreach( $keyword as $key ){
+			if( isset($data['settings'][$key]) ){
+				$result[$key] = $data['settings'][$key];
+			}else{
+				$result[$key] = null;
+			}
+		}
+
+		return $result;
+
+	}
+
+	if( $getBygroup ){
+
+		if( isset($data['groupBy'][$getBygroup]) ){
+
+			$result = [];
+
+			foreach( $data['groupBy'][$getBygroup] as $key ){
+				if( isset($data['settings'][$key]) ){
+					$result[$key] = $data['settings'][$key];
 				}else{
-					return $GLOBALS['setting'][$keyword]; 
+					$result[$key] = null;
 				}
 			}
 
-			return $default;
+			return $result;
+		}
 
-		} 
-
-		$obj = new Vn4Model(vn4_tbpf().'setting');
-
-		$obj = $obj->where('type','setting')->pluck('content','key_word');
-
-		$GLOBALS['setting'] = $obj;
-
-		if( isset($obj[$keyword]) && $obj[$keyword] !== '' ){
-
-			if ($isJson ){
-				return json_decode( $obj[$keyword], true ); 
-			}else{
-				return $obj[$keyword];
-			}
-
-		} 
-
-		return $default;
-
-	});
-	
+		return null;
+	}
+	return $data['settings'];
 }
 
 function vn4_log($text , $param = array(), $stacktrace = null , $type = 'info', $file = null){
@@ -215,7 +233,7 @@ function theme_name(){
 
 function theme_options($group, $key = null, $default = null ){
 
-	$group = do_action('theme_options_function',$group, $key, $default)??$group;
+	$group = do_action('theme_options_function',$group, $key, $default);
 
 	$theme_name = theme_name();
 	$themeOptionsValue =  Cache::rememberForever('theme-options.'.$theme_name.'.'.$group, function() use( $theme_name, $group ) {
@@ -344,11 +362,7 @@ function title_head($title = null){
 
 	if($title === null){
 
-		$action = do_action('title_head');
-
-		if( $action ) return $action;
-
-		return setting('general_site_title');
+		return do_action('title_head', setting('general_site_title'));
 	}
 
 	add_action('title_head',function() use ($title) {
@@ -455,7 +469,7 @@ function convert_slug_custom_post_to_name($slug){
 
 
 /**
-Register Slug
+*Register Slug
 */
 
 function registerSlug($slug_old, $me_type, $me_id = null, $register = false){
@@ -560,12 +574,12 @@ function plugins($all = false){
      $obj = new Vn4Model(vn4_tbpf().'plugin');
 
      if( !$all ){
-        $listPlugin = $obj->where('status','publish')->orderBy('priority','asc')->take(100)->get();
+        $listPlugin = $obj->where('status','publish')->orderBy('priority','asc')->take(100)->get()->keyBy('key_word');
      }else{
-         $listPlugin = $obj->take(100)->orderBy('priority','asc')->get();
+         $listPlugin = $obj->take(100)->orderBy('priority','asc')->get()->keyBy('key_word');
      }
 
-     $GLOBALS['listPlugin'] = $listPlugin->keyBy('key_word');
+     $GLOBALS['listPlugin'] = $listPlugin;
      return $listPlugin;
 }
 
@@ -747,7 +761,8 @@ function get_permalinks( $post, $slug = null, $deep = null ){
         	if( is_object($post) ){
 
 	        	if( isset($post->is_homepage) && $post->is_homepage ){
-	        		$action_hook = do_action('get_permalinks',$post->type, $post->slug, $post);
+	        		
+	        		$action_hook = do_action('get_permalinks',null, $post->type, $post->slug, $post);
     				if( $action_hook ) return $action_hook;
 
 					$route = json_decode($post->is_homepage, true);
@@ -773,7 +788,7 @@ function get_permalinks( $post, $slug = null, $deep = null ){
 		$type = $admin_object['slug'];
 	}
 
-    $action_hook = do_action('get_permalinks',$type, $slug, $post, $deep);
+    $action_hook = do_action('get_permalinks',null, $type, $slug, $post, $deep);
     
     if( $action_hook ) return $action_hook;
 

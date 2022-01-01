@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
         maxWidth: '100%',
         width: 200,
         height: 150,
+        backgroundImage: 'url(/admin/fileExtension/trans.jpg)'
     },
     starred: {
         color: 'white',
@@ -83,8 +84,8 @@ function FileDetail({ fileSelected, setFileSelected, resource, handleOnLoadDir }
     React.useEffect(() => {
 
         let fileSelectedTemp = fileSelected;
-        
-        if (fileSelectedTemp ) {
+
+        if (fileSelectedTemp) {
             let keys = Object.keys(fileSelectedTemp);
             fileSelectedTemp = fileSelectedTemp[keys[keys.length - 1]];
         } else {

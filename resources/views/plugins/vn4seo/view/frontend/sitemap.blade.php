@@ -1,13 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?php
+	echo '<?xml version="1.0" encoding="UTF-8"?>';
+?>
 
 @if( $type === 'sitemap' )
 	<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 		<?php
 
-		$post_type_actived = $plugin->getMeta('post-type-sitemap');
+		$post_type_actived = json_decode( setting('seo/sitemap/post_type','[]'), true ) ?? [];
 
 		if( !is_array($post_type_actived) ) $post_type_actived = [];
-
+	
 		$domain = env('APP_URL');
 
 		?>

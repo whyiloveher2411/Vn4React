@@ -1,8 +1,8 @@
-import { updateRequireLogin } from 'actions/requiredLogin';
 import { Loading } from 'components';
 import { useSnackbar } from 'notistack';
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { update } from 'reducers/requireLogin';
 import { getLanguage } from './i18n';
 
 const urlPrefixDefault = process.env.REACT_APP_BASE_URL + 'api/admin/';
@@ -74,7 +74,7 @@ export function useAjax(props) {
     const requestLogin = (url, param) => {
         if (!window.__afterLogin) window.__afterLogin = {};
         window.__afterLogin[url] = param;
-        dispatch(updateRequireLogin({ open: true, updateUser: false }));
+        dispatch(update({ open: true, updateUser: false }));
     }
 
     const callbackError = (error) => {
@@ -90,14 +90,11 @@ export function useAjax(props) {
 
     const bind = (params) => {
 
-        let { url, urlPrefix = null, method, data = {}, loading = true } = params;
-
-        let headers = {
+        let { url, urlPrefix = null, headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'Origin': '',
-            'Host': 'localhost:3000'
-        };
+        }, method = 'POST', data = {}, loading = true } = params;
 
         if (localStorage.getItem('access_token')) {
             headers.Authorization = 'Bearer ' + localStorage.getItem('access_token');
@@ -111,7 +108,7 @@ export function useAjax(props) {
 
         data.__l = window.btoa(language.code + '#' + Date.now());
         // if (data) {
-        method = 'POST';
+        // method = 'POST';
         // }
 
         fetch((urlPrefix ?? urlPrefixDefault) + url, {
@@ -188,4 +185,37 @@ export function useAjax(props) {
         callbackFinally: callbackFinally,
         requestLogin: requestLogin,
     };
+}
+
+export async function ajax(params) {
+
+    let { url, urlPrefix = null, headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Origin': '',
+    }, method = 'POST', data = null } = params;
+
+    if (localStorage.getItem('access_token')) {
+        headers.Authorization = 'Bearer ' + localStorage.getItem('access_token');
+    }
+
+    let paramForFetch = {
+        headers: headers,
+        method: method,
+    };
+
+    if (data) {
+        paramForFetch['body'] = JSON.stringify(data);
+    }
+
+    const respon = await fetch((urlPrefix ?? urlPrefixDefault) + url, paramForFetch)
+        .then(async (response) => {
+            return await response.json();
+        }).catch(function (error) {
+            return error;
+        }).finally(() => {
+            return params;
+        });
+
+    return respon;
 }

@@ -184,7 +184,15 @@ function ListNewMenu() {
                     }
                     <CardActions>
                         <Box width={1} gridGap={8} display="flex" justifyContent="flex-end">
-                            <Button onClick={() => setDialogCreateMenu({ ...dialogCreateMenu, open: true })} variant="contained" color="primary">{__('Add new')}</Button>
+                            <Button onClick={() => setDialogCreateMenu({
+                                ...dialogCreateMenu,
+                                open: true,
+                                title: __('Add new menu'),
+                                name: '',
+                                description: '',
+                                action: 'create',
+                                id: null,
+                            })} variant="contained" color="primary">{__('Add new')}</Button>
                         </Box>
                     </CardActions>
                 </Card>
@@ -196,7 +204,7 @@ function ListNewMenu() {
                     action={
                         <>
                             <Button onClick={() => setDialogCreateMenu({ ...dialogCreateMenu, open: false })}>{__('Cancel')}</Button>
-                            <Button color="primary" onClick={handelAddNew}>{__('Save Changes')}</Button>
+                            <Button color="primary" onClick={handelAddNew}>{dialogCreateMenu.action === 'edit' ? __('Save Changes') : __('Add new')}</Button>
                         </>
                     }
                 >

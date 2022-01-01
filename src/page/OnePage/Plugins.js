@@ -1,14 +1,13 @@
-import { Button, Card, CardActions, CardContent, colors, Divider, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Button, Card, CardActions, CardContent, Divider, Grid, makeStyles, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
-import React from 'react'
-import { useDispatch } from 'react-redux';
-import { Page, PluginHook } from 'components';
-import { useAjax } from 'utils/useAjax';
-import { updatePlugins } from 'actions/plugins';
-import { updateSidebar } from 'actions/sidebar';
-import { checkPermission } from 'utils/user';
+import { AvatarCustom, Page, PluginHook } from 'components';
 import RedirectWithMessage from 'components/RedirectWithMessage';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { update as updatePlugins } from 'reducers/plugins';
 import { __ } from 'utils/i18n';
+import { useAjax } from 'utils/useAjax';
+import { usePermission } from 'utils/user';
 
 const useStyles = makeStyles((theme) => ({
     grid: {
@@ -79,7 +78,7 @@ function Plugins() {
 
     const [data, setData] = React.useState(null);
 
-    const permission = checkPermission('plugin_management');
+    const permission = usePermission('plugin_management').plugin_management;
 
     const { ajax, Loading } = useAjax();
 
@@ -108,10 +107,6 @@ function Plugins() {
             success: (result) => {
                 setData(result.rows);
                 dispatch(updatePlugins(result.plugins));
-
-                if (result.sidebar) {
-                    dispatch(updateSidebar(result.sidebar));
-                }
             }
         })
     };
@@ -158,7 +153,10 @@ function Plugins() {
                                             display: 'flex', flexDirection: 'column', textAlign: 'center', alignItems: 'center'
                                         }}>
                                             <div className={classes.byVersion}><small>{__('By')} <a href={data[plugin].info.author_url} target="_blank">{data[plugin].info.author}</a></small><small>(v{data[plugin].info.version})</small></div>
-                                            <div><img style={{ height: 128, width: 'auto', marginBottom: 8 }} src={data[plugin].image} /></div>
+                                            <div>
+                                                <AvatarCustom variant='square' style={{ height: 128, width: 'auto', marginBottom: 8, background: 'unset' }} src={data[plugin].image} />
+                                                {/* <img style={{ height: 128, width: 'auto', marginBottom: 8 }} src={data[plugin].image} /> */}
+                                            </div>
                                             <Typography gutterBottom variant="h5" component="h2">{data[plugin].info.name}</Typography>
                                             <Typography className={classes.description} variant="body2" color="textSecondary" component="p">{data[plugin].info.description}</Typography>
                                         </CardContent>
@@ -171,7 +169,7 @@ function Plugins() {
                                                     <PluginHook plugin={plugin} hook='Custom/LinkSetting' />
                                                 }
                                             </div>
-                                            <Button variant="contained" onClick={e => changePlugin(plugin)} size="small" color={data[plugin].active ? 'primary' : 'default'}>{data[plugin].active ? 'Activated' : 'Activate'}</Button>
+                                            <Button variant="contained" onClick={e => changePlugin(plugin)} size="small" color={data[plugin].active ? 'primary' : 'default'}>{data[plugin].active ? __('Activated') : __('Activate')}</Button>
                                         </CardActions>
                                     </Card>
                                 </Grid>

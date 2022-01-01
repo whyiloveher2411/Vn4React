@@ -1,68 +1,25 @@
-import * as settings from '../actions/settings'
 
-let settingsInitial = {};
+import { createSlice } from '@reduxjs/toolkit';
 
-try {
-    settingsInitial = JSON.parse(sessionStorage.getItem('settings'));
-    if (!settingsInitial) settingsInitial = {};
-} catch (error) {
-    settingsInitial = {};
-}
+export const slice = createSlice({
+    name: 'setting',
+    initialState: {},
+    reducers: {
+        update: (state, action) => {
 
-let uri = window.location.pathname.substring(1);
+            let newState = { ...state, ...action.payload };
 
-if (uri !== 'install' && !Object.keys(settingsInitial).length) {
+            // Object.keys(action.payload).forEach(key => {
+            //     newState[key] = action.payload[key];
+            // });
 
-    const urlPrefix = process.env.REACT_APP_BASE_URL + 'api/admin/';
+            // sessionStorage.setItem("settings", JSON.stringify(newState));
 
-    fetch(urlPrefix + 'settings/all', {
-        method: 'POST',
-    }).then(async (response) => {
-
-        if (!response.ok) throw Error(response.statusText);
-        let result = await response.json();
-
-        if (result.message) {
-            alert(result.message.content);
-        }
-        sessionStorage.setItem('settings', JSON.stringify(result));
-
-    }).catch(function () {
-        // alert(error.toString());
-    });
-
-}
-
-const settingsReducer = (state = settingsInitial, action) => {
-
-    switch (action.type) {
-
-        case settings.UPDATE:
-
-            let newState = {};
-
-            try {
-                newState = JSON.parse(sessionStorage.getItem('settings'));
-                if (!newState) newState = {};
-            } catch (error) {
-                newState = {};
-            }
-
-            Object.keys(action.payload).forEach(key => {
-                newState[key] = action.payload[key];
-            });
-            
-            sessionStorage.setItem("settings", JSON.stringify(newState));
             return newState;
-        case settings.CLEAR:
+        },
+    },
+});
 
-            sessionStorage.setItem("settings", '{}');
-            return {};
+export const { update } = slice.actions;
 
-        default:
-            return state;
-            break;
-    }
-}
-
-export default settingsReducer;
+export default slice.reducer;

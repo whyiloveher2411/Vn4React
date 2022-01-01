@@ -159,7 +159,7 @@ function the_languages() {
 	return $languages;
 }
 
-add_action('frontend_init',function(){
+add_action('middleware_frontend',function(){
 	App::setLocale(language_default()['lang_slug']);
 });
 
@@ -172,7 +172,7 @@ add_action('vn4_nav_menu',function($key){
 });
 
 
-add_action('route',function($name, $parameters, $absolute, $route ) use ($plugin, $languages, $custom_post_types) {
+add_action('route',function($data, $name, $parameters, $absolute, $route ) use ($plugin, $languages, $custom_post_types) {
 
 	$lang_current = App::getLocale();
 
@@ -219,15 +219,11 @@ add_action('route',function($name, $parameters, $absolute, $route ) use ($plugin
 
 
 
-add_action('index',function($r){
-
-	if( !strpos(Request::url(), 'dialog.php') ){
-		return vn4_redirect(route('vn4-multiple-language.index',language_default()['lang_slug']));
-	}
-
+add_action('index',function(){
+	return vn4_redirect(route('vn4-multiple-language.index',language_default()['lang_slug']));
 });
 
-add_action('getPage',function($page){
+add_action('getPage',function($data, $page){
 
 	$language_default = language_default();
 
@@ -242,7 +238,7 @@ add_action('getPage',function($page){
 });
 
 
-add_action('postDetail',function($post, $post_type,$post_slug) use ($languages) {
+add_action('postDetail',function($data, $post, $post_type,$post_slug) use ($languages) {
 
 	$slugOfPostType = get_post_type_slug();
 
@@ -540,7 +536,7 @@ add_filter('meta',function($meta_old) {
 	return $meta_old;
 },'zzzzzz',true);
 
-add_action('get_permalinks',function($type, $slug, $post, $deep) use ($plugin) {
+add_action('get_permalinks',function($data, $type, $slug, $post, $deep) use ($plugin) {
 
 	$custom_post_types = $plugin->getMeta('custom-post-types');
 

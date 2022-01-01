@@ -15,7 +15,7 @@ if( $action === 'SettingCurrencies' ){
 
     $currencies = validateCurrenciesInput( $input );
 
-    setting_save('ecommerce_currencies', $currencies);
+    setting_save('ecommerce_currencies', $currencies, null, true);
 
     $result['message'] = apiMessage('Currencies configuration change successful');
     

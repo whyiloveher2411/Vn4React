@@ -50,7 +50,7 @@ function Appearance() {
     }
 
     return (
-        <Page className={classes.main} title={__('Appearance')}>
+        <Page title={__('Appearance')}>
             <div>
                 <Typography component="h2" gutterBottom variant="overline">
                     {__('Management')}

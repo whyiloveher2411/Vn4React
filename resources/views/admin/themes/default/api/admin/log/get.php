@@ -3,8 +3,6 @@
 // $checkPermission = check_permission($page.'_view');
 
 // if(!$checkPermission){
-//     vn4_create_session_message( __('Error'), __('Sorry, you are not allowed to access this page'), 'error' , true );
-//     return redirect()->route('admin.index');
 // }
 
 use_module('log');

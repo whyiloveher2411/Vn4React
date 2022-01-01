@@ -28,20 +28,38 @@ export default React.memo(function TextareaForm(props) {
     return (
 
         <FormControl fullWidth variant="outlined">
-            <InputLabel>{config.title}</InputLabel>
-            <OutlinedInput
-                type='textarea'
-                variant="outlined"
-                name={name}
-                multiline
-                value={valueInital}
-                className={classes.editor}
-                label={config.title}
-                labelWidth={config.title.length * 8}
-                onBlur={e => { onReview(e.target.value, name); setRender(prev => prev + 1); }}
-                onChange={e => { setRender(prev => prev + 1); post[name] = e.target.value }}
-                {...rest}
-            />
+            {
+                Boolean(config.title) ?
+                    <>
+                        <InputLabel>{config.title}</InputLabel>
+                        <OutlinedInput
+                            type='textarea'
+                            variant="outlined"
+                            name={name}
+                            multiline
+                            value={valueInital}
+                            className={classes.editor}
+                            label={config.title}
+                            labelWidth={config.title.length * 8}
+                            onBlur={e => { onReview(e.target.value, name); setRender(prev => prev + 1); }}
+                            onChange={e => { setRender(prev => prev + 1); post[name] = e.target.value }}
+                            {...rest}
+                        />
+                    </>
+                    :
+                    <OutlinedInput
+                        type='textarea'
+                        variant="outlined"
+                        name={name}
+                        multiline
+                        value={valueInital}
+                        className={classes.editor}
+                        onBlur={e => { onReview(e.target.value, name); setRender(prev => prev + 1); }}
+                        onChange={e => { setRender(prev => prev + 1); post[name] = e.target.value }}
+                        {...rest}
+                    />
+            }
+
             {
 
                 config.maxLength ?

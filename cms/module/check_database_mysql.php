@@ -138,8 +138,13 @@ $arg_type_mysql_input = [
 	},
 	'number'=>function(&$table, $name, $after, $data){
 
-		if( isset($data['type']) && isset($data[ $data['type'] ])  ){
-			return $table->decimal($name, $data[ $data['type'] ][0], $data[ $data['type'] ][1] ?? null )->after($after)->default(0)->comment('property: '.$data['title']);
+		if( isset($data['type'])  ){
+
+			if( isset($data[ $data['type'] ]) ){
+				return $table->{$data['type']}($name, $data[ $data['type'] ][0], $data[ $data['type'] ][1] ?? null )->after($after)->default(0)->comment('property: '.$data['title']);
+			}else{
+				return $table->{$data['type']}($name)->after($after)->default(0)->comment('property: '.$data['title']);
+			}
 		}
 
 		return $table->integer($name)->after($after)->nullable()->comment('property: '.$data['title']);
@@ -554,14 +559,15 @@ $argTableDefault = [
 	],
 	vn4_tbpf().'setting'=>[
 		'fields'=>[
-			'title'=>'text',
-			'type'=>'text',
+			// 'title'=>'text',
+			// 'type'=>'text',
 			'key_word'=>'text',
 			// 'author'=>'number',
 			// 'status'=>'text',
 			// 'meta'=>'editor',
 			'content'=>'editor',
-			// 'group'=>'text'
+			'is_json'=>'true_false',
+			'group'=>'select'
 		],
 		'time_recording'=>false,
 		'indexs'=>[

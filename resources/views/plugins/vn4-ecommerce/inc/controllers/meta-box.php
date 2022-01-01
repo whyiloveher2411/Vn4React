@@ -164,7 +164,6 @@ return [
 							'name'=>'data-product[ecommerce_product_attribute]['.$ecommerce_product_attribute->id.'][attribute_value]',
 							'object'=>'ecommerce_product_attribute_value',
 							'type_post'=>'ecommerce_product',
-							'type'=>'many_record',
 							'value'=>$r['attribute_value']??'',
 							'where'=>[['ecommerce_product_attribute',$ecommerce_product_attribute->id]],
 							'data'=>[

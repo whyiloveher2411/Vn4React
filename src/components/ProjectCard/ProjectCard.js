@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
-import moment from 'moment'
 import { makeStyles } from '@material-ui/styles'
 import {
     Avatar,
@@ -94,7 +93,7 @@ const ProjectCard = (props) => {
                             variant="h6">
                             {project.author.name}
                         </Link>{' '}
-                        | Updated: {moment(project.updated_at).fromNow()}
+                        | Updated: {'12h ago'}
                     </Typography>
                 }
                 title={

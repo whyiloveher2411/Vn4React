@@ -37,7 +37,8 @@ const Search = (props) => {
 
     const classes = useStyles()
 
-    const clickSearch = () => {
+    const clickSearch = (e) => {
+        console.log(e);
         onSearch(inputValue);
     };
 
@@ -52,7 +53,7 @@ const Search = (props) => {
                 <Input
                     className={classes.searchInput}
                     onChange={e => { setInputValue(e.target.value) }}
-                    onKeyPress={e => { if (e.which === 13) clickSearch() }}
+                    onKeyPress={e => { if (e.key === 'Enter') clickSearch(e) }}
                     disableUnderline
                     placeholder={__('Enter something...')}
                     value={inputValue}

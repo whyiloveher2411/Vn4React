@@ -1,13 +1,17 @@
-import { AddOn, Hook, Page, TabsCustom } from 'components'
-import React, { useEffect, useState } from 'react'
-import { Redirect } from 'react-router-dom'
-import { toCamelCase } from 'utils/helper'
-import { getUrlParams, replaceUrlParam } from 'utils/herlperUrl'
-import { __ } from 'utils/i18n'
-import { useAjax } from 'utils/useAjax'
-import Header from './Header'
-import Results from './Results'
-import SearchBar from './SearchBar'
+import { Box, Grid, Table, TableBody, TableCell, TableRow } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
+import { AddOn, Button, Divider, Hook, Page, TabsCustom } from 'components';
+import React, { useEffect, useState } from 'react';
+import { Link, Redirect } from 'react-router-dom';
+import { toCamelCase } from 'utils/helper';
+import { getUrlParams, replaceUrlParam } from 'utils/herlperUrl';
+import { __ } from 'utils/i18n';
+import { useAjax } from 'utils/useAjax';
+import { usePermission } from 'utils/user';
+import FilterTab from './FilterTab';
+import Header from './Header';
+import Results from './Results';
+import SearchBar from './SearchBar';
 
 const ShowData = (props) => {
 
@@ -20,9 +24,11 @@ const ShowData = (props) => {
     const [isLoadedData, setIsLoadedData] = useState(false);
     const [render, setRender] = useState(0);
 
+    const permission = usePermission(match.params.type + '_create');
+
     const { callAddOn } = AddOn();
 
-    const { ajax } = useAjax();
+    const { ajax, Loading } = useAjax({ loadingType: 'custom' });
 
     const valueInital = {
         rowsPerPage: 10,
@@ -133,6 +139,41 @@ const ShowData = (props) => {
         });
     }
 
+    const ListDataComponent = (
+        <Box display="flex">
+            <div style={{ width: 255, flexShrink: 0, paddingRight: 24 }}>
+                <Button component={Link} to={`/post-type/${match.params.type}/new`} variant="contained" size="large" disabled={!permission[match.params.type + '_create']} color="primary" style={{ width: '100%', marginBottom: 24 }}>
+                    {__('Add new')}
+                </Button>
+                <FilterTab
+                    name={match.params.type}
+                    acctionPost={acctionPost}
+                    queryUrl={queryUrl}
+                    data={data}
+                    onFilter={handleFilter}
+                    setQueryUrl={setQueryUrl}
+                    options={data.config ?? {}}
+                />
+            </div>
+            <div style={{ width: 'calc(100% - 255px) ' }}>
+                <SearchBar onValue={queryUrl.search} onSearch={handleSearch} />
+                {data && (
+                    <Results
+                        result={data}
+                        loading={showLoading}
+                        queryUrl={queryUrl}
+                        setQueryUrl={setQueryUrl}
+                        isLoadedData={isLoadedData}
+                        history={props.history}
+                        postType={match.params.type}
+                        acctionPost={acctionPost}
+                        onFilter={handleFilter}
+                    />
+                )}
+            </div>
+        </Box>
+    );
+
     const redirectTo = getUrlParams(window.location.search, 'redirectTo');
 
     if (data.config?.redirect) {
@@ -156,13 +197,11 @@ const ShowData = (props) => {
                 postType={match.params.type}
                 acctionPost={acctionPost}
                 onFilter={handleFilter} />
-            <Page title={title}>
-                <Header type={match.params.type} label={data.config?.label} />
-                <br />
-
-                {
-                    Boolean(data && data.config && data.config.extendedTab && Object.keys(data.config.extendedTab).length > 1)
-                        ?
+            {
+                Boolean(data && data.config && data.config.extendedTab && Object.keys(data.config.extendedTab).length > 0)
+                    ?
+                    <Page title={title} width="xl">
+                        <Header type={match.params.type} config={data.config} />
                         <TabsCustom
                             name={'show_data_' + match.params.type}
                             tabs={
@@ -173,22 +212,7 @@ const ShowData = (props) => {
                                             return {
                                                 ...data.config.extendedTab[key],
                                                 title: data.config.extendedTab[key].title ?? __('List'),
-                                                content: () => <>
-                                                    <SearchBar onValue={queryUrl.search} onSearch={handleSearch} />
-                                                    {data && (
-                                                        <Results
-                                                            result={data}
-                                                            loading={showLoading}
-                                                            queryUrl={queryUrl}
-                                                            setQueryUrl={setQueryUrl}
-                                                            isLoadedData={isLoadedData}
-                                                            history={props.history}
-                                                            postType={match.params.type}
-                                                            acctionPost={acctionPost}
-                                                            onFilter={handleFilter}
-                                                        />
-                                                    )}
-                                                </>
+                                                content: () => ListDataComponent
                                             }
                                         }
 
@@ -231,27 +255,89 @@ const ShowData = (props) => {
                                 })()
                             }
                         />
-                        :
-                        <>
-                            <SearchBar onValue={queryUrl.search} onSearch={handleSearch} />
-                            {data && (
-                                <Results
-                                    result={data}
-                                    loading={showLoading}
-                                    queryUrl={queryUrl}
-                                    setQueryUrl={setQueryUrl}
-                                    isLoadedData={isLoadedData}
-                                    history={props.history}
-                                    postType={match.params.type}
-                                    acctionPost={acctionPost}
-                                    onFilter={handleFilter}
-                                />
-                            )}
-                        </>
-                }
-            </Page>
+                    </Page>
+                    :
+                    <SkeletonListData />
+            }
         </>
     )
+}
+
+function SkeletonListData() {
+
+    return (
+        <Page title={'Post Type'} width="xl">
+            <Grid
+                alignItems="flex-end"
+                container
+                justify="space-between"
+                spacing={3}
+                style={{ marginBottom: 8 }}
+            >
+                <Grid item>
+                    <Skeleton width={100} height={13} style={{ transform: 'scale(1, 1)', marginBottom: 8 }} />
+                    <Skeleton width={200} height={28} style={{ transform: 'scale(1, 1)', marginBottom: 8 }} />
+                </Grid>
+            </Grid>
+
+            <Box display="flex" width={1} gridGap={32} style={{ marginBottom: 10 }}>
+                <Skeleton style={{ transform: 'scale(1, 1)' }} width={80} height={22} />
+                <Skeleton style={{ transform: 'scale(1, 1)' }} width={80} height={22} />
+                <Skeleton style={{ transform: 'scale(1, 1)' }} width={80} height={22} />
+            </Box>
+            <Divider />
+            <Box display="flex" gridGap={24} width={1} style={{ marginTop: 16 }}>
+                <div>
+                    <Skeleton style={{ transform: 'scale(1, 1)', marginBottom: 24 }} width={230} height={40} />
+                    {
+                        [...Array(10)].map((key, index) => (
+                            <Skeleton key={index} style={{ transform: 'scale(1, 1)', marginBottom: 12 }} width={230} height={24} />
+                        ))
+                    }
+                </div>
+                <div style={{ width: '100%' }}>
+                    <Box display="flex" gridGap={12} width={1}>
+                        <Skeleton style={{ transform: 'scale(1, 1)', marginBottom: 24 }} width={230} height={40} />
+                        <Skeleton style={{ transform: 'scale(1, 1)', marginBottom: 24 }} width={120} height={40} />
+                    </Box>
+                    <div>
+                        <Skeleton variant='text' style={{ transform: 'scale(1, 1)', marginBottom: 8 }} width={280} height={18} />
+                        <Table style={{ width: '100%' }}>
+                            <TableBody>
+                                {
+                                    [...Array(8)].map((key, index) => (
+                                        <TableRow key={index}>
+                                            <TableCell>
+                                                <Skeleton style={{ transform: 'scale(1, 1)' }} width={48} height={32} />
+                                            </TableCell>
+                                            <TableCell>
+                                                <Skeleton style={{ transform: 'scale(1, 1)' }} width={48} height={32} />
+                                            </TableCell>
+                                            <TableCell>
+                                                <Skeleton style={{ transform: 'scale(1, 1)' }} width={200} height={32} />
+                                            </TableCell>
+                                            <TableCell>
+                                                <Skeleton style={{ transform: 'scale(1, 1)' }} width={200} height={32} />
+                                            </TableCell>
+                                            <TableCell style={{ width: '100%' }}>
+                                                <Skeleton style={{ transform: 'scale(1, 1)' }} width={'100%'} height={32} />
+                                            </TableCell>
+                                            <TableCell>
+                                                <Skeleton style={{ transform: 'scale(1, 1)' }} width={200} height={32} />
+                                            </TableCell>
+                                            <TableCell>
+                                                <Skeleton style={{ transform: 'scale(1, 1)' }} width={200} height={32} />
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                }
+                            </TableBody>
+                        </Table>
+                    </div>
+                </div>
+            </Box>
+        </Page >
+    );
 }
 
 export default ShowData

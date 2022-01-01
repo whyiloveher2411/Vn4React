@@ -2,7 +2,6 @@ import React from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
-import moment from 'moment'
 import { makeStyles } from '@material-ui/styles'
 import {
     Avatar,
@@ -89,7 +88,7 @@ const NotificationList = (props) => {
                     <ListItemText
                         primary={notification.title}
                         primaryTypographyProps={{ variant: 'body1' }}
-                        secondary={moment(notification.created_at).fromNow()}
+                        secondary={'12h ago'}
                     />
                     <ArrowForwardIcon className={classes.arrowForwardIcon} />
                 </ListItem>

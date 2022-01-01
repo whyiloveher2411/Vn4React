@@ -4,15 +4,19 @@ import React, { useState } from 'react';
 import { toCamelCase } from 'utils/helper';
 import { getUrlParams } from 'utils/herlperUrl';
 import { __ } from 'utils/i18n';
+import useForm from 'utils/useForm';
 import { useAjax } from 'utils/useAjax';
 import Form from './Form';
 import Header from './Header';
+import { unstable_batchedUpdates } from 'react-dom'
 
 const CreateData = (props) => {
 
     const { match, history, location } = props;
 
-    const [data, setData] = useState(false);
+    const [data, setData, onUpdateData] = useForm(false);
+
+    const [times, setTimes] = React.useState(0);
 
     const { ajax, open } = useAjax();
 
@@ -22,100 +26,105 @@ const CreateData = (props) => {
 
     const { callAddOn } = AddOn();
 
-    const onReview = (value) => {
-        setData((prev) => ({ ...prev, post: { ...value } }));
-    }
-
     const handleSubmit = () => {
 
-        if (!open) {
-            ajax({
-                url: 'post-type/post/' + match.params.type,
-                method: 'POST',
-                data: { ...data.post, _action: data.action },
-                isGetData: false,
-                success: (result) => {
+        setData(prev => {
+            console.log(prev.post);
 
-                    if (result.post) {
-                        if (result.post.id !== data.post.id) {
-                            history.push(`/post-type/${match.params.type}/list?redirectTo=edit&post=${result.post.id}`);
-                            return;
-                        } else {
-                            result.updatePost = new Date();
-                            setData({ ...data, post: result.post, author: result.author, editor: result.editor, updatePost: new Date() })
+            if (!open) {
+                ajax({
+                    url: 'post-type/post/' + match.params.type,
+                    method: 'POST',
+                    data: { ...prev.post, _action: prev.action },
+                    isGetData: false,
+                    success: (result) => {
+
+                        if (result.post) {
+                            if (result.post.id !== prev.post.id) {
+                                history.push(`/post-type/${match.params.type}/list?redirectTo=edit&post=${result.post.id}`);
+                                return;
+                            } else {
+                                result.updatePost = new Date();
+                                setData({ ...prev, post: result.post, author: result.author, editor: result.editor, updatePost: new Date() })
+                            }
                         }
+
                     }
+                });
+            }
 
-                }
-            });
-        }
-
+            return prev;
+        });
     };
 
-    React.useEffect(() => {
+    React.useLayoutEffect(() => {
 
         ajax({
             url: `post-type/detail/${match.params.type}/${id}`,
             method: 'POST',
             success: function (result, showNotification) {
 
-                if (result.redirect) {
+                unstable_batchedUpdates(() => {
+                    if (result.redirect) {
 
-                    history.push(result.redirect);
-                    return;
+                        history.push(result.redirect);
+                        return;
 
-                } else {
+                    } else {
 
-                    if (result.config) {
+                        if (result.config) {
 
-                        result.type = match.params.type;
-                        result.updatePost = new Date();
+                            result.type = match.params.type;
+                            result.updatePost = new Date();
 
-                        if (result.post) {
+                            if (result.post) {
 
-                            setTitle(__('Edit') + ' "' + result.post[Object.keys(result.config.fields)[0]] + '"');
-                            result.action = 'EDIT';
+                                setTitle(__('Edit') + ' "' + result.post[Object.keys(result.config.fields)[0]] + '"');
+                                result.action = 'EDIT';
 
-                        } else {
-
-                            if (match.params.action === 'edit') {
-                                history.push(`/post-type/${match.params.type}/list`);
-                                showNotification(__('Does not exist {{post_type}} with id is {{id}}', {
-                                    post_type: result.config.title,
-                                    id
-                                }), 'warning');
-                                return;
                             } else {
-                                setTitle(__('Add new') + ' ' + result.config?.title);
-                                result.action = 'ADD_NEW';
-                                result = { ...result, post: { meta: {} } };
+
+                                if (match.params.action === 'edit') {
+                                    history.push(`/post-type/${match.params.type}/list`);
+                                    showNotification(__('Does not exist {{post_type}} with id is {{id}}', {
+                                        post_type: result.config.title,
+                                        id
+                                    }), 'warning');
+                                    return;
+                                } else {
+                                    setTitle(__('Add new') + ' ' + result.config?.title);
+                                    result.action = 'ADD_NEW';
+                                    result = { ...result, post: { meta: {} } };
+                                }
                             }
+
+                            result.config.extendedTab = callAddOn(
+                                'CreateData/Tabs',
+                                match.params.type,
+                                { formEdit: { title: __('Edit'), priority: 1 } },
+                                { ...result }
+                            );
+
+                            setTimes(prev => prev + 1);
+                            setData({ ...result });
+
                         }
 
-                        result.config.extendedTab = callAddOn(
-                            'CreateData/Tabs',
-                            match.params.type,
-                            { formEdit: { title: __('Edit'), priority: 1 } },
-                            { ...result }
-                        );
-
-                        setData({ ...result });
-
                     }
-
-                }
+                })
             }
         });
     }, [location]);
 
-    return (
+    const renderElement = () => (
         <>
             <Hook
                 hook={'PostType/' + toCamelCase(match.params.type) + '/CreateData'}
                 {...props}
                 data={data}
                 postType={match.params.type}
-                onReview={onReview} />
+                onUpdateData={onUpdateData}
+            />
             {!data &&
                 <LinearProgress style={{ position: 'absolute', left: 0, right: 0 }} />
             }
@@ -131,7 +140,7 @@ const CreateData = (props) => {
                             return React.createElement(resolved, { ...props, data: data });
                         }
 
-                        return <></>;
+                        // return <></>;
                     } catch (error) {
 
                         return (
@@ -166,7 +175,7 @@ const CreateData = (props) => {
                                                                             {...props}
                                                                             data={data}
                                                                             postType={match.params.type}
-                                                                            onReview={onReview}
+                                                                            onUpdateData={onUpdateData}
                                                                         />
                                                                     }
                                                                 }
@@ -178,7 +187,8 @@ const CreateData = (props) => {
                                                                             hook={data.config.extendedTab[key].content} {...props}
                                                                             data={data}
                                                                             postType={match.params.type}
-                                                                            onReview={onReview} />
+                                                                            onUpdateData={onUpdateData}
+                                                                        />
                                                                     }
                                                                 }
 
@@ -189,7 +199,7 @@ const CreateData = (props) => {
                                                                             ...props,
                                                                             data: data,
                                                                             postType: match.params.type,
-                                                                            onReview: onReview
+                                                                            onUpdateData: onUpdateData
                                                                         })
                                                                     }
                                                                 }
@@ -203,7 +213,7 @@ const CreateData = (props) => {
                                                     {...props}
                                                     data={data}
                                                     postType={match.params.type}
-                                                    onReview={onReview}
+                                                    onUpdateData={onUpdateData}
                                                 />
                                         }
                                     </>
@@ -217,6 +227,12 @@ const CreateData = (props) => {
             }
         </>
     )
+
+    if (times % 2 === 0) {
+        return renderElement()
+    }
+
+    return <div>{renderElement()}</div>
 }
 
 export default CreateData

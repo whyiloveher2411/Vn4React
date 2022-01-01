@@ -19,7 +19,7 @@ if( $request->is('api/admin/*') ){
 		
 		$abs = time() - $formKey[1]/1000;
 
-		if( $abs > 5  || $abs < -5){
+		if( $abs > 10  || $abs < -10){
 			die(json_encode([
 				'message'=>apiMessage('Form Key error, please refesh page!','error')
 			]));

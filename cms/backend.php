@@ -1,19 +1,11 @@
 <?php
 
-if( Request::has('backend_theme') ) $GLOBALS['backend_theme'] = request()->get('backend_theme');
-
 function backend_asset( $file = '' ){
 
 	if( $file === ''){
 		return asset('admin/themes/'.$GLOBALS['backend_theme'].'/').'/';
 	}
 	return asset('admin/themes/'.$GLOBALS['backend_theme'].'/'.$file);
-
-}
-
-function backend_theme($view){
-
-	return 'admin.themes.'.$GLOBALS['backend_theme'].'.'.$view;
 
 }
 
@@ -25,18 +17,24 @@ function backend_resources($view){
 	return __DIR__.'/../resources/views/admin/themes/'.$GLOBALS['backend_theme'].'/'.$view;
 }
 
-function setting_save($keyword, $value){
+function setting_save($keyword, $value, $group = null, $isJson = false){
 	if( is_string($value) ){
 		$value = trim($value);
 	}
 	if(is_array($value)) $value = json_encode($value);
 
 	if( DB::table( vn4_tbpf().'setting' )->where('key_word',$keyword )->count() ){
-		DB::table( vn4_tbpf().'setting' )->where('key_word',$keyword )->update(['content' => $value]);
+		DB::table( vn4_tbpf().'setting' )->where('key_word',$keyword )->update([
+			'content' => $value,
+			'group'=>$group,
+			'is_json'=>$isJson
+		]);
 	}else{
-		DB::table(vn4_tbpf().'setting')->updateOrInsert(['key_word'=>$keyword, 'type'=>'setting' ],
+		DB::table(vn4_tbpf().'setting')->updateOrInsert(['key_word'=>$keyword],
 		[
 			'content'=>$value,
+			'group'=>$group,
+			'is_json'=>$isJson
 		]);
 	}
 
@@ -83,7 +81,6 @@ function experience_mode(){
 		return response()->json(['message'=>['content'=>'This is a trial version, you cannot do it','title'=>'Error','icon'=>'fa-times-circle','color'=>'#CA2121']]);
 	}
 
-	vn4_create_session_message('Error','This is Demo version. You can not change anything.','error');
 	return redirect()->back();
 }
 
@@ -109,10 +106,6 @@ function array_insert_after($key, array &$array, $new_key, $new_value) {
 		return $new;
 	}
 	return FALSE;
-}
-
-function vn4_create_session_message( $title , $content , $status, $id = null ){
-    Session::put('message',['title'=>$title,'content'=>$content,'status'=>$status, 'id'=> $id]);
 }
 
 

@@ -190,7 +190,7 @@ $searchArray = [
         $data[] = ['title_type'=>'Manage','title'=>'Theme Widget','link'=>'/appearance/widget'];
         $data[] = ['title_type'=>'Manage','title'=>'Theme Menu','link'=>'/appearance/menu'];
         $data[] = ['title_type'=>'Manage','title'=>'Theme options','link'=>'/appearance/theme-options'];
-        $data[] = ['title_type'=>'Manage','title'=>'Profile','link'=>'/users/profile/general'];
+        $data[] = ['title_type'=>'Manage','title'=>'Profile','link'=>'/user/profile'];
         $data[] = ['title_type'=>'Manage','title'=>'Tool','link'=>'/tool'];
         $data[] = ['title_type'=>'Manage','title'=>'Plugin','link'=>'/plugins'];
         $data[] = ['title_type'=>'Manage','title'=>'Setting','link'=>'/settings/general'];
@@ -230,10 +230,10 @@ $searchArray = [
 
         $data = array_slice($data,0,10);
 
-        foreach ($data as $key => $value) {
-            $data[$key]['link'] = route('admin.page',['page'=>'appearance-menu','id'=>$value[Vn4Model::$id]]);
-            $data[$key]['title_type'] = 'Menu Item';
-        }
+        // foreach ($data as $key => $value) {
+        //     $data[$key]['link'] = route('admin.page',['page'=>'appearance-menu','id'=>$value[Vn4Model::$id]]);
+        //     $data[$key]['title_type'] = 'Menu Item';
+        // }
 
         return $data;
     }],

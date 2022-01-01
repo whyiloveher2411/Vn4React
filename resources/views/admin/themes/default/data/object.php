@@ -2,7 +2,7 @@
 
 if( is_admin() ){
 
-    include cms_path('resource','views/admin/themes/default/post-type/function-template-table-data.php');
+    include __DIR__.'/load_post_type.php';
 
     $object['page'] = [
         'table'=>vn4_tbpf().'page',
@@ -57,12 +57,10 @@ if( is_admin() ){
             'first_name'=>[
                 'title'=>__('First Name'),
                 'view'=>'text',
-                'show_data'=>false,
             ],
             'last_name'=>[
                 'title'=>__('Last Name'),
                 'view'=>'text',
-                'show_data'=>false,
             ],
             'profile_picture'=>[
                 'title'=>'Avata',
@@ -128,7 +126,7 @@ if( is_admin() ){
 
     $list_post_type = cache_tag ('curd', App::getLocale(),function() {
 
-        include cms_path('resource','views/admin/themes/default/post-type/function-template-table-data.php');
+        include __DIR__.'/load_post_type.php';
 
         $object['page'] = [
             'table'=>vn4_tbpf().'page',
@@ -182,12 +180,10 @@ if( is_admin() ){
                 'first_name'=>[
                     'title'=>__('First Name'),
                     'view'=>'text',
-                    'show_data'=>false,
                 ],
                 'last_name'=>[
                     'title'=>__('Last Name'),
                     'view'=>'text',
-                    'show_data'=>false,
                 ],
                 'profile_picture'=>[
                     'title'=>'Avata',

@@ -88,7 +88,7 @@ class LoginController extends Controller {
 
             $input = $r->all();
 
-            if( setting('security_active_recapcha_google') === '["active"]' && setting('security_recaptcha_sitekey') && setting('security_recaptcha_secret') ){
+            if( setting('security_active_recaptcha_google') === '["active"]' && setting('security_recaptcha_sitekey') && setting('security_recaptcha_secret') ){
 
                 $url = 'https://www.google.com/recaptcha/api/siteverify';
 
@@ -178,25 +178,6 @@ class LoginController extends Controller {
 
             return response()->json(['message'=>'Username or Password is incorrect.','time_login'=>$time_login->count]);
         }
-    }
-
-    public function logout(Request $r){
-
-        use_module(['read_html']);
-
-        vn4_log('Logout',null,null,'info','user/'.Auth::id().'/vn4-'.date('Y-m-d').'.log');
-
-        Auth::logout();
-
-        $string_redirect_back = URL::previous();
-
-        if( strpos( $string_redirect_back, url(setting('security_prefix_link_admin','admin')) ) === false ){
-            return redirect()->to($string_redirect_back,301);
-        }
-
-        session(['url_after_login'=>$string_redirect_back]);
-
-        return redirect()->route('login');
     }
  
 }

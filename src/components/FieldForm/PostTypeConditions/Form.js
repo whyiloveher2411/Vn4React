@@ -1,9 +1,9 @@
-import { Box, FormControl, IconButton, InputLabel, makeStyles, Menu, MenuItem, Typography } from '@material-ui/core'
-import React from 'react'
+import { Box, IconButton, makeStyles, Menu, MenuItem, Typography } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import FieldForm from 'components/FieldForm'
-import { useAjax } from 'utils/useAjax';
 import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
+import FieldForm from 'components/FieldForm';
+import React from 'react';
+import { useAjax } from 'utils/useAjax';
 
 const useStyles = makeStyles((theme) => ({
     selectChoose: {
@@ -174,7 +174,7 @@ function PostTypeConditions({ post, name, config, onReview, handelRemove }) {
             <Box width={1} className={classes.root} position="relative" display="flex" alignItems="baseline" gridGap={16}>
                 {
                     Boolean(config.title) &&
-                    <InputLabel>{config.title}</InputLabel>
+                    <Typography>{config.title}</Typography>
                 }
                 <div className={classes.conditions}>
                     <Box display="flex" alignItems="center">

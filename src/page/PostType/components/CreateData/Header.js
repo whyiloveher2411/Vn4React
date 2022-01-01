@@ -18,13 +18,13 @@ import VpnKeyRoundedIcon from '@material-ui/icons/VpnKeyRounded';
 import { makeStyles } from '@material-ui/styles';
 import clsx from 'clsx';
 import { Button, CustomTooltip, Divider, FieldForm, Hook } from 'components';
+import PostTypeInfo from 'components/PostTypeInfo';
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { __ } from 'utils/i18n';
 import { useAjax } from 'utils/useAjax';
-import { checkPermission } from 'utils/user';
+import { usePermission } from 'utils/user';
 import LabelPost from '../LabelPost';
-import PostTypeInfo from './PostTypeInfo';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -90,10 +90,19 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Header = (props) => {
-    const { className, title, label, showLoadingButton, handleSubmit, singularName, data, postType, goBack, backToList, hiddenAddButton, onReview, ...rest } = props;
+    const { className, title, showLoadingButton, handleSubmit, data, postType, goBack, backToList, hiddenAddButton, ...rest } = props;
 
     const classes = useStyles()
     const history = useHistory();
+
+    const permission = usePermission(
+        postType + '_publish',
+        postType + '_trash',
+        postType + '_delete',
+        postType + '_restore',
+        postType + '_create',
+        postType + '_edit'
+    );
 
     const handleBackToList = () => {
         history.push('/post-type/' + postType + '/list');
@@ -210,7 +219,6 @@ const Header = (props) => {
     return (
         <div {...rest} className={clsx(classes.root, className)}>
             <Grid
-                alignItems="flex-end"
                 container
                 className={classes.grid}
                 justify="space-between"
@@ -275,7 +283,7 @@ const Header = (props) => {
                                     horizontal: 'left',
                                 }}>
                                 {
-                                    checkPermission(postType + '_publish') &&
+                                    permission[postType + '_publish'] &&
                                     <MenuItem onClick={e => updateStatus('publish')}>
                                         <ListItemIcon>
                                             <PublicRoundedIcon />
@@ -296,7 +304,7 @@ const Header = (props) => {
                                     <ListItemText primary={__('Pending')} />
                                 </MenuItem>
                                 {
-                                    checkPermission(postType + '_trash') &&
+                                    permission[postType + '_trash'] &&
                                     <MenuItem onClick={e => updateStatus('trash')}>
                                         <ListItemIcon>
                                             <DeleteIcon />
@@ -417,14 +425,14 @@ const Header = (props) => {
                         data.post?.status === 'trash' &&
                         <>
                             {
-                                checkPermission(postType + '_delete') && data.post?.id &&
+                                permission[postType + '_delete'] && data.post?.id &&
                                 <Button style={{ marginRight: 8 }} onClick={handelOnClickDelete} color="secondary" variant="contained">
                                     {__('Delete')}
                                 </Button>
                             }
 
                             {
-                                checkPermission(postType + '_restore') &&
+                                permission[postType + '_restore'] &&
                                 <Tooltip title={__('Restore')} aria-label="Restore"><span><Button style={{ marginRight: 8 }} onClick={restorePost} color="success" variant="contained">
                                     {__('Restore')}
                                 </Button></span></Tooltip>
@@ -455,7 +463,7 @@ const Header = (props) => {
                         data ?
                             data.action === 'ADD_NEW' ?
                                 (
-                                    checkPermission(postType + '_create') ?
+                                    permission[postType + '_create'] ?
                                         <Button
                                             color="primary"
                                             onClick={handleSubmit}
@@ -468,7 +476,7 @@ const Header = (props) => {
                                 )
                                 :
                                 (
-                                    checkPermission(postType + '_edit') ?
+                                    permission[postType + '_edit'] ?
                                         <>
                                             <Tooltip title={__('Create a new post is a copy of the current post')}><span>
                                                 <Button onClick={(e) => { data.post._copy = true; handleSubmit(); }} variant="contained" style={{ marginRight: 8 }}>{__('Copy')}</Button>

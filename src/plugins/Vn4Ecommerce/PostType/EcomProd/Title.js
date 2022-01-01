@@ -5,8 +5,10 @@ import React from 'react';
 function Title({ post }) {
 
     return (
-        <Box display="flex" alignItems="center">
-            <AvatarCustom variant="square" style={{ marginRight: 8 }} image={post.thumbnail} name={post.title} /> {post.title}
+        <Box display="flex" alignItems="center" gridGap={8}>
+            <AvatarCustom variant="square" image={post.thumbnail} name={post.title} />
+            <span style={{ opacity: .6 }} >#{post.id}:</span>
+            {post.title}
         </Box>
     )
 }

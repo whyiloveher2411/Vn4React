@@ -9,7 +9,7 @@ function route($name, $parameters = array(), $absolute = true, $route = null, $a
 
 	if( $add_action ){
 
-		$action = do_action('route',$name, $parameters, $absolute, $route);
+		$action = do_action('route',null, $name, $parameters, $absolute, $route);
 
 		if( $action ){
 			return $action;

@@ -6,7 +6,10 @@ $locale = 'vi_VN';
 
 $input = json_decode($r->getContent(),true);
 
-$url = $input['url'];
+
+$settings = setting('seo/analytics/google_search_console');
+
+$url = $settings['anylticWebsite'];
 
 $result = [];
 

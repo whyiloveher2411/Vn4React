@@ -4,61 +4,51 @@ import ActiveUserRightNow from '../compoments/Reports/ActiveUserRightNow';
 import Device from '../compoments/Reports/Device';
 import { useAjax } from 'utils/useAjax';
 import { CircularCustom } from 'components';
+import { useSelector } from 'react-redux';
+import { addScript } from 'utils/helper';
 
 function Main({ plugin }) {
 
+    const settings = useSelector(state => state.settings);
+
     const [loadScript, setLoadScript] = React.useState(false);
+    
     const [data, setData] = React.useState(false);
 
+    const config = settings['google_analytics/analytics_api'];
 
-    let meta = {};
-
-    if (plugin.meta) {
-        meta = JSON.parse(plugin.meta);
-    }
-
-    if (!meta) {
-        meta = {};
-    }
-
-    const {ajax} = useAjax();
+    const { ajax } = useAjax();
 
     React.useEffect(() => {
 
-        if (meta.access_token_first) {
+        if (settings['google_analytics/analytics_api/active'] && config.complete_installation) {
 
-            if (!document.getElementById('googleCharts')) {
-                const script = document.createElement("script");
-                script.id = 'googleCharts';
-                script.src = "https://www.gstatic.com/charts/loader.js";
-                script.async = true;
+            if (config.access_token_first) {
 
-                script.onload = () => {
+                addScript('https://www.gstatic.com/charts/loader.js', 'googleCharts', () => {
                     setLoadScript(true);
-                };
-                document.body.appendChild(script);
-            } else {
-                setLoadScript(true);
-            }
+                });
 
-            console.error = function () { };
+                console.error = function () { };
 
-            ajax({
-                url: 'plugin/' + plugin.key_word + '/dashboard/reports',
-                method: 'POST',
-                data: {
-                    step: 'getDataRealtime'
-                },
-                success: (result) => {
-                    if (!result.error) {
-                        setData(result);
+                ajax({
+                    url: 'plugin/' + plugin.key_word + '/dashboard/reports',
+                    method: 'POST',
+                    data: {
+                        step: 'getDataRealtime'
+                    },
+                    success: (result) => {
+                        if (!result.error) {
+                            setData(result);
+                        }
                     }
-                }
-            });
+                });
+            }
         }
-    }, []);
 
-    if (!meta.access_token_first) {
+    }, [settings]);
+
+    if (!settings['google_analytics/analytics_api/active']) {
         return null;
     }
 

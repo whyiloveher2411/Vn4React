@@ -1,10 +1,16 @@
 <?php
 
-function appearance_menu_get(){
+function appearance_menu_get($id = null){
     
     $obj = new Vn4Model(vn4_tbpf().'menu');
 
-    $menus = $obj->where('type','menu_item')->where('status',1)->get();
+    $menus = $obj->where('type','menu_item');
+    
+    if( $id ){
+        $menus->where('id',$id);
+    }
+
+    $menus = $menus->where('status',1)->get();
 
     if( !isset($menus[0]) ){
 
@@ -76,23 +82,19 @@ function appearance_menu_delete($data){
 
 
         $menu = Vn4Model::seek(vn4_tbpf().'menu',$data['id']);
-
-        $menu->delete();
-
-        cache_tag('menu',null,'clear');
         
-        return true;
+        if( $menu ){
+            $menu->delete();
+            cache_tag('menu',null,'clear');
+            return true;
+        }
     }
     return false;
 }
 
 function appearance_get_location(){
     
-    $menusLocaltion = [];
-
-    $menusLocaltion2 = do_action('register_nav_menus',$menusLocaltion);
-
-    if( $menusLocaltion2 ) $menusLocaltion = $menusLocaltion2;
+    $menusLocaltion = do_action('register_nav_menus',[]);
 
     $key = array_keys($menusLocaltion);
 
@@ -114,8 +116,11 @@ function appearance_get_location(){
 
 }
 
-function appearance_get_data($result, $getPostType = false){
-    $result['menus'] = appearance_menu_get();
+function appearance_get_data($id = null, $getPostType = false){
+
+    $result = [];
+
+    $result['menus'] = appearance_menu_get($id);
     if( $getPostType ){
         $result['post_type'] = get_admin_object();
     }

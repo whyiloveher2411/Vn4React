@@ -1,4 +1,4 @@
-import { Chip } from '@material-ui/core';
+import Chip from '@material-ui/core/Chip';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 

@@ -17,7 +17,6 @@ if( !empty($ids) ){
 				'where'=>[
 					['ecommerce_filter',$id]
 				],
-				'type'=>'many_record',
 				'value'=>$filter_value[$id]??'',
 			]).'</div>';
 		}

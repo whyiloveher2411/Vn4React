@@ -315,11 +315,10 @@ export default function CustomizedSteppers() {
       case 3:
         return <Administrator post={administrator} onReview={(key, value) => { administrator[key] = value; }} />;
       default:
-        return <div style={{ textAlign: 'center' }}><Link variant="contained" color="primary" to={'/dashboard'}>
-          <Button variant="contained" color="primary">
+        return <div style={{ textAlign: 'center' }}><Button component={Link} to={'/dashboard'} variant="contained" color="primary">
             Backend
           </Button>
-        </Link></div>;
+        </div>;
     }
   };
 

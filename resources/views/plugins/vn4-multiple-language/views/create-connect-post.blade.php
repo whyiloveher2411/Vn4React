@@ -55,7 +55,6 @@
 	    	 			'view'=>'relationship_onetoone',
 	    	 			'object'=>$post_type,
 	    	 			'excludeRelationshipOnetoone'=>false,
-	    	 			'type'=>'many_record',
 	    	 		];
 	    	 	}
 

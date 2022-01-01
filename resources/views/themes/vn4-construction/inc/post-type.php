@@ -158,7 +158,6 @@ register_post_type(function($list_post_type){
 		            'title'=>__('Tag'),
 		            'view' =>'relationship_manytomany',
 		            'object'=>'blog_tag',
-		            'type'=>'many_record',
 		            'advance'=>'right',
 		            'note'=>'note 6',
 		            'show_data'=>false,

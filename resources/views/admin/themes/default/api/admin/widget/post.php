@@ -1,12 +1,7 @@
 <?php
 $sidebars = $r->get('sidebars');
 
-$list_sidebar = [];
-
-$list_sidebar2 = do_action('register_sidebar',$list_sidebar);
-
-if( $list_sidebar2 ) $list_sidebar = $list_sidebar2;
-
+$list_sidebar = do_action('register_sidebar',[]);
 
 $list_widgets = use_module('widget');
 

@@ -4,7 +4,6 @@ include __DIR__.'/update_post_relationship.php';
 
 function newOrEdit($input, $type, $user){
     
-
     // $input = json_decode($r->getContent(),true);
 
     $input['attributes_order'] = $input['order']??0;
@@ -223,4 +222,22 @@ function requestMoreData( &$posts, $admin_object ){
             
         }
     }
+}
+
+function getAuthorPostType($id){
+
+    $admin_object = get_admin_object();
+
+    $user = (new Vn4Model($admin_object['user']['table']))->where('type','user')->where('id',$id)->select(['first_name','last_name','profile_picture'])->first();
+
+    if( $user ){
+        return $user;
+    }
+
+    return false;
+}
+
+function getEditorPostType($ids){
+    $admin_object = get_admin_object();
+    return (new Vn4Model($admin_object['user']['table']))->where('type','user')->whereIn('id',$ids)->select(['first_name','last_name','profile_picture'])->get();
 }

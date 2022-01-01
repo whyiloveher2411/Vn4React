@@ -9,7 +9,7 @@ $result = [];
 
 
 // UPDATE MENU
-foreach( $input['menuItem'] as $menuRequest){
+foreach( $input['menuItem'] as $idMenu => $menuRequest){
 
     $menu = Vn4Model::firstOrAddnew(vn4_tbpf().'menu',[Vn4Model::$id => $menuRequest['id']]);
     if( $menu ){
@@ -45,6 +45,8 @@ foreach ($input['location'] as $key => $location) {
     Cache::forget('menu - '.$menu_filter->key_word);
 }
 
-$result = appearance_get_data($result, true);
+$result = appearance_get_data($idMenu, true);
+
+$result['message'] = apiMessage('Menu update successful');
 
 return $result;

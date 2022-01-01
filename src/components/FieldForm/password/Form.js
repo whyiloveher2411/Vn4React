@@ -37,14 +37,16 @@ export default React.memo(function PasswordForm(props) {
         }
 
         setValues({ ...values, password: randomstring });
-        onReview(randomstring)
+        onReview(null, {
+            [name]: randomstring,
+            ['_' + name]: randomstring,
+        });
     };
 
     return (
         <FormControl fullWidth variant="outlined">
             <InputLabel htmlFor="outlined-adornment-password">{config.title}</InputLabel>
             <OutlinedInput
-                id="outlined-adornment-password"
                 type={values.showPassword ? 'text' : 'password'}
                 value={values.password}
                 onBlur={e => { onReview(e.target.value) }}
@@ -73,11 +75,12 @@ export default React.memo(function PasswordForm(props) {
                     </InputAdornment>
                 }
                 label={config.title}
+                error={config.error ? config.error : false}
                 {...rest}
             />
             {
                 Boolean(config.note) &&
-                <FormHelperText ><span dangerouslySetInnerHTML={{ __html: config.note }}></span></FormHelperText>
+                <FormHelperText error={config.error ? config.error : false}><span dangerouslySetInnerHTML={{ __html: config.note }}></span></FormHelperText>
             }
         </FormControl>
 
@@ -85,5 +88,5 @@ export default React.memo(function PasswordForm(props) {
 
     )
 }, (props1, props2) => {
-    return props1.post[props1.name] === props2.post[props2.name];
+    return !props1.config.forceRender && props1.post[props1.name] === props2.post[props2.name];
 })

@@ -65,7 +65,6 @@ export default function FilterSetting(props) {
 
         }
         setPost({ filters: initialValues });
-        console.log(data);
     }, [data]);
 
     React.useEffect(() => {
@@ -146,7 +145,6 @@ export default function FilterSetting(props) {
                     title: { title: 'Title' },
                     icon: { title: 'Icon' },
                     color: { title: 'Color', view: 'color' },
-                    showOnHeader: { title: 'Show On Header', view: 'true_false' },
                     conditions: {
                         title: 'Conditions',
                         view: 'PostTypeConditions',

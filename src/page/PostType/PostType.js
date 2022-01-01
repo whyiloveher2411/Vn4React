@@ -1,14 +1,20 @@
 import RedirectWithMessage from 'components/RedirectWithMessage';
 import React from 'react';
-import { checkPermission } from 'utils/user';
+import { usePermission } from 'utils/user';
 import CreateData from './components/CreateData/CreateData';
 import ShowData from './components/ShowData/ShowData';
 
 const PostType = (props) => {
 
+    const permission = usePermission(
+        props.match.params.type + '_list',
+        props.match.params.type + '_edit',
+        props.match.params.type + '_create',
+    );
+
     if (props.match.params.action === 'list') {
 
-        if (checkPermission(props.match.params.type + '_list')) {
+        if (permission[props.match.params.type + '_list']) {
             return <ShowData {...props}></ShowData>;
         } else {
             return <RedirectWithMessage />
@@ -16,7 +22,7 @@ const PostType = (props) => {
 
     } else if (props.match.params.action === 'edit') {
 
-        if (checkPermission(props.match.params.type + '_edit')) {
+        if (permission[props.match.params.type + '_edit']) {
             return <CreateData {...props}></CreateData>;
         } else {
             return <RedirectWithMessage />
@@ -24,7 +30,7 @@ const PostType = (props) => {
 
     } else if (props.match.params.action === 'new') {
 
-        if (checkPermission(props.match.params.type + '_create')) {
+        if (permission[props.match.params.type + '_create']) {
             return <CreateData {...props}></CreateData>;
         } else {
             return <RedirectWithMessage />

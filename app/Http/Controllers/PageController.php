@@ -16,7 +16,8 @@ class PageController extends Controller {
 
 	public function index(Request $r){
 
-		$action = do_action('index',$r);
+		$action = do_action('index');
+
 		if( $action ) return $action;
 
 
@@ -42,7 +43,8 @@ class PageController extends Controller {
 	
 	public function getPage(Request $r, $page){
 
-		$action = do_action('getPage',$page);
+		$action = do_action('getPage',null, $page);
+
 		if( $action ) return $action;
 
 		if( $post = getPostBySlug('page',$page) ){
@@ -93,7 +95,8 @@ class PageController extends Controller {
 
 			if( $post = getPostBySlug($GLOBALS['custom_post_slug'][$custom_post_slug],$post_slug) ){
 
-				$action = do_action('postDetail',$post, $custom_post_slug, $post_slug, $slug_detail);
+				$action = do_action('postDetail',null, $post, $custom_post_slug, $post_slug, $slug_detail);
+				
 				if( $action ) return $action;
 
 				if( $post ){

@@ -59,30 +59,37 @@ export default React.memo(function ImageForm(props) {
     const [openSourDialog, setOpenSourDialog] = React.useState(false);
     const [openFilemanagerDialog, setOpenFilemanagerDialog] = React.useState(false);
 
-    let valueInital = {};
 
-    try {
-        if (typeof post[name] === 'object') {
-            valueInital = post[name];
-        } else {
-            if (post[name]) {
-                valueInital = JSON.parse(post[name]);
+
+    React.useEffect(() => {
+
+        let valueInital = {};
+
+        try {
+            if (typeof post[name] === 'object' && post[name] !== null) {
+                valueInital = post[name];
+            } else {
+                if (post[name]) {
+                    valueInital = JSON.parse(post[name]);
+                }
             }
+        } catch (error) {
+            valueInital = {};
         }
-    } catch (error) {
-        valueInital = {};
-    }
 
-    if (!valueInital) valueInital = {};
+        if (!valueInital) valueInital = {};
 
-    post[name] = valueInital;
+        onReview(valueInital);
+        setValue(valueInital.link);
+        setValueInput(valueInital.link);
+    }, []);
 
-    const [value, setValue] = React.useState(valueInital.link);
-    const [valueInput, setValueInput] = React.useState(valueInital.link);
+    const [value, setValue] = React.useState(null);
+    const [valueInput, setValueInput] = React.useState(null);
     const [render, setRender] = React.useState(0);
 
     const handleClickOpenSourceDialog = () => {
-        setValueInput(valueInital.link);
+        setValueInput(post[name].link);
         setOpenSourDialog(true);
     };
 
@@ -149,21 +156,24 @@ export default React.memo(function ImageForm(props) {
         <FormControl component="fieldset">
             <FormLabel style={{ marginBottom: 4 }} component="legend">{config.title}</FormLabel>
 
-            {post[name].link &&
+            {Boolean(post[name].link) &&
                 <div>
                     <div style={{ marginBottom: 5, position: 'relative', display: 'inline-block' }}>
                         <IconButton style={{ background: 'rgba(32,33,36,0.6)' }} onClick={handleClickRemoveImage} size="small" className={classes.removeImg} aria-label="Remove Image" component="span">
                             <HighlightOffOutlinedIcon style={{ color: 'rgba(255,255,255,0.851)' }} />
                         </IconButton>
-                        <CardMedia
-                            onClick={handleClickOpenSourceDialog}
-                            style={{ maxWidth: '100%', width: 'auto', cursor: 'pointer' }}
-                            component="img"
-                            image={'/admin/fileExtension/ico/' + (post[name].ext.replace(/[^a-zA-Z0-9]/g, "").toLowerCase() + '.jpg')}
-                        />
+                        {
+                            Boolean(post[name].ext) &&
+                            <CardMedia
+                                onClick={handleClickOpenSourceDialog}
+                                style={{ maxWidth: '100%', width: 'auto', cursor: 'pointer' }}
+                                component="img"
+                                image={typeof post[name].ext === 'string' ? '/admin/fileExtension/ico/' + (post[name].ext.replace(/[^a-zA-Z0-9]/g, "").toLowerCase() + '.jpg') : ''}
+                            />
+                        }
                     </div>
                     <Typography variant="body2" style={{ marginBottom: 16, wordBreak: 'break-all' }}>
-                        {decodeURI(post[name].link.replace(/^.*[\\/]/, ''))}
+                        {typeof post[name].link === 'string' ? decodeURI(post[name].link.replace(/^.*[\\/]/, '')) : ''}
                     </Typography>
                 </div>
             }
@@ -223,18 +233,8 @@ export default React.memo(function ImageForm(props) {
                             open={openFilemanagerDialog}
                             onClose={handleCloseFilemanagerDialog}
                             TransitionComponent={Transition}
-                            titlePadding={0}
                             disableEscapeKeyDown
-                            title={
-                                <Toolbar>
-                                    <IconButton edge="start" color="inherit" onClick={handleCloseFilemanagerDialog} aria-label="close">
-                                        <CloseIcon />
-                                    </IconButton>
-                                    <Typography variant="h4" className={classes.title}>
-                                        {__('File Mangage')}
-                                    </Typography>
-                                </Toolbar>
-                            }
+                            title={__('File Mangage')}
                             width={1700}
                             restDialogContent={{
                                 style: {

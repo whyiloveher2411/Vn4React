@@ -1,4 +1,4 @@
-import Insights from './Insights';
+import Report from './Report';
 import Inventory from './Inventory';
 import Reviews from './Reviews';
 import Customers from './Customers';
@@ -10,9 +10,9 @@ export default function (props) {
 
     if (props.action === 'EDIT') {
         return {
-            insights: {
-                title: __p('Insights', PLUGIN_NAME),
-                component: (props) => <Insights {...props} />,
+            report: {
+                title: __p('Report', PLUGIN_NAME),
+                component: (props) => <Report {...props} />,
                 priority: 2,
             },
             inventory: {

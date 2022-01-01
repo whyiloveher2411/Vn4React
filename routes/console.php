@@ -26,6 +26,9 @@ if (app()->runningInConsole()) {
         $artisan->resolveCommands(\CMS\Commands\ViewClear::class);
         $artisan->resolveCommands(\CMS\Commands\ViewMinify::class);
         $artisan->resolveCommands(\CMS\Commands\AdminSetPassword::class);
+
+        $artisan->resolveCommands(\CMS\Commands\Development\PluginGenerator::class);
+        $artisan->resolveCommands(\CMS\Commands\Development\ThemeGenerator::class);
     });
 }
 

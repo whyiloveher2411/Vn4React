@@ -11,28 +11,20 @@ $type = $r->get('type', false );
 
 if( !$type ){
     return [
-        'message'=>apiMessage('Please update api key before import')
+        'message'=>apiMessage('Please update api key before import','error')
     ];
 }
 
 /*
 * Check api key updated
 */
-$apiKeys = setting('currency_converter_api',false);
+$apiKey = setting($type,false);
 
-if( !$apiKeys ){
+if( !$apiKey ){
     return [
-        'message'=>apiMessage('Please update api key before import')
+        'message'=>apiMessage('Please update api key before import','error')
     ];
 }
-
-if( !isset($apiKeys[ $type ]) || !$apiKeys[ $type ] ){
-    return [
-        'message'=>apiMessage('Please update api key before import')
-    ];
-}
-
-$apiKey = $apiKeys[ $type ];
 
 
 if( isset($currenciesKeys[0]) ){
@@ -51,7 +43,7 @@ if( isset($currenciesKeys[0]) ){
 
         
         switch ($type) {
-            case 'free.currconv.com':
+            case 'currency/currencyconverter/api_key':
                 
                 try {
                         //code...
@@ -79,7 +71,7 @@ if( isset($currenciesKeys[0]) ){
                 
                 break;
 
-            case 'exchangerate-api.com':
+            case 'currency/exchangerate/api_key':
 
                 try {
                     //code...
@@ -118,7 +110,7 @@ if( isset($currenciesKeys[0]) ){
         
     }
 
-    setting_save('ecommerce_currencies', $currencies);
+    // setting_save('currency/options/allow', $currencies, 'e-commerce', true);
 
     return [
         'currencies'=>$currencies,

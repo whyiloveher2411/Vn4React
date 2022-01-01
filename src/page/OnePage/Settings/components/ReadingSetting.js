@@ -47,11 +47,12 @@ function DateTimeFormat(props) {
                                 compoment={'select'}
                                 config={{
                                     title: __('Page'),
-                                    list_option: config.readingPageStatic
+                                    list_option: config.readingPageStatic,
+                                    disableClearable: true
                                 }}
                                 post={value}
                                 name={'static-page'}
-                                onReview={v => { setValue({ ...post[name], 'static-page': v }) }}
+                                onReview={v => { setValue({ ...post[name], type: 'static-page', 'static-page': v }) }}
                             />
                         </Grid>
                     </Grid>
@@ -72,7 +73,7 @@ function DateTimeFormat(props) {
                                 post={value}
                                 name={'post-type'}
                                 onReview={(v) => {
-                                    setValue(() => ({ ...post[name], 'post-type': v, 'post-id': false, 'post-id_detail': '' }));
+                                    setValue(() => ({ ...post[name], type: 'custom', 'post-type': v, 'post-id': false, 'post-id_detail': '' }));
                                 }}
                             />
                         </Grid>

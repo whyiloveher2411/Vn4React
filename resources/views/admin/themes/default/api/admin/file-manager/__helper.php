@@ -72,7 +72,7 @@ function __getConfig(){
     
     return [
         'extension' => [
-            'ext_file' => array('doc'=>1,'docx'=>1,'json'=>1,'rtf'=>1,'pdf'=>1, 'xls'=>1, 'xlsx'=>1, 'txt'=>1, 'csv'=>1 ),
+            'ext_file' => array('doc'=>1,'docx'=>1,'json'=>1,'rtf'=>1,'pdf'=>1, 'xls'=>1, 'xlsx'=>1, 'txt'=>1, 'csv'=>1, 'html'=>1 ),
             'ext_image' => array('jpeg'=>1,'jpg'=>1,'png'=>1,'svg'=>1,'gif'=>1, 'ico'=>1, 'bmp'=>1, 'webp'=>1, ),
             'ext_misc' => array('zip'=>1,'rar'=>1,'gz'=>1,'tar'=>1,'iso'=>1, 'dmg'=>1 ),
             'ext_video' => array('mov'=>1,'mpeg'=>1,'m4v'=>1,'mp4'=>1,'avi'=>1, 'mpg'=>1, 'wma'=>1, 'flv'=>1, 'webm'=>1 ),

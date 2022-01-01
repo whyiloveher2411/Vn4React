@@ -181,7 +181,6 @@ vn4_tabs_left([
 							'name'=>'data-product[product-grouped]',
 							'object'=>'ecommerce_product',
 							'type_post'=>'ecommerce_product',
-							'type'=>'many_record',
 							'value'=>$value['product-grouped']??'',
 							'where'=>['id','!=',Request::get('post',0)],
 						]);
@@ -208,7 +207,6 @@ vn4_tabs_left([
 							'name'=>'data-product[up-selling]',
 							'object'=>'ecommerce_product',
 							'type_post'=>'ecommerce_product',
-							'type'=>'many_record',
 							'value'=>$value['up-selling']??'',
 							'where'=>['id','!=',Request::get('post',0)],
 						]);
@@ -227,7 +225,6 @@ vn4_tabs_left([
 							'name'=>'data-product[cross-selling]',
 							'object'=>'ecommerce_product',
 							'type_post'=>'ecommerce_product',
-							'type'=>'many_record',
 							'value'=>$value['cross-selling']??'',
 							'where'=>['id','!=',Request::get('post',0)],
 						]);

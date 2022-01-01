@@ -8,7 +8,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import AppsIcon from '@material-ui/icons/Apps';
 import RefreshRoundedIcon from '@material-ui/icons/RefreshRounded';
-import { login } from "actions/user";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
@@ -18,6 +17,10 @@ import Notification from "./Header/Notification";
 import Search from "./Header/Search";
 import Tools from "./Header/Tools";
 import { __ } from "utils/i18n";
+import Hook from "components/Hook";
+import { login } from "reducers/user";
+import { update } from "reducers/settings";
+import { update as updateSidebar } from "reducers/sidebar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,6 +50,8 @@ export default function Header() {
 
   let user = useSelector((state) => state.user);
 
+  const settings = useSelector(s => s.settings);
+
   const history = useHistory();
 
   const classes = useStyles();
@@ -63,12 +68,11 @@ export default function Header() {
       success: (result) => {
 
         if (result.sidebar) {
-          dispatch(
-            {
-              type: 'SIDEBAR_UPDATE',
-              payload: result.sidebar
-            }
-          );
+          dispatch(updateSidebar(result.sidebar));
+        }
+
+        if (result.settings) {
+          dispatch(update(result.settings));
         }
 
         dispatch(login({ ...user }))
@@ -83,7 +87,7 @@ export default function Header() {
         <Toolbar>
           <Link to="/">
             <Typography className={classes.title} variant="h2" noWrap>
-              Biong
+              {settings.admin_template_logo_text ? settings.admin_template_logo_text : 'Biong'}
             </Typography>
           </Link>
 
@@ -91,10 +95,10 @@ export default function Header() {
 
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
+            <Hook hook="TopBar/Right" />
 
             <Tooltip title={__("Refesh")}>
               <IconButton
-                edge="start"
                 color="inherit"
                 onClick={handleRefreshWebsite}
               >

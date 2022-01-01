@@ -9,14 +9,15 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MobileFriendlyIcon from '@material-ui/icons/MobileFriendly';
 import { Alert } from '@material-ui/lab';
-import { updateRequireLogin } from 'actions/requiredLogin';
-import { login, logout } from 'actions/user';
 import FieldForm from 'components/FieldForm';
 import { useSnackbar } from 'notistack';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { __ } from 'utils/i18n';
 import { useAjax } from 'utils/useAjax';
+import { update } from 'reducers/requireLogin';
+import { logout, refreshAccessToken, updateAccessToken } from 'reducers/user';
+import settingService from 'services/setting';
 
 const useStyles = makeStyles(() => ({
     googleBtn: {
@@ -79,7 +80,6 @@ const useStyles = makeStyles(() => ({
 
 function RequireLogin() {
 
-    const settings = useSelector(state => state.settings);
     const requireLogin = useSelector(state => state.requireLogin);
     const user = useSelector(state => state.user);
 
@@ -100,16 +100,28 @@ function RequireLogin() {
 
     const [formData, setFormData] = React.useState(valueInital);
 
+    const [settings, setSettings] = React.useState(false);
+
     React.useEffect(() => {
+
         if (requireLogin.open) {
             setFormData({ ...formData, verification_code: '' });
-        }
-    }, [requireLogin]);
 
-    React.useEffect(() => {
+            if (!settings) {
+
+                (async () => {
+
+                    let config = await settingService.getLoginConfig();
+
+                    setSettings(config.security);
+
+                })();
+            }
+
+        }
 
         if (settings && requireLogin.open) {
-            if (settings.security_active_recapcha_google * 1 === 1) {
+            if (settings.security_active_recaptcha_google * 1 === 1) {
                 if (!document.getElementById('recaptcha')) {
                     let script = document.createElement("script");
                     script.id = 'recaptcha';
@@ -169,7 +181,7 @@ function RequireLogin() {
             showVerificationCode: showVerificationCode
         };
 
-        if (settings.security_active_recapcha_google * 1 === 1) {
+        if (settings.security_active_recaptcha_google * 1 === 1 && window.grecaptcha) {
 
             let recaptcha = window.grecaptcha.getResponse(window.capcha_login);
 
@@ -189,14 +201,9 @@ function RequireLogin() {
 
                 if (result.requiredVerificationCode) {
                     setShowVerificationCode(true);
-                } else if (result.user) {
-                    if (requireLogin.updateUser || user.id !== result.user.id) {
-                        dispatch(login(result.user));
-                    }
+                } else if (result.access_token) {
 
-                    dispatch(updateRequireLogin({ open: false, updateUser: requireLogin.updateUser }));
-
-                    localStorage.setItem('access_token', result.user.access_token);
+                    dispatch(refreshAccessToken(result.access_token));
 
                     if (window.__afterLogin) {
 
@@ -260,7 +267,6 @@ function RequireLogin() {
     }
 
     const handleLogout = () => {
-        dispatch(updateRequireLogin({ open: false, updateUser: requireLogin.updateUser }));
         dispatch(logout());
     }
 
@@ -276,13 +282,10 @@ function RequireLogin() {
 
                 if (result.requiredVerificationCode) {
                     setShowVerificationCode(true);
-                } else if (result.user) {
-
-                    if (requireLogin.updateUser) {
-                        dispatch(login(result.user));
-                    }
-                    dispatch(updateRequireLogin({ open: false, updateUser: requireLogin.updateUser }));
-                    localStorage.setItem('access_token', result.user.access_token);
+                } else if (result.access_token) {
+                    dispatch(refreshAccessToken(result.access_token));
+                    // dispatch(update({ open: false, updateUser: requireLogin.updateUser }));
+                    // localStorage.setItem('access_token', result.user.access_token);
                 }
             }
         });
@@ -300,7 +303,7 @@ function RequireLogin() {
             fullWidth
             className={classes.disableOutline}
         >
-            <DialogTitle disableTypography={true} style={{ fontSize: 22, background: '#455a64', color: 'white', display: 'flex', justifyContent: 'space-between' }}>{__("Sign in")} <Button variant="contained" onClick={handleLogout}>{__("Logout")}</Button></DialogTitle>
+            <DialogTitle disableTypography={true} style={{ fontSize: 22, background: '#455a64', color: 'white', display: 'flex', justifyContent: 'space-between' }}>{__('Sign in')} <Button variant="contained" onClick={handleLogout}>{__('Logout')}</Button></DialogTitle>
             <DialogContent dividers={true}>
                 <DialogContentText
                     component="div"
@@ -308,21 +311,21 @@ function RequireLogin() {
                     <Grid container className={classes.root} spacing={3}>
                         <Grid item xs={12} md={12}>
                             <Alert icon={false} severity="info">
-                                {__("Your session has expired. Please log in to continue where you let off.")}
+                                {__('Your session has expired. Please log in to continue where you let off.')}
                             </Alert>
                         </Grid>
 
                         {
                             showVerificationCode ?
                                 <Grid item xs={12} md={12}>
-                                    <Typography variant="h4">{__("2-Step Verification")}</Typography>
+                                    <Typography variant="h4">{__('2-Step Verification')}</Typography>
 
                                     <Grid container spacing={2} style={{ margin: '10px 0 30px 0' }}>
                                         <Grid item xs={12} md={2}>
                                             <MobileFriendlyIcon style={{ fontSize: 65, color: 'rgb(154 154 154)' }} />
                                         </Grid>
                                         <Grid item xs={12} md={10}>
-                                            <Typography style={{ fontWeight: 500 }} variant="body1">{__("Enter the verification code generated by your mobile application.")}</Typography>
+                                            <Typography style={{ fontWeight: 500 }} variant="body1">{__('Enter the verification code generated by your mobile application.')}</Typography>
                                         </Grid>
                                     </Grid>
 
@@ -368,7 +371,7 @@ function RequireLogin() {
                         }
 
                         {
-                            settings.security_active_recapcha_google * 1 === 1 &&
+                            settings.security_active_recaptcha_google * 1 === 1 &&
                             <Grid item xs={12} md={12}>
                                 <div className="recaptcha-login" id="recaptcha-login"></div>
                             </Grid>
@@ -421,7 +424,7 @@ function RequireLogin() {
                                         <div className="google-icon-wrapper">
                                             <img className="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" />
                                         </div>
-                                        <p className="btn-text"><b>{__("Sign in with google")}</b></p>
+                                        <p className="btn-text"><b>{__('Sign in with google')}</b></p>
                                     </div>
                                 </div>
                             </Grid>

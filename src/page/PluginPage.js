@@ -1,11 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updatePlugins } from '../actions/plugins';
+import { update } from 'reducers/plugins';
 import { toCamelCase } from '../utils/helper';
 import { useAjax } from '../utils/useAjax';
 import NotFound from './NotFound/NotFound';
-import Templates from './Templates/Templates';
-
 
 function PluginPage(props) {
 
@@ -63,7 +61,7 @@ function PluginPage(props) {
                     isGetData: false,
                     success: (result) => {
                         if (result.plugin) {
-                            dispatch(updatePlugins({ [plugin]: result.plugin }));
+                            dispatch(update({ [plugin]: result.plugin }));
                         }
 
                         if (params.success) {
@@ -85,13 +83,6 @@ function PluginPage(props) {
 
             // }
         } catch (error) {
-
-            return <Templates
-                plugin={plugin}
-                pluginDetail={plugins[plugin]}
-                tab={tab}
-                subtab={subtab}
-            />
 
         }
     }

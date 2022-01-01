@@ -29,7 +29,7 @@ export default React.memo(function TextForm(props) {
                             // autoComplete="off"
                             value={valueInital}
                             label={config.title}
-                            onBlur={e => { onReview(e.target.value); }}
+                            onBlur={handleOnChange}
                             onChange={e => { setRender(render + 1); post[name] = e.target.value }}
                             placeholder={config.placeholder ?? ''}
                             {...config.inputProps}
@@ -43,7 +43,7 @@ export default React.memo(function TextForm(props) {
                         // autoComplete="off"
                         value={valueInital}
                         onBlur={handleOnChange}
-                        onChange={handleOnChange}
+                        onChange={e => { setRender(render + 1); post[name] = e.target.value }}
                         placeholder={config.placeholder ?? ''}
                         {...rest}
                     />

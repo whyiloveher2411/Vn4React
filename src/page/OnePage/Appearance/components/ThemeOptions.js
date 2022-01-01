@@ -1,12 +1,12 @@
-import { Card, CardActions, CardContent, colors, Divider } from '@material-ui/core';
+import { Card, CardActions, CardContent, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { CircularCustom, Button } from 'components';
+import { Button, CircularCustom } from 'components';
 import RedirectWithMessage from 'components/RedirectWithMessage';
 import React from 'react';
 import { getUrlParams } from 'utils/herlperUrl';
 import { __ } from 'utils/i18n';
 import { useAjax } from 'utils/useAjax';
-import { checkPermission } from 'utils/user';
+import { usePermission } from 'utils/user';
 import TabContent from './ThemeOptions/TabContent';
 
 const useStyles = makeStyles((theme) => ({
@@ -52,7 +52,7 @@ export default function ThemeOptions({ history }) {
 
     const [tabCurrent, setTableCurrent] = React.useState(0);
     const [data, setData] = React.useState(null);
-    const permission = checkPermission('theme_options_management');
+    const permission = usePermission('theme_options_management').theme_options_management;
 
     const handleChangeTab = (i) => {
         history.push('?tab=' + Object.keys(data)[i]);

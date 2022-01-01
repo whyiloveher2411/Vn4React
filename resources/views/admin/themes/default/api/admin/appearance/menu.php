@@ -8,9 +8,7 @@ $theme = theme_name();
 $result = [];
 
 $menusLocaltion = apply_filter('register_nav_menus',[]);
-$menusLocaltion2 = do_action('register_nav_menus',$menusLocaltion);
-
-if( $menusLocaltion2 ) $menusLocaltion = $menusLocaltion2;
+$menusLocaltion = do_action('register_nav_menus',$menusLocaltion);
 
 // CREATE MENU NEW
 if( $param1 === 'create' && isset($input['name']) && $input['name'] ){

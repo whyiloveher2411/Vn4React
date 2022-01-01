@@ -2,7 +2,8 @@ import { Box, Button, Card, CardActions, CardContent, CardHeader, Checkbox, Circ
 import StarBorderOutlinedIcon from '@material-ui/icons/StarBorderOutlined';
 import StarOutlinedIcon from '@material-ui/icons/StarOutlined';
 import { makeStyles } from '@material-ui/styles';
-import { ActionPost, DialogCustom, DrawerEditPost, FieldView, GenericMoreButton, NotFound, TableEditBar } from 'components';
+import { ActionPost, DialogCustom, DrawerEditPost, FieldView, NotFound, TableEditBar } from 'components';
+import MoreButton from 'components/MoreButton';
 import React, { useState } from 'react';
 import { useAjax } from 'utils/useAjax';
 import { __ } from 'utils/i18n';
@@ -24,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     },
     cardHeader: {
         padding: 0,
+        height: 56,
         '& .MuiCardHeader-action': {
             alignSelf: 'center'
         }
@@ -47,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
     actions: {
         padding: theme.spacing(1),
         justifyContent: 'flex-end',
+
     },
     iconLoading: {
         position: 'absolute',
@@ -73,11 +76,19 @@ const useStyles = makeStyles((theme) => ({
         cursor: 'pointer',
         '&:hover': {
             '& .actionPost': {
-                opacity: 1
+                opacity: 1,
+                '& .MuiIconButton-root': {
+                    opacity: 0.7,
+                    '&:hover': {
+                        opacity: 1
+                    }
+                }
             }
         },
         '&>td': {
-            padding: 8
+            padding: 8,
+            position: 'relative',
+            height: 48
         },
         '&>.MuiTableCell-paddingCheckbox': {
             padding: '0 0 0 4px'
@@ -231,7 +242,13 @@ const Results = (props) => {
     };
 
 
-    let keyFields;
+    let keyFields = options.fields ? Object.keys(options.fields).filter(key => options.fields[key].show_data !== false || options.fields[key].show_data === undefined) : [];
+
+
+    // (keyFields = Object.keys(options.fields)) &&
+    // keyFields.map(key => (
+    //     (options.fields[key].show_data !== false || options.fields[key].show_data
+
 
     return (
         <div {...rest} className={classes.root + ' ' + classes.results}>
@@ -254,30 +271,37 @@ const Results = (props) => {
             <Card className={classes.cardWarper + ' ' + (loading ? classes.showLoading : '')}>
                 <CardHeader
                     className={classes.cardHeader}
-                    action={<GenericMoreButton
-                        action={[
-                            {
-                                import: {
-                                    title: 'Import',
-                                    icon: 'PublishRounded',
-                                    action: () => { alert('Coming sooon.') }
-                                },
-                                export: {
-                                    title: 'Export',
-                                    icon: 'GetAppRounded',
-                                    action: () => { alert('Coming sooon.') }
-                                },
-                            },
-                            {
-                                columns: {
-                                    title: 'Columns',
-                                    icon: 'SettingsOutlined',
-                                    action: () => { alert('Coming sooon.') }
-                                }
-                            }
-                        ]}
-                    />}
-                    title={<FilterGroup acctionPost={acctionPost} queryUrl={queryUrl} data={result} onFilter={onFilter} setQueryUrl={setQueryUrl} options={options} />}
+                    action={
+                        <>
+                            <Button>Import</Button>
+                            <Button>Export</Button>
+                            <Button>Columns</Button>
+                            <MoreButton
+                                action={[
+                                    {
+                                        import: {
+                                            title: 'Import',
+                                            icon: 'PublishRounded',
+                                            action: () => { alert('Coming sooon.') }
+                                        },
+                                        export: {
+                                            title: 'Export',
+                                            icon: 'GetAppRounded',
+                                            action: () => { alert('Coming sooon.') }
+                                        },
+                                    },
+                                    {
+                                        columns: {
+                                            title: 'Columns',
+                                            icon: 'SettingsOutlined',
+                                            action: () => { alert('Coming sooon.') }
+                                        }
+                                    }
+                                ]}
+                            />
+                        </>
+                    }
+                    // title={<FilterGroup acctionPost={acctionPost} queryUrl={queryUrl} data={result} onFilter={onFilter} setQueryUrl={setQueryUrl} options={options} />}
                 />
                 <Divider />
                 <CardContent className={classes.content}>
@@ -306,15 +330,11 @@ const Results = (props) => {
 
                                 </TableCell>
                                 {options.fields &&
-                                    Object.keys(options.fields).map(key => (
-                                        (options.fields[key].show_data !== false || options.fields[key].show_data === undefined)
-                                            ?
-                                            <TableCell className={classes.pad8} key={key}>{options.fields[key].title}</TableCell>
-                                            :
-                                            <React.Fragment key={key}></React.Fragment>
+                                    keyFields.map(key => (
+                                        <TableCell className={classes.pad8} key={key}>{options.fields[key].title}</TableCell>
                                     ))
                                 }
-                                <TableCell padding="checkbox"></TableCell>
+                                <TableCell align='right'>{__('Status')}</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -374,41 +394,37 @@ const Results = (props) => {
                                             </Tooltip>
                                         </TableCell>
                                         {
-                                            (keyFields = Object.keys(options.fields)) &&
                                             keyFields.map(key => (
-                                                (options.fields[key].show_data !== false || options.fields[key].show_data === undefined)
-                                                    ?
-                                                    key === keyFields[0] ?
-                                                        <TableCell key={key} className={classes.trRowAction}>
-                                                            <Box display="flex" alignItems="center" >
-                                                                <FieldView name={key} compoment={options.fields[key].view} post={customer} config={options.fields[key]} content={customer[key]} actionLiveEdit={actionLiveEdit} />
-                                                                <LabelPost post={customer} />
-                                                                {
-                                                                    (() => {
-                                                                        if (customer.is_homepage) {
-                                                                            try {
-                                                                                let label = JSON.parse(customer.is_homepage);
+                                                key === keyFields[0] ?
+                                                    <TableCell key={key} className={classes.trRowAction}>
+                                                        <Box display="flex" alignItems="center" >
+                                                            <FieldView name={key} compoment={options.fields[key].view} post={customer} config={options.fields[key]} content={customer[key]} actionLiveEdit={actionLiveEdit} />
+                                                            {/* <LabelPost post={customer} /> */}
+                                                            {
+                                                                (() => {
+                                                                    if (customer.is_homepage) {
+                                                                        try {
+                                                                            let label = JSON.parse(customer.is_homepage);
 
-                                                                                if (label) {
-                                                                                    return <strong>&nbsp;- {label.title}</strong>;
-                                                                                }
-                                                                            } catch (error) {
-                                                                                return null;
+                                                                            if (label) {
+                                                                                return <strong>&nbsp;- {label.title}</strong>;
                                                                             }
+                                                                        } catch (error) {
+                                                                            return null;
                                                                         }
-                                                                    })()
-                                                                }
-                                                            </Box>
-                                                        </TableCell>
-                                                        :
-                                                        <TableCell key={key}>
-                                                            <FieldView name={key} compoment={options.fields[key].view} config={options.fields[key]} post={customer} content={customer[key]} actionLiveEdit={actionLiveEdit} />
-                                                        </TableCell>
+                                                                    }
+                                                                })()
+                                                            }
+                                                        </Box>
+                                                    </TableCell>
                                                     :
-                                                    <React.Fragment key={key}></React.Fragment>
+                                                    <TableCell key={key}>
+                                                        <FieldView name={key} compoment={options.fields[key].view} config={options.fields[key]} post={customer} content={customer[key]} actionLiveEdit={actionLiveEdit} />
+                                                    </TableCell>
                                             ))
                                         }
-                                        <TableCell>
+                                        <TableCell style={{ position: 'relative', padding: 16 }} align='right'>
+                                            <LabelPost post={customer} />
                                             <ActionPost fromLayout="list" history={history} setConfirmDelete={setConfirmDelete} acctionPost={acctionPost} post={customer} postType={postType} />
                                         </TableCell>
                                     </TableRow>
@@ -418,8 +434,8 @@ const Results = (props) => {
                                     <TableRow>
                                         <TableCell colSpan={100}>
                                             <NotFound subTitle={__('Seems like no {{data}} have been created yet.', {
-                                                    data: result.config?.label?.singularName ?? 'Data'
-                                                })} />
+                                                data: result.config?.label?.singularName ?? 'Data'
+                                            })} />
                                         </TableCell>
                                     </TableRow>
                                     :
@@ -436,7 +452,6 @@ const Results = (props) => {
                     </Table>
                 </CardContent>
                 <CardActions className={classes.actions}>
-
                     <TablePagination
                         component="div"
                         count={rows.total ? rows.total * 1 : 0}
@@ -457,6 +472,7 @@ const Results = (props) => {
                 open={openDrawer}
                 onClose={() => setOpenDrawer(false)}
                 data={dataDrawer}
+                setData={setDataDrawer}
                 handleSubmit={handleSubmit}
                 showLoadingButton={open}
             />

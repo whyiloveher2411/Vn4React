@@ -2,7 +2,6 @@
 $input = $r->all();
 
 if( isset($input['view']) && $input['view'] ){
-    $access_code = $plugin->getMeta('access_token_first');
 
     $listAnalyticsWebsite = [$input['view']];
 
@@ -25,17 +24,12 @@ if( isset($input['view']) && $input['view'] ){
     // }
 
     $dataMeta['listAnalyticsWebsite'] = $listResult;
-
-    $dataMeta['access_token_first'] = $access_code;
     $dataMeta['complete_installation'] = true;
-
-    $plugin->updateMeta($dataMeta);
 
     return [
         'code'=>200,
         'success'=>true,
-        'plugin'=>$plugin,
-        'message'=>apiMessage('Setting Google Analytics Success.')
+        'value'=>$dataMeta,
     ];
 }else{
     return [

@@ -9,7 +9,10 @@ function Reviews({ data }) {
                 title: 'Reviews',
                 object: 'ecom_prod_review',
                 field: 'ecom_prod',
-                view: "relationship_onetomany_show"
+                view: "relationship_onetomany_show",
+                paginate: {
+                    rowsPerPage: 10
+                }
             }}
             post={data.post}
             name={'reviews'}

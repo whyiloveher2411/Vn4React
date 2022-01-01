@@ -15,25 +15,32 @@ function DateTimeFormat(props) {
     React.useEffect(() => {
         setValue((post && post[name]) ? post[name] : '');
         setIsCustom(!(config.list_option && config.list_option[post[name]]));
-        setLable(config.list_option && config.list_option[post[name]] ? config.list_option[post[name]] : '');
+        setLable(config.list_option && config.list_option[post[name]] ? config.list_option[post[name]] : (config.labelCustom ?? ''));
     }, [post]);
 
     const changeValue = (newValue, newIsCustom, newLabel) => {
-        setValue(newValue);
-        setIsCustom(newIsCustom);
-        setLable(newLabel);
-    };
 
-    React.useEffect(() => {
-        onReview(value);
-    }, [value]);
+        setValue(prev => {
+
+            setIsCustom(newIsCustom);
+            setLable(newLabel);
+
+            if (prev !== newValue) {
+                onReview(newValue);
+            }
+
+            return newValue;
+        });
+    };
 
     const changeValueCustom = e => {
 
         setValue(e.target.value);
 
+        onReview(e.target.value);
+
         ajax({
-            url: 'setting/get',
+            url: 'settings/get',
             method: 'POST',
             data: {
                 renderDate: e.target.value
@@ -43,35 +50,36 @@ function DateTimeFormat(props) {
             }
         });
 
-        // e => changeValue(e.target.value, true)
     };
 
     return (
-        <FormControl component="fieldset">
-            <FormLabel component="legend">{config.title}</FormLabel>
-            <RadioGroup aria-label={config.title} name={name} value={value} {...config}>
-                {
-                    config.list_option
-                    && Object.keys(config.list_option).map(key =>
-                        <FormControlLabel onClick={() => changeValue(key, false, config.list_option[key])} key={key} value={key} control={<Radio checked={value === key && !isCustom} color="primary" />} label={config.list_option[key]} />
-                    )
-                }
-                <FormControlLabel style={{ whiteSpace: 'nowrap' }} onClick={() => changeValue(value, true, label)} value={value} control={<><Radio checked={isCustom} color="primary" />{__('Custom')}<TextField size="small" style={{ marginLeft: 8, marginRight: 8 }}
-                    fullWidth
-                    required
-                    variant="outlined"
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                    onChange={changeValueCustom}
-                    name={name}
-                    value={value}
-                    label={config.title}
-                    helperText={config.note}
-                /> {label}</>} />
-            </RadioGroup>
-            <FormHelperText>{config.note}</FormHelperText>
-        </FormControl>
+        <div>
+            <FormControl component="fieldset">
+                <FormLabel component="legend">{config.title}</FormLabel>
+                <RadioGroup aria-label={config.title} name={name} value={value}>
+                    {
+                        config.list_option
+                        && Object.keys(config.list_option).map(key =>
+                            <FormControlLabel onClick={() => changeValue(key, false, config.list_option[key])} key={key} value={key} control={<Radio checked={value === key && !isCustom} color="primary" />} label={config.list_option[key]} />
+                        )
+                    }
+                    <FormControlLabel style={{ whiteSpace: 'nowrap' }} onClick={() => changeValue(value, true, label)} value={value} control={<><Radio checked={isCustom} color="primary" />{__('Custom')}<TextField size="small" style={{ marginLeft: 8, marginRight: 8 }}
+                        fullWidth
+                        required
+                        variant="outlined"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        onChange={changeValueCustom}
+                        name={name}
+                        value={value}
+                        label={config.title}
+                        helperText={config.note}
+                    /> {label}</>} />
+                </RadioGroup>
+                <FormHelperText>{config.note}</FormHelperText>
+            </FormControl>
+        </div>
     )
 }
 

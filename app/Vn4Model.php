@@ -90,7 +90,7 @@ class Vn4Model extends Eloquent{
 
         // if( is_admin() ){
 
-            if( $this->slug && $registerSlug ){
+            if( isset($this->attributes['slug']) && $registerSlug ){
                 $this->slug = registerSlug($this->slug,$this->type, $this->id, true);
                 Cache::forget($this->type.'_'.$this->id);
                 Cache::forget('getPostBySlug_'.$this->type.'##slug##'.$this->slug);
@@ -578,9 +578,7 @@ class Vn4Model extends Eloquent{
             });
         }
 
-        $posts2 = do_action('get_posts', $posts, $post_type);
-
-        if( $posts2 ) $posts = $posts2;
+        $posts = do_action('get_posts', $posts, $post_type);
 
         if( is_array($callback) ){
 
@@ -742,7 +740,7 @@ class Vn4Model extends Eloquent{
         }
 
         if( !isset($this->attributes[$name]) ){
-            $result = do_action('__Vn4Model_function__get', $this, $name);
+            $result = do_action('__Vn4Model_function__get', null, $this, $name);
             if( $result ) return $result;
             else return null;
         }

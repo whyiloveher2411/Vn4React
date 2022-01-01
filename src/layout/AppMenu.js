@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: 0,
     },
     nav: {
+        minWidth: 48,
         display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
         height: 'calc( 100vh - 66px )',
         maxHeight: 'calc( 100vh - 64px )',
@@ -137,7 +138,7 @@ const AppMenu = () => {
 
                             let menuBottom = { management: true, support: true };
 
-                            let menuTop = Object.keys(menuItems).filter(key => !menuBottom[key]).map((key) => (
+                            let menuTop = menuItems !== null && Object.keys(menuItems).filter(key => !menuBottom[key]).map((key) => (
                                 <Tooltip key={key} title={menuItems[key].title} arrow placement="right" >
                                     <Button onClick={() => handleOnClickMenu1(menuItems[key], key)} className={classes.menuItem1}>
                                         <MaterialIcon icon={menuItems[key].icon} />
@@ -145,7 +146,7 @@ const AppMenu = () => {
                                 </Tooltip>
                             ));
 
-                            menuBottom = ['management', 'support'].map((key) => (
+                            menuBottom = menuItems !== null && menuItems.management && menuItems.support && ['management', 'support'].map((key) => (
                                 <Tooltip key={key} title={menuItems[key].title} arrow placement="right" >
                                     <Button onClick={() => handleOnClickMenu1(menuItems[key], key)} className={classes.menuItem1}>
                                         <MaterialIcon icon={menuItems[key].icon} />

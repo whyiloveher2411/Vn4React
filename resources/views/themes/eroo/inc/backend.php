@@ -21,10 +21,10 @@
 
 
 
-register_nav_menus([
-    'header'=>'Nav Header',
-]);
+// register_nav_menus([
+//     'header'=>'Nav Header',
+// ]);
 
-register_sidebar([
-	'sidebar-right'=>['title'=>'Sidebar Right','description'=>'Sidebar Right of Home page, category, post detail.', 'fieldsDefault'=>['title'=>['title'=>'Title']]],
-]);
+// register_sidebar([
+// 	'sidebar-right'=>['title'=>'Sidebar Right','description'=>'Sidebar Right of Home page, category, post detail.', 'fieldsDefault'=>['title'=>['title'=>'Title']]],
+// ]);

@@ -1,10 +1,11 @@
-import { Card, CardContent, colors, Divider, Grid, makeStyles, Typography } from '@material-ui/core';
-import RedirectWithMessage from 'components/RedirectWithMessage';
-import React from 'react';
-import { addScript } from 'utils/helper';
-import { checkPermission } from 'utils/user';
+import { Card, CardContent, Grid, makeStyles, Typography } from '@material-ui/core';
 import { CircularCustom } from 'components';
 import { PageHeaderSticky } from 'components/Page';
+import RedirectWithMessage from 'components/RedirectWithMessage';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { addScript } from 'utils/helper';
+import { usePermission } from 'utils/user';
 import ActiveUserRightNow from './compoments/Reports/ActiveUserRightNow';
 import Country from './compoments/Reports/Country';
 import Device from './compoments/Reports/Device';
@@ -12,8 +13,8 @@ import General from './compoments/Reports/General';
 import PageVisit from './compoments/Reports/PageVisit';
 import TimeActive from './compoments/Reports/TimeActive';
 import Traffic from './compoments/Reports/Traffic';
-import UserTime from './compoments/Reports/UserTime';
 import UserReturn from './compoments/Reports/UserReturn';
+import UserTime from './compoments/Reports/UserTime';
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -35,19 +36,23 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function Settings({ meta, ajaxPluginHandle }) {
+function Settings({ ajaxPluginHandle }) {
 
     const classes = useStyles();
+
+    const settings = useSelector(state => state.settings);
+
+    const config = settings['google_analytics/analytics_api'];
 
     const [loadScript, setLoadScript] = React.useState(false);
     const [data, setData] = React.useState(false);
     const [data2, setData2] = React.useState(false);
 
-    const permission = checkPermission('plugin_google_analytics_view_dashboard');
+    const permission = usePermission('plugin_google_analytics_view_dashboard').plugin_google_analytics_view_dashboard;
 
     React.useEffect(() => {
 
-        if (permission && meta.complete_installation) {
+        if (permission && config?.complete_installation) {
 
             addScript("https://www.gstatic.com/charts/loader.js", 'googleCharts', () => {
                 setLoadScript(true);
@@ -81,7 +86,7 @@ function Settings({ meta, ajaxPluginHandle }) {
 
             console.error = function () { };
         }
-    }, []);
+    }, [settings]);
 
     const charts = [
         {
@@ -196,17 +201,20 @@ function Settings({ meta, ajaxPluginHandle }) {
         },
     ];
 
-    if (!meta.complete_installation) {
+    if (!config) {
+        return <></>;
+    }
+
+    if (!settings['google_analytics/analytics_api/active'] || !config?.complete_installation) {
         return <RedirectWithMessage
             message="Please install google analytics before using this feature!"
-            to="/plugin/vn4-google-analytics/settings"
+            to="/settings/google-analytics/analytics"
             variant="warning" />
     }
 
     if (!permission) {
         return <RedirectWithMessage />
     }
-
 
     return (
         <PageHeaderSticky

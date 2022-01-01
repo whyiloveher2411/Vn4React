@@ -1,22 +1,45 @@
-import { applyMiddleware, createStore, compose } from 'redux'
-import thunkMiddleware from 'redux-thunk'
-import { composeWithDevTools } from 'redux-devtools-extension'
-// import { createLogger } from 'redux-logger';
+import rootReducer from 'reducers';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { applyMiddleware, compose, createStore } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import rootSaga from 'sagas';
 
-import rootReducer from 'reducers'
+import language from 'reducers/language'
+import pluginsAdminReducer from 'reducers/plugins'
+import requiredLoginReducer from 'reducers/requireLogin'
+import settingsReducer from 'reducers/settings'
+import sidebarReducer from 'reducers/sidebar'
+import userReducer from 'reducers/user'
+import viewMode from 'reducers/viewMode'
 
-// const loggerMiddleware = createLogger();
+const sagaMiddleware = createSagaMiddleware();
 
-export default function configureStore(preloadedState = {}) {
-    const middlewares = [thunkMiddleware] // loggerMiddleware
-    const middlewareEnhancer = composeWithDevTools(
-        applyMiddleware(...middlewares)
-    )
+const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-    const enhancers = [middlewareEnhancer]
-    const composedEnhancers = compose(...enhancers)
+const store = configureStore({
+    reducer: {
+        user: userReducer,
+        sidebar: sidebarReducer,
+        plugins: pluginsAdminReducer,
+        settings: settingsReducer,
+        requireLogin: requiredLoginReducer,
+        theme: viewMode,
+        language: language,
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+        serializableCheck: false
+    }).concat(sagaMiddleware),
+    devTools: true
+});
 
-    const store = createStore(rootReducer, preloadedState, composedEnhancers)
+// const store = createStore(rootReducer,
+//     composeEnhancer(applyMiddleware(sagaMiddleware))
+// );
 
-    return store
-}
+// initialData.forEach((initFunc) => {
+//     initFunc(store);
+// });
+
+sagaMiddleware.run(rootSaga);
+
+export default store;

@@ -31,9 +31,10 @@ include cms_path('resource','views/plugins/'.$plugin->key_word.'/inc/function-he
 
 $plugin = plugin('vn4-google-analytics');
 
-$access_code = $plugin->getMeta('access_token_first');
 
-$webpropertie_id = $access_code['webpropertie_id'];
+$settings = setting('google_analytics/analytics_api');
+
+$webpropertie_id = $settings['website'][0];
 
 $access_token = get_access_token($plugin);
 

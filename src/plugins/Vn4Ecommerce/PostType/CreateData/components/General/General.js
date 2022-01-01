@@ -1,36 +1,13 @@
-import { Divider, Grid, InputAdornment, Typography } from '@material-ui/core';
+import { Grid, InputAdornment, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import FieldForm from 'components/FieldForm';
+import { calculatePricing, moneyFormat } from 'plugins/Vn4Ecommerce/helpers/Money';
 import React from 'react';
 import { __p } from 'utils/i18n';
 
 function General(props) {
 
     const { PLUGIN_NAME, postDetail } = props;
-
-    const [profit, setProfit] = React.useState(false);
-
-    const calculateProfit = (price, cost) => {
-
-        console.log(price, cost);
-        if (price && cost) {
-            setProfit({
-                money: price - cost,
-                margin: Number(((parseFloat(price) - parseFloat(cost)) / parseFloat(price) * 100).toFixed(1))
-            });
-        } else {
-            setProfit(false);
-        }
-    }
-
-    React.useEffect(() => {
-        if (profit === false && props.postDetail) {
-            setProfit({
-                money: props.postDetail.profit,
-                margin: props.postDetail.profit_margin
-            });
-        }
-    }, [props.postDetail]);
 
     if (props.post) {
         return (
@@ -49,7 +26,7 @@ function General(props) {
                             post={props.post}
                             name='product_url'
                             onReview={(value) => {
-                                props.onReview(value, 'product_url');
+                                props.onReview(value, 'product_url', true);
                             }}
                         />
                     </Grid>
@@ -64,10 +41,16 @@ function General(props) {
                         }}
                         startAdornment={<InputAdornment position="start">$</InputAdornment>}
                         post={props.post}
-                        name='general_price'
+                        name='price'
                         onReview={(value) => {
-                            props.onReview(value, 'general_price');
-                            calculateProfit(value, props.post.general_cost);
+                            props.onReview((prev) => (
+                                [null, {
+                                    ...calculatePricing({
+                                        ...prev.post.ecom_prod_detail,
+                                        price: value
+                                    })
+                                }]
+                            ), null, true);
                         }}
                     />
                 </Grid>
@@ -75,18 +58,24 @@ function General(props) {
                     <FieldForm
                         compoment='number'
                         config={{
-                            title: __p('Compare at Price', PLUGIN_NAME),
+                            title: __p('Compare at price', PLUGIN_NAME),
                             note: ' ',
                             maxLength: 70
                         }}
                         startAdornment={<InputAdornment position="start">$</InputAdornment>}
                         post={props.post}
-                        name='general_compare_price'
-                        onReview={(value) => props.onReview(value, 'general_compare_price')}
+                        name='compare_price'
+                        onReview={(value) => {
+                            props.onReview((prev) => (
+                                [null, {
+                                    ...calculatePricing({
+                                        ...prev.post.ecom_prod_detail,
+                                        compare_price: value
+                                    })
+                                }]
+                            ), null, true);
+                        }}
                     />
-                </Grid>
-                <Grid item md={12} xs={12}>
-                    <Divider />
                 </Grid>
                 <Grid item md={6} xs={12}>
                     <FieldForm
@@ -98,32 +87,46 @@ function General(props) {
                         }}
                         startAdornment={<InputAdornment position="start">$</InputAdornment>}
                         post={props.post}
-                        name='general_cost'
+                        name='cost'
                         onReview={(value) => {
-                            props.onReview(value, 'general_cost');
-                            calculateProfit(props.post.general_price, value);
+                            props.onReview((prev) => (
+                                [null, {
+                                    ...calculatePricing({
+                                        ...prev.post.ecom_prod_detail,
+                                        cost: value
+                                    })
+                                }]
+                            ), null, true);
                         }}
                     />
                 </Grid>
                 <Grid item md={6} xs={12}>
-                    <Grid
-                        container
-                        spacing={2}>
-                        <Grid item md={6} xs={12}>
+                    <Grid container spacing={3}>
+                        <Grid item md={4} xs={12}>
                             <Typography variant="body2">{__p('Margin', PLUGIN_NAME)}</Typography>
                             <Typography variant="body1">
-                                {profit !== false && profit.margin ?
-                                    new Intl.NumberFormat().format(profit.margin) + '%'
+                                {props.post.profit_margin ?
+                                    props.post.profit_margin + '%'
                                     :
                                     '-'
                                 }
                             </Typography>
                         </Grid>
-                        <Grid item md={6} xs={12}>
+                        <Grid item md={4} xs={12}>
                             <Typography variant="body2">{__p('Profit', PLUGIN_NAME)}</Typography>
                             <Typography variant="body1">
-                                {profit !== false && profit.money ?
-                                    '$' + new Intl.NumberFormat().format(profit.money)
+                                {props.post.profit ?
+                                    moneyFormat(props.post.profit)
+                                    :
+                                    '-'
+                                }
+                            </Typography>
+                        </Grid>
+                        <Grid item md={4} xs={12}>
+                            <Typography variant="body2">{__p('Percent discount', PLUGIN_NAME)}</Typography>
+                            <Typography variant="body1">
+                                {props.post.percent_discount ?
+                                    props.post.percent_discount + '%'
                                     :
                                     '-'
                                 }
@@ -167,35 +170,62 @@ function General(props) {
                         post={props.post}
                         name={'enable_tax'}
                         onReview={(value) => {
-                            props.onReview(value, 'enable_tax');
+                            alert(1);
+                            props.onReview((prev) => (
+                                [null, {
+                                    ...calculatePricing({
+                                        ...prev.post.ecom_prod_detail,
+                                        enable_tax: value
+                                    })
+                                }]
+                            ), null, true);
                         }}
                     />
                 </Grid>
                 {
                     Boolean(props.post.enable_tax === undefined || props.post.enable_tax) &&
-                    <Grid item md={12} xs={12}>
-                        <FieldForm
-                            compoment={'relationship_onetomany'}
-                            config={{
-                                title: __p('Tax class', PLUGIN_NAME),
-                                object: 'ecom_tax',
-                            }}
-                            post={props.post}
-                            getOptionLabel={(option) => {
-                                if (option?.id) {
-                                    return option.title + (option.percentage ? ' (' + Number((parseFloat(option.percentage)).toFixed(6)) + '%)' : '')
+                    <>
+                        <Grid item md={6} xs={12}>
+                            <FieldForm
+                                compoment={'relationship_onetomany'}
+                                config={{
+                                    title: __p('Tax class', PLUGIN_NAME),
+                                    object: 'ecom_tax',
+                                }}
+                                post={props.post}
+                                getOptionLabel={(option) => {
+                                    if (option?.id) {
+                                        return option.title + (option.percentage ? ' (' + Number((parseFloat(option.percentage)).toFixed(6)) + '%)' : '')
+                                    }
+                                    return '';
+                                }}
+                                renderOption={(option) => (
+                                    <>{option.title} {option.percentage && '(' + Number((parseFloat(option.percentage)).toFixed(6)) + '%)'}</>
+                                )}
+                                name={'tax_class'}
+                                onReview={(value, key) => {
+                                    props.onReview((prev) => {
+                                        return [null, {
+                                            ...calculatePricing({
+                                                ...prev.post.ecom_prod_detail,
+                                                ...key
+                                            })
+                                        }];
+                                    }, null, true);
+                                }}
+                            />
+                        </Grid>
+                        <Grid item md={6} xs={12}>
+                            <Typography variant="body2">{__p('Price after tax', PLUGIN_NAME)}</Typography>
+                            <Typography variant="body1">
+                                {props.post.price_after_tax ?
+                                    moneyFormat(props.post.price_after_tax)
+                                    :
+                                    '-'
                                 }
-                                return '';
-                            }}
-                            renderOption={(option) => (
-                                <>{option.title} {option.percentage && '(' + Number((parseFloat(option.percentage)).toFixed(6)) + '%)'}</>
-                            )}
-                            name={'tax_class'}
-                            onReview={(value, key) => {
-                                props.onReview(value, key);
-                            }}
-                        />
-                    </Grid>
+                            </Typography>
+                        </Grid>
+                    </>
                 }
             </Grid>
         )

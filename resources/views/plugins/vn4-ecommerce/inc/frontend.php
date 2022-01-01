@@ -233,6 +233,18 @@ function ecommerce_the_form_quantity(){
 	<?php
 }
 
+function ecommerce_render_data_javascript($post){
+
+	$plugin = plugin('vn4-ecommerce');
+
+	echo view_plugin($plugin, 'views.frontend.render_data_javascript', [
+		'post'=>$post
+	]);
+
+	return;
+}
+
+
 function __ecommerce_get_meta_product(&$post){
 
 	if( !$post->_metaProduct ){

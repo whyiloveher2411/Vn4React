@@ -1,9 +1,10 @@
-import { Card, CardContent, colors, Divider, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Card, CardContent, Grid, makeStyles, Typography } from '@material-ui/core';
+import { PageHeaderSticky } from 'components/Page';
 import RedirectWithMessage from 'components/RedirectWithMessage';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { addScript } from 'utils/helper';
-import { checkPermission } from 'utils/user';
-import { PageHeaderSticky } from 'components/Page';
+import { usePermission } from 'utils/user';
 import Browser from './compoments/Realtime/Browser';
 import General from './compoments/Realtime/General';
 import Location from './compoments/Realtime/Location';
@@ -57,15 +58,21 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-function Realtime({ ajaxPluginHandle, meta }) {
+function Realtime({ ajaxPluginHandle }) {
 
     const classes = useStyles();
 
+    const settings = useSelector(state => state.settings);
+
+    const config = settings['google_analytics/analytics_api'];
+
     const [data, setData] = React.useState(false);
+
     const [loadScript, setLoadScript] = React.useState(false);
+
     const filter = React.useState(false);
 
-    const permission = checkPermission('plugin_google_analytics_view_realtime');
+    const permission = usePermission('plugin_google_analytics_view_realtime').plugin_google_analytics_view_realtime;
 
     React.useEffect(() => {
         if (permission) {
@@ -86,10 +93,10 @@ function Realtime({ ajaxPluginHandle, meta }) {
 
     React.useEffect(() => {
         callData();
-    }, [filter[0]]);
+    }, [settings, filter[0]]);
 
     const callData = () => {
-        if (permission && meta.complete_installation) {
+        if (permission && config?.complete_installation) {
             clearTimeout(window.__GA_TIMEOUT_UPDATE_REALTIME);
 
             ajaxPluginHandle({
@@ -159,15 +166,19 @@ function Realtime({ ajaxPluginHandle, meta }) {
 
     ];
 
-    if (!meta.complete_installation) {
-        return <RedirectWithMessage
-            message="Please install google analytics before using this feature!"
-            to="/plugin/vn4-google-analytics/settings"
-            variant="warning" />
+    if (!config) {
+        return <></>;
     }
 
     if (!permission) {
         return <RedirectWithMessage />
+    }
+
+    if (!settings['google_analytics/analytics_api/active'] || !config.complete_installation) {
+        return <RedirectWithMessage
+            message="Please install google analytics before using this feature!"
+            to="/settings/google-analytics/analytics"
+            variant="warning" />
     }
 
     return (

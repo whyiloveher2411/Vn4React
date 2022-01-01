@@ -1,28 +1,36 @@
-import * as user from '../actions/user'
+import { createSlice } from '@reduxjs/toolkit';
+import { clearAccessToken, setAccessToken } from 'utils/user';
 
-let userInitial = null;
-try {
-    userInitial = JSON.parse(localStorage.getItem('user')) || null;
-} catch (error) {
-}
 
-const userReducer = (state = userInitial, action) => {
+export const slice = createSlice({
+    name: 'user',
+    initialState: {
+        state: 'unknown'
+    },
+    reducers: {
+        updateAccessToken: (state, action) => {
+            setAccessToken(action.payload);
+            return { ...state, accessToken: action.payload, state: 'unknown' };
+        },
+        refreshAccessToken: (state, action) => {
+            setAccessToken(action.payload);
+            return { ...state, accessToken: action.payload, state: 'identify' };
+        },
+        login: (state, action) => {
+            return { ...action.payload, state: 'identify' };
+        },
+        updateInfo: (state, action) => {
+            return { ...action.payload, state: 'identify' };
+        },
+        logout: (state) => {
+            clearAccessToken();
+            return { state: 'nobody' };
+        }
+    },
+});
 
-    switch (action.type) {
-        case user.LOGIN:
-            // console.log(action);
-            localStorage.setItem("user", JSON.stringify(action.payload));
-            return action.payload;
-            break;
-        case user.LOGOUT:
-            localStorage.removeItem('user');
-            localStorage.removeItem('access_token');
-            return null;
-            break;
-        default:
-            return state;
-            break;
-    }
-}
+export const { updateAccessToken, refreshAccessToken, login, updateInfo, logout } = slice.actions;
 
-export default userReducer;
+export default slice.reducer;
+
+

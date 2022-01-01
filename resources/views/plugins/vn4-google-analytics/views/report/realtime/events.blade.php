@@ -1,1 +1,0 @@
-<h2 class="label lable-info label-success pull-right">Coming Soon</h2>

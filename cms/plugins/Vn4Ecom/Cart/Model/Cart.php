@@ -40,16 +40,40 @@ class Cart{
             $itemsSubtotal = 0;
 
             if( isset($products['items'][0]) ){
-
                 foreach( $products['items'] as $index => $product){
+                    switch ($product['product_type']) {
+                        case 'variable':
+                            $totalVariable = 0;
+                            if ( isset($product['variations']) && count($product['variations']) > 0) {
+                                foreach( $product['variations'] as $variation ){
 
-                    if( intval($product['quantity']) < 1 ){
-                        unset($products['items'][$index]);
-                        continue;
+                                    $quantity = $variation['order_quantity'] ? intval($variation['order_quantity']) : 0;
+                                    $price = $variation['price'] ? floatval($variation['price']) : 0;
+                                    $tax = isset($variation['tax']) && floatval($variation['tax']) > 0 ? floatval($variation['tax']) * $quantity : 0;
+
+                                    $variation['total'] = $quantity *  $price + $tax;
+
+                                    $totalVariable += $variation['total'];
+                                }
+                                $product['total'] = $totalVariable;
+                                $itemsSubtotal += $totalVariable;
+                            }else{
+                                unset($products['items'][$index]);
+                            }
+                            break;
+                        default:
+                            if( !isset($product['order_quantity']) || intval($product['order_quantity']) < 1 ){
+                                unset($products['items'][$index]);
+                            }else{
+                                $quantity = $product['order_quantity'] ? intval($product['order_quantity']) : 0;
+                                $price = $product['price'] ? floatval($product['price']) : 0;
+                                $tax = isset($product['tax']) && floatval($product['tax']) > 0 ? floatval($product['tax']) * $quantity : 0;
+
+                                $product['total'] = $price * $quantity + $tax;
+                                $itemsSubtotal += $product['total'];
+                            }
+                            break;
                     }
-
-                    $itemsSubtotal += ($product['price']*$product['quantity']);
-
                 }
             }
             
@@ -98,6 +122,23 @@ class Cart{
         return $this->detailedPrice['coupons'];
     }
 
+    public static function getDiscount( $discount, $total ){
+
+        if( is_string($discount) ){
+            $discount = json_decode($discount,true);
+        }
+
+        if( isset($discount['value']) && $discount['value'] ){
+            if( $discount['type'] === '%' ){
+                return $total*$discount['value']/100;
+            }else{
+                return $discount['value'];
+            }
+        }else{
+            return 0;
+        }
+    }
+
     /*
     *Calculate the total amount of discount based on order
     */
@@ -109,16 +150,7 @@ class Cart{
 
             if( !$discount ) $discount = []; 
 
-            if( isset($discount['value']) && $discount['value'] ){
-                if( $discount['type'] === '%' ){
-                    $productAmount = $this->calculateItemsSubtotal();
-                    $discount['total'] = $productAmount*$discount['value']/100;
-                }else{
-                    $discount['total'] = $discount['value'];
-                }
-            }else{
-                $discount['total'] = 0;
-            }
+            $discount['total'] = self::getDiscount($discount, $this->calculateItemsSubtotal());
 
             $this->order->discount = json_encode( $discount );
             $this->detailedPrice['coupons'] = $discount['total'];
@@ -141,6 +173,21 @@ class Cart{
         }
 
         $this->order->history = json_encode($historyJson);
+
+    }
+
+    public static function getRevenueOrder( $product, $quantity ){
+
+        return [
+            'price'=>'',
+            'compare_price'=>'',
+            'cost'=>'',
+            'profit_margin'=>'',
+            'profit'=>'',
+            'percent_discount'=>'',
+            'tax'=>'',
+            'tax_class'=>'',
+        ];
 
     }
 

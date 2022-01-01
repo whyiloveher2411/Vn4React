@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => (
             '&:hover': {
                 backgroundColor: theme.palette.primary.dark,
             },
-            '& .MuiListItemIcon-root, & .MuiTypography-body1':{
+            '& .MuiListItemIcon-root, & .MuiTypography-body1': {
                 color: theme.palette.primary.contrastText,
             }
         },
@@ -27,20 +27,6 @@ const useStyles = makeStyles((theme) => (
             overflow: 'hidden',
             height: 56,
             whiteSpace: 'nowrap',
-            '&>.indicator': {
-                borderRadius: 50,
-                backgroundColor: '#3f51b5',
-                position: 'absolute',
-                right: 0,
-                bottom: -15,
-                height: 17,
-                width: 200,
-                transition: 'all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-                [theme.breakpoints.down('md')]: {
-                    display: 'none'
-                },
-
-            },
         },
         button: {
             color: '#5f6368',
@@ -48,10 +34,22 @@ const useStyles = makeStyles((theme) => (
             width: 200,
             justifyContent: 'flex-start',
             textTransform: 'initial',
+            position: 'relative',
             '&.active': {
-                color: 'var(--color)',
+                color: 'var(--color, ' + theme.palette.text.primary + ')',
+                transition: 'all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
                 '& $icon': {
-                    color: 'var(--color)',
+                    color: 'var(--color, ' + theme.palette.text.primary + ')',
+                },
+                '&:after': {
+                    content: '""',
+                    borderRadius: 50,
+                    backgroundColor: 'var(--color, ' + theme.palette.text.primary + ')',
+                    position: 'absolute',
+                    right: 0,
+                    left: 0,
+                    bottom: -15,
+                    height: 17,
                 }
             },
             [theme.breakpoints.down('md')]: {
@@ -104,7 +102,7 @@ function FilterGroup({ options, setQueryUrl, queryUrl, data, acctionPost, onFilt
 
         if (options.filters) {
 
-            let listFilterHeader = Object.keys(options.filters).filter(key => !options.filters[key].delete && options.filters[key].showOnHeader && options.filters[key].count > 0);
+            let listFilterHeader = Object.keys(options.filters).filter(key => !options.filters[key].delete && options.filters[key].count > 0);
             let tabCurrent = -1;
             if (options.filters[queryUrl.filter] && listFilterHeader.indexOf(queryUrl.filter) !== -1) {
                 tabCurrent = {
@@ -173,7 +171,7 @@ function FilterGroup({ options, setQueryUrl, queryUrl, data, acctionPost, onFilt
 
                 <div className={classes.btnWarpper}>
 
-                    {
+                    {/* {
                         Boolean(options.filters && options.filters[queryUrl.filter]) &&
                         <Button
                             ref={moreRef}
@@ -183,11 +181,11 @@ function FilterGroup({ options, setQueryUrl, queryUrl, data, acctionPost, onFilt
                             {options.filters[queryUrl.filter].icon && <MaterialIcon icon={options.filters[queryUrl.filter].icon} className={classes.icon} />}
                             <span dangerouslySetInnerHTML={{ __html: `${options.filters[queryUrl.filter].title} (${options.filters[queryUrl.filter].count})` }} />
                         </Button>
-                    }
-                    {/*                     
-                    {
+                    } */}
+
+                    {/* {
                         Boolean(options.filters) &&
-                        Object.keys(options.filters).filter(key => !options.filters[key].delete && options.filters[key].showOnHeader && options.filters[key].count > 0).map((key, index) => (
+                        Object.keys(options.filters).filter(key => !options.filters[key].delete && options.filters[key].count > 0).map((key, index) => (
                             <Button
                                 onClick={() => {
                                     setQueryUrl({
@@ -207,7 +205,6 @@ function FilterGroup({ options, setQueryUrl, queryUrl, data, acctionPost, onFilt
                             </Button>
                         ))
                     } */}
-                    <span className='indicator' style={tabCurrent === -1 ? { left: 0, width: 0 } : { left: 0, background: options.filters[tabCurrent.key]?.color }}></span>
                 </div>
             </Typography>
         </>

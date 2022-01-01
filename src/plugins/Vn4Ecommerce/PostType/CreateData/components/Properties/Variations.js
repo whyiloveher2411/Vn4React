@@ -1,24 +1,67 @@
-import { Box, Button, Grid, IconButton, Typography } from '@material-ui/core';
-import InputAdornment from '@material-ui/core/InputAdornment';
+import { ButtonGroup, Checkbox, makeStyles } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import CloseIcon from '@material-ui/icons/Close';
 import CreateOutlinedIcon from '@material-ui/icons/CreateOutlined';
 import DeleteOutlineRoundedIcon from '@material-ui/icons/DeleteOutlineRounded';
 import RestoreFromTrashOutlinedIcon from '@material-ui/icons/RestoreFromTrashOutlined';
-import { DrawerCustom, FieldForm, NotFound } from 'components';
+import { AvatarCustom } from 'components';
+import ActionBar from 'components/ActionBar';
+import DrawerCustom from 'components/DrawerCustom';
+import NotFound from 'components/NotFound';
+import { moneyFormat } from 'plugins/Vn4Ecommerce/helpers/Money';
 import React from 'react';
-import { copyArray } from 'utils/helper';
-import UpdateIcon from '@material-ui/icons/Update';
+import { useSelector } from 'react-redux';
+import { __p } from 'utils/i18n';
+import BulkEditor from './BulkEditor';
+import VariationsForm from './VariationsForm';
 
-function Variations({ valuesAttributes, attributes, postDetail, post, onReview }) {
+const useStyles = makeStyles(theme => ({
+    drawerContent: {
+        backgroundColor: theme.palette.body.background,
+    },
+    variableImage: {
+        width: 40,
+        height: 40,
+        border: '1px solid ' + theme.palette.dividerDark,
+        borderRadius: 4,
+        overflow: 'hidden',
+        '& svg': {
+            fill: theme.palette.text.secondary + ' !important',
+            color: theme.palette.text.secondary + ' !important',
+            backgroundColor: 'unset !important',
+        }
+    },
+    variationItem: {
+        cursor: 'pointer',
+        '&:hover': {
+            backgroundColor: theme.palette.divider,
+        }
+    },
+    selectItem: {
+        cursor: 'pointer',
+        margin: 8,
+        color: theme.palette.text.link,
+    }
+}));
+
+
+function Variations({ listValuesAttributes, valuesAttributes, attributes, postDetail, post, onReview, PLUGIN_NAME }) {
+
+    const theme = useSelector(s => s.theme);
+
+    const classes = useStyles();
 
     const createVariationsFromTwoArray = (attributesValues, length) => {
 
-        let resultTemp = new Array();
+        let resultTemp = [];
 
         let step = 1;
 
@@ -70,10 +113,7 @@ function Variations({ valuesAttributes, attributes, postDetail, post, onReview }
                     if (attributesKey['id_' + value.ecom_prod_attr]) {
                         variantTitle.push(attributesKey['id_' + value.ecom_prod_attr].title + ' ' + value.title);
                         skuGenerate.push(attributesKey['id_' + value.ecom_prod_attr].sku_code + value.id);
-                    } else {
-                        console.log(attributesKey, 'faillllllllllllllllllll');
                     }
-
                 });
 
                 result['KEY_' + key.join('_')] = {
@@ -82,8 +122,7 @@ function Variations({ valuesAttributes, attributes, postDetail, post, onReview }
                     label: variantLabel.join(' / '),
                     title: postDetail.title + ' - ' + variantTitle.join(' - '),
                     sku: skuGenerate.join('-'),
-                    price: postDetail.ecom_prod_detail.general_price,
-                    compare_price: postDetail.ecom_prod_detail.general_compare_price,
+                    ...postDetail.ecom_prod_detail
                 };
             }
         }
@@ -122,7 +161,7 @@ function Variations({ valuesAttributes, attributes, postDetail, post, onReview }
 
     const filterOldValueNewValue = (valueOld, valueNew) => {
 
-        if ( !valueOld || Object.keys(valueOld).length < 1) return valueNew;
+        if (!valueOld || Object.keys(valueOld).length < 1) return valueNew;
 
         Object.keys(valueNew).forEach(key => {
             if (valueOld[key]) {
@@ -152,158 +191,197 @@ function Variations({ valuesAttributes, attributes, postDetail, post, onReview }
         onReview({ ...variations });
     };
 
-    // const [variations, setVariations] = React.useState([]);
     const [attributesKey, setAttributesKey] = React.useState({});
 
     const [editVariationCurrent, setEditVariationCurrent] = React.useState({ open: false, variation: {} });
 
-    const [render, setRender] = React.useState(0);
-
-    React.useEffect(() => {
-
-    }, []);
-
-    React.useEffect(() => {
-        // console.log(1);
-        // setVariations();
-    }, [attributes]);
+    const openBulkEditor = React.useState(false);
 
     React.useEffect(() => {
         setVariations();
     }, [valuesAttributes]);
 
-    const handleDeleteVariation = (variation) => {
-        variation.delete = !variation.delete;
-        setRender(render + 1);
+    const handleDeleteVariation = (key) => (e) => {
+        e.stopPropagation();
+        post.variations[key].delete = !post.variations[key].delete;
+        onReview({ ...post.variations });
     };
 
-    const handleEditVariation = (variation) => {
-        setEditVariationCurrent({ open: true, variation: copyArray(variation) });
+    const handleEditVariation = (key) => () => {
+        setEditVariationCurrent({ open: true, key: key });
     }
 
-    const handleDeleteVariantionCurrent = () => {
-        post.variations['KEY_' + editVariationCurrent.variation.key].delete = true;
-        setEditVariationCurrent({ ...editVariationCurrent, open: false });
+    const handleChangeVariations = (variations) => {
+        onReview(variations);
+        setEditVariationCurrent({ open: false, key: '' });
     }
 
-    const handleSaveVariantionCurrent = () => {
-        post.variations['KEY_' + editVariationCurrent.variation.key] = copyArray(editVariationCurrent.variation);
-        setEditVariationCurrent({ ...editVariationCurrent, open: false });
+    const [variationsSelected, setVariationsSelected] = React.useState({});
+
+    const keysVariationsSelected = Object.keys(variationsSelected);
+
+    const keyVariations = (typeof post.variations === 'object' && post.variations !== null) ? Object.keys(post.variations) : [];
+
+    const handleClickSelectvariationsGroup = (keyAttr, valueSearch) => (e) => {
+        if (keyAttr === 'all') {
+            setVariationsSelected({ ...post.variations });
+        } else if (keyAttr === 'none') {
+            setVariationsSelected({});
+        } else {
+
+            let variationsResult = {};
+
+            keyVariations.forEach((key) => {
+                if (post.variations[key].attributes.filter(value => value.id === valueSearch.id).length > 0) {
+                    variationsResult[key] = post.variations[key];
+                }
+            });
+
+            setVariationsSelected(prev => ({
+                ...prev,
+                ...variationsResult
+            }));
+        }
     }
 
-    if (!post.variations || Object.keys(post.variations).length < 1 || Object.keys(attributesKey).length < 1) {
+    if (!post.variations || keyVariations.length < 1 || Object.keys(attributesKey).length < 1) {
         return (
             <NotFound subTitle="No matching variants found for properties" />
         );
     }
 
+    const handleClickCheckboxSelect = (e) => {
+        e.stopPropagation();
+        if (keysVariationsSelected.length === 0 || keysVariationsSelected.length < keyVariations.length) {
+            setVariationsSelected({ ...post.variations });
+        } else {
+            setVariationsSelected({});
+        }
+    }
+
+    const checkboxSelect = <Checkbox
+        indeterminate={keysVariationsSelected.length > 0 && keysVariationsSelected.length < keyVariations.length}
+        color={(keysVariationsSelected.length > 0 && keysVariationsSelected.length < keyVariations.length) ? 'default' : 'primary'}
+        checked={keysVariationsSelected.length === keyVariations.length}
+        onClick={handleClickCheckboxSelect} />;
 
     return (
         <>
-            <Typography variant="h4">Variations ({Object.keys(post.variations).length})</Typography>
+            <Typography variant="h4">{__p('Variations', PLUGIN_NAME)} ({keyVariations.filter(key => !post.variations[key].delete).length})</Typography>
             <br />
-            <Table aria-label="simple table">
+            <Typography>{__p('Select', PLUGIN_NAME)}: <span onClick={handleClickSelectvariationsGroup('all')} className={classes.selectItem}>{__p('All', PLUGIN_NAME)}</span> <span onClick={handleClickSelectvariationsGroup('none')} className={classes.selectItem}>{__p('None', PLUGIN_NAME)}</span>
+                {
+                    Object.keys(attributes).map(keyAttr => (
+                        valuesAttributes['attributes_' + attributes[keyAttr].id] ?
+                            valuesAttributes['attributes_' + attributes[keyAttr].id].map(value => (
+                                <span onClick={handleClickSelectvariationsGroup(keyAttr, value)} key={value.id} className={classes.selectItem}>{attributes[keyAttr].title}: {value.title}</span>
+                            ))
+                            : <></>
+                    ))
+                }
+            </Typography>
+            <br />
+            <Table size="small" >
                 <TableHead>
                     <TableRow>
-                        <TableCell padding="none"></TableCell>
-                        <TableCell style={{ textAlign: 'center' }}>Variant <Typography variant="body2" style={{ whiteSpace: 'nowrap' }}>Color / Size</Typography></TableCell>
-                        <TableCell style={{ textAlign: 'center' }}>Name</TableCell>
-                        <TableCell style={{ textAlign: 'center' }}>SKU</TableCell>
-                        <TableCell style={{ textAlign: 'center' }}> <Box display="flex" alignItems="center" justifyContent="space-between">Price <IconButton style={{ opacity: 0 }} size="small"><UpdateIcon /></IconButton></Box> </TableCell>
-                        <TableCell style={{ textAlign: 'center' }}>Quantity</TableCell>
-                        <TableCell style={{ textAlign: 'center' }}>Weight</TableCell>
-                        <TableCell></TableCell>
+                        {
+                            keysVariationsSelected.length > 0 ?
+                                <TableCell padding="none" style={{ height: 55 }} colSpan={100}>
+                                    <div style={{ height: 36 }}>
+                                        <ButtonGroup size="small">
+                                            <Button onClick={handleClickCheckboxSelect} style={{ paddingLeft: 1, height: 36 }} size="small" startIcon={checkboxSelect}>
+                                                {keysVariationsSelected.length} {__p('selected', PLUGIN_NAME)}
+                                            </Button>
+                                            <Button size="small" onClick={() => openBulkEditor[1](true)}>{__p('Open bulk editor', PLUGIN_NAME)}</Button>
+                                        </ButtonGroup>
+                                    </div>
+                                </TableCell>
+                                :
+                                <>
+                                    <TableCell padding="none" style={{ width: 42, height: 55 }}>
+                                        {checkboxSelect}
+                                    </TableCell>
+                                    <TableCell>Variant <Typography variant="body2" style={{ whiteSpace: 'nowrap' }}>{
+                                        Boolean(attributes) &&
+                                        (() => {
+                                            let keyMap = Object.keys(attributes);
+                                            let result = '';
+
+                                            keyMap.map((key, index) => {
+
+                                                result += attributes[key].title;
+
+                                                if (index < keyMap.length - 1) {
+                                                    result += ' / ';
+                                                }
+
+                                            });
+                                            return result;
+                                        })()
+                                    }</Typography></TableCell>
+                                    <TableCell style={{ width: 40 }} padding='none'></TableCell>
+                                    <TableCell>Name</TableCell>
+                                    <TableCell>SKU</TableCell>
+                                    <TableCell style={{ width: 40 }} >Price</TableCell>
+                                    <TableCell>Quantity</TableCell>
+                                    <TableCell style={{ width: 48 }}></TableCell>
+                                </>
+                        }
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {Object.keys(post.variations).map((key, index) => (<TableRow key={key}>
-                        <TableCell padding="none" align="center"> <span style={{ color: '#dadada', fontWeight: 'bold' }}>{index + 1}.</span></TableCell>
-                        <TableCell component="th" scope="row" style={{ whiteSpace: 'nowrap' }}>
+                    {keyVariations.map((key, index) => (<TableRow className={classes.variationItem} onClick={handleEditVariation(key)} key={key}>
+                        <TableCell padding="none" style={{ width: 40 }}>
+                            <Checkbox
+                                color='primary'
+                                checked={variationsSelected[key] ? true : false}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setVariationsSelected(prev => {
+                                        if (Boolean(prev[key])) {
+                                            delete prev[key];
+                                        } else {
+                                            prev[key] = post.variations[key];
+                                        }
+                                        return { ...prev };
+                                    });
+                                }} />
+                        </TableCell>
+                        <TableCell component="th" scope="row" style={{ width: 250, whiteSpace: 'nowrap', cursor: 'pointer' }}>
                             {post.variations[key].label}
                         </TableCell>
 
                         {
                             !post.variations[key].delete ?
                                 <>
-                                    <TableCell >
-                                        <FieldForm
-                                            compoment="text"
-                                            config={{
-                                                title: false,
-                                                size: 'small',
-                                            }}
-                                            labelWidth={0}
-                                            post={post.variations[key]}
-                                            name="title"
-                                            onReview={() => {
-                                            }}
-                                        />
+                                    <TableCell padding='none' style={{ width: 40 }}>
+                                        <div className={classes.variableImage}>
+                                            <AvatarCustom image={post.variations[key].images} variant="square" name={post.variations[key].title} />
+                                        </div>
                                     </TableCell>
-                                    <TableCell>
-                                        <FieldForm
-                                            compoment="text"
-                                            config={{
-                                                title: false,
-                                                size: 'small',
-                                            }}
-                                            labelWidth={0}
-                                            post={post.variations[key]}
-                                            name="sku"
-                                            onReview={() => {
-                                            }}
-                                        />
+                                    <TableCell style={{ whiteSpace: 'nowrap' }}>
+                                        <Typography noWrap style={{ maxWidth: 200 }}>
+                                            {post.variations[key].title}
+                                        </Typography>
                                     </TableCell>
-                                    <TableCell>
-                                        <FieldForm
-                                            compoment="number"
-                                            config={{
-                                                title: false,
-                                                size: 'small',
-                                            }}
-                                            startAdornment={<InputAdornment position="start">$</InputAdornment>}
-                                            labelWidth={0}
-                                            post={post.variations[key]}
-                                            name="price"
-                                            onReview={() => {
-                                            }}
-                                        />
+                                    <TableCell style={{ width: 80, whiteSpace: 'nowrap' }}>
+                                        {post.variations[key].sku}
                                     </TableCell>
-                                    <TableCell>
-                                        <FieldForm
-                                            compoment="number"
-                                            config={{
-                                                title: false,
-                                                size: 'small',
-                                            }}
-                                            labelWidth={0}
-                                            post={post.variations[key]}
-                                            name="quantity"
-                                            onReview={(value) => {
-                                                post.variations[key].quantity = value;
-                                                console.log(post.variations);
-                                            }}
-                                        />
+                                    <TableCell style={{ width: 80, whiteSpace: 'nowrap' }}>
+                                        {moneyFormat(post.variations[key].price)}
                                     </TableCell>
-                                    <TableCell>
-                                        <FieldForm
-                                            compoment="number"
-                                            config={{
-                                                title: false,
-                                                size: 'small',
-                                            }}
-                                            endAdornment={<InputAdornment position="start">kg</InputAdornment>}
-                                            labelWidth={0}
-                                            post={post.variations[key]}
-                                            name="weight"
-                                            onReview={() => { }}
-                                        />
+                                    <TableCell style={{ width: 95, whiteSpace: 'nowrap' }}>
+                                        {
+                                            Boolean(post.variations[key].warehouse_manage_stock) &&
+                                            post.variations[key].warehouse_quantity
+                                        }
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell style={{ width: 48, whiteSpace: 'nowrap' }}>
                                         <Box display="flex" alignItems="center">
-                                            <IconButton onClick={() => handleEditVariation(post.variations[key])} color="default" aria-label="delete" component="span">
+                                            <IconButton onClick={handleEditVariation(key)} color="default" aria-label="edit" component="span">
                                                 <CreateOutlinedIcon />
                                             </IconButton>
-                                            <IconButton onClick={() => handleDeleteVariation(post.variations[key])} color="default" aria-label="delete" component="span">
+                                            <IconButton style={{ color: theme.palette.secondary.main }} onClick={handleDeleteVariation(key)} color="default" aria-label="delete" component="span">
                                                 <DeleteOutlineRoundedIcon />
                                             </IconButton>
                                         </Box>
@@ -311,11 +389,11 @@ function Variations({ valuesAttributes, attributes, postDetail, post, onReview }
                                 </>
                                 :
                                 <>
-                                    <TableCell colSpan={5} align="right">
-                                        <Typography variant="body1">This variant will not be created</Typography>
-                                    </TableCell>
-                                    <TableCell colSpan={6} align="right">
-                                        <IconButton onClick={() => handleDeleteVariation(post.variations[key])} color="default" aria-label="delete" component="span">
+                                    <TableCell colSpan={10} align="right">
+                                        {/* <Typography variant="body1">{__p('This variant has been removed and will not appear on the storefront', PLUGIN_NAME)}</Typography> */}
+                                    {/* </TableCell>
+                                    <TableCell colSpan={6} align="right"> */}
+                                        <IconButton style={{ color: theme.palette.success.main }} onClick={handleDeleteVariation(key)} color="default" aria-label="restore" component="span">
                                             <RestoreFromTrashOutlinedIcon />
                                         </IconButton>
                                     </TableCell>
@@ -327,97 +405,33 @@ function Variations({ valuesAttributes, attributes, postDetail, post, onReview }
             </Table>
             <DrawerCustom
                 open={editVariationCurrent.open}
-                onClose={() => { setEditVariationCurrent({ ...editVariationCurrent, open: false }) }}
-                title={'Variation: ' + editVariationCurrent.variation.label}
-                action={<>
-                    <Box width={1} display="flex" justifyContent="space-between">
-                        <Button onClick={handleSaveVariantionCurrent} color="primary" variant="contained" >Save Changes</Button>
-                        <Button onClick={handleDeleteVariantionCurrent} color="secondary" variant="contained" >Delete</Button>
-                    </Box>
-                </>}
-                width={800}
+                onClose={() => { setEditVariationCurrent({ open: false }) }}
+                title={__p('Edit Variation', PLUGIN_NAME)}
+                width={1540}
+                restDialogContent={{
+                    className: 'custom_scroll ' + classes.drawerContent
+                }}
             >
-                <Grid container spacing={3}>
-                    <Grid item md={12}>
-                        <FieldForm
-                            compoment="text"
-                            config={{
-                                title: 'Title',
-                            }}
-                            name="title"
-                            post={editVariationCurrent.variation}
-                            onReview={(value) => { }}
-                        />
-                    </Grid>
-                    <Grid item md={12}>
-                        <FieldForm
-                            compoment="text"
-                            config={{
-                                title: 'SKU',
-                            }}
-                            name="sku"
-                            post={editVariationCurrent.variation}
-                            onReview={(value) => { }}
-                        />
-                    </Grid>
-
-                    <Grid item md={12}>
-
-                        <Grid container spacing={2}>
-                            <Grid item md={6}>
-                                <FieldForm
-                                    compoment="number"
-                                    config={{
-                                        title: 'Price',
-                                    }}
-                                    name="price"
-                                    post={editVariationCurrent.variation}
-                                    onReview={(value) => { }}
-                                />
-                            </Grid>
-                            <Grid item md={6}>
-                                <FieldForm
-                                    compoment="number"
-                                    config={{
-                                        title: 'Compare at Price',
-                                    }}
-                                    name="compare_price"
-                                    post={editVariationCurrent.variation}
-                                    onReview={(value) => { }}
-                                />
-                            </Grid>
-                        </Grid>
-
-
-                    </Grid>
-
-
-                    <Grid item md={12}>
-                        <FieldForm
-                            compoment="text"
-                            config={{
-                                title: 'Quantity',
-                            }}
-                            name="quantity"
-                            post={editVariationCurrent.variation}
-                            onReview={(value) => { }}
-                        />
-                    </Grid>
-                    <Grid item md={12}>
-                        <FieldForm
-                            compoment="image"
-                            config={{
-                                title: 'Images',
-                                multiple: true,
-                            }}
-                            name="images"
-                            post={editVariationCurrent.variation}
-                            onReview={(value) => { }}
-                        />
-                    </Grid>
-
-                </Grid>
+                <VariationsForm
+                    PLUGIN_NAME={PLUGIN_NAME}
+                    variations={post.variations}
+                    postDetail={postDetail}
+                    variationIndex={editVariationCurrent.key}
+                    handleChangeVariations={handleChangeVariations}
+                    attributes={attributes}
+                    listValuesAttributes={listValuesAttributes}
+                />
             </DrawerCustom>
+            <BulkEditor
+                open={openBulkEditor}
+                variations={variationsSelected}
+                attributes={attributes}
+                onSave={(variationsChange) => {
+                    console.log(variationsChange);
+                    onReview({ ...post.variations, ...variationsChange });
+                    openBulkEditor[1](false);
+                }}
+            />
         </>
     )
 }

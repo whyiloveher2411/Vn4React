@@ -25,7 +25,6 @@ function Shipments({ post, onReview, PLUGIN_NAME }) {
                 </Grid>
                 <Grid item md={12} xs={12}>
                     <Typography variant="body1">{__p('Dimensions (cm)', PLUGIN_NAME)}</Typography>
-                    <br />
                     <Grid container spacing={2}>
                         <Grid item md={4} xs={12}>
                             <FieldForm

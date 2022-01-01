@@ -24,37 +24,33 @@ function checkAccessToken($name){
         return false;
     }
 
-    if( $GLOBALS['access_token']->expires_time < time() ){
-        return false;
-    }
-
     $user = $GLOBALS['access_token']->user;
 
+    if( $GLOBALS['access_token']->permission === '__full' ){
 
-    if( $user->role === 'Super Admin') return true;
-
-    $permission = $user->permission;
-
-    $permission = explode(', ',  $permission );
-
-    if( is_string($name) ){
-        return array_search($name,$permission) !== false;
-    }
-
-    if( is_array($name) ){
-
-        foreach ($name as $p) {
-            if( array_search($p, $permission) === false ){
-                return false;
-            }
+        if( $user->role === 'Super Admin'){
+            return true;
         }
 
-        return true;
+        $permission = $user->permission;
 
-    }
+        $permission = explode(', ',  $permission );
+
+        if( is_string($name) ){
+            return array_search($name,$permission) !== false;
+        }
+
+        if( is_array($name) ){
+            foreach ($name as $p) {
+                if( array_search($p, $permission) === false ){
+                    return false;
+                }
+            }
+            return true;
+        }
+    } 
 
     return false;
-
 }
 
 function getAuthorizationHeader(){
@@ -92,7 +88,7 @@ function getBearerToken() {
     return null;
 }
 
-function createToken($user, $data, $time, $key = null ){
+function createToken($user, $data, $time, $key = null, $permission = '__full', $remember_me = false ){
 
     $createdTime = time();
 
@@ -101,9 +97,10 @@ function createToken($user, $data, $time, $key = null ){
     $payload = array_merge( $data, [
         'id'=> $user->id,
         'remember_token'=>$user->remember_token,
+        'remember_me'=>$remember_me,
         'expires_in'=>$time,
         'expires_time'=>$createdTime + $time,
-        'permission'=>'__full'
+        'permission'=>$permission
     ]);
 
     $jwt = \Firebase\JWT\JWT::encode($payload, $key);
@@ -119,13 +116,7 @@ function decodeToken($access_token, $key = null){
 
     $decoded->user = get_post('user', $decoded->id);
 
-    if( $decoded->expires_time < time()
-        || !$decoded->user  ){
-        return false;
-    }
-    
     return $decoded;
-
 }
 
 function apiNotFound(){
@@ -135,11 +126,24 @@ function apiNotFound(){
     ], 404);
 }
 
-function getUser(){
-    if( isset($GLOBALS['access_token']) ){
-        return $GLOBALS['access_token']->user;
+function getUser( $user = null ){
+
+    if( isset($GLOBALS['access_token']) && $GLOBALS['access_token']->user ){
+        $user = $GLOBALS['access_token']->user;
     }
-    return null;
+
+    if( $user ){
+        return (object) [
+            'id'=>$user->id,
+            'email'=>$user->email,
+            'first_name'=>$user->first_name,
+            'last_name'=>$user->last_name,
+            'profile_picture'=>$user->profile_picture,
+            'role'=>$user->role,
+            'permission'=>$user->permission,
+        ];
+    }
+    return [];
 }
 
 function apiAccessHeader(){
@@ -170,28 +174,49 @@ function checkUserAdmin($group = null, $file = null){
 
     $enable_remember_me = setting('security_enable_remember_me', false);
 
-    if( $group !== 'login' && !($group === 'settings' && $file === 'all' ) ){
+    if( 
+        $group !== 'login' 
+        && !($group === 'settings' && $file === 'all' ) 
+        && !($group === 'plugin' && $file === 'get-all' ) 
+        && !($group === 'sidebar' && $file === 'get' ) 
+    ){
 
         $access_token = getBearerToken();
 
     	if( !$access_token ) return [ 'require_login'=>true ];
 
-        $key = config('app.key');
+        $decoded = decodeToken($access_token);
+        
+        $validateToken = validateToken($decoded);
 
-        $decoded = \Firebase\JWT\JWT::decode($access_token, $key, array('HS256'),true);
-
-        $decoded->user = get_post('user', $decoded->id);
-
-        if( !$enable_remember_me || !boolval($decoded->remember_me) ){
-            if( $decoded->expires_time < time() || !$decoded->user  ){
-                return [ 'require_login'=>true ];
-            }
+        if( !$validateToken ){
+            return array_merge((array) getUser($decoded->user), [
+                'require_login'=>true
+            ]);
         }
+        
             
         $GLOBALS['access_token'] = $decoded;
         $user = $decoded->user;
+
     }
 
     return null;
+}
 
+function validateToken($decoded){
+
+    if( !$decoded->user ){
+        return false;
+    }
+    
+    $enable_remember_me = setting('security_enable_remember_me', false);
+
+    if( !$enable_remember_me || !boolval($decoded->remember_me) ){
+        if( $decoded->expires_time < time() ){
+            return false;
+        }
+    }
+
+    return true;
 }

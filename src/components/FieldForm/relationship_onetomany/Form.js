@@ -5,8 +5,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { useAjax } from 'utils/useAjax';
 import { convertListToTree } from 'utils/helper';
 
-export default function RelationshipOneToManyForm(props) {
-  let { config, post, onReview, name, ...rest } = props;
+export default React.memo(function RelationshipOneToManyForm(props) {
+
+  let { config, post, onReview, name, renderInput, ...rest } = props;
 
   const { ajax } = useAjax();
 
@@ -129,9 +130,6 @@ export default function RelationshipOneToManyForm(props) {
     }
   }
 
-
-  console.log('render RELATIONSHIP ONE TO MANY');
-
   return (
     <Autocomplete
       open={open}
@@ -142,6 +140,7 @@ export default function RelationshipOneToManyForm(props) {
         setOpen(false);
       }}
       value={valueInital || { id: 0, title: '' }}
+      size={config.size ?? 'medium'}
       defaultValue={valueInital || { id: 0, title: '' }}
       getOptionSelected={(option, value) => option.id === value.id}
       getOptionLabel={(option) => option.title + (option.new_post ? ' (New Option)' : '')}
@@ -151,12 +150,16 @@ export default function RelationshipOneToManyForm(props) {
       renderOption={(option, { selected }) => (
         <><span dangerouslySetInnerHTML={{ __html: option.optionLabel }} />{option.title} {Boolean(option.new_post) && '(New Option)'}</>
       )}
-      renderInput={(params) => (
-        <TextField
+      renderInput={(params) => {
+
+        params.onKeyPress = handleKeyPress;
+
+        if (renderInput) return renderInput(params, valueInital, loading);
+
+        return <TextField
           {...params}
           label={config.title}
           variant="outlined"
-          onKeyPress={handleKeyPress}
           InputProps={{
             ...params.InputProps,
             endAdornment: (
@@ -167,9 +170,12 @@ export default function RelationshipOneToManyForm(props) {
             ),
           }}
         />
-      )}
+      }}
       {...config.inputProps}
       {...rest}
     />
   );
-}
+}, (props1, props2) => {
+  return props1.post[props1.name] === props2.post[props2.name];
+})
+

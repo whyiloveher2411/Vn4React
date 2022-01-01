@@ -100,7 +100,6 @@ function Tool() {
                             <AccordionSummary
                                 expandIcon={<ExpandMoreIcon />}
                                 aria-controls="panel1c-content"
-                                id="panel1c-header"
                             >
                                 <div className={classes.column}>
                                     <Typography className={classes.heading}>{caches.rows[key].title}</Typography>

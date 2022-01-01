@@ -128,7 +128,7 @@ function General({ google, dataGA }) {
                     series: {
                         1: { lineDashStyle: [4, 2] },
                     },
-                    crosshair: { orientation: 'vertical', trigger: 'focus', color: '#f1f1f1' },
+                    crosshair: { orientation: 'vertical', trigger: 'focus', color: theme.palette.text.third },
                     focusTarget: 'category',
                     pointsVisible: false,
                     hAxis: { title: '', format: 'MMM d', textStyle: { color: theme.palette.text.secondary, fontSize: 12 }, baselineColor: 'none', gridlines: { count: 4, color: 'transparent' } },

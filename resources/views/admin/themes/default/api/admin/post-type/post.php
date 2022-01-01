@@ -42,8 +42,7 @@ $result = [
 
 
 if( $post->author ){
-    $author = (new Vn4Model($post_type['user']['table']))->where('type','user')->where('id',$post->author)->select(['first_name','last_name','profile_picture'])->first();
-
+    $author = getAuthorPostType($post->author);
     if( $author ){
         $result['author'] = $author;
     }
@@ -51,7 +50,7 @@ if( $post->author ){
 
 if( $post->editor ){
     $editorID = explode(',', $post->editor);
-    $result['editor'] = (new Vn4Model($post_type['user']['table']))->where('type','user')->whereIn('id',$editorID)->select(['first_name','last_name', 'profile_picture'])->get();
+    $result['editor'] = getEditorPostType($editorID);
 }
 
 return $result;

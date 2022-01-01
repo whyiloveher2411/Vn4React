@@ -1,8 +1,9 @@
 <?php
 require_once cms_path('public','../lib/google-client/vendor/autoload.php');
 
-$file_congig = __DIR__ . '/../../../client_secret_app.json';
 $input = $r->all();
+
+$file_congig = __DIR__ . '/../../../client_secret_app.json';
 
 if( file_exists($file_congig) ){
 
@@ -21,9 +22,11 @@ $access_token = $client->getAccessToken();
 
 if( isset($access_token['refresh_token']) ){
 
+    $meta = [];
+
     $access_token['access_code'] = $input['access_code'];
 
-    $plugin->updateMeta('access_token_first',$access_token);
+    $meta['access_token_first'] = $access_token;
 
     $access_token = $access_token['access_token'];
 
@@ -39,7 +42,7 @@ if( isset($access_token['refresh_token']) ){
 
     return [
         'account'=>$accounts,
-        'plugin'=>$plugin,
+        'value'=>$meta
     ];
 
 }else{

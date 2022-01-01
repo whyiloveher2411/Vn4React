@@ -2,34 +2,47 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { toCamelCase } from 'utils/helper';
 import Home from './Home';
-import TemplatesAdmin from './TemplatesAdmin';
 
 function OnePage() {
 
-    let { page, tab, subTab } = useParams();
+    let { page, tab, subtab1, subtab2 } = useParams();
 
     if (page) {
         try {
-            let compoment = toCamelCase(page);
-            // if (tab) {
-            //     let resolved = require(`./OnePage/${toCamelCase(page)}/${toCamelCase(tab)}`).default;
-            //     return React.createElement(resolved, { page: page });
-            // } else {
+            let pageCompoment = toCamelCase(page);
 
-            if (subTab) {
-                let resolved = require(`./OnePage/${compoment}` + '/' + toCamelCase(tab)).default;
-                return React.createElement(resolved, { page: page });
+            try {
+                if (subtab2) {
+                    let resolved = require('./OnePage/' + pageCompoment + '/' + toCamelCase(tab) + '/' + toCamelCase(subtab1) + '/' + toCamelCase(subtab2)).default;
+                    return React.createElement(resolved, { page: page });
+                }
+            } catch (error) {
+
             }
 
-            let resolved = require(`./OnePage/${compoment}`).default;
+            try {
+                if (subtab1) {
+                    let resolved = require('./OnePage/' + pageCompoment + '/' + toCamelCase(tab) + '/' + toCamelCase(subtab1)).default;
+                    return React.createElement(resolved, { page: page });
+                }
+            } catch (error) {
+
+            }
+
+            try {
+                if (tab) {
+                    let resolved = require('./OnePage/' + pageCompoment + '/' + toCamelCase(tab)).default;
+                    return React.createElement(resolved, { page: page });
+                }
+            } catch (error) {
+
+            }
+
+            let resolved = require('./OnePage/' + pageCompoment).default;
             return React.createElement(resolved, { page: page });
             // }
         } catch (error) {
-            return <TemplatesAdmin
-                page={page}
-                tab={tab}
-                subTab={subTab}
-            />
+          
         }
     }
 

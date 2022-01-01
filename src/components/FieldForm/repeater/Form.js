@@ -106,7 +106,7 @@ const useStyles = makeStyles((theme) => ({
         border: '1px dashed #b4b9be',
         cursor: 'pointer',
         borderRadius: 4,
-        color: '#555d66'
+        color: theme.palette.text.secondary
     }
 }));
 

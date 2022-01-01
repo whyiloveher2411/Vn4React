@@ -1,14 +1,17 @@
-import Insights from './Insights';
+import { PLUGIN_NAME } from 'plugins/Vn4Ecommerce/helpers/plugin';
+import { __p } from 'utils/i18n';
+import InProgress from './InProgress';
+import Report from './Report';
 
 export default {
-    insights: {
-        title: 'Insights',
-        component: (props) => <Insights {...props} />,
+    inProgress: {
+        title: __p('In Progress', PLUGIN_NAME),
+        component: (props) => <InProgress {...props} />,
         priority: 2,
     },
-    inProgress: {
-        title: 'In Progress',
-        component: (props) => <Insights {...props} />,
+    report: {
+        title: __p('Report', PLUGIN_NAME),
+        component: (props) => <Report {...props} />,
         priority: 2,
     },
 }

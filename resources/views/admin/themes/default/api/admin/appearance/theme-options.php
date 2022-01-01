@@ -7,9 +7,9 @@ if( $param1 === 'post' ){
         return experience_mode();
     }
 
-    $theme_option = json_decode($r->getContent(),true);
+    $theme_option = $r->get('options');
 
-    $result;
+    $result = [];
 
     if( $theme_option ){
         foreach ($theme_option as $key => $value) {
@@ -38,7 +38,7 @@ $fields = apply_filter('theme_options',[
         'title'=>'text',
         'favicon'=>'image'
       ]
-    ]
+    ],
 ]);
 
 if( !is_array($fields) ) $fields = [];

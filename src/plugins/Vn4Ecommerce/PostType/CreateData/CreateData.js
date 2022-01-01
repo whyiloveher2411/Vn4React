@@ -54,11 +54,9 @@ function CreateData(props) {
     const [tabCurrent, setTabCurrent] = React.useState({ index: 0 });
 
     React.useEffect(() => {
-
         if (props.postType === ecomName.prodType) {
 
             if (!props.data?.post?.ecom_prod_detail?._updatePost) {
-
                 useAjax1.ajax({
                     url: 'plugin/vn4-ecommerce/create-data/get-product-detail',
                     data: {
@@ -67,64 +65,74 @@ function CreateData(props) {
                     success: function (result) {
                         if (result.post) {
                             result.post._updatePost = new Date();
-                            props.onReview(result.post, 'ecom_prod_detail');
+                            props.onUpdateData((prev) => {
+                                prev.post.ecom_prod_detail = result.post;
+                                return prev;
+                            });
                         }
                     }
                 });
-            }
 
-            try {
-                if (post.meta) {
-                    if (typeof post.meta === 'string') {
-                        post.meta = JSON.parse(post.meta);
+                try {
+                    if (post.meta) {
+                        if (typeof post.meta === 'string') {
+                            post.meta = JSON.parse(post.meta);
+                        }
                     }
+                } catch (error) {
+
                 }
-            } catch (error) {
 
+                if (post.meta === null || typeof post.meta !== 'object') {
+                    post.meta = {};
+                }
             }
-
-            if (post.meta === null || typeof post.meta !== 'object') {
-                post.meta = {};
-            }
-
-            setRender(render + 1);
         }
 
     }, [props.data.updatePost]);
 
-    const onReview = (value, key) => {
+    const onReview = (value, key, updateToPostMain = false) => {
 
-        if (key === 'general_price') {
+        props.onUpdateData(prev => {
 
-            props.onReview(null, {
-                price: value,
-                ecom_prod_detail: { ...props.data.post.ecom_prod_detail, general_price: value }
-            });
-
-        } else if (key === 'general_compare_price') {
-            props.onReview(null, {
-                compare_price: value,
-                ecom_prod_detail: { ...props.data.post.ecom_prod_detail, general_compare_price: value }
-            });
-        } else if (key === 'general_cost') {
-            props.onReview(null, {
-                cost: value,
-                ecom_prod_detail: { ...props.data.post.ecom_prod_detail, general_cost: value }
-            });
-
-        } else {
-
-            if (typeof key === 'object' && key !== null) {
-                props.data.post.ecom_prod_detail = {
-                    ...props.data.post.ecom_prod_detail,
-                    ...key
-                };
-            } else {
-                props.data.post.ecom_prod_detail[key] = value;
+            if (value instanceof Function) {
+                [value, key] = value(prev);
             }
 
-            props.onReview(props.data.post.ecom_prod_detail, 'ecom_prod_detail');
-        }
+            if (updateToPostMain) {
+                if (typeof key === 'object' && key !== null) {
+                    prev.post = {
+                        ...prev.post,
+                        ecom_prod_detail: { ...prev.post.ecom_prod_detail, ...key },
+                        ...key,
+                    };
+                } else {
+                    prev.post = {
+                        ...prev.post,
+                        ecom_prod_detail: { ...prev.post.ecom_prod_detail, [key]: value },
+                        [key]: value,
+                    };
+                }
+
+            } else {
+
+                if (typeof key === 'object' && key !== null) {
+
+                    prev.post = {
+                        ...prev.post,
+                        ecom_prod_detail: { ...prev.post.ecom_prod_detail, ...key },
+                    };
+
+                } else {
+                    prev.post = {
+                        ...prev.post,
+                        ecom_prod_detail: { ...prev.post.ecom_prod_detail, [key]: value },
+                    };
+                }
+            }
+
+            return prev;
+        });
     };
 
     if (props.postType === ecomName.prodType) {
@@ -161,34 +169,56 @@ function CreateData(props) {
                                         name='product_type'
                                         onReview={(value) => {
                                             // setRender(prev => prev + 1);
-                                            onReview(value, 'product_type');
+                                            onReview(value, 'product_type', true);
                                         }}
                                     />
                                 </div>
                                 <FormGroup style={{ opacity: post.product_type === ecomName.simple ? 1 : 0 }}>
-                                    <FormControlLabel
+
+                                    <FieldForm
+                                        compoment="true_false"
+                                        config={{
+                                            title: __p('Virtual product', PLUGIN_NAME),
+                                            isChecked: true
+                                        }}
+                                        post={post.ecom_prod_detail ?? {}}
+                                        name="virtual_product"
+                                        onReview={(value) => onReview(value, 'virtual_product')}
+                                    />
+                                    <FieldForm
+                                        compoment="true_false"
+                                        config={{
+                                            title: __p('Downloadable product', PLUGIN_NAME),
+                                            isChecked: true
+                                        }}
+                                        post={post.ecom_prod_detail ?? {}}
+                                        name="downloadable_product"
+                                        onReview={(value) => onReview(value, 'downloadable_product')}
+                                    />
+
+                                    {/* <FormControlLabel
                                         style={{ marginRight: 24 }}
                                         control={<Checkbox
                                             onClick={() => {
-                                                if (post.virtual_product) {
-                                                    props.onReview(0, 'virtual_product');
+                                                if (post.ecom_prod_detail?.virtual_product) {
+                                                    onReview(0, 'virtual_product');
                                                 } else {
-                                                    props.onReview(1, 'virtual_product');
+                                                    onReview(1, 'virtual_product');
                                                 }
-                                            }} checked={Boolean(post.virtual_product)} color="primary" />}
+                                            }} checked={Boolean(post.ecom_prod_detail?.virtual_product)} color="primary" />}
                                         label={__p('Virtual product', PLUGIN_NAME)}
-                                    />
-                                    <FormControlLabel
+                                    /> */}
+                                    {/* <FormControlLabel
                                         control={<Checkbox
                                             onChange={() => {
-                                                if (post.downloadable_product) {
-                                                    props.onReview(0, 'downloadable_product');
+                                                if (post.ecom_prod_detail?.downloadable_product) {
+                                                    onReview(0, 'downloadable_product');
                                                 } else {
-                                                    props.onReview(1, 'downloadable_product');
+                                                    onReview(1, 'downloadable_product');
                                                 }
-                                            }} checked={Boolean(post.downloadable_product)} color="primary" />}
+                                            }} checked={Boolean(post.ecom_prod_detail?.downloadable_product)} color="primary" />}
                                         label={__p('Downloadable product', PLUGIN_NAME)}
-                                    />
+                                    /> */}
                                 </FormGroup>
                             </div>}
                     />
@@ -207,8 +237,9 @@ function CreateData(props) {
                                         'Tabs',
                                         {
                                             general: {
-                                                title: <Tooltip title={__p('Price', PLUGIN_NAME)}><AttachMoneyRoundedIcon /></Tooltip>,
+                                                title: <Tooltip title={__p('Pricing', PLUGIN_NAME)}><AttachMoneyRoundedIcon /></Tooltip>,
                                                 content: () => <General PLUGIN_NAME={PLUGIN_NAME} onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
+                                                hidden: post.product_type === ecomName.variable || post.product_type === ecomName.grouped,
                                                 priority: 1,
                                                 // hidden: post.product_type === ecomName.variable,
                                             },
@@ -217,26 +248,31 @@ function CreateData(props) {
                                                 content: () => <Overview PLUGIN_NAME={PLUGIN_NAME} onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
                                                 priority: 2,
                                             },
-                                            properties: {
-                                                title: <Tooltip title={__p('Properties', PLUGIN_NAME) + (post.product_type === 'variable' ? (' & ' + __p('Variations', PLUGIN_NAME)) : '')}><AppsRoundedIcon /></Tooltip>,
-                                                content: () => <Properties PLUGIN_NAME={PLUGIN_NAME} updatePost={props.data.updatePost} onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
-                                                priority: 3,
-                                            },
                                             downloadable: {
                                                 title: <Tooltip title={__p('Downloadable', PLUGIN_NAME)}><CloudDownloadOutlinedIcon /></Tooltip>,
                                                 content: () => <Downloadable PLUGIN_NAME={PLUGIN_NAME} onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
-                                                hidden: !Boolean(post.downloadable_product) || post.product_type !== ecomName.simple,
-                                                priority: 4,
+                                                hidden: !Boolean(post.ecom_prod_detail?.downloadable_product) || post.product_type !== ecomName.simple,
+                                                priority: 3,
                                             },
                                             warehouse: {
                                                 title: <Tooltip title={__p('Warehouse', PLUGIN_NAME)}><HomeWorkOutlinedIcon /></Tooltip>,
                                                 content: () => <Warehouse PLUGIN_NAME={PLUGIN_NAME} onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
+                                                hidden: post.product_type !== ecomName.simple,
+                                                priority: 4,
+                                            },
+                                            properties: {
+                                                title: <Tooltip title={__p('Properties', PLUGIN_NAME) + (post.product_type === ecomName.variable ? (' & ' + __p('Variations', PLUGIN_NAME)) : '')}><AppsRoundedIcon /></Tooltip>,
+                                                content: () => <Properties PLUGIN_NAME={PLUGIN_NAME} updatePost={props.data.updatePost} onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
                                                 priority: 5,
                                             },
                                             shipments: {
                                                 title: <Tooltip title={__p('Shipments', PLUGIN_NAME)}><LocalShippingOutlinedIcon /></Tooltip>,
                                                 content: () => <Shipments PLUGIN_NAME={PLUGIN_NAME} onReview={onReview} postDetail={post} post={post.ecom_prod_detail} />,
-                                                hidden: (Boolean(post.virtual_product) && post.product_type === ecomName.simple) || ['', ecomName.simple, ecomName.variable].indexOf(post.product_type ?? '') === -1,
+                                                hidden: (Boolean(post.ecom_prod_detail?.virtual_product)
+                                                    && post.product_type === ecomName.simple)
+                                                    || post.product_type !== ecomName.simple,
+                                                // ['', ecomName.simple, ecomName.variable].indexOf(post.product_type ?? '') === -1,
+                                                // hidden: post.product_type === ecomName.variable,
                                                 priority: 6,
                                             },
                                             connectedproducts: {

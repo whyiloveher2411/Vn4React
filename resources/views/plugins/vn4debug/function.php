@@ -5,7 +5,7 @@ if( is_admin() ){
 }
 
 //show query
-add_action('init',function() use ($plugin){
+add_action('middleware_web',function() use ($plugin){
 
 	if(!Auth::check()){
 		return;

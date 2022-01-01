@@ -15,7 +15,6 @@
 		'data'=>[
 			'onchange'=>'ecommerce_category_filters'
 		],
-		'type'=>'many_record',
 		'value'=>$value,
 	]);
 

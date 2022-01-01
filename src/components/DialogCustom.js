@@ -5,7 +5,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import React from 'react';
 
-function DialogCustom({ title, content, action, open, onClose, children, ...rest }) {
+function DialogCustom({ title, content, action, open, onClose, children, style, ...rest }) {
 
     return (
         <Dialog
@@ -18,7 +18,7 @@ function DialogCustom({ title, content, action, open, onClose, children, ...rest
             {...rest}
         >
             <DialogTitle disableTypography={true} style={{ fontSize: 22, background: '#455a64', color: 'white' }}>{title}</DialogTitle>
-            <DialogContent dividers={true} className="custom_scroll" style={rest.style ?? {}}>
+            <DialogContent dividers={true} className="custom_scroll" style={style ?? {}}>
                 <DialogContentText
                     component="div"
                     style={{ margin: 0 }}

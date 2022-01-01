@@ -57,6 +57,7 @@ function EditPostType({ open, onClose, id, postType, onEdit }) {
             open={open}
             onClose={() => { setData(false); onClose(); }}
             data={data}
+            setData={setData}
             handleSubmit={handleSubmit}
             showLoadingButton={useAjax1.open}
         >

@@ -5,7 +5,7 @@ import { default as LabelTab } from '../../../components/Label'
 
 const useStyles = makeStyles(() => ({
     root: {
-        marginLeft: 3,
+        marginLeft: 4,
         borderRadius: 20,
     },
 }))
@@ -20,30 +20,33 @@ function LabelPost({ post }) {
 
         let result = [];
 
-        if (post.status === 'draft') {
-            result.push({ title: 'Drafts', color: '#757575' });
+        if (post.visibility === 'private') {
+            result.push({ title: 'Private', color: '#8604c4' });
         }
 
-        if (post.status === 'trash') {
-            result.push({ title: 'Trash', color: '#e53935' });
-        }
-
-        if (post.status === 'pending') {
-            result.push({ title: 'Pending', color: '#f68924' });
+        if (post.password && post.visibility === 'password') {
+            result.push({ title: 'Password protected', color: '#00851d' });
         }
 
         if (post.post_date_gmt) {
             result.push({ title: 'Schedule', color: '#0079be' });
         }
-        
-        if (post.password && post.visibility === 'password') {
-            result.push({ title: 'Password protected', color: '#00851d' });
-        }
 
-        if (post.visibility === 'private') {
-            result.push({ title: 'Private', color: '#8604c4' });
+        switch (post.status) {
+            case 'publish':
+                result.push({ title: 'Publish', color: '#43a047' });
+                break;
+            case 'draft':
+                result.push({ title: 'Drafts', color: '#757575' });
+                break;
+            case 'trash':
+                result.push({ title: 'Trash', color: '#e53935' });
+                break;
+            case 'pending':
+                result.push({ title: 'Pending', color: '#f68924' });
+                break;
         }
-
+       
         return result;
     }
 

@@ -19,7 +19,8 @@ export default React.memo(function RelationshipOneToManyShowForm(props) {
         mainType: post.type,
         id: post.id,
         page: 1,
-        rowsPerPage: 5
+        rowsPerPage: 5,
+        ...config.paginate
     });
 
     const handleOnClose = () => {
@@ -76,16 +77,19 @@ export default React.memo(function RelationshipOneToManyShowForm(props) {
         return (<>
             <Typography variant="h5" style={{ margin: '8px 0' }}>
                 {config.title}
+                < Fab onClick={handelOnOpen} style={{ marginLeft: 8 }} size="small" color="primary" aria-label="add">
+                    <AddRoundedIcon />
+                </Fab>
             </Typography>
             {
                 Boolean(config.note) &&
                 <FormHelperText ><span dangerouslySetInnerHTML={{ __html: config.note }}></span></FormHelperText>
             }
             <NotFound
-                title={__(' You need to create taxonomy before creating {{post_type}}',{post_type: config.title})}
+                title={__(' You need to create taxonomy before creating {{post_type}}', { post_type: config.title })}
                 subTitle={__('Seems like no {{data}} have been created yet.', {
-                                    data: data?.config?.label?.singularName ?? "data"
-                                })}
+                    data: data?.config?.label?.singularName ?? "data"
+                })}
             />
         </>);
     }
@@ -94,12 +98,9 @@ export default React.memo(function RelationshipOneToManyShowForm(props) {
         <div>
             <Typography variant="h5" style={{ margin: '8px 0' }}>
                 {config.title}
-                {
-                    Boolean(data) &&
-                    < Fab onClick={handelOnOpen} style={{ marginLeft: 8 }} size="small" color="primary" aria-label="add">
-                        <AddRoundedIcon />
-                    </Fab>
-                }
+                < Fab onClick={handelOnOpen} style={{ marginLeft: 8 }} size="small" color="primary" aria-label="add">
+                    <AddRoundedIcon />
+                </Fab>
             </Typography>
             {
                 Boolean(config.note) &&
@@ -121,6 +122,7 @@ export default React.memo(function RelationshipOneToManyShowForm(props) {
                         open={openDrawer}
                         onClose={handleOnClose}
                         data={data}
+                        setData={setData}
                         handleSubmit={handleSubmit}
                         showLoadingButton={open}
                     />

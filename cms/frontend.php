@@ -59,10 +59,6 @@ function the_header($header = 'layout.header'){
 
 	do_action('before_header');
 
-	if(Auth::check()){
-		echo vn4_view('admin.nav-top');
-	}
-
 	echo theme_view($header);
 
 	do_action('after_header');
@@ -99,10 +95,8 @@ function vn4_head(){
 	
 	$list_meta = apply_filter('meta',[]);
 
-	$title = do_action('title_head');
+	$title = do_action('title_head', setting('general_description','A simple website using Vn4CMS'));
 	
-	if( !$title ) $title = setting('general_description','A simple website using Vn4CMS');
-
 	$title = $title.' | '.theme_options('definition','title','Vn4CMS');
 
 	$favicon = get_media(theme_options('definition','favicon',false),asset('uploads/favicon.png'));
@@ -145,9 +139,7 @@ function vn4_nav_menu($key, $view = null, $argParam = [], $name_cache = null){
 
 	$argParam['key'] = $key;
 
-	$key2 = do_action('vn4_nav_menu',$key);
-
-	if( $key2 ) $key = $key2;
+	$key = do_action('vn4_nav_menu',$key);
 
 	if( !$name_cache ) $name_cache = 'menu - '.$key.$view;
 
@@ -291,9 +283,7 @@ function get_link_menu($menu_item){
 			break;
 	}
 
-	$link2 = do_action('get_link_menu',$link, $menuType, $menu_item);
-
-	if( $link2 ) $link = $link2;
+	$link = do_action('get_link_menu',$link, $menuType, $menu_item);
 
 	return $link;
 
@@ -301,9 +291,7 @@ function get_link_menu($menu_item){
 
 function get_sidebar($key, $view ){
 
-	$key2 = do_action('get_sidebar',$key);
-
-	if( $key2 ) $key = $key2;
+	$key = do_action('get_sidebar',$key);
 
 	$theme_name = theme_name();
 
@@ -466,8 +454,7 @@ function view_post( $post, $slug_detail = '' ){
 
 	add_body_class(['post-detail',$post->type]);
 
-	$title = do_action('title_head');
-	if( !$title ) title_head($post->title);
+	title_head($post->title);
 
 	$GLOBALS['post_current'] = $post;
 

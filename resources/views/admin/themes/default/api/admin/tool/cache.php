@@ -15,7 +15,7 @@ if( $input['action'] === 'clear' ){
             return experience_mode();
         }
         
-        $caches = include cms_path('resource','views/admin/themes/'.$GLOBALS['backend_theme'].'/page/cache-management/cache-default.php');
+        $caches = include __DIR__.'/cache-list.php';
 
         $plugins = plugins();
 
@@ -110,8 +110,7 @@ if( config('cache.default') === 'file' ){
   $cache = __('(Not Found)');
 }
 
-
-$caches = include cms_path('resource','views/admin/themes/'.$GLOBALS['backend_theme'].'/page/cache-management/cache-default.php');
+$caches = include __DIR__.'/cache-list.php';
 
 $plugins = plugins();
 

@@ -1,7 +1,10 @@
 <?php
 function searchConsoleRefeshToken($plugin){
-	$access_code = $plugin->getMeta('access_token_first');
-	
+
+	$settings = setting('seo/analytics/google_search_console');
+
+	$access_code = $settings['access_token_first']??[];
+
 	$app_config  = json_decode(file_get_contents(__DIR__ . '/client_secret_app.json'),true);
 
 	$token = json_decode( file_post_contents_curl('https://www.googleapis.com/oauth2/v4/token',
@@ -18,14 +21,18 @@ function searchConsoleRefeshToken($plugin){
 	$access_code['expires_in'] = $token['expires_in'];
 	$access_code['access_token'] = $token['access_token'];
 
-	$plugin->updateMeta('access_token_first',$access_code);
+	$settings['access_token_first'] = $access_code;
+
+	setting_save('seo/analytics/google_search_console', $settings, 'seo', true );
 
 	return $access_code['access_token'];
 }
 
 function searchConsoleGetAccessToken($plugin){
 
-	$access_code = $plugin->getMeta('access_token_first');
+	$settings = setting('seo/analytics/google_search_console');
+
+	$access_code = $settings['access_token_first']??[];
 
 	if( time() >= $access_code['created'] + $access_code['expires_in'] ){
 		return searchConsoleRefeshToken($plugin);

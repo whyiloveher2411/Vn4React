@@ -12,7 +12,7 @@ import { useHistory } from 'react-router-dom';
 import { getUrlParams } from 'utils/herlperUrl';
 import { __ } from 'utils/i18n';
 import { useAjax } from 'utils/useAjax';
-import { checkPermission } from 'utils/user';
+import { usePermission } from 'utils/user';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -169,7 +169,7 @@ export default function Log() {
 
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(25);
-    const permission = checkPermission('log_management');
+    const permission = usePermission('log_management').log_management;
     const [filesLogSelected, setFilesLogSelected] = React.useState([]);
     const history = useHistory();
 
@@ -277,7 +277,7 @@ export default function Log() {
                 <TableContainer className="custom_scroll" component={Paper}>
                     <Table stickyHeader aria-label="collapsible sticky table">
                         <TableHead>
-                            <TableRow>
+                            <TableRow style={{whiteSpace: 'nowrap'}}>
                                 <TableCell style={{ width: 25 }} />
                                 <TableCell>{__('Level')}</TableCell>
                                 <TableCell>{__('Context')}</TableCell>
@@ -430,7 +430,7 @@ export default function Log() {
                                     <col width="60%" />
                                 </colgroup>
                                 <TableHead>
-                                    <TableRow>
+                                    <TableRow style={{whiteSpace: 'nowrap'}}>
                                         <TableCell />
                                         <TableCell>{__('Level')}</TableCell>
                                         <TableCell>{__('Context')}</TableCell>

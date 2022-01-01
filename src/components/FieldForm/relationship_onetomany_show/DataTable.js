@@ -40,6 +40,7 @@ function DataTable(props) {
 
     const classes = useStyles();
     const { data, setQueryUrl, queryUrl, config } = props;
+
     const { ajax, Loading, open } = useAjax();
     const [openDrawer, setOpenDrawer] = React.useState(false);
     const [dataDrawer, setDataDrawer] = React.useState(false);
@@ -94,7 +95,6 @@ function DataTable(props) {
 
 
     const handleSubmit = () => {
-        console.log(dataDrawer);
 
         if (!open) {
             ajax({
@@ -123,7 +123,7 @@ function DataTable(props) {
                         <TableCell colSpan={100}>
                             <NotFound
                                 subTitle={__('Seems like no {{data}} have been created yet.', {
-                                    data: data.config.singularName
+                                    data: data.config.title ?? 'Data'
                                 })} />
                         </TableCell>
                     </TableRow>
@@ -155,7 +155,7 @@ function DataTable(props) {
                                     )
                             }
 
-                            <TableCell padding="checkbox"></TableCell>
+                            <TableCell align='right'>{__('Status')}</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -171,35 +171,20 @@ function DataTable(props) {
                                     {
 
                                         Boolean(config && config.showFields) ?
-                                            Object.keys(config.showFields).map((key, index) => (
-                                                index === 0 ?
-                                                    <TableCell key={key}>
-                                                        <Box display="flex" alignItems="center" >
-                                                            <FieldView name={key} config={config.showFields[key]} compoment={config.showFields[key].view} post={customer} content={customer[key]} />
-                                                            <LabelPost post={customer} />
-                                                        </Box>
-                                                    </TableCell>
-                                                    :
-                                                    <TableCell key={key}>
-                                                        <FieldView name={key} config={config.showFields[key]} compoment={config.showFields[key].view} post={customer} content={customer[key]} />
-                                                    </TableCell>
+                                            Object.keys(config.showFields).map((key) => (
+                                                <TableCell key={key}>
+                                                    <FieldView name={key} config={config.showFields[key]} compoment={config.showFields[key].view} post={customer} content={customer[key]} />
+                                                </TableCell>
                                             ))
                                             :
-                                            Object.keys(data.config.fields).filter(key => data.config.fields[key].show_data !== false || data.config.fields[key].show_data === undefined).map((key, index) => (
-                                                index === 0 ?
-                                                    <TableCell key={key}>
-                                                        <Box display="flex" alignItems="center" >
-                                                            <FieldView name={key} config={data.config.fields[key]} compoment={data.config.fields[key].view} post={customer} content={customer[key]} />
-                                                            <LabelPost post={customer} />
-                                                        </Box>
-                                                    </TableCell>
-                                                    :
-                                                    <TableCell key={key}>
-                                                        <FieldView name={key} config={data.config.fields[key]} compoment={data.config.fields[key].view} post={customer} content={customer[key]} />
-                                                    </TableCell>
+                                            Object.keys(data.config.fields).filter(key => data.config.fields[key].show_data !== false || data.config.fields[key].show_data === undefined).map((key) => (
+                                                <TableCell key={key}>
+                                                    <FieldView name={key} config={data.config.fields[key]} compoment={data.config.fields[key].view} post={customer} content={customer[key]} />
+                                                </TableCell>
                                             ))
                                     }
-                                    <TableCell>
+                                    <TableCell style={{ position: 'relative', padding: 16 }} align='right'>
+                                        <LabelPost post={customer} />
                                         <ActionPost history={history} setConfirmDelete={setConfirmDelete} acctionPost={acctionPost} post={customer} postType={customer.type} />
                                     </TableCell>
                                 </TableRow>
@@ -230,6 +215,7 @@ function DataTable(props) {
                 open={openDrawer}
                 onClose={() => setOpenDrawer(false)}
                 data={dataDrawer}
+                setData={setDataDrawer}
                 handleSubmit={handleSubmit}
                 showLoadingButton={open}
             />
@@ -238,19 +224,19 @@ function DataTable(props) {
                 onClose={closeDialogConfirmDelete}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
-                title="Confirm Deletion"
+                title={__('Confirm Deletion')}
                 action={
                     <>
-                        <Button onClick={() => { acctionPost({ delete: [confirmDelete] }); closeDialogConfirmDelete(); }} color="default">
-                            OK
+                        <Button onClick={closeDialogConfirmDelete} autoFocus>
+                            {__('Cancel')}
                         </Button>
-                        <Button onClick={closeDialogConfirmDelete} color="primary" autoFocus>
-                            Cancel
+                        <Button color="primary" onClick={() => { acctionPost({ delete: [confirmDelete] }); closeDialogConfirmDelete(); }} >
+                            {__('OK')}
                         </Button>
                     </>
                 }
             >
-                Are you sure you want to permanently remove this item?
+                {__('Are you sure you want to permanently remove this item?')}
             </DialogCustom>
             {Loading}
         </>

@@ -1,10 +1,18 @@
 <?php
 
-    require cms_path('public','../lib/google-authenticator/Authenticator.php');
+$action = $r->get('action');
 
-    $Authenticator = new Authenticator();
+require cms_path('public','../lib/google-authenticator/Authenticator.php');
 
+$Authenticator = new Authenticator();
+
+if( $action === 'RANDOM_SECRET' ){
     $secret = $Authenticator->generateRandomSecret();
-    $qrCodeUrl = $Authenticator->getQR(parse_url(config('app.url'))['host'], $secret);
+}else{
+    $secret = $r->get('secret');
+}
 
-    return  response()->json(['qrCodeUrl'=>$qrCodeUrl,'secret'=>$secret]);
+$qrCodeUrl = $Authenticator->getQR( parse_url(config('app.url'))['host'].' - Setting - '.setting('general_site_title'), $secret);
+
+return  response()->json(['qrCodeUrl'=>$qrCodeUrl,'secret'=>$secret]);
+

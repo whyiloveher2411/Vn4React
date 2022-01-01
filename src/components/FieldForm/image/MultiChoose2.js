@@ -1,8 +1,9 @@
-import { FormControl, FormGroup, FormHelperText, FormLabel, IconButton, InputAdornment, InputLabel, makeStyles, OutlinedInput } from '@material-ui/core';
+import { Box, FormControl, FormGroup, FormHelperText, FormLabel, IconButton, InputAdornment, InputLabel, makeStyles, OutlinedInput } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Slide from '@material-ui/core/Slide';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import CloudUpload from '@material-ui/icons/CloudUpload';
 import CloseIcon from '@material-ui/icons/Close';
 import FolderOpenOutlinedIcon from '@material-ui/icons/FolderOpenOutlined';
 import HighlightOffOutlinedIcon from '@material-ui/icons/HighlightOffOutlined';
@@ -16,6 +17,7 @@ import { validURL } from 'utils/herlperUrl';
 import { __ } from 'utils/i18n';
 import { useAjax } from 'utils/useAjax';
 import GoogleDrive from './GoogleDrive';
+import { addClasses } from 'utils/dom';
 
 
 
@@ -23,15 +25,9 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-
 const useStyles = makeStyles((theme) => ({
     appBar: {
         position: 'relative',
-    },
-    title: {
-        marginLeft: theme.spacing(2),
-        flex: 1,
-        color: '#fff'
     },
     removeImg: {
         position: 'absolute',
@@ -51,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
         userSelect: "none",
         display: "grid",
         gridGap: "5px",
-        gridTemplateColumns: "repeat(var(--columnNumber), auto)",
+        gridTemplateColumns: "repeat(auto-fill, var(--widthThumbnail, 160px))",
         gridAutoFlow: "row dense",
         '& .ghost': {
             border: '1px dashed #000',
@@ -61,22 +57,23 @@ const useStyles = makeStyles((theme) => ({
             }
         }
     },
+    noGrid: {
+        display: 'block',
+    },
     gridListItem: {
         width: '100%',
         height: '100%',
         objectFit: 'cover',
         border: '1px solid transparent',
-        // width: 160,
-        // flexShrink: 0,
-        // height: 160,
-        // display: 'inline-block',
-        // margin: '0 5px',
         position: 'relative',
         '&:first-child': {
             gridArea: 'span 2/span 2',
         },
         '& .inside': {
             paddingTop: '100%',
+        },
+        '&:not(.uploadFile)': {
+            cursor: 'move'
         }
     },
     image: {
@@ -87,9 +84,23 @@ const useStyles = makeStyles((theme) => ({
         bottom: 0,
         right: 0,
         zIndex: 1,
-        top: "50%", left: "50%", transform: "translate(-50%,-50%)"
+        top: "50%", left: "50%", transform: "translate(-50%,-50%)",
+        backgroundImage: 'url(/admin/fileExtension/trans.jpg)'
     },
-
+    uploadIcon: {
+        color: theme.palette.text.secondary
+    },
+    uploadArea: {
+        border: '1px dashed ' + theme.palette.text.secondary,
+        minHeight: 'var(--widthThumbnail, 160px)',
+        minWidth: 'var(--widthThumbnail, 160px)',
+        padding: 16,
+        borderRadius: 7,
+        cursor: 'pointer',
+        '&:hover': {
+            backgroundColor: theme.palette.dividerDark
+        }
+    }
 }));
 
 export default React.memo(function MultiChoose2(props) {
@@ -195,6 +206,7 @@ export default React.memo(function MultiChoose2(props) {
     const handleClickRemoveImage = (index) => {
         let temp = post[name];
         temp.splice(index, 1);
+
         onReview(temp);
     };
 
@@ -325,32 +337,12 @@ export default React.memo(function MultiChoose2(props) {
         });
     }
 
-    const getGridListCols = () => {
-        if (window.innerWidth > 1440) {
-            return 7;
-        }
-
-        if (window.innerWidth > 1280) {
-            return 6;
-        }
-
-        if (window.innerWidth > 992) {
-            return 5;
-        }
-
-        if (window.innerWidth > 768) {
-            return 4;
-        }
-
-        if (window.innerWidth > 576) {
-            return 3;
-        }
-        return 2;
-    }
 
     const dragstart = () => {
 
         let section = document.getElementById('listImage' + name);
+
+        if (!section) return;
 
         let indexEvent = section.dataset.eventIndex || 0;
 
@@ -363,6 +355,7 @@ export default React.memo(function MultiChoose2(props) {
         let dragEl, nextEl, newPos;
 
         function _onDragOver(e) {
+
             if (section.dataset.eventIndex - indexEvent === 1) {
                 e.dataTransfer.dropEffect = 'move';
 
@@ -374,20 +367,26 @@ export default React.memo(function MultiChoose2(props) {
                     } else {
                         let targetPos = target.getBoundingClientRect();
                         let next = (e.clientY - targetPos.top) / (targetPos.bottom - targetPos.top) > .5 || (e.clientX - targetPos.left) / (targetPos.right - targetPos.left) > .5;
-                        section.insertBefore(dragEl, next ? target.nextSibling : target);
+
+                        if (!target.classList.contains('uploadFile')) {
+                            section.insertBefore(dragEl, next ? target.nextSibling : target);
+                        }
                     }
                 }
             }
+
         }
 
         function _onDragEnd() {
             if (section.dataset.eventIndex - indexEvent === 1) {
                 newPos = [...section.children].map((child, index) => {
-                    let data = document.getElementById(child.id).getBoundingClientRect();
-                    data.index = child.dataset.index;
-                    child.dataset.index = index;
-                    child.id = 'div' + index;
-                    return data;
+                    if (child.id) {
+                        let data = document.getElementById(child.id).getBoundingClientRect();
+                        data.index = child.dataset.index;
+                        child.dataset.index = index;
+                        child.id = 'div' + index;
+                        return data;
+                    }
                 });
 
                 dragEl.classList.remove('ghost');
@@ -399,7 +398,9 @@ export default React.memo(function MultiChoose2(props) {
                     let temp = post[name];
                     let valueTemp = [];
                     newPos.forEach(item => {
-                        valueTemp.push(temp[item.index]);
+                        if (item) {
+                            valueTemp.push(temp[item.index]);
+                        }
                     });
                     onReview(valueTemp);
                 }
@@ -432,145 +433,179 @@ export default React.memo(function MultiChoose2(props) {
         if (document.getElementById('listImage' + name)) {
             dragstart();
         }
-        onReview(post[name]);
+        if (props.times == 0) {
+            onReview(post[name]);
+        }
     }, []);
 
     return (
-
-        <FormControl fullWidth>
-            <FormLabel style={{ marginBottom: 5 }} component="legend">{config.title}</FormLabel>
-            <FormGroup style={{ marginBottom: 5 }}>
-                <div>
-                    <Button
-                        key='left'
-                        variant="contained"
-                        color="default"
-                        startIcon={<PhotoLibraryOutlinedIcon />}
-                        onClick={handleClickOpenSourceDialog}
-                    >
-                        {__('Choose Image')}
-                    </Button>
-                </div>
-
-                <DialogCustom
-                    open={openSourDialog}
-                    onClose={handleCloseSourceDialog}
-                    title="Insert/edit image"
-                    action={
-                        <>
-                            <Button onClick={handleCloseSourceDialog} color="default">
-                                {__('Cancel')}
-                            </Button>
-                            <Button onClick={handleOkSourceDialog} color="primary">
-                                {__('OK')}
-                            </Button>
-                        </>
-                    }
-                >
-                    <Typography variant="body2" style={{ marginBottom: '1rem' }}>
-                        {__('You can insert a link directly from the input or select an existing file from the system by clicking the button icon at the end of the input field')}
-                    </Typography>
-                    <FormControl fullWidth variant="outlined">
-                        <InputLabel htmlFor="outlined-adornment-password">{__('Source (URL)')}</InputLabel>
-                        <OutlinedInput
-                            fullWidth
-                            type='text'
-                            value={unescape(inputDialog.length ? JSON.stringify(inputDialog) : '')}
-                            onChange={e => setInputDialog(e.target.value)}
-                            endAdornment={
-                                <InputAdornment position="end">
-                                    <IconButton
-                                        aria-label="Open Filemanager"
-                                        edge="end"
-                                        onClick={handleClickOpenFilemanagerDialog}
-                                    >
-                                        <FolderOpenOutlinedIcon />
-                                    </IconButton>
-                                </InputAdornment>
+        <>
+            <FormControl fullWidth>
+                {
+                    Boolean(config.customUploadArea) ?
+                        <config.customUploadArea
+                            config={config}
+                            openDialog={handleClickOpenSourceDialog}
+                            post={post}
+                            ImageResult={<ImageResult
+                                config={config}
+                                classes={classes}
+                                post={post}
+                                handleClickRemoveImage={handleClickRemoveImage}
+                                handleClickOpenSourceDialog={handleClickOpenSourceDialog}
+                                name={name}
+                            />}
+                            Note={
+                                <Note config={config} />
                             }
-                            label={__('Source (URL)')}
                         />
-                        <DrawerCustom
-                            open={openFilemanagerDialog}
-                            onClose={handleCloseFilemanagerDialog}
-                            TransitionComponent={Transition}
-                            titlePadding={0}
-                            title={<div>
-                                <Toolbar>
-                                    <IconButton edge="start" color="inherit" onClick={handleCloseFilemanagerDialog} aria-label="close">
-                                        <CloseIcon />
-                                    </IconButton>
-                                    <Typography variant="h4" className={classes.title}>
-                                        {__('File Mangage')}
-                                    </Typography>
-                                    <Button autoFocus color="inherit" onClick={handleSaveFilemanagerDialog}>
-                                        {__('Save Changes')}
-                                    </Button>
-                                </Toolbar>
-                            </div>}
-                            width={1700}
-                            restDialogContent={{
-                                style: {
-                                    padding: 0
-                                }
-                            }}
-                        >
-                            <GoogleDrive values={post[name]} handleChooseFile={handleChooseFile} fileType={'ext_image'} filesActive={filesActive} config={config} />
-                        </DrawerCustom>
-                    </FormControl>
-                </DialogCustom>
-            </FormGroup>
-            < div
-                className={classes.gridList}
-                style={{ '--columnNumber': getGridListCols() }}
-                id={'listImage' + name}
-                draggable={false}
+                        :
+                        <>
+                            <FormLabel style={{ marginBottom: 5 }} component="legend">{config.title}</FormLabel>
+                            < div
+                                className={addClasses({
+                                    [classes.gridList]: true,
+                                    [classes.noGrid]: Boolean(!post[name] || post[name].length < 1)
+                                })}
+                                id={'listImage' + name}
+                                draggable={false}
+                                style={{ '--widthThumbnail': config.widthThumbnail ?? '160px' }}
+                            >
+                                <ImageResult
+                                    config={config}
+                                    classes={classes}
+                                    post={post}
+                                    handleClickRemoveImage={handleClickRemoveImage}
+                                    handleClickOpenSourceDialog={handleClickOpenSourceDialog}
+                                    name={name}
+                                />
+                            </div>
+                            <Note config={config} />
+                        </>
+                }
+                <FormHelperText>{config.note}</FormHelperText>
+                <LoadingCustom open={openLoadingCustom} style={{ zIndex: 1301 }} />
+            </FormControl >
+            <DialogCustom
+                open={openSourDialog}
+                onClose={handleCloseSourceDialog}
+                title="Insert/edit image"
+                action={
+                    <>
+                        <Button onClick={handleCloseSourceDialog} color="default">
+                            {__('Cancel')}
+                        </Button>
+                        <Button onClick={handleOkSourceDialog} color="primary">
+                            {__('OK')}
+                        </Button>
+                    </>
+                }
             >
-                {post[name].map((ele, index) => <div data-index={index} id={'div' + index} key={index} draggable={true} className={classes.gridListItem + ' gridListItem '}>
-                    <div className='inside'>
-                        <IconButton onClick={() => handleClickRemoveImage(index)} size="small" className={classes.removeImg} aria-label="Remove Image" component="span">
-                            <HighlightOffOutlinedIcon style={{ color: 'rgba(255,255,255,0.851)' }} />
-                        </IconButton>
-                        <img draggable={false} className={classes.image} src={validURL(ele.link) ? ele.link : process.env.REACT_APP_BASE_URL + ele.link} alt={'Image'} />
-                    </div>
-                </div>
-                )}
-            </div>
-
-            < Alert icon={false} severity="info" >
-                <p dangerouslySetInnerHTML={{ __html: __('<strong>Multiple: </strong> You can select multiple images for this field') }} />
-                {
-                    config.size &&
-                    <>
-                        <Typography variant="body1"><strong>{__('Condition')}:</strong></Typography>
-                        {
-                            Object.keys(config.size).map(key => (
-                                <p key={key}><strong>&nbsp;&nbsp;&nbsp;&nbsp;{unCamelCase(key)}:</strong> {config.size[key]}{key !== "ratio" ? "px" : ""}</p>
-                            ))
+                <Typography variant="body2" style={{ marginBottom: '1rem' }}>
+                    {__('You can insert a link directly from the input or select an existing file from the system by clicking the button icon at the end of the input field')}
+                </Typography>
+                <FormControl fullWidth variant="outlined">
+                    <InputLabel>{__('Source (URL)')}</InputLabel>
+                    <OutlinedInput
+                        fullWidth
+                        type='text'
+                        value={unescape(inputDialog.length ? JSON.stringify(inputDialog) : '')}
+                        onChange={e => setInputDialog(e.target.value)}
+                        endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                    aria-label="Open Filemanager"
+                                    edge="end"
+                                    onClick={handleClickOpenFilemanagerDialog}
+                                >
+                                    <FolderOpenOutlinedIcon />
+                                </IconButton>
+                            </InputAdornment>
                         }
-                    </>
-                }
-                {
-                    config.thumbnail &&
-                    <>
-                        <p style={{ marginTop: 8 }}><strong>{__('Auto crop photo')}:</strong></p>
-                        {
-                            Object.keys(config.thumbnail).map(key => (
-                                <p key={key}>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;<strong>{unCamelCase(key)}:&nbsp;</strong>
-                                    {
-                                        Object.keys(config.thumbnail[key]).map(key2 => unCamelCase(key2) + ': ' + config.thumbnail[key][key2] + 'px; ')
-                                    }
-                                </p>
-                            ))
-                        }
-                    </>
-                }
-            </Alert >
-            <FormHelperText>{config.note}</FormHelperText>
-            <LoadingCustom open={openLoadingCustom} style={{ zIndex: 1301 }} />
-        </FormControl >
+                        label={__('Source (URL)')}
+                    />
+                    <DrawerCustom
+                        open={openFilemanagerDialog}
+                        onClose={handleCloseFilemanagerDialog}
+                        TransitionComponent={Transition}
+                        title={__('File Mangage')}
+                        headerAction={<Button autoFocus onClick={handleSaveFilemanagerDialog}>
+                            {__('Save Changes')}
+                        </Button>}
+                        width={1700}
+                        restDialogContent={{
+                            style: {
+                                padding: 0
+                            }
+                        }}
+                    >
+                        <GoogleDrive values={post[name]} handleChooseFile={handleChooseFile} fileType={'ext_image'} filesActive={filesActive} config={config} />
+                    </DrawerCustom>
+                </FormControl>
+            </DialogCustom>
+        </>
     )
 }, (props1, props2) => {
     return JSON.stringify(props1.post[props1.name]) !== JSON.stringify(props2.post[props2.name]);
 })
+
+const ImageResult = ({ config, classes, post, handleClickRemoveImage, handleClickOpenSourceDialog, name }) => {
+    return <>
+        {post[name].map((ele, index) => <div data-index={index} id={'div' + index} key={index} draggable={true} className={classes.gridListItem + ' gridListItem '}>
+            <div className='inside'>
+                <IconButton onClick={() => handleClickRemoveImage(index)} size="small" className={classes.removeImg} aria-label="Remove Image" component="span">
+                    <HighlightOffOutlinedIcon style={{ color: 'rgba(255,255,255,0.851)' }} />
+                </IconButton>
+                <img draggable={false} className={classes.image} src={validURL(ele.link) ? ele.link : process.env.REACT_APP_BASE_URL + ele.link} alt={'Image'} />
+            </div>
+        </div>
+        )}
+        <div draggable={false} className={classes.gridListItem + ' gridListItem uploadFile'}>
+            <div className='inside' style={{ paddingTop: 0 }}>
+                <Box onClick={handleClickOpenSourceDialog} display="flex" alignItems="center" justifyContent="center" padding={2} className={classes.uploadArea} style={{ height: 'auto', width: 'auto' }} >
+                    <Box display="flex" flexDirection="column" gridGap={4} alignItems="center">
+                        <CloudUpload className={classes.uploadIcon} fontSize="large" />
+                        <Button color="primary">{__('Add Images')}</Button>
+                    </Box>
+                </Box>
+            </div>
+        </div>
+    </>
+};
+
+const Note = ({ config }) => {
+
+    if (config.size || config.thumbnail) {
+        return <Alert icon={false} severity="info" >
+            {
+                config.size &&
+                <>
+                    <Typography variant="body1"><strong>{__('Condition')}:</strong></Typography>
+                    {
+                        Object.keys(config.size).map(key => (
+                            <p key={key}><strong>&nbsp;&nbsp;&nbsp;&nbsp;{unCamelCase(key)}:</strong> {config.size[key]}{key !== "ratio" ? "px" : ""}</p>
+                        ))
+                    }
+                </>
+            }
+            {
+                config.thumbnail &&
+                <>
+                    <p style={{ marginTop: 8 }}><strong>{__('Auto crop photo')}:</strong></p>
+                    {
+                        Object.keys(config.thumbnail).map(key => (
+                            <p key={key}>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<strong>{unCamelCase(key)}:&nbsp;</strong>
+                                {
+                                    Object.keys(config.thumbnail[key]).map(key2 => unCamelCase(key2) + ': ' + config.thumbnail[key][key2] + 'px; ')
+                                }
+                            </p>
+                        ))
+                    }
+                </>
+            }
+        </Alert >
+    }
+
+    return null;
+}

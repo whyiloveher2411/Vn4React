@@ -33,7 +33,7 @@ function LinkSetting() {
 
                 <MenuItem onClick={handleClose}
                     component={Link}
-                    to="/plugin/vn4-google-analytics/settings"
+                    to="/settings/google-analytics/analytics"
                 >
                     <ListItemIcon>
                         <SettingsOutlined fontSize="small" />

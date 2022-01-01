@@ -34,15 +34,7 @@ class FrontEnd{
 	public function handle($request, Closure $next)
 	{
 
-		do_action('frontend_init',$request, $next);
-
-		$result = do_action('middleware_frontend',$request, $next);
-
-		if($result != null){
-
-			return $result;
-
-		}
+		$request = do_action('middleware_frontend',$request, $next);
 
 		return $next($request);
 	}

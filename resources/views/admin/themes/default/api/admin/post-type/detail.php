@@ -25,16 +25,15 @@ $result = [
 ];
 
 if($post && $post->author ){
-    $user = (new Vn4Model($admin_object['user']['table']))->where('type','user')->where('id',$post->author)->select(['first_name','last_name','profile_picture'])->first();
-
-    if( $user ){
-        $result['author'] = $user;
+    $author = getAuthorPostType($post->author);
+    if( $author ){
+        $result['author'] = $author;
     }
 }
 
 if($post && $post->editor ){
     $editorID = explode(',', $post->editor);
-    $result['editor'] = (new Vn4Model($admin_object['user']['table']))->where('type','user')->whereIn('id',$editorID)->select(['first_name','last_name','profile_picture'])->get();
+    $result['editor'] = getEditorPostType($editorID);
 }
 
 return $result;

@@ -5,9 +5,7 @@ import React from 'react';
 export function Customer({ customer }) {
     return (
         <Box gridGap={16} display="flex" alignItems="center">
-            <div>
-                <AvatarCustom image={customer.avatar} name={(customer.first_name ?? '') + ' ' + (customer.last_name ?? '')} />
-            </div>
+            <AvatarCustom image={customer.avatar} name={(customer.first_name ?? '') + ' ' + (customer.last_name ?? '')} />
             <Box display="flex" flexDirection="column">
                 <Typography variant="body1">{customer.first_name ?? ''} {customer.last_name ?? ''}</Typography>
                 <Typography variant="body2">{customer.title}</Typography>

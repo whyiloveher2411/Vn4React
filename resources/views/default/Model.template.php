@@ -22,7 +22,7 @@ class [ModelName] extends Eloquent{
 
         if( !isset($this->attributes[$name]) ){
 
-            $result = do_action('__Vn4Model_function__get', $this, $name);
+            $result = do_action('__Vn4Model_function__get',null, $this, $name);
 
             if( $result ) return $result;
 
@@ -139,9 +139,7 @@ class [ModelName] extends Eloquent{
             });
         }
 
-        $posts2 = do_action('get_posts', $posts, '[ObjectType]');
-
-        if( $posts2 ) $posts = $posts2;
+        $posts = do_action('get_posts', $posts, '[ObjectType]');
 
         if( is_array($callback) ){
 
