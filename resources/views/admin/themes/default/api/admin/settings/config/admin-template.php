@@ -15,7 +15,7 @@ return [
                 'title'=>__('Slogan'),
                 'view'=>'text',
             ],
-            'admin_template_color-left'=>[
+            'admin_template_color_left'=>[
                 'title'=>__('Left column color section'),
                 'view'=>'color',
             ],

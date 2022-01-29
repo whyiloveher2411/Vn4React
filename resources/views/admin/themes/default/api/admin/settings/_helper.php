@@ -47,6 +47,10 @@ function getDataSetting($group, $subGroup = null){
                 'title'=>__('Security'),
                 'icon'=>'SecurityOutlined',
             ],
+            'script-and-style'=>[
+                'title'=>__('Script & Style'),
+                'icon'=>'CodeRounded',
+            ],
             'media'=>[
                 'title'=>__('Media'),
                 'icon'=>'FolderOpenOutlined',

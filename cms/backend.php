@@ -38,7 +38,7 @@ function setting_save($keyword, $value, $group = null, $isJson = false){
 		]);
 	}
 
-	Cache::forget('setting.'.$keyword);
+	Cache::forget('setting');
 
  	return true;
 }

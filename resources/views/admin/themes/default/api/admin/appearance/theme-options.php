@@ -35,10 +35,28 @@ if( file_exists($file = cms_path('resource','views/themes/'.theme_name().'/inc/t
 $fields = apply_filter('theme_options',[
     'definition'=> [
       'fields'=>[
-        'title'=>'text',
-        'favicon'=>'image'
+        'title'=>[
+            'title'=>'Title',
+            'view'=>'text'
+        ],
+        'favicon'=>[
+            'title'=>'Favicon',
+            'view'=>'image'
+        ]
       ]
     ],
+    'definition2'=> [
+        'fields'=>[
+          'title'=>[
+              'title'=>'Title 2',
+              'view'=>'text'
+          ],
+          'favicon'=>[
+              'title'=>'Favicon 2',
+              'view'=>'image'
+          ]
+        ]
+      ],
 ]);
 
 if( !is_array($fields) ) $fields = [];

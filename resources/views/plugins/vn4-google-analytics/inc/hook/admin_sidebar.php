@@ -5,7 +5,7 @@ add_action('admin_sidebar', function($data, $sidebar){
     $sidebar = array_slice($sidebar, 0, 4, true) +
     array('vn4-google-analtyics' => [
         'title'=>'Google Analytics',
-        'icon'=>['custom'=>'<image style="width:100%;" href="/plugins/vn4-google-analytics/img/ic_analytics.svg" />'],
+        'icon'=>['custom'=>'<image style="width:100%;" href="'.plugin_asset('vn4-google-analytics','img/ic_analytics.svg').'" />'],
         'show' => false,
         'description'=>'Tools you need to better understand your customers',
         'pages'=>[

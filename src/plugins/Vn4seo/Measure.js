@@ -6,6 +6,7 @@ import { Alert, AlertTitle } from '@material-ui/lab';
 import { PageHeaderSticky } from 'components/Page';
 import RedirectWithMessage from 'components/RedirectWithMessage';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Redirect, useHistory, useRouteMatch } from 'react-router-dom';
 import { usePermission } from 'utils/user';
 import { getUrlParams } from '../../utils/herlperUrl';
@@ -269,16 +270,19 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function Measure({ meta, ajaxPluginHandle, loading }) {
+function Measure({ ajaxPluginHandle, loading }) {
 
     const classes = useStyles();
 
     const history = useHistory();
     const match = useRouteMatch();
 
+    const settings = useSelector(state => state.settings);
+    const config = settings['seo/analytics/google_search_console'] ?? {};
+
     const queryDevice = getUrlParams(window.location.search, 'device');
 
-    const [website, setWebsite] = React.useState(meta.searchConsoleWebsites ? meta.searchConsoleWebsites[0] : false);
+    const [website, setWebsite] = React.useState(false);
 
     const strategys = { mobile: 1, desktop: 1 };
 
@@ -328,18 +332,29 @@ function Measure({ meta, ajaxPluginHandle, loading }) {
         history.push(value);
     }
 
-    if (!website) {
-        if (!website) {
-            return <RedirectWithMessage
-                message="Please install google analytics before using this feature!"
-                to="/plugin/vn4seo/settings"
-                variant="warning" />
+    React.useEffect(() => {
+
+        if (config.anylticWebsite) {
+            setWebsite(config.anylticWebsite);
         }
+
+    }, [settings]);
+
+    if (!settings._loaded) {
+        return <></>
     }
 
     if (!permission) {
         return <RedirectWithMessage />
     }
+
+    if (!settings['seo/analytics/google_search_console/active'] || !config.complete_installation) {
+        return <RedirectWithMessage
+            message="Please install google analytics before using this feature!"
+            to="/settings/seo/search-console"
+            variant="warning" />
+    }
+
 
     if (!subtab) {
         return <Redirect to="/plugin/vn4seo/measure/performance" />;
@@ -348,6 +363,11 @@ function Measure({ meta, ajaxPluginHandle, loading }) {
     if (!tabs[subtab]) {
         return <Redirect to="/plugin/vn4seo/measure/performance" />;
     }
+
+    if (!website) {
+        return <></>
+    }
+
     return (
         <PageHeaderSticky
             title="Measure"

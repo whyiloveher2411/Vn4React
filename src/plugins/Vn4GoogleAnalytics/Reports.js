@@ -42,7 +42,7 @@ function Settings({ ajaxPluginHandle }) {
 
     const settings = useSelector(state => state.settings);
 
-    const config = settings['google_analytics/analytics_api'];
+    const config = settings['google_analytics/analytics_api'] ?? {};
 
     const [loadScript, setLoadScript] = React.useState(false);
     const [data, setData] = React.useState(false);
@@ -201,8 +201,8 @@ function Settings({ ajaxPluginHandle }) {
         },
     ];
 
-    if (!config) {
-        return <></>;
+    if (!settings._loaded) {
+        return <></>
     }
 
     if (!settings['google_analytics/analytics_api/active'] || !config?.complete_installation) {

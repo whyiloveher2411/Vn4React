@@ -98,6 +98,8 @@ function MacOSFileManage({ values, handleSubmit, handleChooseFile, filesActive, 
     const [resource, setResource] = React.useState(JSON.parse(localStorage.getItem('fileManager')) ?? {
         loaded: false
     });
+
+
     const [location, setLocation] = React.useState([]);
     const [fileType, setFileType] = React.useState('all');
 
@@ -248,7 +250,6 @@ function MacOSFileManage({ values, handleSubmit, handleChooseFile, filesActive, 
     // }, [filesSelected]);
 
     const createThumbnailFile = (file) => {
-
         if (file.is_image) {
             let reader = new FileReader();
             reader.onload = function (e) {
@@ -304,6 +305,9 @@ function MacOSFileManage({ values, handleSubmit, handleChooseFile, filesActive, 
     });
 
     const FileDragDropOnLoadFileUpload = (files) => {
+
+        console.log(files);
+
         setFilesUpload(prev => {
 
             let fileUploadTemp = { ...prev };
@@ -350,6 +354,8 @@ function MacOSFileManage({ values, handleSubmit, handleChooseFile, filesActive, 
         onSubmit: null,
         success: null
     });
+
+    console.log(openRenameDialog[0]);
 
     const openNewDialog = React.useState({
         open: false,

@@ -45,6 +45,8 @@ function LabelPost({ post }) {
             case 'pending':
                 result.push({ title: 'Pending', color: '#f68924' });
                 break;
+            default:
+                break;
         }
        
         return result;

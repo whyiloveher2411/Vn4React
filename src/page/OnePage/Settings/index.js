@@ -202,7 +202,7 @@ function Settings() {
     }
 
     React.useEffect(() => {
-        if (permission) {
+        if (permission && tab) {
             ajax({
                 url: 'settings/get',
                 method: 'POST',
@@ -271,6 +271,10 @@ function Settings() {
         });
     };
 
+    if (!tab) {
+        return <Redirect to={'/settings/general'} />;
+    }
+
     if (!permission) {
         return <RedirectWithMessage />
     }
@@ -282,7 +286,7 @@ function Settings() {
     let tabContentIndex = tabs.findIndex(item => item.value === tab);
     // tabs.find(t => t.value === tab);
 
-    if (!tab || tabContentIndex < 0) {
+    if (tabContentIndex < 0) {
         return <Redirect to={'/settings/' + tabs[0].value} />;
     }
 

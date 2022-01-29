@@ -64,7 +64,7 @@ function Realtime({ ajaxPluginHandle }) {
 
     const settings = useSelector(state => state.settings);
 
-    const config = settings['google_analytics/analytics_api'];
+    const config = settings['google_analytics/analytics_api'] ?? {};
 
     const [data, setData] = React.useState(false);
 
@@ -166,8 +166,8 @@ function Realtime({ ajaxPluginHandle }) {
 
     ];
 
-    if (!config) {
-        return <></>;
+    if (!settings._loaded) {
+        return <></>
     }
 
     if (!permission) {

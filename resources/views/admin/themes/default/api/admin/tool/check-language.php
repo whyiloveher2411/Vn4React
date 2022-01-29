@@ -11,6 +11,12 @@ if( file_exists($file = cms_path('root','src/utils/i18n/trans.xlsx' ) ) && !is_w
 
 $languages = $r->get('languages');
 
+if( !$languages ){
+    return [
+        'message'=>apiMessage('Please provide a list of languages for rendering','error')
+    ];  
+}
+
 $translatesFile = scandir(cms_path('root','src/utils/i18n'));
 
 $translates = [];
@@ -39,7 +45,7 @@ foreach( $pluginFolder as $pathPlugin ){
 
     $pathinfo = pathinfo($pathPlugin);
 
-    saveDataTrans( 'src' ,'src/plugins/'.$pathinfo['basename'].'/i18n/trans.xlsx','plugin',[], $languages);
+    saveDataTrans( 'src/plugins/'.$pathinfo['basename'] ,'src/plugins/'.$pathinfo['basename'].'/i18n/trans.xlsx','plugin',[], $languages);
 
 }
 

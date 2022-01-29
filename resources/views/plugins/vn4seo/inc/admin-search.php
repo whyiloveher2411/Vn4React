@@ -7,7 +7,7 @@ return [
 			[
 				'title_type'=>'Vn4SEO',
 				'title'=>'Settings',
-				'link'=>'/plugin/vn4seo/settings',
+				'link'=>'/settings/seo',
 			],
 			[
 				'title_type'=>'Vn4SEO',

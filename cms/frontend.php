@@ -58,7 +58,7 @@ function vn4_register_script($id, $source, $version = 1, $in_footer = true, $att
 function the_header($header = 'layout.header'){
 
 	do_action('before_header');
-
+	
 	echo theme_view($header);
 
 	do_action('after_header');
@@ -78,6 +78,8 @@ function the_footer($footer = 'layout.footer'){
 	}
 	
 	do_action('vn4_footer');
+
+	echo setting('script_and_style/add_to_footer','');
 
 	return '';
 }
@@ -115,6 +117,8 @@ function vn4_head(){
 	}
 
 	do_action('vn4_head');
+
+	echo setting('script_and_style/add_to_head','');
 
 }
 

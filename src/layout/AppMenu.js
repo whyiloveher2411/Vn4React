@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
         background: theme.palette.menu.background,
         right: '-1px',
         transform: 'translateX(100%)',
-        zIndex: '98',
+        zIndex: 1001,
         marginLeft: '1px',
         borderRight: '1px solid ' + theme.palette.dividerDark,
         height: 'calc( 100vh - 66px )',

@@ -6,7 +6,7 @@ add_action('admin_sidebar', function($data, $sidebar){
     array('vn4-messenger' => [
         'title'=>'Chat',
         'show' => false,
-        'icon'=>['custom'=>'<image style="width:100%;" href="/plugins/vn4-messenger/img/chat.svg" />'],
+        'icon'=>['custom'=>'<image style="width:100%;" href="'.plugin_asset('vn4-messenger','img/chat.svg').'" />'],
         'component'=>'Custom/SubMenu',
         'pages'=>[
             

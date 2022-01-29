@@ -291,7 +291,7 @@ function Login() {
         <Grid container className={classes.root} spacing={0}>
 
             <Hidden smDown>
-                <Grid item md={8} className={classes.mid + ' ' + classes.colLeft} style={{ background: (settings.template && settings.template['admin_template_color-left']) ? settings.template['admin_template_color-left'] : '#582979' }}>
+                <Grid item md={8} className={classes.mid + ' ' + classes.colLeft} style={{ background: (settings.template && settings.template.admin_template_color_left) ? settings.template.admin_template_color_left : '#582979' }}>
                     <p className={classes.contentLeft} dangerouslySetInnerHTML={{
                         __html: settings.template?.admin_template_slogan ? settings.template?.admin_template_slogan : 'do <br /> something<br /><span style="color:#18b797;font-size: 85px;">you love</span><br /> today</>'
                     }} >

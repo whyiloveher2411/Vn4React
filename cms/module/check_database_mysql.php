@@ -127,9 +127,7 @@ $arg_type_mysql_input = [
 	'input'=>function(&$table, $name, $after, $data){
 		return $table->string($name,255)->after($after)->nullable()->comment('property: '.$data['title']);
 	},
-	'date_picker'=>function(&$table, $name, $after, $data){
-		return $table->string($name,255)->after($after)->nullable()->comment('property: '.$data['title']);
-	},
+	
 	'link'=>function(&$table, $name, $after, $data){
 		return $table->string($name,255)->after($after)->nullable()->comment('property: '.$data['title']);
 	},
@@ -180,15 +178,15 @@ $arg_type_mysql_input = [
 			    DB::raw(
 			        'SHOW KEYS
 			        FROM '.$table->getTable().'
-			        WHERE Key_name=\''.$table->getTable().'_slug_unique'.'\''
+			        WHERE Key_name=\''.$table->getTable().'_'.$name.'_slug_unique'.'\''
 			    )
 			))){
-				$table->dropUnique($table->getTable().'_slug_unique');
+				$table->dropUnique($table->getTable().'_'.$name.'_slug_unique');
 			}
 
 		}
 
-	 	return $table->string($name,191)->unique()->after($after)->nullable()->comment('property: '.$data['title']);
+	 	return $table->string($name,191)->unique($table->getTable().'_'.$name.'_slug_unique')->after($after)->nullable()->comment('property: '.$data['title']);
 	},
 	'text'=>function(&$table, $name, $after,$data,$arg_type_mysql_input = [], $change = false){
 
@@ -218,7 +216,7 @@ $arg_type_mysql_input = [
 
 	},
 	'hidden'=>function( $table, $name, $after, $data, $arg_type_mysql_input ) {
-		return $arg_type_mysql_input[$data['data_type']]($table,$name,$after,$data);
+		return $arg_type_mysql_input[isset($data['data_type']) ? $data['data_type'] : 'text' ]($table,$name,$after,$data);
 	},
 	'textarea'=>function(&$table, $name, $after, $data){
 		return $table->string($name,500)->after($after)->default('')->nullable()->comment('property: '.$data['title']);
@@ -232,8 +230,12 @@ $arg_type_mysql_input = [
 	'unique'=>function(&$table, $name, $after, $data){
 		return $table->string($name,$data['length'])->after($after)->nullable()->comment('property: '.$data['title']);
 	},
-	'dateTime'=>function(&$table, $name, $after, $data){
+	'date_time'=>function(&$table, $name, $after, $data){
 		return $table->dateTime($name)->after($after)->nullable()->comment('property: '.$data['title']);
+	},
+	'date_picker'=>function(&$table, $name, $after, $data){
+		// return $table->dateTime($name)->after($after)->nullable()->comment('property: '.$data['title']);
+		return $table->string($name,255)->after($after)->nullable()->comment('property: '.$data['title']);
 	},
 	'date'=>function(&$table, $name, $after, $data){
 		return $table->date($name)->after($after)->nullable()->comment('property: '.$data['title']);
@@ -405,22 +407,27 @@ foreach ($admin_object as $object_key => $object) {
 
 foreach ($admin_object as $object_key => $object) {
 
-	Schema::table($object['table'], function($table) use ($object){
+	if( isset($object['table']) ){
 
-		if( Schema::hasColumn( $object['table'], 'created_time' ) ){
-			$table->float('created_time',15,4)->before('created_at')->nullable()->change();
-		}else{
-			$table->float('created_time',15,4)->before('created_at')->nullable();
-		}
+		Schema::table($object['table'], function($table) use ($object){
 
-		if( Schema::hasColumn(  $object['table'], 'updated_time' ) ){
-			$table->float('updated_time',15,4)->before('created_at')->nullable()->change();
-		}else{
-			$table->float('updated_time',15,4)->before('created_at')->nullable();
-		}
+				if( Schema::hasColumn( $object['table'], 'created_time' ) ){
+					$table->float('created_time',15,4)->before('created_at')->nullable()->change();
+				}else{
+					$table->float('created_time',15,4)->before('created_at')->nullable();
+				}
 
-	});
+				if( Schema::hasColumn(  $object['table'], 'updated_time' ) ){
+					$table->float('updated_time',15,4)->before('created_at')->nullable()->change();
+				}else{
+					$table->float('updated_time',15,4)->before('created_at')->nullable();
+				}
+		});
 
+	}else{
+		dd('Error: ',$object);
+	}
+	
 	foreach ($object['fields'] as $column_name => $column_value) {
 		
 		$list_db_success[$object['table']][$column_name] = 1;

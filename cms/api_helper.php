@@ -112,11 +112,18 @@ function decodeToken($access_token, $key = null){
 
     $key = $key ? $key : config('app.key');
 
-    $decoded = \Firebase\JWT\JWT::decode($access_token, $key, array('HS256'),true);
+    try {
+        $decoded = \Firebase\JWT\JWT::decode($access_token, $key, array('HS256'),true);
 
-    $decoded->user = get_post('user', $decoded->id);
+        $decoded->user = get_post('user', $decoded->id);
 
-    return $decoded;
+        return $decoded;
+    } catch (\Throwable $th) {
+        //throw $th;
+    }
+
+    return null;
+    
 }
 
 function apiNotFound(){
@@ -187,6 +194,12 @@ function checkUserAdmin($group = null, $file = null){
 
         $decoded = decodeToken($access_token);
         
+        if( !$decoded ){
+            return [
+                'error'=>1
+            ];
+        }
+
         $validateToken = validateToken($decoded);
 
         if( !$validateToken ){
@@ -205,11 +218,11 @@ function checkUserAdmin($group = null, $file = null){
 }
 
 function validateToken($decoded){
-
-    if( !$decoded->user ){
+    
+    if( !$decoded || !$decoded->user ){
         return false;
     }
-    
+    return true;
     $enable_remember_me = setting('security_enable_remember_me', false);
 
     if( !$enable_remember_me || !boolval($decoded->remember_me) ){

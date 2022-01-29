@@ -3,11 +3,13 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export const slice = createSlice({
     name: 'setting',
-    initialState: {},
+    initialState: {
+        _loaded: false,
+    },
     reducers: {
         update: (state, action) => {
 
-            let newState = { ...state, ...action.payload };
+            let newState = { ...state, _loaded: true, ...action.payload };
 
             // Object.keys(action.payload).forEach(key => {
             //     newState[key] = action.payload[key];

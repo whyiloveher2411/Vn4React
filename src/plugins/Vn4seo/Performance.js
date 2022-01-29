@@ -12,6 +12,7 @@ import { FieldForm } from 'components';
 import { PageHeaderSticky } from 'components/Page';
 import RedirectWithMessage from 'components/RedirectWithMessage';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { getCookie, setCookie } from 'utils/cookie';
 import { usePermission } from 'utils/user';
 import ChartDate from './compoments/Performance/ChartDate';
@@ -19,11 +20,6 @@ import Detail from './compoments/Performance/Detail';
 
 
 const useStyles = makeStyles((theme) => ({
-    title: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between'
-    },
     disableOutline: {
         "& .Mui-focused .MuiOutlinedInput-notchedOutline": {
             border: "1px solid #484850",
@@ -58,11 +54,13 @@ const getFormatDateApi = (date) => {
 };
 
 
-function Performance({ meta, ajaxPluginHandle }) {
+function Performance({ ajaxPluginHandle }) {
 
     const classes = useStyles();
 
-    const [website, setWebsite] = React.useState(meta.searchConsoleWebsites ? meta.searchConsoleWebsites[0] : false);
+    const settings = useSelector(state => state.settings);
+    const config = settings['seo/analytics/google_search_console'] ?? {};
+
     const [date, setDate] = React.useState({ index: 2, count: 0 });
     const [dateInput, setDateInput] = React.useState(2);
     const [hideAlert, setHideAlert] = React.useState(getCookie('vn4seoHideAlert'));
@@ -170,22 +168,26 @@ function Performance({ meta, ajaxPluginHandle }) {
         setDate({ count: date.count + 1, index: dateInput }); handleClose();
     };
 
-    if (!website) {
-        return <RedirectWithMessage
-            message="Please install google analytics before using this feature!"
-            to="/plugin/vn4seo/settings"
-            variant="warning" />
+    if (!settings._loaded) {
+        return <></>
     }
 
     if (!permission) {
         return <RedirectWithMessage />
     }
+
+    if (!settings['seo/analytics/google_search_console/active'] || !config.complete_installation) {
+        return <RedirectWithMessage
+            message="Please install google analytics before using this feature!"
+            to="/settings/seo/search-console"
+            variant="warning" />
+    }
+
     return (
         <PageHeaderSticky
             title="SEO Performance"
             header={
                 <Grid
-                    alignItems="flex-end"
                     container
                     className={classes.grid}
                     justify="space-between"
@@ -193,7 +195,7 @@ function Performance({ meta, ajaxPluginHandle }) {
                     spacing={3}>
                     <Grid item xs={12}>
                         <Typography component="h2" gutterBottom variant="overline">Vn4 SEO</Typography>
-                        <Typography component="div" variant="h3" className={classes.title}>
+                        <Typography component="div" variant="h3">
                             <div>
                                 Performance
                                 <Chip
@@ -279,21 +281,6 @@ function Performance({ meta, ajaxPluginHandle }) {
                                     </DialogActions>
                                 </Dialog>
                             </div>
-                            <FormControl variant="outlined">
-                                <InputLabel>Website</InputLabel>
-                                <Select
-                                    value={website}
-                                    onChange={(e) => { setWebsite(e.target.value) }}
-                                    label="Website"
-                                >
-                                    {
-                                        meta.searchConsoleWebsites &&
-                                        meta.searchConsoleWebsites.map((item, i) => (
-                                            <MenuItem key={i} value={item}>{item.search('sc-domain:') > -1 ? <><strong>Domain property: </strong>&nbsp;{item.replace('sc-domain:', '')}</> : item}</MenuItem>
-                                        ))
-                                    }
-                                </Select>
-                            </FormControl>
                         </Typography>
                     </Grid>
                 </Grid>
@@ -308,8 +295,8 @@ function Performance({ meta, ajaxPluginHandle }) {
                     :
                     <></>
             }
-            <ChartDate ajaxPluginHandle={ajaxPluginHandle} labelDateFilter={labelDateFilter} date={date} website={website} />
-            <Detail ajaxPluginHandle={ajaxPluginHandle} labelDateFilter={labelDateFilter} date={date} website={website} />
+            <ChartDate ajaxPluginHandle={ajaxPluginHandle} labelDateFilter={labelDateFilter} date={date} />
+            <Detail ajaxPluginHandle={ajaxPluginHandle} labelDateFilter={labelDateFilter} date={date} />
         </PageHeaderSticky >
     )
 }

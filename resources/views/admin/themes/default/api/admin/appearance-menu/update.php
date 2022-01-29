@@ -13,7 +13,8 @@ foreach( $input['menuItem'] as $idMenu => $menuRequest){
 
     $menu = Vn4Model::firstOrAddnew(vn4_tbpf().'menu',[Vn4Model::$id => $menuRequest['id']]);
     if( $menu ){
-        $menu->title = $menuRequest['title'];
+        $menu->title = isset($menuRequest['title']) ? $menuRequest['title'] : '[Menu Name]';
+        $menu->description = isset($menuRequest['description']) ? $menuRequest['description'] : '';
         $menu->json = json_encode($menuRequest['json']);
         $menu->save();
     }

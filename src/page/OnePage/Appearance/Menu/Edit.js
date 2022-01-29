@@ -171,6 +171,8 @@ function Edit() {
 
     const saveChanges = () => {
 
+        console.log(listMenu.list_option);
+
         let listOption = {
             ...listMenu.list_option,
             [listMenu.value]: {

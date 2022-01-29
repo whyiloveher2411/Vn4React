@@ -5,7 +5,7 @@ $input = json_decode($r->getContent(),true);
 if( $input['strategy'] !== 'mobile' && $input['strategy'] !== 'desktop' ) $input['strategy'] = 'mobile';
 
 
-$settings = json_decode( setting('seo/analytics/google_search_console','[]'), true ) ?? [];
+$settings =  setting('seo/analytics/google_search_console',[]);
 
 $url = $settings['anylticWebsite'];
 

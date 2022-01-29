@@ -6,7 +6,7 @@ return [
     'template'=>[
         'admin_template_slogan'=>$setting['admin_template_slogan']??'',
         'admin_template_image'=>$setting['admin_template_image']??'',
-        'admin_template_color-left'=>$setting['admin_template_color-left']??'',
+        'admin_template_color_left'=>$setting['admin_template_color_left']??'',
         'admin_template_headline-right'=>$setting['admin_template_headline-right']??'',
     ],
     'security'=>[

@@ -88,7 +88,7 @@ function GoogleSearchConsole({ post, onReview, name }) {
             onReview(value, name);
         }
 
-        if (post[name].complete_installation) {
+        if (post[name]?.complete_installation) {
             setActiveStep(3);
         } else {
             setActiveStep(0);

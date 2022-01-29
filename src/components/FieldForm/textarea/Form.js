@@ -35,6 +35,7 @@ export default React.memo(function TextareaForm(props) {
                         <OutlinedInput
                             type='textarea'
                             variant="outlined"
+                            rows={config.rows ?? 1}
                             name={name}
                             multiline
                             value={valueInital}
@@ -51,6 +52,7 @@ export default React.memo(function TextareaForm(props) {
                         type='textarea'
                         variant="outlined"
                         name={name}
+                        rows={config.rows ?? 1}
                         multiline
                         value={valueInital}
                         className={classes.editor}

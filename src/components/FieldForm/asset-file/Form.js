@@ -156,7 +156,7 @@ export default React.memo(function ImageForm(props) {
         <FormControl component="fieldset">
             <FormLabel style={{ marginBottom: 4 }} component="legend">{config.title}</FormLabel>
 
-            {Boolean(post[name].link) &&
+            {Boolean(post[name]?.link) &&
                 <div>
                     <div style={{ marginBottom: 5, position: 'relative', display: 'inline-block' }}>
                         <IconButton style={{ background: 'rgba(32,33,36,0.6)' }} onClick={handleClickRemoveImage} size="small" className={classes.removeImg} aria-label="Remove Image" component="span">

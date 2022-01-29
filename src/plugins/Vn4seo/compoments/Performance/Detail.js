@@ -107,7 +107,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function Detail({ ajaxPluginHandle, website, date, labelDateFilter }) {
+function Detail({ ajaxPluginHandle,  date, labelDateFilter }) {
 
     const classes = useStyles();
 
@@ -126,7 +126,7 @@ function Detail({ ajaxPluginHandle, website, date, labelDateFilter }) {
         setLoading(true);
         callAPI();
 
-    }, [tabCurrent, website, date]);
+    }, [tabCurrent, date]);
 
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -149,7 +149,6 @@ function Detail({ ajaxPluginHandle, website, date, labelDateFilter }) {
             data: {
                 step: 'getDataDetail',
                 dimensions: dimensions[tabCurrent].id,
-                website: website,
                 date: labelDateFilter[date.index].date(),
             },
             success: (result) => {

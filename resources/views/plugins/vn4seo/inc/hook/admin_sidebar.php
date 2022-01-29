@@ -6,7 +6,7 @@ add_action('admin_sidebar', function($data, $sidebar){
     array('vn4-seo' => [
         'title'=>'SEO & Search',
         'show' => false,
-        'icon'=>['custom'=>'<image style="width:100%;" href="/plugins/vn4seo/img/google-webmaster-tools.svg" />'],
+        'icon'=>['custom'=>'<image style="width:100%;" href="'.plugin_asset('vn4seo','img/google-webmaster-tools.svg').'" />'],
         'pages'=>[
             [
                 'name' =>  'Performance',
@@ -19,14 +19,7 @@ add_action('admin_sidebar', function($data, $sidebar){
                 'title' =>  'Lighthouse',
                 'icon' =>  'SpeedRounded',
                 'href' =>  '/plugin/vn4seo/measure',
-            ],
-            [
-                'name' =>  'Settings',
-                'title' =>  'Settings',
-                'icon' =>  'SettingsOutlined',
-                'href' =>  '/plugin/vn4seo/settings',
-               
-            ],
+            ]
         ]
     ]) +
     array_slice($sidebar, 4, count($sidebar), true);

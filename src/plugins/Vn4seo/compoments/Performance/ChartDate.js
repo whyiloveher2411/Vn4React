@@ -96,7 +96,7 @@ const numberToThousoun = (labelValue) => {
 
 }
 
-function ChartDate({ ajaxPluginHandle, website, date, labelDateFilter }) {
+function ChartDate({ ajaxPluginHandle, date, labelDateFilter }) {
     const classes = useStyles();
 
     const theme = useSelector(s => s.theme);
@@ -114,7 +114,6 @@ function ChartDate({ ajaxPluginHandle, website, date, labelDateFilter }) {
             notShowLoading: true,
             data: {
                 step: 'getDataOverview',
-                website: website,
                 date: labelDateFilter[date.index].date(),
             },
             success: (result) => {
@@ -125,7 +124,7 @@ function ChartDate({ ajaxPluginHandle, website, date, labelDateFilter }) {
         });
 
 
-    }, [website, date]);
+    }, [date]);
 
     const [listDataType, setListDataType] = React.useState(
         [

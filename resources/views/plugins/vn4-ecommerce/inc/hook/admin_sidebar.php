@@ -13,7 +13,7 @@ add_action('admin_sidebar', function($data, $sidebar){
     $sidebar = array_slice($sidebar, 0, 3, true) +
         array('e-commerce' => [
             'title'=>'E-commerce',
-            'icon'=>['custom'=>'<image style="width:100%;" href="/plugins/vn4-ecommerce/img/shopping-cart.svg" />'],
+            'icon'=>['custom'=>'<image style="width:100%;" href="'.plugin_asset('vn4-ecommerce','img/shopping-cart.svg').'" />'],
             'show' => false,
             'description'=>'Manage store, catalog, order data',
             'pages'=>[
